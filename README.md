@@ -24,6 +24,7 @@ WEARのメイクVer.
 
 1. APIモックを起動
     ```
+    npm run mock
     ```
 
 1. Expo DevToolsを起動
