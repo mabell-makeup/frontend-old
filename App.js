@@ -1,9 +1,6 @@
 import React from "react"
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper"
-import { Router, Scene } from "react-native-router-flux"
-import { Login } from "./src/components/Login"
-import { Register } from "./src/components/Register"
-import { Home } from "./src/components/Home"
+import { AppRouter } from "./src/AppRouter"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -18,13 +15,7 @@ const theme = {
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <Router>
-        <Scene>
-          <Scene key="login" component={Login} title="Login" />
-          <Scene key="register" component={Register} title="Register" />
-          <Scene key="home" component={Home} title="Home" />
-        </Scene>
-      </Router>
+      <AppRouter />
     </PaperProvider>
   )
 }
