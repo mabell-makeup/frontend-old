@@ -1,8 +1,9 @@
-import { StatusBar } from "expo-status-bar"
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper"
-import { TestComponent } from "./src/TestComponent"
+import { Router, Scene } from "react-native-router-flux"
+import { Login } from "./src/components/Login"
+import { Register } from "./src/components/Register"
+import { Home } from "./src/components/Home"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -14,22 +15,16 @@ const theme = {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-})
-
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <View style={styles.container}>
-        <TestComponent />
-        <StatusBar style="auto" />
-      </View>
+      <Router>
+        <Scene>
+          <Scene key="login" component={Login} title="Login" />
+          <Scene key="register" component={Register} title="Register" />
+          <Scene key="home" component={Home} title="Home" />
+        </Scene>
+      </Router>
     </PaperProvider>
   )
 }
