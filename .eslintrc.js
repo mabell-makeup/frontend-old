@@ -28,7 +28,7 @@ module.exports = {
     "react/jsx-indent-props": ["error", 2],
     "react/prop-types": [0],
     "jsx-quotes": ["warn", "prefer-double"],
-    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "indent": ["error", 2, {"SwitchCase": 1}],
     "max-lines-per-function": ["error", 30],
     "max-statements": ["error", 15],
     "max-depth": ["error", 2],
@@ -36,7 +36,7 @@ module.exports = {
     "no-delete-var": "error",
     "no-var": "error",
     "block-spacing": ["error", "never"],
-    "object-curly-spacing": ["error", "always"],
+    "object-curly-spacing": ["error", "never"],
     "comma-dangle": ["error", "never"]
   }
 }
