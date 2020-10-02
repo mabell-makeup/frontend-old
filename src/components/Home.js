@@ -1,6 +1,18 @@
 import * as React from "react"
-import { Button } from "react-native-paper"
-import { Actions } from "react-native-router-flux"
-  
-export const Home = () => 
-  <Button icon="camera" mode="contained" onPress={Actions.register}>Go to register</Button>
+import {View} from "react-native"
+import {StyleSheet} from "react-native"
+import {Button} from "react-native-paper"
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+})
+
+export const Home = ({navigation}) => 
+  <View style={styles.container}>
+    <Button icon="pencil" mode="contained" onPress={() => navigation.navigate("Login")}>Go to Login</Button>
+  </View>
