@@ -39,7 +39,8 @@ const mocks = {
 }
 
 // サーバーを起動する
-const server = new ApolloServer({typeDefs, resolvers, mocks})
+// const server = new ApolloServer({typeDefs, resolvers, mocks})
+const server = new ApolloServer({typeDefs, resolvers})
 
 server.listen().then(({url}) => {
   console.log(`🚀 Server ready at ${url}`)
