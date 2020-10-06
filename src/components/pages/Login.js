@@ -2,15 +2,9 @@ import * as React from "react"
 import {View} from "react-native"
 import {StyleSheet} from "react-native"
 import {Button} from "react-native-paper"
+import {defaultStyle} from "../../styles/defaultStyle"
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-})
+const styles = StyleSheet.create(defaultStyle)
 
 export const Login = ({navigation}) => 
   <View style={styles.container}>
