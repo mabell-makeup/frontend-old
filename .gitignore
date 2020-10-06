@@ -13,3 +13,6 @@ yarn-error.log
 
 # VSCode
 .history/
+
+# ENV
+.env.production
