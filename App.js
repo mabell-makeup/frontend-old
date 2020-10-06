@@ -1,6 +1,6 @@
 import React from "react"
 import {DefaultTheme, Provider as PaperProvider} from "react-native-paper"
-import {Router} from "./src/Router"
+import {BottomNavigation} from "./src/BottomNavigation"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -15,7 +15,7 @@ const theme = {
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <Router />
+      <BottomNavigation />
     </PaperProvider>
   )
 }
