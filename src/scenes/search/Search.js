@@ -9,3 +9,4 @@ export const Search = ({navigation}) =>
   <View style={styles.container}>
     <Text>検索画面</Text>
   </View>
+  

@@ -1,11 +1,11 @@
 import React from "react"
-import {View, Text} from "react-native"
-import {StyleSheet} from "react-native"
-import {defaultStyle} from "../../styles/defaultStyle"
+import {TopNavigation} from "../../components/TopNavigation"
+import {Search} from "./Search"
+import {Women} from "./Women"
 
-const styles = StyleSheet.create(defaultStyle)
+const categories = [
+  {name: "Women", component: Women},
+  {name: "Men", component: Search}
+]
 
-export const NewsFeed = ({navigation}) => 
-  <View style={styles.container}>
-    <Text>NewsFeed</Text>
-  </View>
+export const NewsFeed = () => <TopNavigation screens={categories} />
