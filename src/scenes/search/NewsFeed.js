@@ -1,11 +1,11 @@
 import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
-import {Search} from "./Search"
+import {Men} from "./Men"
 import {Women} from "./Women"
 
 const categories = [
   {name: "Women", component: Women},
-  {name: "Men", component: Search}
+  {name: "Men", component: Men}
 ]
 
 export const NewsFeed = () => <TopNavigation screens={categories} />
