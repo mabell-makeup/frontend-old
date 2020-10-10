@@ -1,5 +1,5 @@
 import React from "react"
-import {SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar} from "react-native"
+import {View, FlatList, StyleSheet, Text} from "react-native"
 
 const styles = StyleSheet.create({
   item: {
@@ -26,14 +26,12 @@ export const ImageList = ({data}) => {
   )
 
   return (
-    <SafeAreaView>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        numColumns={3}
-      />
-    </SafeAreaView>
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+      numColumns={3}
+    />
   )
 }
 
