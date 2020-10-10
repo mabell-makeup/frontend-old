@@ -1,6 +1,6 @@
 import React from "react"
 import {DefaultTheme, Provider as PaperProvider} from "react-native-paper"
-import {BottomNavigation} from "./src/BottomNavigation"
+import {BottomNavigation} from "./src/components/BottomNavigation"
 
 // デフォルトのテーマを変更可能
 const theme = {
