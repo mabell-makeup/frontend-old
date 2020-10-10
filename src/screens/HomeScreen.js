@@ -8,7 +8,7 @@ import {gql} from "apollo-boost"
 
 const styles = StyleSheet.create(defaultStyle)
 
-export const Home = ({navigation}) => {
+export const HomeScreen = ({navigation}) => {
   const booksQuery = useMemo(
     () => gql`
       {
