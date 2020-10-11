@@ -13,12 +13,16 @@ export const SearchScreen = ({navigation}) =>
     initialRouteName="NewsFeed"
     screenOptions={{
       headerStyle: {height: 60},
-      headerTitleStyle: {width: "100%"},
+      headerTitleStyle: {width: "70%"},
       headerTitleAlign: "left",
       headerBackTitleVisible: false
     }}
   >
     {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
-    <Stack.Screen name="Search" component={Search} options={{headerTitle: () => <SearchInput isFocused={true} />}}/>
+    <Stack.Screen name="Search" component={Search} options={{
+      headerTitle: () => <SearchInput isFocused={true} />,
+      headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+      headerRightContainerStyle: {marginRight: 5}
+    }}/>
     <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
   </Stack.Navigator>
