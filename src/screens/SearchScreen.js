@@ -1,26 +1,28 @@
+/* eslint-disable react/display-name */
 import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
+import {Text} from "react-native-paper"
 
 const Stack = createStackNavigator()
 
-const SearchStack = () => 
-  <Stack.Navigator initialRouteName="NewsFeed">
-    <Stack.Screen name="Search" component={Search} />
-    <Stack.Screen 
-      name="NewsFeed"
-      component={NewsFeed}
-      options={{
-        headerStyle: {height: 60},
-        // SearchbarのonChangeで再レンダリングされないように無名関数でラップする
-        // eslint-disable-next-line react/display-name
-        headerTitle: () => <SearchInput />, 
-        headerTitleStyle: {width: "100%"},
-        headerTitleAlign: "left"
-      }}
-    />
+export const SearchScreen = ({navigation}) => 
+  <Stack.Navigator
+    initialRouteName="NewsFeed"
+    screenOptions={{
+      headerStyle: {height: 60},
+      headerTitleStyle: {width: "70%"},
+      headerTitleAlign: "left",
+      headerBackTitleVisible: false
+    }}
+  >
+    {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
+    <Stack.Screen name="Search" component={Search} options={{
+      headerTitle: () => <SearchInput isFocused={true} />,
+      headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+      headerRightContainerStyle: {marginRight: 5}
+    }}/>
+    <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
   </Stack.Navigator>
-
-export const SearchScreen = () => <SearchStack />

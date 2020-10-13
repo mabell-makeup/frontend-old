@@ -5,7 +5,7 @@ const Tab = createMaterialTopTabNavigator()
 
 export const TopNavigation = ({screens=[{name: "", component: React.Component}]}) => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
       {/* eslint-disable-next-line react/jsx-key */}
       {screens.map(screen => <Tab.Screen name={screen.name} component={screen.component} />)}
     </Tab.Navigator>

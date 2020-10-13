@@ -1,12 +1,16 @@
 import React from "react"
-import {View, Text} from "react-native"
-import {StyleSheet} from "react-native"
-import {defaultStyle} from "../../styles/defaultStyle"
+import {TopNavigation} from "../../components/TopNavigation"
+import {Men} from "./Men"
+import {SearchMakeUp} from "./SearchMakeUp"
+import {Women} from "./Women"
 
-const styles = StyleSheet.create(defaultStyle)
 
-export const Search = ({navigation}) => 
-  <View style={styles.container}>
-    <Text>検索画面</Text>
-  </View>
-  
+const screens = [
+  {name: "全体", component: SearchMakeUp},
+  {name: "アイメイク", component: Men},
+  {name: "リップメイク", component: Women},
+  {name: "アイテム", component: Men},
+  {name: "ユーザー", component: Women}
+]
+
+export const Search = () => <TopNavigation screens={screens} />

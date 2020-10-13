@@ -15,8 +15,8 @@ export const BottomNavigation = () => {
         inactiveColor="#777"
         barStyle={{backgroundColor: "#333"}}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="HomeScreen" component={HomeScreen} />
+        <Tab.Screen name="SearchScreen" component={SearchScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )
