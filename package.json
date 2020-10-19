@@ -1,27 +1,28 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "dev": "NODE_ENV=development expo start",
+    "android:dev": "NODE_ENV=development expo start --android",
+    "ios:dev": "NODE_ENV=development expo start --ios",
+    "web:dev": "NODE_ENV=development expo start --web",
     "eject": "expo eject",
-    "mock": "node mock/index.js"
+    "mock": "node mock/index.js",
+    "clearCache": "NODE_ENV=development expo start --clear"
   },
   "dependencies": {
-    "@apollo/react-hooks": "^4.0.0",
+    "@apollo/client": "^3.2.4",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/material-bottom-tabs": "^5.2.18",
     "@react-navigation/material-top-tabs": "^5.2.19",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
-    "apollo-boost": "^0.4.9",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
     "graphql": "^15.3.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
+    "react-native-dotenv": "^2.4.1",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-paper": "^4.2.0",
     "react-native-reanimated": "~1.13.0",
@@ -35,8 +36,7 @@
     "apollo-server": "^2.18.1",
     "eslint": "^7.9.0",
     "eslint-plugin-react": "^7.20.6",
-    "metro-react-native-babel-preset": "^0.63.0",
-    "react-native-dotenv": "^2.4.1"
+    "metro-react-native-babel-preset": "^0.63.0"
   },
   "private": true
 }

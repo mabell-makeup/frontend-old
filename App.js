@@ -1,8 +1,7 @@
-import React, {useMemo} from "react"
+import React from "react"
 import {DefaultTheme, Provider as PaperProvider} from "react-native-paper"
 import {BottomNavigation} from "./src/components/BottomNavigation"
-import {ApolloProvider} from "@apollo/react-hooks"
-import ApolloClient from "apollo-boost"
+import {ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client"
 import {API_URI} from "@env"
 import {TouchableWithoutFeedback, Keyboard} from "react-native"
 
@@ -16,13 +15,24 @@ const theme = {
   }
 }
 
+const apolloDefaultOptions = {
+  watchQuery: {
+    fetchPolicy: "network-only",
+    errorPolicy: "ignore"
+  },
+  query: {
+    fetchPolicy: "network-only",
+    errorPolicy: "all"
+  }
+}
+
 const DissmissKeyboard = ({children}) =>
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
 
 export default function App() {
-  const client = useMemo(() => new ApolloClient({uri: API_URI}), [])
+  const client = new ApolloClient({uri: API_URI, cache: new InMemoryCache(), defaultOptions: apolloDefaultOptions})
   
   return (
     <ApolloProvider client={client}>
