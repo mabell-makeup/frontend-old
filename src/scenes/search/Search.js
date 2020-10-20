@@ -1,16 +1,15 @@
 import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {Men} from "./Men"
-import {SearchMakeUp} from "./SearchMakeUp"
+import {SearchAll} from "./SearchAll"
 import {Women} from "./Women"
 
 
 const screens = [
-  {name: "全体", component: SearchMakeUp},
-  {name: "アイメイク", component: Men},
-  {name: "リップメイク", component: Women},
-  {name: "アイテム", component: Men},
-  {name: "ユーザー", component: Women}
+  {label: "全体", routeName: "SearchAll", component: SearchAll},
+  {label: "アイメイク", routeName: "SearchEyeMake", component: Men},
+  {label: "リップメイク", routeName: "SearchLipMake", component: Women},
+  {label: "ユーザー", routeName: "SearchUser", component: Women}
 ]
 
 export const Search = () => <TopNavigation screens={screens} />
