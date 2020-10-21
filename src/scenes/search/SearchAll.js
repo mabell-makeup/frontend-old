@@ -7,7 +7,7 @@ import {searchStore} from "../../stores/searchStore"
 
 
 const items = navigation => ([
-  {title: "犬", left: props => <L.Icon {...props} icon="dog" />, onPress: () => navigation.navigate("SearchEyeMake")},
+  {title: "色から探す", left: props => <L.Icon {...props} icon="palette" />, onPress: () => navigation.navigate("SelectColor")},
   {title: "猫", left: props => <L.Icon {...props} icon="cat" />},
   {title: "ゴリラ", items: [
     {title: "マウンテンゴリラ", left: props => <L.Icon {...props} icon="star" />},
