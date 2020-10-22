@@ -4,18 +4,13 @@ import {FAB, Portal, Provider} from "react-native-paper"
 
 const actions = [
   {
-    icon: "bell",
-    label: "Remind",
+    icon: "palette",
+    label: "パーソナルカラーで絞り込む",
     onPress: () => console.log("Pressed notifications")
   },
   {
-    icon: "bell",
-    label: "Remind",
-    onPress: () => console.log("Pressed notifications")
-  },
-  {
-    icon: "bell",
-    label: "Remind",
+    icon: "face",
+    label: "顔タイプで絞り込む",
     onPress: () => console.log("Pressed notifications")
   }
 ]
@@ -31,7 +26,7 @@ export const UserInfoToggleGroup = () => {
       <Portal>
         <FAB.Group
           open={open}
-          icon={open ? "calendar-today" : "plus"}
+          icon={open ? "close" : "account-search"}
           actions={actions}
           onStateChange={onStateChange}
           onPress={() => {
