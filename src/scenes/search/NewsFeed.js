@@ -4,8 +4,8 @@ import {Men} from "./Men"
 import {Women} from "./Women"
 
 const screens = [
-  {name: "Women", component: Women},
-  {name: "Men", component: Men}
+  {label: "Women", routeName: "Women", component: Women},
+  {label: "Men", routeName: "Men", component: Men}
 ]
 
 export const NewsFeed = () => <TopNavigation screens={screens} />

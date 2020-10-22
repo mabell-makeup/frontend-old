@@ -6,6 +6,7 @@ import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
 import {SearchProvider} from "../stores/searchStore"
+import {SelectColor} from "../scenes/search/SelectColor"
 
 const Stack = createStackNavigator()
 
@@ -23,6 +24,10 @@ export const SearchScreen = ({navigation}) =>
       {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
       <Stack.Screen name="Search" component={Search} options={{
         headerTitle: () => <SearchInput isFocused={true} />,
+        headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+        headerRightContainerStyle: {marginRight: 5}
+      }}/>
+      <Stack.Screen name="SelectColor" component={SelectColor} options={{
         headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
         headerRightContainerStyle: {marginRight: 5}
       }}/>
