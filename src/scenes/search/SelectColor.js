@@ -1,6 +1,7 @@
-import React from "react"
+import React, {useContext} from "react"
 import {View, FlatList} from "react-native"
 import {Checkbox} from "react-native-paper"
+import {searchStore, updateColor} from "../../stores/searchStore"
 
 
 const createStyles = ({color}) => ({
@@ -25,15 +26,19 @@ const createStyles = ({color}) => ({
 
 const numColumns = 5
 
-const ColorInputItem = ({color}) => {
-  const [checked, setChecked] = React.useState(false)
+const ColorInputItem = ({color, navigation}) => {
+  const {dispatch, state} = useContext(searchStore)
   const styles = createStyles({color})
+  const handlePress = navigation => () => {
+    updateColor(dispatch, color)
+    navigation.goBack()
+  }
 
   return (
     <View style={styles.checkbox}>
       <Checkbox
-        status={checked ? "checked" : "unchecked"}
-        onPress={() => {setChecked(!checked)}}
+        status={color === state.color ? "checked" : "unchecked"}
+        onPress={handlePress(navigation)}
         color="#fff"
         width={40}
       />
@@ -41,9 +46,9 @@ const ColorInputItem = ({color}) => {
   )
 }
 
-const ColorInput = ({colors=[]}) => {
+const ColorInput = ({colors=[], navigation}) => {
   const styles = createStyles({})
-  const renderItem = ({item}) => <View style={styles.checkBoxContainer}><ColorInputItem color={item} /></View>
+  const renderItem = ({item}) => <View style={styles.checkBoxContainer}><ColorInputItem color={item} navigation={navigation} /></View>
   
   return (
     <FlatList 
@@ -59,12 +64,13 @@ const ColorInput = ({colors=[]}) => {
 // TODO: カラーコードを別ファイルで定数にする
 const colors = [
   "#dc143c",
-  "#ff4500",
   "#db7093",
   "#ff8c00",
+  "#8b4513",
+  "#4b0082",
   "#00008b",
-  "#008000",
-  "#4b0082"
+  "#008000"
 ]
 
-export const SelectColor = () => <ColorInput colors={colors} />
+// TODO: 色変更で2回レンダリングされてしまう。原因を解決するかuseMemoで対策する。
+export const SelectColor = ({navigation}) => <ColorInput colors={colors} navigation={navigation} />

@@ -1,9 +1,8 @@
 /* eslint-disable react/display-name */
-import React, {useContext} from "react"
+import React from "react"
 import {List} from "../../components/List"
-import {List as L, Button, Text} from "react-native-paper"
+import {List as L} from "react-native-paper"
 import {ScrollView} from "react-native"
-import {searchStore} from "../../stores/searchStore"
 
 
 const items = navigation => ([
@@ -16,14 +15,7 @@ const items = navigation => ([
   ]}
 ])
 
-export const SearchAll = ({navigation}) => {
-  const {dispatch, state: {useUserInfo}} = useContext(searchStore)
-
-  return (
-    <ScrollView>
-      <List items={items(navigation)} />
-      <Button icon="star" mode="contaied" onPress={() => dispatch({type: "UPDATE_USE_USER_INFO", payload: !useUserInfo})} />
-      <Text>ユーザー情報を絞り込み条件に?? {useUserInfo ? "加える" : "加えない"}</Text>
-    </ScrollView>
-  )
-}
+export const SearchAll = ({navigation}) =>
+  <ScrollView>
+    <List items={items(navigation)} />
+  </ScrollView>
