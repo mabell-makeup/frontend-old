@@ -1,5 +1,7 @@
 import React from "react"
+import {View} from "react-native"
 import {ImageList} from "../../components/ImageList"
+import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 
 const data = [
   {id: "1", title: "あ"},
@@ -18,4 +20,11 @@ const data = [
   {id: "14", title: "せ"}
 ]
 
-export const Men = () => <ImageList data={data} />
+export const Men = () => {
+  return (
+    <View>
+      <ImageList data={data} />
+      <UserInfoToggleGroup />
+    </View>
+  ) 
+}
