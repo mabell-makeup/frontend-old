@@ -7,6 +7,7 @@ import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
 import {SearchProvider} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
+import {SelectCountry} from "../scenes/search/SelectCountry"
 
 const Stack = createStackNavigator()
 
@@ -31,6 +32,11 @@ export const SearchScreen = ({navigation}) =>
         headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
         headerRightContainerStyle: {marginRight: 5}
       }}/>
+      <Stack.Screen name="SelectCountry" component={SelectCountry} options={{
+        headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+        headerRightContainerStyle: {marginRight: 5}
+      }}/>
+
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
     </Stack.Navigator>
   </SearchProvider>

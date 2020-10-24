@@ -7,7 +7,7 @@ import {ScrollView} from "react-native"
 
 const items = navigation => ([
   {title: "色から探す", left: props => <L.Icon {...props} icon="palette" />, onPress: () => navigation.navigate("SelectColor")},
-  {title: "猫", left: props => <L.Icon {...props} icon="cat" />},
+  {title: "国から探す", left: props => <L.Icon {...props} icon="earth" />, onPress: () => navigation.navigate("SelectCountry")},
   {title: "ゴリラ", items: [
     {title: "マウンテンゴリラ", left: props => <L.Icon {...props} icon="star" />},
     {title: "ニシゴリラ"},
