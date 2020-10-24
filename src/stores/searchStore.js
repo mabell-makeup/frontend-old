@@ -6,7 +6,8 @@ const initialState = {
       personalColor: false,
       faceType: false
     },
-    color: ""
+    color: "",
+    country: ""
   }
 }
 
@@ -16,10 +17,12 @@ const searchStore = createContext(initialState)
 // Define Types
 const UPDATE_CONDITIONS_USER_INFO = "UPDATE_CONDITIONS_USER_INFO"
 const UPDATE_CONDITIONS_COLOR = "UPDATE_CONDITIONS_COLOR"
+const UPDATE_CONDITIONS_COUNTRY = "UPDATE_CONDITIONS_COUNTRY"
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
 export const updateConditionsColor = (dispatch, color) => dispatch({type: UPDATE_CONDITIONS_COLOR, payload: color})
+export const updateConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_CONDITIONS_COUNTRY, payload: country})
 
 // Defin Provider
 const {Provider} = searchStore
@@ -33,6 +36,8 @@ const SearchProvider = ({children}) => {
         return {conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...action.payload}}}
       case UPDATE_CONDITIONS_COLOR:
         return {conditions: {...state.conditions, color: action.payload}}
+      case UPDATE_CONDITIONS_COUNTRY:
+        return {conditions: {...state.conditions, country: action.payload}}
       default:
         return {...state}
     }

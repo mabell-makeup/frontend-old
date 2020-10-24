@@ -2,20 +2,32 @@ import React, {useContext} from "react"
 import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
-
+import {searchStore, updateConditionsCountry} from "../../stores/searchStore"
 
 const countries = [
-  {title: "韓国", right: props => <Checkbox status={"checked"} color="#333" />, onPress: () => {}},
-  {title: "中国", right: props => <Checkbox status={"checked"} color="#333" />, onPress: () => {}},
-  {title: "欧米", right: props => <Checkbox status={"checked"} color="#333" />, onPress: () => {}},
-  {title: "その他", right: props => <Checkbox status={"checked"} color="#333" />, onPress: () => {}}
+  {title: "韓国", key: "korea"},
+  {title: "中国",  key: "china"},
+  {title: "欧米",  key: "america"},
+  {title: "その他", key: "other"}
 ]
+
+const createItems = (countries, dispatch) => selectedCountry => 
+  countries.map(country => ({
+    title: country.title,
+    key: country.key,
+    // eslint-disable-next-line react/display-name
+    right: () => <Checkbox status={country.key === selectedCountry ? "checked" : "unchecked"} color="#333" />,
+    onPress: () => updateConditionsCountry(dispatch, country.key)
+  }))
 
 
 export const SelectCountry = () => {
+  const {dispatch, state} = useContext(searchStore)
+  const items = createItems(countries, dispatch)
+
   return (
     <ScrollView>
-      <List items={countries} />
+      <List items={items(state.conditions.country)} />
     </ScrollView>
   )
 }
