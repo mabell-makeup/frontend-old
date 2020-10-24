@@ -37,7 +37,7 @@ const ColorInputItem = ({color, navigation}) => {
   return (
     <View style={styles.checkbox}>
       <Checkbox
-        status={color === state.color ? "checked" : "unchecked"}
+        status={color === state.conditions.color ? "checked" : "unchecked"}
         onPress={handlePress(navigation)}
         color="#fff"
         width={40}

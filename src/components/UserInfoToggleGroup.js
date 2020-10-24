@@ -7,12 +7,14 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
   {
     icon: "palette",
     label: "パーソナルカラーで絞り込む",
-    onPress: handlePressAction({personalColor: !personalColor})
+    onPress: handlePressAction({personalColor: !personalColor}),
+    style: {backgroundColor: personalColor ? "#FFF" : "#888"}
   },
   {
     icon: "face",
     label: "顔タイプで絞り込む",
-    onPress: handlePressAction({faceType: !faceType})
+    onPress: handlePressAction({faceType: !faceType}),
+    style: {backgroundColor: faceType ? "#FFF" : "#888"}
   }
 ])
 
@@ -20,7 +22,7 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
 export const UserInfoToggleGroup = () => {
   const [open, setOpen] = useState(false)
   const {dispatch, state: {conditions: {userInfo}}} = useContext(searchStore)
-  const handleDial = ({open}) => setOpen(open)
+  const handleDial = () => setOpen(!open)
   const handlePressAction = userInfo => () => updateConditionsUserInfo(dispatch, userInfo)
 
   return (
@@ -30,12 +32,8 @@ export const UserInfoToggleGroup = () => {
           open={open}
           icon={open ? "close" : "account-search"}
           actions={actions(handlePressAction, userInfo)}
-          onStateChange={handleDial}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-            }
-          }}
+          onStateChange={() => {}}
+          onPress={handleDial}
         />
       </Portal>
     </Provider>
