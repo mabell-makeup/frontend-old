@@ -10,7 +10,8 @@ const initialState = {
     },
     color: "",
     country: "",
-    parts: ""
+    parts: "",
+    hairStyle: ""
   }
 }
 
@@ -22,12 +23,14 @@ const UPDATE_CONDITIONS_USER_INFO = "UPDATE_CONDITIONS_USER_INFO"
 const UPDATE_CONDITIONS_COLOR = "UPDATE_CONDITIONS_COLOR"
 const UPDATE_CONDITIONS_COUNTRY = "UPDATE_CONDITIONS_COUNTRY"
 const UPDATE_CONDITIONS_PARTS = "UPDATE_CONDITIONS_PARTS"
+const UPDATE_CONDITIONS_HAIR_STYLE = "UPDATE_CONDITIONS_HAIR_STYLE"
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
 export const updateConditionsColor = (dispatch, color) => dispatch({type: UPDATE_CONDITIONS_COLOR, payload: color})
 export const updateConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_CONDITIONS_COUNTRY, payload: country})
 export const updateConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_CONDITIONS_PARTS, payload: parts})
+export const updateConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_CONDITIONS_HAIR_STYLE, payload: hairStyle})
 
 
 // Defin Provider
@@ -46,6 +49,8 @@ const SearchProvider = ({children}) => {
         return {conditions: {...state.conditions, country: action.payload}}
       case UPDATE_CONDITIONS_PARTS:
         return {conditions: {...state.conditions, parts: action.payload}}
+      case UPDATE_CONDITIONS_HAIR_STYLE:
+          return {conditions: {...state.conditions, hairStyle: action.payload}}  
       default:
         return {...state}
     }

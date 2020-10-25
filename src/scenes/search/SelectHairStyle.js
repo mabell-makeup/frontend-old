@@ -6,31 +6,31 @@ import {searchStore, updateConditionsHairStyle} from "../../stores/searchStore"
 
 
 const hairStyles = [
-  {title: "ベリーショート", key: "korea"},
-  {title: "ショート",  key: "china"},
-  {title: "ボブ",  key: "america"},
-  {title: "ミディアム", key: "other"},
-  {title: "セミロング", key: "korea"},
-  {title: "ロング",  key: "china"},
-  {title: "スーパーロング",  key: "america"}
+  {title: "ベリーショート", key: "veryShort"},
+  {title: "ショート",  key: "short"},
+  {title: "ボブ",  key: "bob"},
+  {title: "ミディアム", key: "medium"},
+  {title: "セミロング", key: "semiLong"},
+  {title: "ロング",  key: "long"},
+  {title: "スーパーロング",  key: "superLong"}
 ]
 
-const createItems = (hairStyles, dispatch) => selectedHairStyle => 
+const createItems = (hairStyles, dispatch, selectedHairStyle) =>
   hairStyles.map(hairStyle => ({
     title: hairStyle.title,
     key: hairStyle.key,
     // eslint-disable-next-line react/display-name
-    // right: () => <Checkbox status={hairStyle.key === selectedHairStyle ? "checked" : "unchecked"} color="#333" />,
-    // onPress: () => updateConditionsHairStyle(dispatch, hairStyle.key)
+    right: () => <Checkbox status={hairStyle.key === selectedHairStyle ? "checked" : "unchecked"} color="#333" />,
+    onPress: () => updateConditionsHairStyle(dispatch, hairStyle.key)
   }))
 
 export const SelectHairStyle = () => {
-  // const {dispatch, state} = useContext(searchStore)
-  const items = createItems(hairStyles/* , dispatch */)
+  const {dispatch, state} = useContext(searchStore)
+  const items = createItems(hairStyles, dispatch, state.conditions.hairStyle)
 
   return (
     <ScrollView>
-      <List items={items()} />
+      <List items={items} />
     </ScrollView>
   )
 }
