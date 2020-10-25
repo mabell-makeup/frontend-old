@@ -1,5 +1,6 @@
-// eslint-disable-next-line no-undef
+/* eslint-disable no-undef */
 const {ApolloServer, gql} = require("apollo-server")
+const {books, items, posts} = require(__dirname + "/db.js")
 
 // スキーマを定義する
 const typeDefs = gql`
@@ -8,27 +9,36 @@ const typeDefs = gql`
     author: String
   }
 
+  type Item {
+    item_id: Int,
+    item_name: String,
+    brand_name: String,
+    item_category: [String],
+    price: String,
+    release_data: String
+  }
+
+  type Post {
+    img_src: String,
+    user_name: String,
+    description: String,
+    tags: [String],
+    items: [Int]
+  }
+
   type Query {
-    books: [Book]
+    books: [Book],
+    items: [Item],
+    posts: [Post],
   }
 `
-
-// クエリで取得するデータを定数で置いておく
-const books = [
-  {
-    title: "Harry Potter and the Chamber of Secrets",
-    author: "J.K. Rowling"
-  },
-  {
-    title: "Jurassic Park",
-    author: "Michael Crishton"
-  }
-]
 
 // クエリ発行時の処理を指定する
 const resolvers = {
   Query: {
-    books: () => books
+    books: () => books,
+    items: () => items,
+    posts: () => posts
   }
 }
 

@@ -9,24 +9,24 @@ import {API_URI} from "@env"
 const styles = StyleSheet.create(defaultStyle)
 
 export const HomeScreen = ({navigation}) => {
-  const booksQuery = useMemo(
+  const itemsQuery = useMemo(
     () => gql`
       {
-        books {
-          title
-          author
+        posts {
+          img_src
+          user_name
         }
       }
     `,
     []
   )
   
-  const {loading, data, error} = useQuery(booksQuery)
+  const {loading, data, error} = useQuery(itemsQuery)
 
   return (
     <View style={styles.container}>
       <Button icon="pencil" mode="contained" onPress={() => navigation.navigate("Search")}>Go to Search</Button>
-      {!loading ? error ? <Text>API Request Error</Text> : data.books.map(book => <Text key={book.title}>{book.title}</Text>) : <Text>Loading...</Text>}
+      {!loading ? error ? <Text>API Request Error</Text> : data.posts.map(post => <Text key={[post].img_src}>{post.img_src} {post.user_name}</Text>) : <Text>Loading...</Text>}
       <Text>{API_URI}</Text>
     </View>
   )
