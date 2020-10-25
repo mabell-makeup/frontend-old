@@ -3,11 +3,11 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 
 const Tab = createMaterialTopTabNavigator()
 
-export const TopNavigation = ({screens=[{label: "", routeName: "", component: React.Component}]}) => {
+export const TopNavigation = ({items=[{label: "", routeName: "", component: React.Component}]}) => {
   return (
     <Tab.Navigator tabBarOptions={{scrollEnabled: true}}>
       {/* eslint-disable-next-line react/jsx-key */}
-      {screens.map(screen => <Tab.Screen name={screen.routeName} component={screen.component} options={{tabBarLabel: screen.label}} />)}
+      {items.map(item => <Tab.Screen name={item.routeName} component={item.component} options={{tabBarLabel: item.label}} {...item} />)}
     </Tab.Navigator>
   )
 }

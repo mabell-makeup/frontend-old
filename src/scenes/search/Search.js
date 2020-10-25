@@ -1,15 +1,29 @@
-import React from "react"
+import React, {useContext} from "react"
 import {TopNavigation} from "../../components/TopNavigation"
-import {Men} from "./Men"
-import {SearchAll} from "./SearchAll"
-import {Women} from "./Women"
+import {SelectConditions} from "./SelectConditions"
+import {searchStore, updateConditionsParts} from "../../stores/searchStore"
 
 
 const screens = [
-  {label: "全体", routeName: "SearchAll", component: SearchAll},
-  {label: "アイメイク", routeName: "SearchEyeMake", component: Men},
-  {label: "リップメイク", routeName: "SearchLipMake", component: Women},
-  {label: "ユーザー", routeName: "SearchUser", component: Women}
+  {label: "全体", routeName: "SelectAll", key: "all"},
+  {label: "ベース", routeName: "SearchBaseMake", key: "baseMake"},
+  {label: "リップ", routeName: "SearchLipMake", key: "lipMake"},
+  {label: "アイ", routeName: "SearchEyeMake", key: "eyeMake"},
+  {label: "アイブロウ", routeName: "SearchEyebrowMake", key: "eyebrowMake"},
+  {label: "チーク・ハイライト・シェーディング", routeName: "SearchCheekHighlightShading", key:"cheekHighlightShading"}
 ]
 
-export const Search = () => <TopNavigation screens={screens} />
+const createItems = (screens, dispatch) => 
+  screens.map(screen => ({
+    label: screen.label,
+    routeName: screen.routeName,
+    key: screen.key,
+    component: SelectConditions,
+    listeners: {tabPress: () => updateConditionsParts(dispatch, screen.key)}
+  }))
+
+export const Search = () => {
+  const {dispatch} = useContext(searchStore)
+
+  return <TopNavigation items={createItems(screens, dispatch)} />
+}
