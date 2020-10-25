@@ -11,7 +11,7 @@ const countries = [
   {title: "その他", key: "other"}
 ]
 
-const createItems = (countries, dispatch) => selectedCountry => 
+const createItems = (countries, dispatch, selectedCountry) =>
   countries.map(country => ({
     title: country.title,
     key: country.key,
@@ -23,11 +23,11 @@ const createItems = (countries, dispatch) => selectedCountry =>
 
 export const SelectCountry = () => {
   const {dispatch, state} = useContext(searchStore)
-  const items = createItems(countries, dispatch)
+  const items = createItems(countries, dispatch, state.conditions.country)
 
   return (
     <ScrollView>
-      <List items={items(state.conditions.country)} />
+      <List items={items} />
     </ScrollView>
   )
 }

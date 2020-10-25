@@ -4,18 +4,24 @@ import {List} from "../../components/List"
 import {List as L} from "react-native-paper"
 import {ScrollView} from "react-native"
 
+const createItems = (columns, navigation) => columns.map(column => ({
+  title: column.title,
+  onPress: () => navigation.navigate(column.navigateTo),
+  right: props => <L.Icon {...props} icon="chevron-right" />
+}))
 
-const items = navigation => ([
-  {title: "色から探す", left: props => <L.Icon {...props} icon="palette" />, onPress: () => navigation.navigate("SelectColor")},
-  {title: "国から探す", left: props => <L.Icon {...props} icon="earth" />, onPress: () => navigation.navigate("SelectCountry")},
-  {title: "ゴリラ", items: [
-    {title: "マウンテンゴリラ", left: props => <L.Icon {...props} icon="star" />},
-    {title: "ニシゴリラ"},
-    {title: "ヒガシゴリラ"}
-  ]}
-])
+const columns = [
+  {title: "色から探す", navigateTo: "SelectColor"},
+  {title: "国から探す", navigateTo: "SelectCountry"},
+  {title: "髪型から探す", navigateTo: "SelectHairStyle"}
+]
 
-export const SelectConditions = ({navigation}) =>
-  <ScrollView>
-    <List items={items(navigation)} />
-  </ScrollView>
+export const SelectConditions = ({navigation}) => {
+  const items = createItems(columns, navigation)
+
+  return (
+    <ScrollView>
+      <List items={items} />
+    </ScrollView>
+  )
+}

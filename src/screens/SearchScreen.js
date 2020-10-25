@@ -8,35 +8,39 @@ import {Text} from "react-native-paper"
 import {SearchProvider} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
 import {SelectCountry} from "../scenes/search/SelectCountry"
+import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
 
 const Stack = createStackNavigator()
 
-export const SearchScreen = ({navigation}) => 
-  <SearchProvider>
-    <Stack.Navigator
-      initialRouteName="NewsFeed"
-      screenOptions={{
-        headerStyle: {height: 60},
-        headerTitleStyle: {width: "70%"},
-        headerTitleAlign: "left",
-        headerBackTitleVisible: false
-      }}
-    >
-      {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
-      <Stack.Screen name="Search" component={Search} options={{
-        headerTitle: () => <SearchInput isFocused={true} />,
-        headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
-        headerRightContainerStyle: {marginRight: 5}
-      }}/>
-      <Stack.Screen name="SelectColor" component={SelectColor} options={{
-        headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
-        headerRightContainerStyle: {marginRight: 5}
-      }}/>
-      <Stack.Screen name="SelectCountry" component={SelectCountry} options={{
-        headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
-        headerRightContainerStyle: {marginRight: 5}
-      }}/>
+const createDefaultScreenOptions = navigation => ({
+  headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+  headerRightContainerStyle: {marginRight: 5}
+})
 
-      <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
-    </Stack.Navigator>
-  </SearchProvider>
+export const SearchScreen = ({navigation}) => {
+  const defaultScreenOptions = createDefaultScreenOptions(navigation)
+
+  return (
+    <SearchProvider>
+      <Stack.Navigator
+        initialRouteName="NewsFeed"
+        screenOptions={{
+          headerStyle: {height: 60},
+          headerTitleStyle: {width: "70%"},
+          headerTitleAlign: "left",
+          headerBackTitleVisible: false
+        }}
+      >
+        {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
+        <Stack.Screen name="Search" component={Search} options={{
+          ...defaultScreenOptions,
+          headerTitle: () => <SearchInput isFocused={true} />
+        }}/>
+        <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions}/>
+        <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions}/>
+        <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions}/>
+        <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
+      </Stack.Navigator>
+    </SearchProvider>
+  )
+}
