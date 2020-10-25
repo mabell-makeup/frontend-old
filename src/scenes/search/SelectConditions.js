@@ -15,7 +15,7 @@ const items = navigation => ([
   ]}
 ])
 
-export const SearchAll = ({navigation}) =>
+export const SelectConditions = ({navigation}) =>
   <ScrollView>
     <List items={items(navigation)} />
   </ScrollView>
