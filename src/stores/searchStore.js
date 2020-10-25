@@ -1,6 +1,5 @@
 import React, {createContext, useReducer} from "react"
-
-// TODO: まとめられる部分が多いので後でまとめる
+import {createReducer} from "../helper/storeHelper"
 
 const initialState = {
   conditions: {
@@ -37,25 +36,14 @@ export const updateConditionsHairStyle = (dispatch, hairStyle) => dispatch({type
 const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
-  const [state, dispatch] = useReducer((state, action) => {
-    console.log("[prevState]", state)
-    console.log(action.type, action.payload)
-    switch (action.type) {
-      case UPDATE_CONDITIONS_USER_INFO:
-        return {conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...action.payload}}}
-      case UPDATE_CONDITIONS_COLOR:
-        return {conditions: {...state.conditions, color: action.payload}}
-      case UPDATE_CONDITIONS_COUNTRY:
-        return {conditions: {...state.conditions, country: action.payload}}
-      case UPDATE_CONDITIONS_PARTS:
-        return {conditions: {...state.conditions, parts: action.payload}}
-      case UPDATE_CONDITIONS_HAIR_STYLE:
-          return {conditions: {...state.conditions, hairStyle: action.payload}}  
-      default:
-        return {...state}
-    }
-  }, initialState)
-  console.log("nextState", state)
+  const [state, dispatch] = useReducer(createReducer(initialState, {
+    [UPDATE_CONDITIONS_USER_INFO]: (state, {payload}) => ({conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...payload}}}),
+    [UPDATE_CONDITIONS_COLOR]: (state, {payload}) => ({conditions: {...state.conditions, color: payload}}),
+    [UPDATE_CONDITIONS_COUNTRY]: (state, {payload}) => ({conditions: {...state.conditions, country: payload}}),
+    [UPDATE_CONDITIONS_PARTS]: (state, {payload}) => ({conditions: {...state.conditions, parts: payload}}),
+    [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({conditions: {...state.conditions, hairStyle: payload}})
+  }), initialState)
+  console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 
