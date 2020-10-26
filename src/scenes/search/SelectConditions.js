@@ -13,7 +13,8 @@ const createItems = (columns, navigation) => columns.map(column => ({
 const columns = [
   {title: "色から探す", navigateTo: "SelectColor"},
   {title: "国から探す", navigateTo: "SelectCountry"},
-  {title: "髪型から探す", navigateTo: "SelectHairStyle"}
+  {title: "髪型から探す", navigateTo: "SelectHairStyle"},
+  {title: "使用アイテムから探す", navigateTo: "SelectItems"}
 ]
 
 export const SelectConditions = ({navigation}) => {

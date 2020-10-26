@@ -9,6 +9,7 @@ import {SearchProvider} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
 import {SelectCountry} from "../scenes/search/SelectCountry"
 import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
+import {SelectItems} from "../scenes/search/SelectItems"
 
 const Stack = createStackNavigator()
 
@@ -39,6 +40,7 @@ export const SearchScreen = ({navigation}) => {
         <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions}/>
         <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions}/>
         <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions}/>
+        <Stack.Screen name="SelectItems" component={SelectItems} options={defaultScreenOptions}/>
         <Stack.Screen name="NewsFeed" component={NewsFeed} options={{headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}/>
       </Stack.Navigator>
     </SearchProvider>
