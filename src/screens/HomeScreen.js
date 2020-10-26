@@ -12,7 +12,7 @@ const styles = StyleSheet.create(defaultStyle)
 export const HomeScreen = ({navigation}) => {
   const query = `
   {
-    posts {
+    post(user_name: user1) {
       img_src
       user_name
     }
@@ -23,7 +23,7 @@ export const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Button icon="pencil" mode="contained" onPress={() => navigation.navigate("Search")}>Go to Search</Button>
-      {!loading ? error ? <Text>API Request Error</Text> : data.posts.map(post => <Text key={[post].img_src}>{post.img_src} {post.user_name}</Text>) : <Text>Loading...</Text>}
+      {!loading ? error ? <Text>{error.toString()}</Text> : data.posts.map(post => <Text key={[post].img_src}>{post.img_src} {post.user_name}</Text>) : <Text>Loading...</Text>}
       <Text>{API_URI}</Text>
     </View>
   )

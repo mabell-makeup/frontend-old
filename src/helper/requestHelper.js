@@ -1,4 +1,5 @@
 import {gql, useQuery} from "@apollo/client"
+import {router} from "../../mock/router"
 
 export const apiRequest = (queryLiterals="") => {
   // eslint-disable-next-line no-undef
@@ -7,24 +8,16 @@ export const apiRequest = (queryLiterals="") => {
   return useQuery(query)
 }
 
-const mockRequest = (queryLiterals="") => mockResponse
-
-
-const mockResponse = {
-  data: {
-    posts: [
-      {
-        __typename: "Post",
-        img_src: "./user1/1.png",
-        user_name: "user1"
-      },
-      {
-        __typename: "Post",
-        img_src: "./user2/1.png",
-        user_name: "user2"
-      }
-    ]
-  },
-  error: undefined,
-  loading: false
+const mockRequest = (queryLiterals="") => {
+  console.log(queryLiterals)
+  const formatedQueryLiterals = queryLiterals.replace(" ", "")
+  
+  return router[formatedQueryLiterals] ? {
+    data: router[formatedQueryLiterals],
+    error: undefined,
+    loading: false
+  } : {
+    error: "Request Error: クエリがおかしい",
+    loading: false
+  }
 }
