@@ -15,7 +15,7 @@ const hairStyles = [
   {title: "スーパーロング",  key: "superLong"}
 ]
 
-const createItems = (hairStyles, dispatch, selectedHairStyle) =>
+const createRows = (hairStyles, dispatch, selectedHairStyle) =>
   hairStyles.map(hairStyle => ({
     title: hairStyle.title,
     key: hairStyle.key,
@@ -26,11 +26,11 @@ const createItems = (hairStyles, dispatch, selectedHairStyle) =>
 
 export const SelectHairStyle = () => {
   const {dispatch, state} = useContext(searchStore)
-  const items = createItems(hairStyles, dispatch, state.conditions.hairStyle)
+  const rows = createRows(hairStyles, dispatch, state.conditions.hairStyle)
 
   return (
     <ScrollView>
-      <List items={items} />
+      <List rows={rows} />
     </ScrollView>
   )
 }

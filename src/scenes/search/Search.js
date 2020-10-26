@@ -13,7 +13,7 @@ const screens = [
   {label: "チーク・ハイライト・シェーディング", routeName: "SearchCheekHighlightShading", key:"cheekHighlightShading"}
 ]
 
-const createItems = (screens, dispatch) => 
+const createRows = (screens, dispatch) => 
   screens.map(screen => ({
     label: screen.label,
     routeName: screen.routeName,
@@ -25,5 +25,5 @@ const createItems = (screens, dispatch) =>
 export const Search = () => {
   const {dispatch} = useContext(searchStore)
 
-  return <TopNavigation items={createItems(screens, dispatch)} />
+  return <TopNavigation items={createRows(screens, dispatch)} />
 }

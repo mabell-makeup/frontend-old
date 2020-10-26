@@ -10,7 +10,8 @@ const initialState = {
     color: "",
     country: "",
     parts: "",
-    hairStyle: ""
+    hairStyle: "",
+    items: []
   }
 }
 
@@ -23,6 +24,8 @@ const UPDATE_CONDITIONS_COLOR = "UPDATE_CONDITIONS_COLOR"
 const UPDATE_CONDITIONS_COUNTRY = "UPDATE_CONDITIONS_COUNTRY"
 const UPDATE_CONDITIONS_PARTS = "UPDATE_CONDITIONS_PARTS"
 const UPDATE_CONDITIONS_HAIR_STYLE = "UPDATE_CONDITIONS_HAIR_STYLE"
+const UPDATE_CONDITIONS_ITEMS = "UPDATE_CONDITIONS_ITEMS"
+
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
@@ -30,6 +33,12 @@ export const updateConditionsColor = (dispatch, color) => dispatch({type: UPDATE
 export const updateConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_CONDITIONS_COUNTRY, payload: country})
 export const updateConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_CONDITIONS_PARTS, payload: parts})
 export const updateConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_CONDITIONS_HAIR_STYLE, payload: hairStyle})
+export const updateConditionsItems = (dispatch, selectedItems, itemId) => {
+  const newSelectedItems = selectedItems.includes(itemId)
+    ? selectedItems.filter(selected => selected !== itemId)
+    : [...selectedItems, itemId]
+  dispatch({type: UPDATE_CONDITIONS_ITEMS, payload: newSelectedItems})
+}
 
 
 // Defin Provider
@@ -41,7 +50,8 @@ const SearchProvider = ({children}) => {
     [UPDATE_CONDITIONS_COLOR]: (state, {payload}) => ({conditions: {...state.conditions, color: payload}}),
     [UPDATE_CONDITIONS_COUNTRY]: (state, {payload}) => ({conditions: {...state.conditions, country: payload}}),
     [UPDATE_CONDITIONS_PARTS]: (state, {payload}) => ({conditions: {...state.conditions, parts: payload}}),
-    [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({conditions: {...state.conditions, hairStyle: payload}})
+    [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({conditions: {...state.conditions, hairStyle: payload}}),
+    [UPDATE_CONDITIONS_ITEMS]: (state, {payload}) => ({conditions: {...state.conditions, items: payload}})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

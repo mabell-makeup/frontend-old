@@ -4,7 +4,7 @@ import {List} from "../../components/List"
 import {List as L} from "react-native-paper"
 import {ScrollView} from "react-native"
 
-const createItems = (columns, navigation) => columns.map(column => ({
+const createRows = (columns, navigation) => columns.map(column => ({
   title: column.title,
   onPress: () => navigation.navigate(column.navigateTo),
   right: props => <L.Icon {...props} icon="chevron-right" />
@@ -18,11 +18,11 @@ const columns = [
 ]
 
 export const SelectConditions = ({navigation}) => {
-  const items = createItems(columns, navigation)
+  const rows = createRows(columns, navigation)
 
   return (
     <ScrollView>
-      <List items={items} />
+      <List rows={rows} />
     </ScrollView>
   )
 }
