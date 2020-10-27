@@ -28,6 +28,8 @@ const navigatorProps = ({
   }
 })
 
+const getSuggestionItem = text => {console.log(text)/* ここでapiRequestする */}
+
 export const SearchScreen = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
 
@@ -44,7 +46,7 @@ export const SearchScreen = ({navigation}) => {
         <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions}/>
         <Stack.Screen name="SelectItems" component={SelectItems} options={{
           ...defaultScreenOptions,
-          headerTitle: () => <SearchInput isFocused={true} />
+          headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItem(text)} />
         }}/>
         <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
           headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}
