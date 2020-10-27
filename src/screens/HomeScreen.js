@@ -10,20 +10,18 @@ import {apiRequest} from "../helper/requestHelper"
 const styles = StyleSheet.create(defaultStyle)
 
 export const HomeScreen = ({navigation}) => {
-  const query = `
-  {
-    post(user_name: user1) {
-      img_src
-      user_name
-    }
-  }
-  `
+  const query = `{
+    suggestionItems(item_name: "hoge", limit: 20) {
+        brand_name
+        item_name
+      }
+  }`
   const {loading, data, error} = apiRequest(query)
   
   return (
     <View style={styles.container}>
       <Button icon="pencil" mode="contained" onPress={() => navigation.navigate("Search")}>Go to Search</Button>
-      {!loading ? error ? <Text>{error.toString()}</Text> : data.posts.map(post => <Text key={[post].img_src}>{post.img_src} {post.user_name}</Text>) : <Text>Loading...</Text>}
+      {!loading ? error ? <Text>{error.toString()}</Text> : data.suggestionItems.map(item => <Text key={item.item_name}>{item.brand_name} {item.item_name}</Text>) : <Text>Loading...</Text>}
       <Text>{API_URI}</Text>
     </View>
   )

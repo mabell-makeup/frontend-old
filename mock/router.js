@@ -1,4 +1,5 @@
 import * as q from "./querys"
+import * as db from "./db"
 
 export const router = [
   [q.filterPostsByUserName,
@@ -15,6 +16,11 @@ export const router = [
           user_name: "user2"
         }
       ]
+    }
+  ],
+  [q.getSuggestionItems,
+    {
+      suggestionItems: db.items.slice(0, 20).map(item => ({brand_name: item.brand_name, item_name: item.item_name}))
     }
   ]
 ]
