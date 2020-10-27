@@ -20,7 +20,7 @@ export const router = [
   ],
   [q.getSuggestionItems,
     {
-      suggestionItems: db.items.slice(0, 20).map(item => ({brand_name: item.brand_name, item_name: item.item_name}))
+      suggestionItems: db.items.slice(0, 20).map(item => ({item_id: item.item_id, brand_name: item.brand_name, item_name: item.item_name}))
     }
   ]
 ]

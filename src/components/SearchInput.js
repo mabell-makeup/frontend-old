@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react"
+import React, {useRef, useEffect} from "react"
 import {Searchbar} from "react-native-paper"
 
 const styles = {
@@ -10,9 +10,7 @@ const styles = {
 }
 
 
-export const SearchInput = ({isFocused, ...props}) => {
-  const [searchQuery, setSearchQuery] = useState("")
-  const onChangeSearch = query => setSearchQuery(query)
+export const SearchInput = ({onChangeText, isFocused, ...props}) => {
   const ref = useRef()
   useEffect(() => {
     isFocused && ref.current.focus()
@@ -21,8 +19,7 @@ export const SearchInput = ({isFocused, ...props}) => {
   return (
     <Searchbar
       placeholder="Search"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
+      onChangeText={onChangeText}
       style={styles.input}
       ref={ref}
       {...props}
