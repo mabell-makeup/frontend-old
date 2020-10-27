@@ -12,7 +12,8 @@ const initialState = {
     parts: "",
     hairStyle: "",
     items: []
-  }
+  },
+  suggestionItems: []
 }
 
 // Define Store
@@ -25,7 +26,7 @@ const UPDATE_CONDITIONS_COUNTRY = "UPDATE_CONDITIONS_COUNTRY"
 const UPDATE_CONDITIONS_PARTS = "UPDATE_CONDITIONS_PARTS"
 const UPDATE_CONDITIONS_HAIR_STYLE = "UPDATE_CONDITIONS_HAIR_STYLE"
 const UPDATE_CONDITIONS_ITEMS = "UPDATE_CONDITIONS_ITEMS"
-
+const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
@@ -39,6 +40,7 @@ export const updateConditionsItems = (dispatch, selectedItems, itemId) => {
     : [...selectedItems, itemId]
   dispatch({type: UPDATE_CONDITIONS_ITEMS, payload: newSelectedItems})
 }
+export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
 
 
 // Defin Provider
@@ -46,12 +48,13 @@ const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_CONDITIONS_USER_INFO]: (state, {payload}) => ({conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...payload}}}),
-    [UPDATE_CONDITIONS_COLOR]: (state, {payload}) => ({conditions: {...state.conditions, color: payload}}),
-    [UPDATE_CONDITIONS_COUNTRY]: (state, {payload}) => ({conditions: {...state.conditions, country: payload}}),
-    [UPDATE_CONDITIONS_PARTS]: (state, {payload}) => ({conditions: {...state.conditions, parts: payload}}),
-    [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({conditions: {...state.conditions, hairStyle: payload}}),
-    [UPDATE_CONDITIONS_ITEMS]: (state, {payload}) => ({conditions: {...state.conditions, items: payload}})
+    [UPDATE_CONDITIONS_USER_INFO]: (state, {payload}) => ({...state, conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...payload}}}),
+    [UPDATE_CONDITIONS_COLOR]: (state, {payload}) => ({...state, conditions: {...state.conditions, color: payload}}),
+    [UPDATE_CONDITIONS_COUNTRY]: (state, {payload}) => ({...state, conditions: {...state.conditions, country: payload}}),
+    [UPDATE_CONDITIONS_PARTS]: (state, {payload}) => ({...state, conditions: {...state.conditions, parts: payload}}),
+    [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, conditions: {...state.conditions, hairStyle: payload}}),
+    [UPDATE_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, conditions: {...state.conditions, items: payload}}),
+    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
