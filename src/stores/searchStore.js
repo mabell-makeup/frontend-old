@@ -1,5 +1,6 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
+import {apiRequest} from "../helper/requestHelper"
 
 const initialState = {
   conditions: {
@@ -13,7 +14,9 @@ const initialState = {
     hairStyle: "",
     items: []
   },
-  suggestionItems: []
+  suggestionItems: [],
+  searchResult: [],
+  tmpResult: []
 }
 
 // Define Store
@@ -27,6 +30,7 @@ const UPDATE_CONDITIONS_PARTS = "UPDATE_CONDITIONS_PARTS"
 const UPDATE_CONDITIONS_HAIR_STYLE = "UPDATE_CONDITIONS_HAIR_STYLE"
 const UPDATE_CONDITIONS_ITEMS = "UPDATE_CONDITIONS_ITEMS"
 const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
+const FETCH_POSTS = "FETCH_POSTS"
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
@@ -41,6 +45,12 @@ export const updateConditionsItems = (dispatch, selectedItems, itemId) => {
   dispatch({type: UPDATE_CONDITIONS_ITEMS, payload: newSelectedItems})
 }
 export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
+export const fetchPosts = (dispatch, conditions) => {
+  const {error, loading, data} = apiRequest(`{
+    a
+  }`)
+  !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts})
+}
 
 
 // Defin Provider
@@ -54,7 +64,8 @@ const SearchProvider = ({children}) => {
     [UPDATE_CONDITIONS_PARTS]: (state, {payload}) => ({...state, conditions: {...state.conditions, parts: payload}}),
     [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, conditions: {...state.conditions, hairStyle: payload}}),
     [UPDATE_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, conditions: {...state.conditions, items: payload}}),
-    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload})
+    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
+    [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

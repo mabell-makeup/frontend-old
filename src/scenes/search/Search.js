@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {SelectConditions} from "./SelectConditions"
-import {searchStore, updateConditionsParts} from "../../stores/searchStore"
+import {searchStore, updateConditionsParts, fetchPosts} from "../../stores/searchStore"
 
 
 const screens = [
@@ -13,17 +13,20 @@ const screens = [
   {label: "チーク・ハイライト・シェーディング", routeName: "SearchCheekHighlightShading", key:"cheekHighlightShading"}
 ]
 
-const createRows = (screens, dispatch) => 
+const createRows = (screens, dispatch, conditions) => 
   screens.map(screen => ({
     label: screen.label,
     routeName: screen.routeName,
     key: screen.key,
     component: SelectConditions,
-    listeners: {tabPress: () => updateConditionsParts(dispatch, screen.key)}
+    listeners: {tabPress: () => {
+      updateConditionsParts(dispatch, screen.key)
+      fetchPosts(dispatch, conditions)
+    }}
   }))
 
 export const Search = () => {
-  const {dispatch} = useContext(searchStore)
+  const {dispatch, state: {conditions}} = useContext(searchStore)
 
-  return <TopNavigation items={createRows(screens, dispatch)} />
+  return <TopNavigation items={createRows(screens, dispatch, conditions)} />
 }

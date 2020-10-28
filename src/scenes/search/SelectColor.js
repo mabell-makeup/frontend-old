@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {View, FlatList} from "react-native"
 import {Checkbox} from "react-native-paper"
-import {searchStore, updateConditionsColor} from "../../stores/searchStore"
+import {searchStore, updateConditionsColor, fetchPosts} from "../../stores/searchStore"
 
 
 const createStyles = ({color}) => ({
@@ -31,6 +31,7 @@ const ColorInputItem = ({color, navigation}) => {
   const styles = createStyles({color})
   const handlePress = navigation => () => {
     updateConditionsColor(dispatch, color)
+    fetchPosts(dispatch, state.conditions)
     navigation.goBack()
   }
 
