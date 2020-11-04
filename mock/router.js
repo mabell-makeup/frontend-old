@@ -28,13 +28,14 @@ export const router = [
       posts: [
         {
           __typename: "Post",
-          img_src: "./user1/1.png",
-          user_name: "user1"
+          post_id: 1,
+          thumbnail_img_src: "./user1/1.png"
         },
         {
           __typename: "Post",
-          img_src: "./user2/1.png",
-          user_name: "user2"
+          post_id: 2,
+          thumbnail_img_src: "./user2/1.png"
+    
         }
       ]
     }

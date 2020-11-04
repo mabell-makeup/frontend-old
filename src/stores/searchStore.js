@@ -47,7 +47,18 @@ export const updateConditionsItems = (dispatch, selectedItems, itemId) => {
 export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
 export const fetchPosts = (dispatch, conditions) => {
   const {error, loading, data} = apiRequest(`{
-    a
+    posts(
+      personal_color: "yellowAutumn",
+      faceType: "coolCasual",
+      color: "#fff",
+      country: "japan",
+      parts: "eyeMake",
+      hairStyle: "short",
+      items: [1, 4, 5]
+    ) {
+      post_id
+      thumbnail_img_src
+      }
   }`)
   !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts})
 }
