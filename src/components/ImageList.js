@@ -1,30 +1,32 @@
 import React from "react"
-import {View, FlatList, StyleSheet, Text} from "react-native"
+import {View, FlatList, StyleSheet, Image, Dimensions} from "react-native"
+
+const ITEM_WIDTH = Dimensions.get("window").width
 
 const styles = StyleSheet.create({
-  item: {
-    backgroundColor: "#ececec",
-    width: "33%",
-    height: 100,
-    marginVertical: 1,
-    marginHorizontal: 1
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#ecf0f1",
+    padding: 8
   },
-  title: {
-    fontSize: 32
+  imageStyle: {
+    width: (ITEM_WIDTH-6) / 3,
+    height: ITEM_WIDTH / 3,
+    margin: 1,
+    resizeMode: "cover"
   }
 })
 
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
+const renderItem = ({item}) => 
+  <View>
+    <Image
+      source={{uri: item.imgSrc}}
+      style={styles.imageStyle}
+    />
   </View>
-)
 
 export const ImageList = ({data}) => {
-  const renderItem = ({item}) => (
-    <Item title={item.title} />
-  )
-
   return (
     <FlatList
       data={data}

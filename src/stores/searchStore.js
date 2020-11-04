@@ -61,7 +61,7 @@ export const fetchPosts = (dispatch, conditions) => {
       thumbnail_img_src
       }
   }`)
-  !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts})
+  !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src}))})
 }
 export const updateSearchResult = (dispatch) => dispatch({type: UPDATE_SEARCH_RESULT})
 

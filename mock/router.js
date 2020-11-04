@@ -1,5 +1,6 @@
 import * as q from "./querys"
 import * as db from "./db"
+import {API_URI} from "@env"
 
 export const router = [
   [q.filterPostsByUserName,
@@ -29,13 +30,12 @@ export const router = [
         {
           __typename: "Post",
           post_id: 1,
-          thumbnail_img_src: "./user1/1.jpg"
+          thumbnail_img_src: `${API_URI}/img/posts/user1/1.jpg`
         },
         {
           __typename: "Post",
           post_id: 2,
-          thumbnail_img_src: "./user2/1.jpg"
-    
+          thumbnail_img_src: `${API_URI}/img/posts/user2/1.jpg`
         }
       ]
     }
