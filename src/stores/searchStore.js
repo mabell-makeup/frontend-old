@@ -31,6 +31,7 @@ const UPDATE_CONDITIONS_HAIR_STYLE = "UPDATE_CONDITIONS_HAIR_STYLE"
 const UPDATE_CONDITIONS_ITEMS = "UPDATE_CONDITIONS_ITEMS"
 const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
 const FETCH_POSTS = "FETCH_POSTS"
+const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 
 // Define ActionCreator
 export const updateConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_CONDITIONS_USER_INFO, payload: userInfo})
@@ -62,6 +63,7 @@ export const fetchPosts = (dispatch, conditions) => {
   }`)
   !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts})
 }
+export const updateSearchResult = (dispatch) => dispatch({type: UPDATE_SEARCH_RESULT})
 
 
 // Defin Provider
@@ -76,7 +78,8 @@ const SearchProvider = ({children}) => {
     [UPDATE_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, conditions: {...state.conditions, hairStyle: payload}}),
     [UPDATE_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, conditions: {...state.conditions, items: payload}}),
     [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
-    [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload})
+    [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
+    [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
