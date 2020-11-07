@@ -46,16 +46,18 @@ export const updateConditionsItems = (dispatch, selectedItems, itemId) => {
   dispatch({type: UPDATE_CONDITIONS_ITEMS, payload: newSelectedItems})
 }
 export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
-export const fetchPosts = (dispatch, conditions) => {
-  const {error, loading, data} = apiRequest(`{
+// eslint-disable-next-line complexity
+export const fetchPosts = (dispatch, conditions={}) => {
+  const {error, loading, data} = apiRequest(`${`{
     posts(
-      personal_color: "yellowAutumn",
-      faceType: "coolCasual",
-      color: "#fff",
-      country: "japan",
-      parts: "eyeMake",
-      hairStyle: "short",
-      items: [1, 4, 5]
+      ${conditions.personalColor ? `personal_color: ${conditions.personalColor},` : ""}
+      ${conditions.personalColor ? `face_type: ${conditions.faceType},` : ""}
+      ${conditions.personalColor ? `color: ${conditions.color},` : ""}
+      ${conditions.personalColor ? `country: ${conditions.country},` : ""}
+      ${conditions.personalColor ? `parts: ${conditions.parts},` : ""}
+      ${conditions.personalColor ? `hair_style: ${conditions.hairStyle},` : ""}
+      ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
+      ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
     ) {
       post_id
       thumbnail_img_src
@@ -64,7 +66,6 @@ export const fetchPosts = (dispatch, conditions) => {
   !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src}))})
 }
 export const updateSearchResult = (dispatch) => dispatch({type: UPDATE_SEARCH_RESULT})
-
 
 // Defin Provider
 const {Provider} = searchStore

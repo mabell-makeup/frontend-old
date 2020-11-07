@@ -1,11 +1,6 @@
-/* eslint-disable no-undef */
-// TODO: 具体的には後で作ってもらう
-exports.books = [
-  {title: "Harry Potter and the Chamber of Secrets", author: "J.K. Rowling"},
-  {title: "Jurassic Park", author: "Michael Crishton"}
-]
+import {API_URI} from "@env"
 
-exports.items = [
+export const items = [
   {item_id: 1, item_name: "ナチュラル チークN", brand_name: "セザンヌ", item_category: ["パウダーチーク"], price: "4g・360円 / -・360円", release_date: "2001年 (2020/9/11追加発売)"},
   {item_id: 2, item_name: "つやぷるリップ", brand_name: "B IDOL（ビー アイドル)", item_category: ["口紅"], price: "2.4g・1,400円", release_date: "2019/5/1 (2020/10/8追加発売)"},
   {item_id: 3, item_name: "アイグロウ ジェム", brand_name: "コスメデコルテ", item_category: ["ジェル・クリームアイシャドウ"], price: "2,700円", release_date: "2018/2/16 (2020/4/16追加発売)"},
@@ -107,8 +102,10 @@ exports.items = [
   {item_id: 99, item_name: "アイブロウペンシルA", brand_name: "ケイト", item_category: ["アイブロウペンシル"], price: "550円 (編集部調べ)", release_date: "2018/5/1"},
 ]
 
-exports.posts = [...Array(20).keys()].map(num => ({
-  img_src: `./user${num + 1}/1.png`,
+export const posts = [...Array(20).keys()].map(num => ({
+  post_id: num + 1,
+  thumbnail_img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
+  img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
   user_name: `user${num + 1}`,
   description: `これは説明のサンプルです。user${num + 1}によって投稿されました。`,
   tags: ["テスト投稿", "ウルフカット", num.toString()],

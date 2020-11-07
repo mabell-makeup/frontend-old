@@ -11,6 +11,7 @@ const handleError = formatedQueryLiterals => {
 
 export const mockRequest = (queryLiterals="") => {
   const formatedQueryLiterals = queryLiterals.replace(/\s/g, "")
+  console.log("Requested:", formatedQueryLiterals)
   const response = router.filter(route => route[0].test(formatedQueryLiterals))
 
   return response.length > 0
