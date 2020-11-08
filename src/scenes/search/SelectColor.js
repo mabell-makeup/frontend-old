@@ -1,21 +1,11 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View, FlatList} from "react-native"
-import {Checkbox} from "react-native-paper"
-import {searchStore, updateTmpConditionsColor, fetchPosts} from "../../stores/searchStore"
+import {ColorInput} from "../../components/ColorInput"
+import {updateTmpConditionsColor, fetchPosts} from "../../stores/searchStore"
 
 
-const createStyles = ({color}) => ({
-  checkbox: {
-    backgroundColor: color,
-    width: 40,
-    height: 40,
-    borderRadius: "50%",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 5
-  },
-  checkBoxContainer: {
+const createStyles = () => ({
+  colorInputContainer: {
     width: `${100 / numColumns}%`,
     alignItems: "center"
   },
@@ -26,30 +16,15 @@ const createStyles = ({color}) => ({
 
 const numColumns = 5
 
-const ColorInputItem = ({color, navigation}) => {
-  const {dispatch, state} = useContext(searchStore)
-  const styles = createStyles({color})
-  const handlePress = navigation => () => {
-    updateTmpConditionsColor(dispatch, color)
-    fetchPosts(dispatch, state.tmpConditions)
-    navigation.goBack()
-  }
-
-  return (
-    <View style={styles.checkbox}>
-      <Checkbox
-        status={color === state.tmpConditions.color ? "checked" : "unchecked"}
-        onPress={handlePress(navigation)}
-        color="#fff"
-        width={40}
-      />
-    </View>
-  )
+const onPress = (navigation, dispatch, state, color) => () => {
+  updateTmpConditionsColor(dispatch, color)
+  fetchPosts(dispatch, state.tmpConditions)
+  navigation.goBack()
 }
 
-const ColorInput = ({colors=[], navigation}) => {
-  const styles = createStyles({})
-  const renderItem = ({item}) => <View style={styles.checkBoxContainer}><ColorInputItem color={item} navigation={navigation} /></View>
+const ColorPaletteInput = ({colors=[], navigation}) => {
+  const styles = createStyles()
+  const renderItem = ({item}) => <View style={styles.colorInputContainer}><ColorInput color={item} navigation={navigation} onPress={onPress} /></View>
   
   return (
     <FlatList 
@@ -74,4 +49,4 @@ const colors = [
 ]
 
 // TODO: 色変更で2回レンダリングされてしまう。原因を解決するかuseMemoで対策する。
-export const SelectColor = ({navigation}) => <ColorInput colors={colors} navigation={navigation} />
+export const SelectColor = ({navigation}) => <ColorPaletteInput colors={colors} navigation={navigation} />

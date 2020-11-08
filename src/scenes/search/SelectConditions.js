@@ -1,9 +1,10 @@
 /* eslint-disable react/display-name */
 import React, {useContext} from "react"
 import {List} from "../../components/List"
-import {Button, List as L} from "react-native-paper"
+import {Button, List as L, Text} from "react-native-paper"
 import {ScrollView} from "react-native"
 import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
+import {ColorInput} from "../../components/ColorInput"
 
 const styles = {
   button: {
@@ -17,15 +18,15 @@ const styles = {
 const createRows = (columns, navigation) => columns.map(column => ({
   title: column.title,
   onPress: () => navigation.navigate(column.navigateTo),
-  right: props => <L.Icon {...props} icon="chevron-right" />
+  right: column.right ? column.right : props => <L.Icon {...props} icon="chevron-right" />
 }))
 
-const columns = [
-  {title: "色から探す", navigateTo: "SelectColor"},
-  {title: "国から探す", navigateTo: "SelectCountry"},
-  {title: "髪型から探す", navigateTo: "SelectHairStyle"},
-  {title: "使用アイテムから探す", navigateTo: "SelectItems"}
-]
+const createColumns = tmpConditions => ([
+  {title: "色から探す", navigateTo: "SelectColor", right: tmpConditions.color ? () => <ColorInput color={tmpConditions.color} /> : false},
+  {title: "国から探す", navigateTo: "SelectCountry", right: tmpConditions.country ? () => <Text>{tmpConditions.country}</Text> : false},
+  {title: "髪型から探す", navigateTo: "SelectHairStyle", right: tmpConditions.hairStyle ? () => <Text>{tmpConditions.hairStyle}</Text> : false},
+  {title: "使用アイテムから探す", navigateTo: "SelectItems", right: tmpConditions.items.length > 0 ? () => <Text>{tmpConditions.items.length}件選択中</Text> : false}
+])
 
 const handlePress = (dispatch, navigation) => () => {
   updateSearchResult(dispatch)
@@ -34,8 +35,9 @@ const handlePress = (dispatch, navigation) => () => {
 }
 
 export const SelectConditions = ({navigation}) => {
-  const rows = createRows(columns, navigation)
-  const {dispatch} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const columns = createColumns(tmpConditions)
+  const rows = createRows(columns, navigation, tmpConditions)
 
   return (
     <ScrollView>
