@@ -60,6 +60,9 @@ const SearchScreenInner = ({navigation}) => {
         headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItems(dispatch, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
+        ...defaultScreenOptions,
+        headerRight: false,
+        headerLeft: false,
         headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}
       />
     </Stack.Navigator>

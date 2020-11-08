@@ -1,8 +1,18 @@
 /* eslint-disable react/display-name */
-import React from "react"
+import React, {useContext} from "react"
 import {List} from "../../components/List"
-import {List as L} from "react-native-paper"
+import {Button, List as L} from "react-native-paper"
 import {ScrollView} from "react-native"
+import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
+
+const styles = {
+  button: {
+    height: 50,
+    marginHorizontal: 5,
+    marginTop: 30,
+    justifyContent: "center"
+  }
+}
 
 const createRows = (columns, navigation) => columns.map(column => ({
   title: column.title,
@@ -17,12 +27,20 @@ const columns = [
   {title: "使用アイテムから探す", navigateTo: "SelectItems"}
 ]
 
+const handlePress = (dispatch, navigation) => () => {
+  updateSearchResult(dispatch)
+  updateConditions(dispatch)
+  navigation.navigate("NewsFeed", {screen: "Women"})
+}
+
 export const SelectConditions = ({navigation}) => {
   const rows = createRows(columns, navigation)
+  const {dispatch} = useContext(searchStore)
 
   return (
     <ScrollView>
       <List rows={rows} />
+      <Button mode="contained" style={styles.button} onPress={handlePress(dispatch, navigation)}>絞り込む</Button>
     </ScrollView>
   )
 }

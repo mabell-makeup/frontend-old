@@ -2,8 +2,8 @@
   handlersのフォーマット
 
   const handlers = ({
-    [UPDATE_CONDITIONS_USER_INFO]: (state, {payload}) => ({conditions: {...state.conditions, userInfo: {...state.conditions.userInfo, ...payload}}}),
-    [UPDATE_CONDITIONS_COLOR]: (state, {payload}) => ({conditions: {...state.conditions, color: payload}}),
+    [UPDATE_TMP_CONDITIONS_USER_INFO]: (state, {payload}) => ({tmpConditions: {...state.tmpConditions, userInfo: {...state.tmpConditions.userInfo, ...payload}}}),
+    [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({tmpConditions: {...state.tmpConditions, color: payload}}),
   })
 */
 

@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react"
 import {FAB, Portal, Provider} from "react-native-paper"
-import {searchStore, updateConditionsUserInfo} from "../stores/searchStore"
+import {searchStore, updateTmpConditionsUserInfo} from "../stores/searchStore"
 
 
 const actions = (handlePressAction, {personalColor, faceType}) => ([
@@ -21,9 +21,9 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
 
 export const UserInfoToggleGroup = () => {
   const [open, setOpen] = useState(false)
-  const {dispatch, state: {conditions: {userInfo}}} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions: {userInfo}}} = useContext(searchStore)
   const handleDial = () => setOpen(!open)
-  const handlePressAction = userInfo => () => updateConditionsUserInfo(dispatch, userInfo)
+  const handlePressAction = userInfo => () => updateTmpConditionsUserInfo(dispatch, userInfo)
 
   return (
     <Provider>
