@@ -2,7 +2,7 @@ import React, {useContext} from "react"
 import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
-import {searchStore, updateConditionsHairStyle, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditionsHairStyle, fetchPosts} from "../../stores/searchStore"
 
 
 const hairStyles = [
@@ -15,21 +15,21 @@ const hairStyles = [
   {title: "スーパーロング",  key: "superLong"}
 ]
 
-const createRows = (hairStyles, dispatch, conditions) =>
+const createRows = (hairStyles, dispatch, tmpConditions) =>
   hairStyles.map(hairStyle => ({
     title: hairStyle.title,
     key: hairStyle.key,
     // eslint-disable-next-line react/display-name
-    right: () => <Checkbox status={hairStyle.key === conditions.hairStyle ? "checked" : "unchecked"} color="#333" />,
+    right: () => <Checkbox status={hairStyle.key === tmpConditions.hairStyle ? "checked" : "unchecked"} color="#333" />,
     onPress: () => {
-      updateConditionsHairStyle(dispatch, hairStyle.key)
-      fetchPosts(dispatch, conditions)
+      updateTmpConditionsHairStyle(dispatch, hairStyle.key)
+      fetchPosts(dispatch, tmpConditions)
     }
   }))
 
 export const SelectHairStyle = () => {
   const {dispatch, state} = useContext(searchStore)
-  const rows = createRows(hairStyles, dispatch, state.conditions)
+  const rows = createRows(hairStyles, dispatch, state.tmpConditions)
 
   return (
     <ScrollView>

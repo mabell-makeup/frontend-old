@@ -3,7 +3,7 @@ import React, {useContext} from "react"
 import {List} from "../../components/List"
 import {Button, List as L} from "react-native-paper"
 import {ScrollView} from "react-native"
-import {searchStore, updateSearchResult} from "../../stores/searchStore"
+import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
 
 const styles = {
   button: {
@@ -29,6 +29,7 @@ const columns = [
 
 const handlePress = (dispatch, navigation) => () => {
   updateSearchResult(dispatch)
+  updateConditions(dispatch)
   navigation.navigate("NewsFeed", {screen: "Women"})
 }
 
