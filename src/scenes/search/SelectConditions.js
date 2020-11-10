@@ -5,6 +5,7 @@ import {Button, List as L, Text} from "react-native-paper"
 import {ScrollView} from "react-native"
 import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
 import {ColorInput} from "../../components/ColorInput"
+import * as masterData from "../../masterData"
 
 const styles = {
   button: {
@@ -12,6 +13,16 @@ const styles = {
     marginHorizontal: 5,
     marginTop: 30,
     justifyContent: "center"
+  }
+}
+
+// TODO: おそらくバグが出るから後で直す
+const getTitle = key => {
+  for (const data in masterData) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (masterData[data].hasOwnProperty(key)) {
+      return masterData[data][key]
+    }
   }
 }
 
@@ -23,8 +34,8 @@ const createRows = (columns, navigation) => columns.map(column => ({
 
 const createColumns = tmpConditions => ([
   {title: "色から探す", navigateTo: "SelectColor", right: tmpConditions.color ? () => <ColorInput color={tmpConditions.color} /> : false},
-  {title: "国から探す", navigateTo: "SelectCountry", right: tmpConditions.country ? () => <Text>{tmpConditions.country}</Text> : false},
-  {title: "髪型から探す", navigateTo: "SelectHairStyle", right: tmpConditions.hairStyle ? () => <Text>{tmpConditions.hairStyle}</Text> : false},
+  {title: "国から探す", navigateTo: "SelectCountry", right: tmpConditions.country ? () => <Text>{getTitle(tmpConditions.country)}</Text> : false},
+  {title: "髪型から探す", navigateTo: "SelectHairStyle", right: tmpConditions.hairStyle ? () => <Text>{getTitle(tmpConditions.hairStyle)}</Text> : false},
   {title: "使用アイテムから探す", navigateTo: "SelectItems", right: tmpConditions.items.length > 0 ? () => <Text>{tmpConditions.items.length}件選択中</Text> : false}
 ])
 
