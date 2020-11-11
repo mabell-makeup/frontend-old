@@ -11,6 +11,7 @@ import {SelectCountry} from "../scenes/search/SelectCountry"
 import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
 import {SelectItems} from "../scenes/search/SelectItems"
 import {apiRequest} from "../helper/requestHelper"
+import {Post} from "../scenes/search/Post"
 
 const Stack = createStackNavigator()
 
@@ -52,9 +53,9 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions,
         headerTitle: () => <SearchInput isFocused={true} />
       }}/>
-      <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions}/>
-      <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions}/>
-      <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions}/>
+      <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions} />
+      <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions} />
+      <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions} />
       <Stack.Screen name="SelectItems" component={SelectItems} options={{
         ...defaultScreenOptions,
         headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItems(dispatch, text)} />
@@ -65,6 +66,7 @@ const SearchScreenInner = ({navigation}) => {
         headerLeft: false,
         headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}
       />
+      <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />
     </Stack.Navigator>
   )
 }

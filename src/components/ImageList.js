@@ -1,5 +1,5 @@
 import React from "react"
-import {View, FlatList, StyleSheet, Image, Dimensions} from "react-native"
+import {FlatList, StyleSheet, Image, Dimensions, TouchableHighlight} from "react-native"
 
 const ITEM_WIDTH = Dimensions.get("window").width
 
@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
   }
 })
 
-const renderItem = ({item}) => 
-  <View>
+const renderItem = ({item}) =>
+  <TouchableHighlight onPress={item.onPress}>
     <Image
       source={{uri: item.imgSrc}}
       style={styles.imageStyle}
     />
-  </View>
+  </TouchableHighlight>
 
 export const ImageList = ({data}) => {
   return (
