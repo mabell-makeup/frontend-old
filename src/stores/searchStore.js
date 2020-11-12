@@ -18,7 +18,15 @@ const initialState = {
     hairStyle: "",
     items: []
   },
-  post: {}
+  post: {
+    user_id: Number,
+    user_name: "",
+    img_src_list: [],
+    items: [],
+    tags: [],
+    description: "",
+    page_views: Number
+  }
 }
 
 // Define Store

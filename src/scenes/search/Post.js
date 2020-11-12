@@ -1,8 +1,9 @@
-import React from "react"
+import React, {useContext} from "react"
 import {View, StyleSheet, Image, Dimensions, ScrollView} from "react-native"
 import {Chip} from "react-native-paper"
 import {Appbar} from "react-native-paper"
 import {Platform} from "react-native"
+import {searchStore} from "../../stores/searchStore"
 
 // TODO: Constantsに移動
 const ITEM_WIDTH = Dimensions.get("window").width
@@ -35,7 +36,14 @@ const tags = [
   "Push"
 ]
 
+const ChipList = ({items=[]}) =>
+  <View style={styles.row}>
+    {items.map(item => <Chip key={item} mode="outlined" style={styles.chip}>{item}</Chip>)}
+  </View>
+
 export const Post = () => {
+  const {state: {post}} = useContext(searchStore)
+
   return (
     <ScrollView>
       <Appbar.Header>
@@ -47,11 +55,7 @@ export const Post = () => {
         source={{uri: "http://192.168.3.23:3000/img/posts/user3/1.jpg"}}
         style={styles.image}
       />
-      <View style={styles.row}>
-        {tags.map(tag => <Chip mode = "outlined" style={styles.chip}>
-          {tag}
-        </Chip>)}
-      </View>
+      <ChipList items={post.tags} />
     </ScrollView>
   )
 } 
