@@ -6,6 +6,7 @@ import {Platform} from "react-native"
 
 // TODO: Constantsに移動
 const ITEM_WIDTH = Dimensions.get("window").width
+const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
 
 const styles = StyleSheet.create({
   row: {
@@ -33,8 +34,6 @@ const tags = [
   "Tarrant Automobile",
   "Push"
 ]
-
-const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
 
 export const Post = () => {
   return (

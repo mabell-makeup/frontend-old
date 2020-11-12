@@ -105,9 +105,11 @@ export const items = [
 export const posts = [...Array(20).keys()].map(num => ({
   post_id: num + 1,
   thumbnail_img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
-  img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
   user_name: `user${num + 1}`,
   description: `これは説明のサンプルです。user${num + 1}によって投稿されました。`,
-  tags: ["テスト投稿", "ウルフカット", num.toString()],
-  items: [num]
+  tags: ["テスト投稿", "地雷メイク", num % 2 === 0 ? "一重" : "奥二重",`${num.toString()}回目の投稿`, "モテる", "デート"],
+  items: [...Array(num).keys()],
+  user_id: num + 1,
+  img_src_list: [`${API_URI}/img/posts/user${num + 1}/1.jpg`],
+  page_views: Number(Math.random() * 100)
 }))
