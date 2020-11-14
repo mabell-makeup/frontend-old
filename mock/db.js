@@ -102,12 +102,14 @@ export const items = [
   {item_id: 99, item_name: "アイブロウペンシルA", brand_name: "ケイト", item_category: ["アイブロウペンシル"], price: "550円 (編集部調べ)", release_date: "2018/5/1"},
 ]
 
-export const posts = [...Array(20).keys()].map(num => ({
-  post_id: num + 1,
-  thumbnail_img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
-  img_src: `${API_URI}/img/posts/user${num + 1}/1.jpg`,
-  user_name: `user${num + 1}`,
-  description: `これは説明のサンプルです。user${num + 1}によって投稿されました。`,
-  tags: ["テスト投稿", "ウルフカット", num.toString()],
-  items: [num]
+export const posts = [...Array(20).keys()].map(userId => ({
+  post_id: userId + 1,
+  thumbnail_img_src: `${API_URI}/img/posts/user${userId + 1}/1.jpg`,
+  user_name: `user${userId + 1}`,
+  description: `これは説明のサンプルです。user${userId + 1}によって投稿されました。`,
+  tags: ["テスト投稿", "地雷メイク", userId % 2 === 0 ? "一重" : "奥二重",`${userId.toString()}回目の投稿`, "モテる", "デート"],
+  items: [...Array(userId).keys()],
+  user_id: userId + 1,
+  img_src_list: [...Array(2).keys()].map(num => `${API_URI}/img/posts/user${userId + 1}/${num + 1}.jpg`),
+  page_views: parseInt(Math.random() * 100)
 }))

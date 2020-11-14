@@ -17,6 +17,15 @@ const initialState = {
     parts: "",
     hairStyle: "",
     items: []
+  },
+  post: {
+    user_id: Number,
+    user_name: "",
+    img_src_list: [],
+    items: [],
+    tags: [],
+    description: "",
+    page_views: Number
   }
 }
 
@@ -34,6 +43,7 @@ const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
+const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
 export const updateTmpConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_TMP_CONDITIONS_USER_INFO, payload: userInfo})
@@ -69,6 +79,21 @@ export const fetchPosts = (dispatch, conditions={}) => {
 }
 export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
+export const fetchPostDetail = (dispatch, id) => {
+  const {error, loading, data} = apiRequest(`{
+    posts(id: ${id}) {
+      user_id
+      user_name
+      img_src_list
+      items
+      tags
+      description
+      page_views
+    }
+  }`)
+  !loading && !error && dispatch({type: FETCH_POST_DETAIL, payload: data})
+}
+
 
 // Defin Provider
 const {Provider} = searchStore
@@ -83,6 +108,7 @@ const SearchProvider = ({children}) => {
     [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
     [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
+    [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions})
   }), initialState)
