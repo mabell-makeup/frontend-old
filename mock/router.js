@@ -25,5 +25,5 @@ export const router = [
       posts: db.posts.slice(0, 2).map(post => ({post_id: post.post_id, thumbnail_img_src: post.thumbnail_img_src}))
     }
   ],
-  [q.getPostDetail, shuffle(db.posts).pop()]
+  [q.getPostDetail, shuffle(db.posts.slice(0, 5)).pop()]
 ]

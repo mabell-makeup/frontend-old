@@ -1,12 +1,12 @@
 import React, {useContext} from "react"
-import {View, StyleSheet, Image, Dimensions, ScrollView} from "react-native"
+import {View, StyleSheet, ScrollView} from "react-native"
 import {Chip, Title} from "react-native-paper"
 import {Appbar, Avatar, Text} from "react-native-paper"
 import {Platform} from "react-native"
 import {searchStore} from "../../stores/searchStore"
+import {Carousel} from "../../components/Carousel"
 
 // TODO: Constantsに移動
-const ITEM_WIDTH = Dimensions.get("window").width
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
 
 const styles = StyleSheet.create({
@@ -17,11 +17,6 @@ const styles = StyleSheet.create({
   },
   chip: {
     margin: 4
-  },
-  image: {
-    // TODO: もっといい書き方があるはず
-    width: ITEM_WIDTH,
-    height: 400
   },
   userName: {
     color: "#000"
@@ -89,13 +84,8 @@ export const Post = () => {
   return (
     <ScrollView>
       <PostHeader userName={post.user_name} userId={post.user_id} />
-      <Image
-        source={{uri: "http://192.168.3.23:3000/img/posts/user3/1.jpg"}}
-        style={styles.image}
-      />
+      <Carousel data={post.img_src_list} />
       <PostInfo post={post} />
     </ScrollView>
   )
 }
-
-// TODO: 複数画像を表示
