@@ -70,7 +70,7 @@ const PostHeader = ({userName, userId}) => {
   )
 }
 
-const Info = ({post}) => {
+const PostInfo = ({post}) => {
   return (
     <View style={styles.infoContainer}>
       <Text>いいね！ <Text style={styles.strong}>{post.page_views}</Text>件</Text>
@@ -93,7 +93,7 @@ export const Post = () => {
         source={{uri: "http://192.168.3.23:3000/img/posts/user3/1.jpg"}}
         style={styles.image}
       />
-      <Info post={post} />
+      <PostInfo post={post} />
     </ScrollView>
   )
 }
