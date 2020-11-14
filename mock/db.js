@@ -111,5 +111,5 @@ export const posts = [...Array(20).keys()].map(num => ({
   items: [...Array(num).keys()],
   user_id: num + 1,
   img_src_list: [`${API_URI}/img/posts/user${num + 1}/1.jpg`],
-  page_views: Number(Math.random() * 100)
+  page_views: parseInt(Math.random() * 100)
 }))
