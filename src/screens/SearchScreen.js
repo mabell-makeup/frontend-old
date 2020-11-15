@@ -4,7 +4,7 @@ import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
-import {Text} from "react-native-paper"
+import {IconButton} from "react-native-paper"
 import {SearchProvider, searchStore, updateSuggestionItems} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
 import {SelectCountry} from "../scenes/search/SelectCountry"
@@ -12,18 +12,19 @@ import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
 import {SelectItems} from "../scenes/search/SelectItems"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
+import {TouchableOpacity} from "react-native"
 
 const Stack = createStackNavigator()
 
 const createDefaultScreenOptions = navigation => ({
-  headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
-  headerRightContainerStyle: {marginRight: 5}
+  headerRight: () => <IconButton icon="close" size={20} onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})} />,
+  headerRightContainerStyle: {marginRight: 5, padding: 0}
 })
 
 const navigatorProps = ({
   initialRouteName: "NewsFeed",
   screenOptions: {
-    headerStyle: {height: 60},
+    headerStyle: {height: 70},
     headerTitleStyle: {width: "70%"},
     headerTitleAlign: "left",
     headerBackTitleVisible: false
@@ -41,6 +42,11 @@ const getSuggestionItems = (dispatch, text) => {
   const {data, error, loading} = apiRequest(query)
   return !loading && !error && updateSuggestionItems(dispatch, data.suggestionItems)
 }
+
+const FakeSearchInput = ({navigation}) =>
+  <TouchableOpacity style={{height: "100%"}}onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>
+    <SearchInput pointerEvents="none" />
+  </TouchableOpacity>
 
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
@@ -64,8 +70,8 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>Search</Text>}}
-      />
+        headerTitle: () => <FakeSearchInput navigation={navigation} />
+      }}/>
       <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />
     </Stack.Navigator>
   )

@@ -3,7 +3,8 @@ import {DefaultTheme, Provider as PaperProvider} from "react-native-paper"
 import {BottomNavigation} from "./src/components/BottomNavigation"
 import {ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client"
 import {API_URI} from "@env"
-import {TouchableWithoutFeedback, Keyboard} from "react-native"
+import {TouchableWithoutFeedback, Keyboard, StatusBar} from "react-native"
+import {SafeAreaProvider} from "react-native-safe-area-context"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -36,11 +37,14 @@ export default function App() {
   
   return (
     <ApolloProvider client={client}>
-      <DissmissKeyboard>
-        <PaperProvider theme={theme}>
-          <BottomNavigation />
-        </PaperProvider>
-      </DissmissKeyboard>
+      <SafeAreaProvider>
+        <DissmissKeyboard>
+          <PaperProvider theme={theme}>
+            <StatusBar barStyle="dark-content" />
+            <BottomNavigation />
+          </PaperProvider>
+        </DissmissKeyboard>
+      </SafeAreaProvider>
     </ApolloProvider>
   )
 }
