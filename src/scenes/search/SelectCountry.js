@@ -16,7 +16,7 @@ const createRows = (countries, dispatch, tmpConditions) =>
     title: country.title,
     key: country.key,
     // eslint-disable-next-line react/display-name
-    right: () => <Checkbox status={country.key === tmpConditions.Country ? "checked" : "unchecked"} color="#333" />,
+    right: () => <Checkbox status={country.key === tmpConditions.country ? "checked" : "unchecked"} color="#333" />,
     onPress: () => {
       updateTmpConditionsCountry(dispatch, country.key)
       fetchPosts(dispatch, tmpConditions)
