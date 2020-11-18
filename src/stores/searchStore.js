@@ -16,7 +16,8 @@ const initialState = {
     country: "",
     parts: "",
     hairStyle: "",
-    items: []
+    items: [],
+    keywords: ""
   },
   post: {
     user_id: Number,
@@ -39,6 +40,7 @@ const UPDATE_TMP_CONDITIONS_COUNTRY = "UPDATE_TMP_CONDITIONS_COUNTRY"
 const UPDATE_TMP_CONDITIONS_PARTS = "UPDATE_TMP_CONDITIONS_PARTS"
 const UPDATE_TMP_CONDITIONS_HAIR_STYLE = "UPDATE_TMP_CONDITIONS_HAIR_STYLE"
 const UPDATE_TMP_CONDITIONS_ITEMS = "UPDATE_TMP_CONDITIONS_ITEMS"
+const UPDATE_TMP_CONDITIONS_KEYWORDS = "UPDATE_TMP_CONDITIONS_KEYWORDS"
 const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
@@ -51,6 +53,7 @@ export const updateTmpConditionsColor = (dispatch, color) => dispatch({type: UPD
 export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_TMP_CONDITIONS_COUNTRY, payload: country})
 export const updateTmpConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_TMP_CONDITIONS_PARTS, payload: parts})
 export const updateTmpConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_TMP_CONDITIONS_HAIR_STYLE, payload: hairStyle})
+export const updateTmpConditionsKeywords = (dispatch, keywords="") => dispatch({type: UPDATE_TMP_CONDITIONS_KEYWORDS, payload: keywords})
 export const updateTmpConditionsItems = (dispatch, selectedItems, itemId) => {
   const newSelectedItems = selectedItems.includes(itemId)
     ? selectedItems.filter(selected => selected !== itemId)
@@ -62,12 +65,13 @@ export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE
 export const fetchPosts = (dispatch, conditions={}) => {
   const {error, loading, data} = apiRequest(`${`{
     posts(
+      ${conditions.keywords ? `keywords: ${conditions.keywords},` : ""}
       ${conditions.personalColor ? `personal_color: ${conditions.personalColor},` : ""}
-      ${conditions.personalColor ? `face_type: ${conditions.faceType},` : ""}
-      ${conditions.personalColor ? `color: ${conditions.color},` : ""}
-      ${conditions.personalColor ? `country: ${conditions.country},` : ""}
-      ${conditions.personalColor ? `parts: ${conditions.parts},` : ""}
-      ${conditions.personalColor ? `hair_style: ${conditions.hairStyle},` : ""}
+      ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
+      ${conditions.color ? `color: ${conditions.color},` : ""}
+      ${conditions.country ? `country: ${conditions.country},` : ""}
+      ${conditions.parts ? `parts: ${conditions.parts},` : ""}
+      ${conditions.hairStyle ? `hair_style: ${conditions.hairStyle},` : ""}
       ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
       ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
     ) {
@@ -106,6 +110,7 @@ const SearchProvider = ({children}) => {
     [UPDATE_TMP_CONDITIONS_PARTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, parts: payload}}),
     [UPDATE_TMP_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, hairStyle: payload}}),
     [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
+    [UPDATE_TMP_CONDITIONS_KEYWORDS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, keywords: payload}}),
     [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
