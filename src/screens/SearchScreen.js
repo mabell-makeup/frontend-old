@@ -5,7 +5,7 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {IconButton} from "react-native-paper"
-import {SearchProvider, searchStore, updateSuggestionItems} from "../stores/searchStore"
+import {fetchPosts, SearchProvider, searchStore, updateSearchResult, updateSuggestionItems, updateTmpConditionsKeywords} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
 import {SelectCountry} from "../scenes/search/SelectCountry"
 import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
@@ -43,21 +43,33 @@ const getSuggestionItems = (dispatch, text) => {
   return !loading && !error && updateSuggestionItems(dispatch, data.suggestionItems)
 }
 
-const FakeSearchInput = ({navigation}) =>
+const onSubmitEditing = (navigation, dispatch, tmpConditions) => {
+  fetchPosts(dispatch, tmpConditions)
+  updateSearchResult(dispatch)
+  navigation.navigate("NewsFeed", {screen: "Women"})
+}
+
+const onChangeText = (dispatch, text, tmpConditions) => {
+  updateTmpConditionsKeywords(dispatch, text)
+  fetchPosts(dispatch, tmpConditions)
+}
+
+const FakeSearchInput = ({navigation, value}) =>
   <TouchableOpacity style={{height: "100%"}}onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>
-    <SearchInput pointerEvents="none" />
+    <SearchInput pointerEvents="none" value={value} />
   </TouchableOpacity>
 
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
-  const {dispatch} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
 
   return (
     <Stack.Navigator {...navigatorProps}>
       {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions,
-        headerTitle: () => <SearchInput isFocused={true} />
+        headerTitle: () =>
+          <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => onChangeText(dispatch, text, tmpConditions)} onSubmitEditing={() => onSubmitEditing(navigation, dispatch, tmpConditions)} />
       }}/>
       <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions} />
       <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions} />
@@ -70,7 +82,7 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeSearchInput navigation={navigation} />
+        headerTitle: () => <FakeSearchInput navigation={navigation} value={tmpConditions.keywords} />
       }}/>
       <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />
     </Stack.Navigator>

@@ -11,7 +11,7 @@ const styles = {
 }
 
 
-export const SearchInput = ({onChangeText, isFocused, ...props}) => {
+export const SearchInput = ({onChangeText, onSubmitEditing, isFocused, ...props}) => {
   const ref = useRef()
   useEffect(() => {
     isFocused && ref.current.focus()
@@ -21,6 +21,7 @@ export const SearchInput = ({onChangeText, isFocused, ...props}) => {
     <Searchbar
       placeholder="Search"
       onChangeText={onChangeText}
+      onSubmitEditing={onSubmitEditing}
       style={styles.input}
       ref={ref}
       {...props}
