@@ -82,7 +82,8 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeSearchInput navigation={navigation} value={tmpConditions.keywords} />
+        headerTitle: () => <FakeSearchInput navigation={navigation} value={tmpConditions.keywords} />,
+        gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />
     </Stack.Navigator>
