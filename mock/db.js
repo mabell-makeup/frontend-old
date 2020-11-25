@@ -1,4 +1,5 @@
-import {API_URI} from "@env"
+// 静的ファイルを取得するためのパス
+const IMG_ROOT= "https://github.com/daiti0113/Joker-assets/blob/main"
 
 export const items = [
   {item_id: 1, item_name: "ナチュラル チークN", brand_name: "セザンヌ", item_category: ["パウダーチーク"], price: "4g・360円 / -・360円", release_date: "2001年 (2020/9/11追加発売)"},
@@ -104,12 +105,12 @@ export const items = [
 
 export const posts = [...Array(20).keys()].map(userId => ({
   post_id: userId + 1,
-  thumbnail_img_src: `${API_URI}/img/posts/user${userId + 1}/1.jpg`,
+  thumbnail_img_src: `${IMG_ROOT}/images/posts/user${userId + 1}/1.jpg?raw=true`,
   user_name: `user${userId + 1}`,
   description: `これは説明のサンプルです。user${userId + 1}によって投稿されました。`,
   tags: ["テスト投稿", "地雷メイク", userId % 2 === 0 ? "一重" : "奥二重",`${userId.toString()}回目の投稿`, "モテる", "デート"],
   items: [...Array(userId).keys()],
   user_id: userId + 1,
-  img_src_list: [...Array(2).keys()].map(num => `${API_URI}/img/posts/user${userId + 1}/${num + 1}.jpg`),
+  img_src_list: [...Array(2).keys()].map(num => `${IMG_ROOT}/images/posts/user${userId + 1}/${num + 1}.jpg?raw=true`),
   page_views: parseInt(Math.random() * 100)
 }))
