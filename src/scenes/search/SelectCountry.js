@@ -11,7 +11,7 @@ const countries = [
   {title: "その他", key: "other"}
 ]
 
-const createRows = (countries, dispatch, tmpConditions) =>
+const createRows = (countries, dispatch, tmpConditions, navigation) =>
   countries.map(country => ({
     title: country.title,
     key: country.key,
@@ -20,13 +20,14 @@ const createRows = (countries, dispatch, tmpConditions) =>
     onPress: () => {
       updateTmpConditionsCountry(dispatch, country.key)
       fetchPosts(dispatch, tmpConditions)
+      navigation.goBack()
     }
   }))
 
 
-export const SelectCountry = () => {
+export const SelectCountry = ({navigation}) => {
   const {dispatch, state} = useContext(searchStore)
-  const rows = createRows(countries, dispatch, state.tmpConditions)
+  const rows = createRows(countries, dispatch, state.tmpConditions, navigation)
 
   return (
     <ScrollView>

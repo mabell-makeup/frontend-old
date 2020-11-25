@@ -15,7 +15,7 @@ const hairStyles = [
   {title: "スーパーロング",  key: "superLong"}
 ]
 
-const createRows = (hairStyles, dispatch, tmpConditions) =>
+const createRows = (hairStyles, dispatch, tmpConditions, navigation) =>
   hairStyles.map(hairStyle => ({
     title: hairStyle.title,
     key: hairStyle.key,
@@ -24,12 +24,13 @@ const createRows = (hairStyles, dispatch, tmpConditions) =>
     onPress: () => {
       updateTmpConditionsHairStyle(dispatch, hairStyle.key)
       fetchPosts(dispatch, tmpConditions)
+      navigation.goBack()
     }
   }))
 
-export const SelectHairStyle = () => {
+export const SelectHairStyle = ({navigation}) => {
   const {dispatch, state} = useContext(searchStore)
-  const rows = createRows(hairStyles, dispatch, state.tmpConditions)
+  const rows = createRows(hairStyles, dispatch, state.tmpConditions, navigation)
 
   return (
     <ScrollView>
