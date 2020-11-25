@@ -4,7 +4,7 @@ import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
-import {IconButton} from "react-native-paper"
+import {Text} from "react-native-paper"
 import {fetchPosts, SearchProvider, searchStore, updateSearchResult, updateSuggestionItems, updateTmpConditionsKeywords} from "../stores/searchStore"
 import {SelectColor} from "../scenes/search/SelectColor"
 import {SelectCountry} from "../scenes/search/SelectCountry"
@@ -17,7 +17,7 @@ import {TouchableOpacity} from "react-native"
 const Stack = createStackNavigator()
 
 const createDefaultScreenOptions = navigation => ({
-  headerRight: () => <IconButton icon="close" size={20} onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})} />,
+  headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
   headerRightContainerStyle: {marginRight: 5, padding: 0}
 })
 
