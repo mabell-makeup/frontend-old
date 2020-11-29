@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "dev": "NODE_ENV=development expo start",
+    "publish": "NODE_ENV=development expo publish",
     "android:dev": "NODE_ENV=development expo start --android",
     "ios:dev": "NODE_ENV=development expo start --ios",
     "web:dev": "NODE_ENV=development expo start --web",
