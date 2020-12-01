@@ -1,10 +1,10 @@
 import React from "react"
 import {DefaultTheme, Provider as PaperProvider} from "react-native-paper"
-import {BottomNavigation} from "./src/components/BottomNavigation"
 import {ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client"
 import {API_URI} from "@env"
 import {TouchableWithoutFeedback, Keyboard, StatusBar} from "react-native"
 import {SafeAreaProvider} from "react-native-safe-area-context"
+import {AuthNavigation} from "./src/components/AuthNavigation"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -41,7 +41,7 @@ export default function App() {
         <DissmissKeyboard>
           <PaperProvider theme={theme}>
             <StatusBar barStyle="dark-content" />
-            <BottomNavigation />
+            <AuthNavigation />
           </PaperProvider>
         </DissmissKeyboard>
       </SafeAreaProvider>
