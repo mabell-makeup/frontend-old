@@ -1,12 +1,12 @@
 import React from "react"
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs"
-import {HomeScreen} from "../screens/HomeScreen"
-import {SearchScreen} from "../screens/SearchScreen"
+import {HomeScreen} from "./HomeScreen"
+import {SearchScreen} from "./SearchScreen"
 import {IconButton} from "react-native-paper"
 
 const Tab = createMaterialBottomTabNavigator()
 
-export const BottomNavigation = () => {
+export const AuthScreen = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"

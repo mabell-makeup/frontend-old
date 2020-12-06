@@ -4,7 +4,7 @@ import {ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client"
 import {API_URI} from "@env"
 import {TouchableWithoutFeedback, Keyboard, StatusBar} from "react-native"
 import {SafeAreaProvider} from "react-native-safe-area-context"
-import {AuthNavigation} from "./src/components/AuthNavigation"
+import {LoginScreen} from "./src/screens/LoginScreen"
 
 // デフォルトのテーマを変更可能
 const theme = {
@@ -41,7 +41,7 @@ export default function App() {
         <DissmissKeyboard>
           <PaperProvider theme={theme}>
             <StatusBar barStyle="dark-content" />
-            <AuthNavigation />
+            <LoginScreen />
           </PaperProvider>
         </DissmissKeyboard>
       </SafeAreaProvider>
