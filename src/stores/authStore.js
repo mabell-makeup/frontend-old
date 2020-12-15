@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from "react"
+import {signup} from "../helper/authHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {createReducer} from "../helper/storeHelper"
 
@@ -13,9 +14,9 @@ const authStore = createContext(initialState)
 const LOGIN_SUCCESS = "LOGIN"
 
 // Define ActionCreator
-export const login = (dispatch, isSuccess) => {
-  apiRequest()
-  dispatch({type: LOGIN_SUCCESS, payload: isSuccess})
+export const login = async (dispatch, username, password, email, nickname, gender, birthdate) => {
+  await signup(username, password, email, nickname, gender, birthdate)
+  dispatch({type: LOGIN_SUCCESS, payload: true})
 }
 
 

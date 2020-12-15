@@ -5,6 +5,23 @@ import {API_URI} from "@env"
 import {TouchableWithoutFeedback, Keyboard, StatusBar} from "react-native"
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {LoginScreen} from "./src/screens/LoginScreen"
+import Amplify from "aws-amplify"
+
+Amplify.configure({
+  Auth: {
+    // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+    identityPoolId: "ap-northeast-1:f0321010-23b5-41a0-a2d7-1ee43f14662a",
+    // REQUIRED - Amazon Cognito Region
+    region: "ap-northeast-1",
+    // OPTIONAL - Amazon Cognito User Pool ID
+    userPoolId: "ap-northeast-1_IpZmsDjOL",
+    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+    userPoolWebClientId: "7lfg780nrngsk0ohkklv6d3rgq",
+    // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+    mandatorySignIn: false
+  }
+})
+
 
 // デフォルトのテーマを変更可能
 const theme = {
