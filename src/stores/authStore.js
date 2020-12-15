@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from "react"
+import {apiRequest} from "../helper/requestHelper"
 import {createReducer} from "../helper/storeHelper"
 
 const initialState = {
@@ -12,7 +13,10 @@ const authStore = createContext(initialState)
 const LOGIN_SUCCESS = "LOGIN"
 
 // Define ActionCreator
-export const login = (dispatch, isSuccess) => dispatch({type: LOGIN_SUCCESS, payload: isSuccess})
+export const login = (dispatch, isSuccess) => {
+  apiRequest()
+  dispatch({type: LOGIN_SUCCESS, payload: isSuccess})
+}
 
 
 // Defin Provider
