@@ -37,7 +37,7 @@ export const Login = ({navigation}) => {
       <Image source={require("../../../assets/icon.png")} style={styles.logo} />
       <TextInput style={styles.input} mode="outlined" label="メールアドレス" value={mail} onChangeText={text => setMail(text)} />
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={pwd} onChangeText={text => setPwd(text)} secureTextEntry={true} />
-      <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, "test_user2", "P@$$w0rd")}>ログイン</Button>
+      <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, "stennis.ds.0113@gmail.com", "P@$$w0rd")}>ログイン</Button>
       <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("Signup")}>登録はこちら</Text></Text>
     </View>
   )
