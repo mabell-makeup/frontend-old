@@ -1,5 +1,4 @@
 import React, {useContext} from "react"
-import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
 import {searchStore, updateTmpConditionsCountry, fetchPosts} from "../../stores/searchStore"
@@ -29,9 +28,5 @@ export const SelectCountry = ({navigation}) => {
   const {dispatch, state} = useContext(searchStore)
   const rows = createRows(countries, dispatch, state.tmpConditions, navigation)
 
-  return (
-    <ScrollView>
-      <List rows={rows} />
-    </ScrollView>
-  )
+  return <List rows={rows} />
 }

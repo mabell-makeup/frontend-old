@@ -3,7 +3,14 @@ import {List as L} from "react-native-paper"
 
 const Item = ({title, ...props}) => <L.Item title={title} {...props} />
 // eslint-disable-next-line react/jsx-key
-const Accordion = ({title, rows, ...props}) => <L.Accordion title={title} {...props}>{rows.map(accordionItem => <Item {...accordionItem} />)}</L.Accordion>
+const Accordion = ({title, rows, ...props}) =>
+  <L.Accordion title={title} {...props}>
+    {rows.map(accordionItem => 
+      typeof accordionItem === "object" && accordionItem.$$typeof
+        ? accordionItem
+        : <Item {...accordionItem}/>
+    )}
+  </L.Accordion>
 
 
 /* 
@@ -12,7 +19,7 @@ const Accordion = ({title, rows, ...props}) => <L.Accordion title={title} {...pr
 
   const rows = [
     {title: "犬", left: props => <L.Icon {...props} icon="dog" />},
-    {title: "猫", left: props => <L.Icon {...props} icon="cat" />},
+    {title: "猫", rows: [<SelectColor />]},
     {title: "ゴリラ", rows: [
       {title: "マウンテンゴリラ", left: props => <L.Icon {...props} icon="star" />},
       {title: "ニシゴリラ"},
