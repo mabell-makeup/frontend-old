@@ -1,12 +1,36 @@
-import * as React from "react"
-import {View} from "react-native"
-import {StyleSheet} from "react-native"
-import {Button} from "react-native-paper"
-import {defaultStyle} from "../styles/defaultStyle"
+import React, {useContext} from "react"
+import {createStackNavigator} from "@react-navigation/stack"
+import {AuthScreen} from "./AuthScreen"
+import {NavigationContainer} from "@react-navigation/native"
+import {AuthProvider, authStore} from "../stores/authStore"
+import {Login} from "../scenes/login/Login"
+import {Signup} from "../scenes/login/Signup"
 
-const styles = StyleSheet.create(defaultStyle)
+const Stack = createStackNavigator()
 
-export const LoginScreen = ({navigation}) => 
-  <View style={styles.container}>
-    <Button icon="home" mode="outlined" onPress={() => navigation.navigate("Home")}>Go to home</Button>
-  </View>
+const navigatorProps = ({
+  initialRouteName: "Login",
+  screenOptions: {
+    headerShown: false
+  }
+})
+
+const LoginScreenInner = () => {
+  const {state: {isLoggedIn}} = useContext(authStore)
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator {...navigatorProps}>
+        {isLoggedIn
+          ? <Stack.Screen name="AuthScreen" component={AuthScreen} />
+          : <>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Signup" component={Signup} />
+          </>
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export const LoginScreen = () => <AuthProvider><LoginScreenInner /></AuthProvider>
