@@ -23,21 +23,28 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 100
+  },
+  errMsg: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: "auto",
+    color: "red"
   }
 })
 
 export const Login = ({navigation}) => {
-  const {dispatch} = useContext(authStore)
+  const {dispatch, state: {errMsg}} = useContext(authStore)
   const [mail, setMail] = useState("")
-  const [pwd, setPwd] = useState("")
+  const [password, setPassword] = useState("")
 
   return (
     <View style={styles.container}>
       {/* eslint-disable-next-line no-undef */}
       <Image source={require("../../../assets/icon.png")} style={styles.logo} />
       <TextInput style={styles.input} mode="outlined" label="メールアドレス" value={mail} onChangeText={text => setMail(text)} />
-      <TextInput style={styles.input} mode="outlined" label="パスワード" value={pwd} onChangeText={text => setPwd(text)} secureTextEntry={true} />
-      <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, "stennis.ds.0113@gmail.com", "P@$$w0rd")}>ログイン</Button>
+      <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
+      {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
+      <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, mail, password)}>ログイン</Button>
       <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("Signup")}>登録はこちら</Text></Text>
     </View>
   )

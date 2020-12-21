@@ -3,7 +3,8 @@ import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 
 const initialState = {
-  isLoggedIn: false
+  isLoggedIn: false,
+  errMsg: ""
 }
 
 // Define Store
@@ -11,6 +12,7 @@ const authStore = createContext(initialState)
 
 // Define Types
 const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+const LOGIN_FAILURE = "LOGIN_FAILURE"
 const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
 const SIGNUP_SUCCESS = "SIGNUP_SUCCESS"
 
@@ -20,10 +22,11 @@ export const login = async (dispatch, username, password) => {
   try {
     const user = await Auth.signIn(username, password)
     console.log(user)
+    dispatch({type: LOGIN_SUCCESS, payload: true})
   } catch (error) {
     console.log("error signing in", error)
+    dispatch({type: LOGIN_FAILURE, payload: error.message})
   }
-  dispatch({type: LOGIN_SUCCESS, payload: true})
 }
 
 export const signup = async (dispatch, username, password, email, nickname, gender, birthdate) => {
@@ -60,7 +63,8 @@ const {Provider} = authStore
 const AuthProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [LOGIN_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload})
+    [LOGIN_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload}),
+    [LOGIN_FAILURE]: (state, {payload}) => ({...state, errMsg: payload})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
