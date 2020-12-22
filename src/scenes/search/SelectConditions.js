@@ -6,8 +6,8 @@ import {ScrollView} from "react-native"
 import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
 import {ColorInput} from "../../components/ColorInput"
 import * as masterData from "../../masterData"
-import {SelectColor} from "./SelectColor"
-import {SelectCountry} from "./SelectCountry"
+import {ColorPaletteInput} from "../../components/ColorPaletteInput"
+import {CountryInput} from "../../components/CountryInput"
 
 const styles = {
   button: {
@@ -48,13 +48,11 @@ const handlePress = (dispatch, navigation) => () => {
 }
 
 export const SelectConditions = ({navigation}) => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const columns = createColumns(tmpConditions)
-  // const rows = createRows(columns, navigation, tmpConditions)
+  const {dispatch} = useContext(searchStore)
   const rows = [
-    {title: "色から探す", rows: [<SelectColor />]},
-    {title: "国から探す", rows: [<SelectCountry />]}
-    // {title: "髪型から探す", navigateTo: "SelectHairStyle", right: tmpConditions.hairStyle ? () => <Text>{getTitle(tmpConditions.hairStyle)}</Text> : false},  
+    {title: "色から探す", rows: [<ColorPaletteInput key="color" />]},
+    {title: "国から探す", rows: [<CountryInput key="country" />]},
+    
   ]
 
   return (

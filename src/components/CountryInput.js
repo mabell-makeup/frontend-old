@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
-import {List} from "../../components/List"
+import {List} from "./List"
 import {Checkbox} from "react-native-paper"
-import {searchStore, updateTmpConditionsCountry, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditionsCountry, fetchPosts} from "../stores/searchStore"
 
 const countries = [
   {title: "韓国", key: "korea"},
@@ -10,7 +10,7 @@ const countries = [
   {title: "その他", key: "other"}
 ]
 
-const createRows = (countries, dispatch, tmpConditions, navigation) =>
+const createRows = (countries, dispatch, tmpConditions) =>
   countries.map(country => ({
     title: country.title,
     key: country.key,
@@ -19,14 +19,13 @@ const createRows = (countries, dispatch, tmpConditions, navigation) =>
     onPress: () => {
       updateTmpConditionsCountry(dispatch, country.key)
       fetchPosts(dispatch, tmpConditions)
-      navigation.goBack()
     }
   }))
 
 
-export const SelectCountry = ({navigation}) => {
+export const CountryInput = () => {
   const {dispatch, state} = useContext(searchStore)
-  const rows = createRows(countries, dispatch, state.tmpConditions, navigation)
+  const rows = createRows(countries, dispatch, state.tmpConditions)
 
   return <List rows={rows} />
 }

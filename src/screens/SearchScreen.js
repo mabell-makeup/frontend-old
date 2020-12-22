@@ -6,9 +6,6 @@ import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
 import {fetchPosts, SearchProvider, searchStore, updateSearchResult, updateSuggestionItems, updateTmpConditionsKeywords} from "../stores/searchStore"
-import {SelectColor} from "../scenes/search/SelectColor"
-import {SelectCountry} from "../scenes/search/SelectCountry"
-import {SelectHairStyle} from "../scenes/search/SelectHairStyle"
 import {SelectItems} from "../scenes/search/SelectItems"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
@@ -71,9 +68,6 @@ const SearchScreenInner = ({navigation}) => {
         headerTitle: () =>
           <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => onChangeText(dispatch, text, tmpConditions)} onSubmitEditing={() => onSubmitEditing(navigation, dispatch, tmpConditions)} />
       }}/>
-      <Stack.Screen name="SelectColor" component={SelectColor} options={defaultScreenOptions} />
-      <Stack.Screen name="SelectCountry" component={SelectCountry} options={defaultScreenOptions} />
-      <Stack.Screen name="SelectHairStyle" component={SelectHairStyle} options={defaultScreenOptions} />
       <Stack.Screen name="SelectItems" component={SelectItems} options={{
         ...defaultScreenOptions,
         headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItems(dispatch, text)} />
