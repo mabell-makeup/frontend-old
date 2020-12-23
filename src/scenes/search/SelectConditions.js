@@ -8,6 +8,7 @@ import {ColorInput} from "../../components/ColorInput"
 import * as masterData from "../../masterData"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
+import {PersonalColorInput} from "../../components/PersonalColorInput"
 
 const styles = {
   button: {
@@ -52,7 +53,7 @@ export const SelectConditions = ({navigation}) => {
   const rows = [
     {title: "色から探す", rows: [<ColorPaletteInput key="color" />]},
     {title: "国から探す", rows: [<CountryInput key="country" />]},
-    
+    {title: "パーソナルカラーから探す", rows: [<PersonalColorInput key="personalColor" />]}
   ]
 
   return (

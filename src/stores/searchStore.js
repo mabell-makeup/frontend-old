@@ -8,10 +8,8 @@ const initialState = {
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
-    userInfo: {
-      personalColor: false,
-      faceType: false
-    },
+    personalColor: false,
+    faceType: false,
     color: "",
     country: "",
     parts: "",
@@ -34,7 +32,9 @@ const initialState = {
 const searchStore = createContext(initialState)
 
 // Define Types
-const UPDATE_TMP_CONDITIONS_USER_INFO = "UPDATE_TMP_CONDITIONS_USER_INFO"
+// TODO: UPDATE_TMP_CONDITIONSにまとめて、検索条件変更のアクションをつくたほうがいいのでは？？
+const UPDATE_TMP_CONDITIONS_PERSONAL_COLOR = "UPDATE_TMP_CONDITIONS_PERSONAL_COLOR"
+const UPDATE_TMP_CONDITIONS_FACE_TYPE = "UPDATE_TMP_CONDITIONS_FACE_TYPE"
 const UPDATE_TMP_CONDITIONS_COLOR = "UPDATE_TMP_CONDITIONS_COLOR"
 const UPDATE_TMP_CONDITIONS_COUNTRY = "UPDATE_TMP_CONDITIONS_COUNTRY"
 const UPDATE_TMP_CONDITIONS_PARTS = "UPDATE_TMP_CONDITIONS_PARTS"
@@ -48,7 +48,8 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
-export const updateTmpConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_TMP_CONDITIONS_USER_INFO, payload: userInfo})
+export const updateTmpConditionsPersonalColor = (dispatch, personalColor) => dispatch({type: UPDATE_TMP_CONDITIONS_PERSONAL_COLOR, payload: personalColor})
+export const updateTmpConditionsFaceType = (dispatch, faceType) => dispatch({type: UPDATE_TMP_CONDITIONS_FACE_TYPE, payload: faceType})
 export const updateTmpConditionsColor = (dispatch, color) => dispatch({type: UPDATE_TMP_CONDITIONS_COLOR, payload: color})
 export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_TMP_CONDITIONS_COUNTRY, payload: country})
 export const updateTmpConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_TMP_CONDITIONS_PARTS, payload: parts})
@@ -104,7 +105,8 @@ const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_TMP_CONDITIONS_USER_INFO]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, userInfo: {...state.tmpConditions.userInfo, ...payload}}}),
+    [UPDATE_TMP_CONDITIONS_PERSONAL_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, personalColor: payload}}),
+    [UPDATE_TMP_CONDITIONS_FACE_TYPE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, faceType: payload}}),
     [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, color: payload}}),
     [UPDATE_TMP_CONDITIONS_COUNTRY]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, country: payload}}),
     [UPDATE_TMP_CONDITIONS_PARTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, parts: payload}}),
