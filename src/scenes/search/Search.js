@@ -1,16 +1,11 @@
 import React, {useContext} from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {SelectConditions} from "./SelectConditions"
-import {searchStore, updateTmpConditionsParts, fetchPosts} from "../../stores/searchStore"
-
+import {searchStore, updateTmpConditionsTarget, fetchPosts} from "../../stores/searchStore"
 
 const screens = [
-  {label: "全体", routeName: "SelectAll", key: "all"},
-  {label: "ベース", routeName: "SearchBaseMake", key: "baseMake"},
-  {label: "リップ", routeName: "SearchLipMake", key: "lipMake"},
-  {label: "アイ", routeName: "SearchEyeMake", key: "eyeMake"},
-  {label: "アイブロウ", routeName: "SearchEyebrowMake", key: "eyebrowMake"},
-  {label: "チーク・ハイライト・シェーディング", routeName: "SearchCheekHighlightShading", key:"cheekHighlightShading"}
+  {label: "メイク", routeName: "SearchMakeup", key: "makeup"},
+  {label: "ユーザー", routeName: "SearchUser", key: "user"}
 ]
 
 const createRows = (screens, dispatch, tmpConditions) => 
@@ -20,7 +15,7 @@ const createRows = (screens, dispatch, tmpConditions) =>
     key: screen.key,
     component: SelectConditions,
     listeners: {tabPress: () => {
-      updateTmpConditionsParts(dispatch, screen.key)
+      updateTmpConditionsTarget(dispatch, screen.key)
       fetchPosts(dispatch, tmpConditions)
     }}
   }))

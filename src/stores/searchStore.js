@@ -8,11 +8,12 @@ const initialState = {
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
+    target: "makeup",
     personalColor: false,
     faceType: false,
     color: "",
     country: "",
-    parts: "",
+    part: "",
     hairStyle: "",
     items: [],
     keywords: ""
@@ -33,11 +34,12 @@ const searchStore = createContext(initialState)
 
 // Define Types
 // TODO: UPDATE_TMP_CONDITIONSにまとめて、検索条件変更のアクションをつくたほうがいいのでは？？
+const UPDATE_TMP_CONDITIONS_TARGET = "UPDATE_TMP_CONDITIONS_TARGET"
 const UPDATE_TMP_CONDITIONS_PERSONAL_COLOR = "UPDATE_TMP_CONDITIONS_PERSONAL_COLOR"
 const UPDATE_TMP_CONDITIONS_FACE_TYPE = "UPDATE_TMP_CONDITIONS_FACE_TYPE"
 const UPDATE_TMP_CONDITIONS_COLOR = "UPDATE_TMP_CONDITIONS_COLOR"
 const UPDATE_TMP_CONDITIONS_COUNTRY = "UPDATE_TMP_CONDITIONS_COUNTRY"
-const UPDATE_TMP_CONDITIONS_PARTS = "UPDATE_TMP_CONDITIONS_PARTS"
+const UPDATE_TMP_CONDITIONS_PART = "UPDATE_TMP_CONDITIONS_PART"
 const UPDATE_TMP_CONDITIONS_HAIR_STYLE = "UPDATE_TMP_CONDITIONS_HAIR_STYLE"
 const UPDATE_TMP_CONDITIONS_ITEMS = "UPDATE_TMP_CONDITIONS_ITEMS"
 const UPDATE_TMP_CONDITIONS_KEYWORDS = "UPDATE_TMP_CONDITIONS_KEYWORDS"
@@ -48,11 +50,12 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
+export const updateTmpConditionsTarget = (dispatch, target) => dispatch({type: UPDATE_TMP_CONDITIONS_TARGET, payload: target})
 export const updateTmpConditionsPersonalColor = (dispatch, personalColor) => dispatch({type: UPDATE_TMP_CONDITIONS_PERSONAL_COLOR, payload: personalColor})
 export const updateTmpConditionsFaceType = (dispatch, faceType) => dispatch({type: UPDATE_TMP_CONDITIONS_FACE_TYPE, payload: faceType})
 export const updateTmpConditionsColor = (dispatch, color) => dispatch({type: UPDATE_TMP_CONDITIONS_COLOR, payload: color})
 export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_TMP_CONDITIONS_COUNTRY, payload: country})
-export const updateTmpConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_TMP_CONDITIONS_PARTS, payload: parts})
+export const updateTmpConditionsPart = (dispatch, part) => dispatch({type: UPDATE_TMP_CONDITIONS_PART, payload: part})
 export const updateTmpConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_TMP_CONDITIONS_HAIR_STYLE, payload: hairStyle})
 export const updateTmpConditionsKeywords = (dispatch, keywords="") => dispatch({type: UPDATE_TMP_CONDITIONS_KEYWORDS, payload: keywords})
 export const updateTmpConditionsItems = (dispatch, selectedItems, itemId) => {
@@ -71,7 +74,7 @@ export const fetchPosts = (dispatch, conditions={}) => {
       ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
       ${conditions.color ? `color: ${conditions.color},` : ""}
       ${conditions.country ? `country: ${conditions.country},` : ""}
-      ${conditions.parts ? `parts: ${conditions.parts},` : ""}
+      ${conditions.part ? `part: ${conditions.part},` : ""}
       ${conditions.hairStyle ? `hair_style: ${conditions.hairStyle},` : ""}
       ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
       ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
@@ -105,11 +108,12 @@ const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
+    [UPDATE_TMP_CONDITIONS_TARGET]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, target: payload}}),
     [UPDATE_TMP_CONDITIONS_PERSONAL_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, personalColor: payload}}),
     [UPDATE_TMP_CONDITIONS_FACE_TYPE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, faceType: payload}}),
     [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, color: payload}}),
     [UPDATE_TMP_CONDITIONS_COUNTRY]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, country: payload}}),
-    [UPDATE_TMP_CONDITIONS_PARTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, parts: payload}}),
+    [UPDATE_TMP_CONDITIONS_PART]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, part: payload}}),
     [UPDATE_TMP_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, hairStyle: payload}}),
     [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
     [UPDATE_TMP_CONDITIONS_KEYWORDS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, keywords: payload}}),

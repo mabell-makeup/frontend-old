@@ -1,5 +1,4 @@
-export const makeUpCategory = {
-  all: "全体",
+export const part = {
   baseMake: "ベース",
   lipMake: "リップ",
   eyeMake: "アイ",
