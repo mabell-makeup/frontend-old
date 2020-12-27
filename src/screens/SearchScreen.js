@@ -5,11 +5,11 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
-import {fetchPosts, SearchProvider, searchStore, updateSearchResult, updateSuggestionItems, updateTmpConditionsKeywords} from "../stores/searchStore"
+import {SearchProvider, searchStore, updateSuggestionItems} from "../stores/searchStore"
 import {SelectItems} from "../scenes/search/SelectItems"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
-import {TouchableOpacity} from "react-native"
+import {FakeSearchInput} from "../components/FakeSearchInput"
 
 const Stack = createStackNavigator()
 
@@ -40,22 +40,6 @@ const getSuggestionItems = (dispatch, text) => {
   return !loading && !error && updateSuggestionItems(dispatch, data.suggestionItems)
 }
 
-const onSubmitEditing = (navigation, dispatch, tmpConditions) => {
-  fetchPosts(dispatch, tmpConditions)
-  updateSearchResult(dispatch)
-  navigation.navigate("NewsFeed", {screen: "Women"})
-}
-
-const onChangeText = (dispatch, text, tmpConditions) => {
-  updateTmpConditionsKeywords(dispatch, text)
-  fetchPosts(dispatch, tmpConditions)
-}
-
-const FakeSearchInput = ({navigation, value}) =>
-  <TouchableOpacity style={{height: "100%"}}onPress={() => navigation.reset({index: 0, routes: [{name: "Search"}]})}>
-    <SearchInput pointerEvents="none" value={value} />
-  </TouchableOpacity>
-
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
@@ -64,9 +48,7 @@ const SearchScreenInner = ({navigation}) => {
     <Stack.Navigator {...navigatorProps}>
       {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
       <Stack.Screen name="Search" component={Search} options={{
-        ...defaultScreenOptions,
-        headerTitle: () =>
-          <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => onChangeText(dispatch, text, tmpConditions)} onSubmitEditing={() => onSubmitEditing(navigation, dispatch, tmpConditions)} />
+        ...defaultScreenOptions
       }}/>
       <Stack.Screen name="SelectItems" component={SelectItems} options={{
         ...defaultScreenOptions,

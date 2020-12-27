@@ -6,7 +6,9 @@ const styles = {
     width: "100%",
     height: "80%",
     elevation: 0, // 影を削除
-    top: 5
+    maxHeight: 50,
+    top: 5,
+    backgroundColor: "rgba(0, 0, 0, 0)"
   }
 }
 

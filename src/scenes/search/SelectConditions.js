@@ -9,6 +9,7 @@ import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
 import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {PartInput} from "../../components/PartInput"
+import {FakeSearchInput} from "../../components/FakeSearchInput"
 
 const styles = {
   button: {
@@ -32,7 +33,8 @@ export const SelectConditions = ({navigation}) => {
     {title: "色で絞り込む", rows: [<ColorPaletteInput key="color" />]},
     {title: "国で絞り込む", rows: [<CountryInput key="country" />]},
     {title: "パーソナルカラーで絞り込む", rows: [<PersonalColorInput key="personalColor" />]},
-    {title: "顔タイプで絞り込む", rows: [<FaceTypeInput key="faceType" />]}
+    {title: "顔タイプで絞り込む", rows: [<FaceTypeInput key="faceType" />]},
+    {title: "キーワードで絞り込む", rows: [<FakeSearchInput navigation={navigation} linkTo="SelectItems" key="keyword" />]}
   ]
 
   return (
