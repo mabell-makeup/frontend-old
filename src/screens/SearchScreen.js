@@ -6,7 +6,7 @@ import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
 import {SearchProvider, searchStore, updateSuggestionItems} from "../stores/searchStore"
-import {SelectItems} from "../scenes/search/SelectItems"
+import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
 import {FakeSearchInput} from "../components/FakeSearchInput"
@@ -50,7 +50,7 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions
       }}/>
-      <Stack.Screen name="SelectItems" component={SelectItems} options={{
+      <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
         headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItems(dispatch, text)} />
       }}/>

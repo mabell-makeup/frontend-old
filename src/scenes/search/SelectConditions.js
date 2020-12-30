@@ -51,7 +51,7 @@ export const SelectConditions = ({navigation}) => {
     [isCountryExpanded, setIsCountryExpanded],
     [isPersonalColorExpanded, setIsPersonalColorExpanded],
     [isFaceTypeExpanded, setIsFaceTypeExpanded],
-    [isKeywordExpanded, setIsKeywordExpanded],
+    [isKeywordExpanded, setIsKeywordExpanded]
   ] = useSomeStates(useState, [true, true, true, true, true, true])
   
   // TODO: 後でコンポーネントの外に出す
@@ -61,7 +61,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
     {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
-    {title: "キーワードで絞り込む", inner: <FakeSearchInput navigation={navigation} linkTo="SelectItems" key="keyword" />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
+    {title: "キーワードで絞り込む", inner: <FakeSearchInput navigation={navigation} linkTo="SelectKeywords" key="keyword" />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
   ]
   
   const rows = createRows(conditions)

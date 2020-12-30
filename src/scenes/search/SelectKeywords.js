@@ -17,7 +17,7 @@ const createRows = (dispatch, items, tmpConditions) =>
   }))
 
 
-export const SelectItems = () => {
+export const SelectKeywords = () => {
   const {dispatch, state: {suggestionItems, tmpConditions}} = useContext(searchStore)
   const rows = createRows(dispatch, suggestionItems, tmpConditions)
 
