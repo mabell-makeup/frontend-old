@@ -4,6 +4,6 @@ import {TouchableOpacity} from "react-native"
 
 
 export const FakeSearchInput = ({navigation, value="", linkTo="Search"}) =>
-  <TouchableOpacity style={{height: "100%"}} onPress={() => navigation.reset({index: 0, routes: [{name: linkTo}]})}>
+  <TouchableOpacity style={{height: 50}} onPress={() => navigation.reset({index: 0, routes: [{name: linkTo}]})}>
     <SearchInput pointerEvents="none" value={value} />
   </TouchableOpacity>
