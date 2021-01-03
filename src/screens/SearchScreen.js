@@ -10,6 +10,7 @@ import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
 import {FakeSearchInput} from "../components/FakeSearchInput"
+import {WINDOW_HEIGHT} from "../styles/constants"
 
 const Stack = createStackNavigator()
 
@@ -21,7 +22,7 @@ const createDefaultScreenOptions = navigation => ({
 const navigatorProps = ({
   initialRouteName: "NewsFeed",
   screenOptions: {
-    headerStyle: {height: 70},
+    headerStyle: {height: WINDOW_HEIGHT > 600 ? 100 : 70},
     headerTitleStyle: {width: "70%"},
     headerTitleAlign: "left",
     headerBackTitleVisible: false
@@ -43,6 +44,7 @@ const getSuggestionItems = (dispatch, text) => {
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  console.log(WINDOW_HEIGHT)
 
   return (
     <Stack.Navigator {...navigatorProps}>

@@ -1,15 +1,13 @@
 import React, {useState} from "react"
 import {StyleSheet, View} from "react-native"
-import {FlatList, Image, Dimensions} from "react-native"
+import {FlatList, Image} from "react-native"
+import {WINDOW_WIDTH} from "../styles/constants"
 
-
-// TODO: Constantsに移動
-const ITEM_WIDTH = Dimensions.get("window").width
 
 const styles = StyleSheet.create({
   image: {
     // TODO: もっといい書き方があるはず
-    width: ITEM_WIDTH,
+    width: WINDOW_WIDTH,
     height: 400
   },
   pagination: {
