@@ -4,7 +4,7 @@ import {apiRequest} from "../helper/requestHelper"
 
 const initialState = {
   conditions: {},
-  suggestionItems: [],
+  suggestionKeywords: [],
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
@@ -43,7 +43,7 @@ const UPDATE_TMP_CONDITIONS_PART = "UPDATE_TMP_CONDITIONS_PART"
 const UPDATE_TMP_CONDITIONS_HAIR_STYLE = "UPDATE_TMP_CONDITIONS_HAIR_STYLE"
 const UPDATE_TMP_CONDITIONS_ITEMS = "UPDATE_TMP_CONDITIONS_ITEMS"
 const UPDATE_TMP_CONDITIONS_KEYWORDS = "UPDATE_TMP_CONDITIONS_KEYWORDS"
-const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
+const UPDATE_SUGGESTION_KEYWORDS = "UPDATE_SUGGESTION_KEYWORDS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
@@ -58,13 +58,7 @@ export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type:
 export const updateTmpConditionsPart = (dispatch, part) => dispatch({type: UPDATE_TMP_CONDITIONS_PART, payload: part})
 export const updateTmpConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_TMP_CONDITIONS_HAIR_STYLE, payload: hairStyle})
 export const updateTmpConditionsKeywords = (dispatch, keywords="") => dispatch({type: UPDATE_TMP_CONDITIONS_KEYWORDS, payload: keywords})
-export const updateTmpConditionsItems = (dispatch, selectedItems, itemId) => {
-  const newSelectedItems = selectedItems.includes(itemId)
-    ? selectedItems.filter(selected => selected !== itemId)
-    : [...selectedItems, itemId]
-  dispatch({type: UPDATE_TMP_CONDITIONS_ITEMS, payload: newSelectedItems})
-}
-export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
+export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 // eslint-disable-next-line complexity
 export const fetchPosts = (dispatch, conditions={}) => {
   const {error, loading, data} = apiRequest(`${`{
@@ -117,7 +111,7 @@ const SearchProvider = ({children}) => {
     [UPDATE_TMP_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, hairStyle: payload}}),
     [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
     [UPDATE_TMP_CONDITIONS_KEYWORDS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, keywords: payload}}),
-    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
+    [UPDATE_SUGGESTION_KEYWORDS]: (state, {payload}) => ({...state, suggestionKeywords: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),

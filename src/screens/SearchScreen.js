@@ -5,7 +5,7 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore, updateSuggestionItems} from "../stores/searchStore"
+import {SearchProvider, searchStore, updateSuggestionKeywords} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
@@ -29,16 +29,14 @@ const navigatorProps = ({
   }
 })
 
-const getSuggestionItems = (dispatch, text) => {
+const getSuggestionKeywords = (dispatch, text) => {
   const query = `{
-    suggestionItems(item_name: "${text}", limit: 20) {
-        item_id
-        brand_name
-        item_name
+    suggestionKeywords(keyword: "${text}", limit: 10) {
+        keyword
       }
   }`
   const {data, error, loading} = apiRequest(query)
-  return !loading && !error && updateSuggestionItems(dispatch, data.suggestionItems)
+  return !loading && !error && updateSuggestionKeywords(dispatch, data.suggestionKeywords)
 }
 
 const SearchScreenInner = ({navigation}) => {
@@ -54,7 +52,7 @@ const SearchScreenInner = ({navigation}) => {
       }}/>
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
-        headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionItems(dispatch, text)} />
+        headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionKeywords(dispatch, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,

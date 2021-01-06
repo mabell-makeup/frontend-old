@@ -2,24 +2,23 @@ import React, {useContext} from "react"
 import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
-import {searchStore, updateTmpConditionsItems, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditionsKeywords, fetchPosts} from "../../stores/searchStore"
 
-const createRows = (dispatch, items, tmpConditions) =>
-  items.map(item => ({
-    title: `${item.brand_name}-${item.item_name}`,
-    key: item.item_id,
+const createRows = (dispatch, keywords, tmpConditions) =>
+  keywords.map(keyword => ({
+    title: keyword,
     // eslint-disable-next-line react/display-name
-    right: () => <Checkbox status={tmpConditions.items.includes(item.item_id) ? "checked" : "unchecked"} color="#333" />,
+    right: () => <Checkbox status={tmpConditions.keywords.split(/\s/).includes(keyword) ? "checked" : "unchecked"} color="#333" />,
     onPress: () => {
-      updateTmpConditionsItems(dispatch, tmpConditions.items, item.item_id)
+      updateTmpConditionsKeywords(dispatch, tmpConditions.keywords)
       fetchPosts(dispatch, tmpConditions)
     }
   }))
 
 
 export const SelectKeywords = () => {
-  const {dispatch, state: {suggestionItems, tmpConditions}} = useContext(searchStore)
-  const rows = createRows(dispatch, suggestionItems, tmpConditions)
+  const {dispatch, state: {suggestionKeywords, tmpConditions}} = useContext(searchStore)
+  const rows = createRows(dispatch, suggestionKeywords, tmpConditions)
 
   return (
     <ScrollView>
