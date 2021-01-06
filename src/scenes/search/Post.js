@@ -1,23 +1,16 @@
 import React, {useContext} from "react"
 import {View, StyleSheet, ScrollView} from "react-native"
-import {Chip, Title} from "react-native-paper"
+import {Title} from "react-native-paper"
 import {Appbar, Avatar, Text} from "react-native-paper"
 import {Platform} from "react-native"
 import {searchStore} from "../../stores/searchStore"
 import {Carousel} from "../../components/Carousel"
+import {ChipList} from "../../components/ChipList"
 
 // TODO: Constantsに移動
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 12
-  },
-  chip: {
-    margin: 4
-  },
   userName: {
     color: "#000"
   },
@@ -42,13 +35,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const ChipList = ({items=[]}) =>
-  <View style={styles.row}>
-    {items.map(item => <Chip key={item} mode="outlined" style={styles.chip}>{item}</Chip>)}
-  </View>
-
 const PostHeader = ({userName, userId}) => {
-
   return (
     <Appbar.Header>
       <View style={styles.headerLeft}>
@@ -72,7 +59,7 @@ const PostInfo = ({post}) => {
       <Text style={styles.description}>{post.description}</Text>
       <View>
         <Title>タグ</Title>
-        <ChipList items={post.tags} />
+        <ChipList items={post.tags.map(tags => ({label: tags}))} />
       </View>
     </View>
   )

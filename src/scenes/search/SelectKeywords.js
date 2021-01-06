@@ -1,12 +1,12 @@
 import React, {useContext} from "react"
 import {ScrollView} from "react-native"
-import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
 import {searchStore, updateTmpConditionsKeywords, fetchPosts} from "../../stores/searchStore"
+import {ChipList} from "../../components/ChipList"
 
 const createRows = (dispatch, keywords, tmpConditions) =>
   keywords.map(keyword => ({
-    title: keyword,
+    label: keyword,
     // eslint-disable-next-line react/display-name
     right: () => <Checkbox status={tmpConditions.keywords.split(/\s/).includes(keyword) ? "checked" : "unchecked"} color="#333" />,
     onPress: () => {
@@ -22,7 +22,7 @@ export const SelectKeywords = () => {
 
   return (
     <ScrollView>
-      <List rows={rows} />
+      <ChipList items={rows} />
     </ScrollView>
   )
 }
