@@ -5,7 +5,7 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore, updateSuggestionKeywords} from "../stores/searchStore"
+import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditionsKeywords} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
@@ -39,6 +39,12 @@ const getSuggestionKeywords = (dispatch, text) => {
   return !loading && !error && updateSuggestionKeywords(dispatch, data.suggestionKeywords)
 }
 
+const handleInputKeywords = (dispatch, text) => {
+  updateTmpConditionsKeywords(dispatch, text)
+  getSuggestionKeywords(dispatch, text)
+}
+
+
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
@@ -52,7 +58,7 @@ const SearchScreenInner = ({navigation}) => {
       }}/>
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
-        headerTitle: () => <SearchInput isFocused={true} onChangeText={text => getSuggestionKeywords(dispatch, text)} />
+        headerTitle: () => <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
