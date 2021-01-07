@@ -29,7 +29,7 @@ export const router = [
   [q.getPostDetail, shuffle(db.posts.slice(0, 5)).pop()],
   [q.getSuggestionKeywords,
     {
-      suggestionKeywords: db.items.slice(0, 20).map(item => item.item_name)
+      suggestionKeywords: Array.from(new Set(db.posts.slice(0, 2).flatMap(post => post.tags)))
     }
   ]
 ]
