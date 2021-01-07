@@ -48,7 +48,6 @@ const handleInputKeywords = (dispatch, text) => {
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  console.log(WINDOW_HEIGHT)
 
   return (
     <Stack.Navigator {...navigatorProps}>
