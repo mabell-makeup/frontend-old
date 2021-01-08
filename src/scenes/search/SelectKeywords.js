@@ -11,7 +11,7 @@ const chipAction = (preKeywords, keyword) => {
 
 const createRows = (dispatch, keywords, tmpConditions) =>
   keywords.map(keyword => ({
-    label: keyword,
+    label: `#${keyword}`,
     // eslint-disable-next-line react/display-name
     selected: tmpConditions.keywords.split(/\s/).includes(keyword),
     onPress: () => {
