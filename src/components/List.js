@@ -1,10 +1,19 @@
 import * as React from "react"
 import {List as L} from "react-native-paper"
 
-const Item = ({title, ...props}) => <L.Item title={title} {...props} />
+const styles = {
+  row: {
+    height: 40,
+    paddingVertical: 0,
+    justifyContent: "center"
+  }
+}
+
+const Item = ({title, style, ...props}) => <L.Item title={title} style={{...styles.row, ...style}} {...props} />
+
 // eslint-disable-next-line react/jsx-key
-const Accordion = ({title, rows, ...props}) =>
-  <L.Accordion title={title} {...props}>
+const Accordion = ({title, rows, style, ...props}) =>
+  <L.Accordion title={title} style={{...styles.row, ...style}} {...props}>
     {rows.map(accordionItem => 
       typeof accordionItem === "object" && accordionItem.$$typeof
         ? accordionItem

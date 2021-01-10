@@ -29,6 +29,9 @@ const styles = {
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 1
+  },
+  fakeSearchInput: {
+    marginTop: 10
   }
 }
 
@@ -61,7 +64,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
     {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
-    {title: "キーワードで絞り込む", inner: <FakeSearchInput value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={{marginTop: 10}} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
+    {title: "キーワードで絞り込む", inner: <FakeSearchInput value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
   ]
   
   const rows = createRows(conditions)
