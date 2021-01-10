@@ -57,6 +57,7 @@ const SearchScreenInner = ({navigation}) => {
       }}/>
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
+        headerLeft: false,
         headerTitle: () => <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
