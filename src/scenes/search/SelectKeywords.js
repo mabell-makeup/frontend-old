@@ -1,6 +1,6 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
-import {Button} from "react-native-paper"
+import {Button, Text} from "react-native-paper"
 import {searchStore, updateTmpConditionsKeywords, fetchPosts} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 
@@ -30,9 +30,20 @@ const createRows = (dispatch, keywords, tmpConditions) =>
     }
   }))
 
+const handleCancel = (dispatch, navigation, conditions) => {
+  updateTmpConditionsKeywords(dispatch, conditions.keywords || "")
+  navigation.goBack()
+}
+
 export const SelectKeywords = ({navigation}) => {
-  const {dispatch, state: {suggestionKeywords, tmpConditions}} = useContext(searchStore)
+  const {dispatch, state: {suggestionKeywords, tmpConditions, conditions}} = useContext(searchStore)
   const rows = createRows(dispatch, suggestionKeywords, tmpConditions)
+
+  useEffect(() => {
+    // キャンセルボタンの動作を変更する
+    // eslint-disable-next-line react/display-name
+    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, conditions)}>キャンセル</Text>})    
+  }, [])
 
   return (
     <ScrollView>
