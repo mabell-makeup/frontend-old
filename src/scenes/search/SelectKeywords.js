@@ -5,6 +5,9 @@ import {searchStore, updateTmpConditionsKeywords, fetchPosts} from "../../stores
 import {ChipList} from "../../components/ChipList"
 
 const styles = {
+  container: {
+    marginTop: 5
+  },
   button: {
     height: 50,
     marginHorizontal: 5,
@@ -46,7 +49,7 @@ export const SelectKeywords = ({navigation}) => {
   }, [])
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <ChipList items={rows} />
       <Button mode="contained" style={styles.button} onPress={() => navigation.goBack()}>絞り込む</Button>
     </ScrollView>
