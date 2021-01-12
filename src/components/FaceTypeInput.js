@@ -1,7 +1,6 @@
 import React, {useContext} from "react"
-import {List} from "./List"
-import {Checkbox} from "react-native-paper"
 import {searchStore, updateTmpConditionsFaceType, fetchPosts} from "../stores/searchStore"
+import {ChipList} from "./ChipList"
 
 const faceTypes = [
   {title: "フレッシュ", key: "fresh"},
@@ -14,12 +13,12 @@ const faceTypes = [
   {title: "エレガント", key: "elegant"}
 ]
 
-const createRows = (faceTypes, dispatch, tmpConditions) =>
+const createItems = (faceTypes, dispatch, tmpConditions) =>
   faceTypes.map(faceType => ({
-    title: faceType.title,
+    label: faceType.title,
     key: faceType.key,
     // eslint-disable-next-line react/display-name
-    right: () => <Checkbox status={faceType.key === tmpConditions.faceType ? "checked" : "unchecked"} color="#333" />,
+    selected: faceType.key === tmpConditions.faceType,
     onPress: () => {
       updateTmpConditionsFaceType(dispatch, faceType.key)
       fetchPosts(dispatch, tmpConditions)
@@ -29,7 +28,7 @@ const createRows = (faceTypes, dispatch, tmpConditions) =>
 
 export const FaceTypeInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const rows = createRows(faceTypes, dispatch, tmpConditions)
+  const items = createItems(faceTypes, dispatch, tmpConditions)
 
-  return <List rows={rows} />
+  return <ChipList items={items} />
 }

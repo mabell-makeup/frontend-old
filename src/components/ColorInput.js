@@ -12,7 +12,7 @@ const createStyles = ({color}) => ({
     borderRadius: "50%",
     alignItems: "center",
     justifyContent: "center",
-    margin: 5
+    margin: 4
   }
 })
 

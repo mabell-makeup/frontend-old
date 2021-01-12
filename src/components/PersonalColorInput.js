@@ -1,7 +1,6 @@
 import React, {useContext} from "react"
-import {List} from "./List"
-import {Checkbox} from "react-native-paper"
 import {searchStore, updateTmpConditionsPersonalColor, fetchPosts} from "../stores/searchStore"
+import {ChipList} from "./ChipList"
 
 const personalColors = [
   {title: "イエベ春", key: "yellowSpring"},
@@ -10,12 +9,12 @@ const personalColors = [
   {title: "ブルベ冬", key: "blueWinter"}
 ]
 
-const createRows = (personalColors, dispatch, tmpConditions) =>
+const createItems = (personalColors, dispatch, tmpConditions) =>
   personalColors.map(personalColor => ({
-    title: personalColor.title,
+    label: personalColor.title,
     key: personalColor.key,
     // eslint-disable-next-line react/display-name
-    right: () => <Checkbox status={personalColor.key === tmpConditions.personalColor ? "checked" : "unchecked"} color="#333" />,
+    selected: personalColor.key === tmpConditions.personalColor,
     onPress: () => {
       updateTmpConditionsPersonalColor(dispatch, personalColor.key)
       fetchPosts(dispatch, tmpConditions)
@@ -25,7 +24,7 @@ const createRows = (personalColors, dispatch, tmpConditions) =>
 
 export const PersonalColorInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const rows = createRows(personalColors, dispatch, tmpConditions)
+  const items = createItems(personalColors, dispatch, tmpConditions)
 
-  return <List rows={rows} />
+  return <ChipList items={items} />
 }

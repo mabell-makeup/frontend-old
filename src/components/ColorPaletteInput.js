@@ -10,11 +10,12 @@ const createStyles = () => ({
     alignItems: "center"
   },
   container: {
-    paddingTop: 5
+    paddingTop: 2,
+    paddingHorizontal: 15
   }
 })
 
-const numColumns = 5
+const numColumns = 6
 
 const onPress = (dispatch, state, color) => () => {
   updateTmpConditionsColor(dispatch, color)

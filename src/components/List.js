@@ -3,9 +3,12 @@ import {List as L} from "react-native-paper"
 
 const styles = {
   row: {
-    height: 40,
-    paddingVertical: 0,
+    height: 30,
+    padding: 0,
     justifyContent: "center"
+  },
+  rowTitle: {
+    fontSize: 12
   }
 }
 
@@ -13,7 +16,7 @@ const Item = ({title, style, ...props}) => <L.Item title={title} style={{...styl
 
 // eslint-disable-next-line react/jsx-key
 const Accordion = ({title, rows, style, ...props}) =>
-  <L.Accordion title={title} style={{...styles.row, ...style}} {...props}>
+  <L.Accordion title={title} style={{...styles.row, ...style}} titleStyle={styles.rowTitle} {...props}>
     {rows.map(accordionItem => 
       typeof accordionItem === "object" && accordionItem.$$typeof
         ? accordionItem

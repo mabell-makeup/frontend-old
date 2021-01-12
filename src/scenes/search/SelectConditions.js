@@ -20,7 +20,7 @@ const styles = {
     justifyContent: "center"
   },
   accordion: {
-    backgroundColor: "#94acbf",
+    backgroundColor: "#c5d9e8",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
