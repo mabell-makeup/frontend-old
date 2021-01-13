@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {searchStore, updateTmpConditionsPersonalColor, fetchPosts} from "../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
 const personalColors = [
@@ -16,7 +16,7 @@ const createItems = (personalColors, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: personalColor.key === tmpConditions.personalColor,
     onPress: () => {
-      updateTmpConditionsPersonalColor(dispatch, personalColor.key)
+      updateTmpConditions(dispatch, {personalColor: personalColor.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

@@ -33,16 +33,7 @@ const initialState = {
 const searchStore = createContext(initialState)
 
 // Define Types
-// TODO: UPDATE_TMP_CONDITIONSにまとめて、検索条件変更のアクションをつくたほうがいいのでは？？
-const UPDATE_TMP_CONDITIONS_TARGET = "UPDATE_TMP_CONDITIONS_TARGET"
-const UPDATE_TMP_CONDITIONS_PERSONAL_COLOR = "UPDATE_TMP_CONDITIONS_PERSONAL_COLOR"
-const UPDATE_TMP_CONDITIONS_FACE_TYPE = "UPDATE_TMP_CONDITIONS_FACE_TYPE"
-const UPDATE_TMP_CONDITIONS_COLOR = "UPDATE_TMP_CONDITIONS_COLOR"
-const UPDATE_TMP_CONDITIONS_COUNTRY = "UPDATE_TMP_CONDITIONS_COUNTRY"
-const UPDATE_TMP_CONDITIONS_PART = "UPDATE_TMP_CONDITIONS_PART"
-const UPDATE_TMP_CONDITIONS_HAIR_STYLE = "UPDATE_TMP_CONDITIONS_HAIR_STYLE"
-const UPDATE_TMP_CONDITIONS_ITEMS = "UPDATE_TMP_CONDITIONS_ITEMS"
-const UPDATE_TMP_CONDITIONS_KEYWORDS = "UPDATE_TMP_CONDITIONS_KEYWORDS"
+const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
 const UPDATE_SUGGESTION_KEYWORDS = "UPDATE_SUGGESTION_KEYWORDS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
@@ -50,14 +41,7 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
-export const updateTmpConditionsTarget = (dispatch, target) => dispatch({type: UPDATE_TMP_CONDITIONS_TARGET, payload: target})
-export const updateTmpConditionsPersonalColor = (dispatch, personalColor) => dispatch({type: UPDATE_TMP_CONDITIONS_PERSONAL_COLOR, payload: personalColor})
-export const updateTmpConditionsFaceType = (dispatch, faceType) => dispatch({type: UPDATE_TMP_CONDITIONS_FACE_TYPE, payload: faceType})
-export const updateTmpConditionsColor = (dispatch, color) => dispatch({type: UPDATE_TMP_CONDITIONS_COLOR, payload: color})
-export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_TMP_CONDITIONS_COUNTRY, payload: country})
-export const updateTmpConditionsPart = (dispatch, part) => dispatch({type: UPDATE_TMP_CONDITIONS_PART, payload: part})
-export const updateTmpConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_TMP_CONDITIONS_HAIR_STYLE, payload: hairStyle})
-export const updateTmpConditionsKeywords = (dispatch, keywords="") => dispatch({type: UPDATE_TMP_CONDITIONS_KEYWORDS, payload: keywords})
+export const updateTmpConditions = (dispatch, tmpConditions) => dispatch({type: UPDATE_TMP_CONDITIONS, payload: tmpConditions})
 export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 // eslint-disable-next-line complexity
 export const fetchPosts = (dispatch, conditions={}) => {
@@ -102,15 +86,7 @@ const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_TMP_CONDITIONS_TARGET]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, target: payload}}),
-    [UPDATE_TMP_CONDITIONS_PERSONAL_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, personalColor: payload}}),
-    [UPDATE_TMP_CONDITIONS_FACE_TYPE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, faceType: payload}}),
-    [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, color: payload}}),
-    [UPDATE_TMP_CONDITIONS_COUNTRY]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, country: payload}}),
-    [UPDATE_TMP_CONDITIONS_PART]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, part: payload}}),
-    [UPDATE_TMP_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, hairStyle: payload}}),
-    [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
-    [UPDATE_TMP_CONDITIONS_KEYWORDS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, keywords: payload}}),
+    [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
     [UPDATE_SUGGESTION_KEYWORDS]: (state, {payload}) => ({...state, suggestionKeywords: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),

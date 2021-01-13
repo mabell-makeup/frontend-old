@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {searchStore, updateTmpConditionsPart, fetchPosts} from "../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
 const parts = [
@@ -17,7 +17,7 @@ const createItems = (parts, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: part.key === tmpConditions.part,
     onPress: () => {
-      updateTmpConditionsPart(dispatch, part.key)
+      updateTmpConditions(dispatch, {part: part.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

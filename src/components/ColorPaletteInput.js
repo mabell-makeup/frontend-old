@@ -1,7 +1,7 @@
 import React from "react"
 import {View, FlatList} from "react-native"
 import {ColorInput} from "./ColorInput"
-import {updateTmpConditionsColor, fetchPosts} from "../stores/searchStore"
+import {updateTmpConditions, fetchPosts} from "../stores/searchStore"
 
 
 const createStyles = () => ({
@@ -18,7 +18,7 @@ const createStyles = () => ({
 const numColumns = 6
 
 const onPress = (dispatch, state, color) => () => {
-  updateTmpConditionsColor(dispatch, color)
+  updateTmpConditions(dispatch, {color})
   fetchPosts(dispatch, state.tmpConditions)
 }
 

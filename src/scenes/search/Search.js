@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {SelectConditions} from "./SelectConditions"
-import {searchStore, updateTmpConditionsTarget, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../../stores/searchStore"
 
 const screens = [
   {label: "メイク", routeName: "SearchMakeup", key: "makeup"},
@@ -15,7 +15,7 @@ const createRows = (screens, dispatch, tmpConditions) =>
     key: screen.key,
     component: SelectConditions,
     listeners: {tabPress: () => {
-      updateTmpConditionsTarget(dispatch, screen.key)
+      updateTmpConditions(dispatch, {target: screen.key})
       fetchPosts(dispatch, tmpConditions)
     }}
   }))

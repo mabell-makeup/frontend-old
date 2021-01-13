@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {searchStore, updateTmpConditionsFaceType, fetchPosts} from "../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
 const faceTypes = [
@@ -20,7 +20,7 @@ const createItems = (faceTypes, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: faceType.key === tmpConditions.faceType,
     onPress: () => {
-      updateTmpConditionsFaceType(dispatch, faceType.key)
+      updateTmpConditions(dispatch, {faceType: faceType.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

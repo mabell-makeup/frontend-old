@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
-import {searchStore, updateTmpConditionsKeywords, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 
 const styles = {
@@ -28,13 +28,13 @@ const createRows = (dispatch, keywords, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: tmpConditions.keywords.split(/\s/).includes(keyword),
     onPress: () => {
-      updateTmpConditionsKeywords(dispatch, chipAction(tmpConditions.keywords, keyword))
+      updateTmpConditions(dispatch, {keywords: chipAction(tmpConditions.keywords, keyword)})
       fetchPosts(dispatch, tmpConditions)
     }
   }))
 
 const handleCancel = (dispatch, navigation, conditions) => {
-  updateTmpConditionsKeywords(dispatch, conditions.keywords || "")
+  updateTmpConditions(dispatch, {keysords: conditions.keywords || ""})
   navigation.goBack()
 }
 

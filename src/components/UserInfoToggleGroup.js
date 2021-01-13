@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react"
 import {FAB, Portal, Provider} from "react-native-paper"
-import {searchStore, updateTmpConditionsPersonalColor, updateTmpConditionsFaceType} from "../stores/searchStore"
+import {searchStore, updateTmpConditions} from "../stores/searchStore"
 
 
 const actions = (handlePressAction, {personalColor, faceType}) => ([
@@ -25,9 +25,9 @@ export const UserInfoToggleGroup = () => {
   const handleDial = () => setOpen(!open)
   const handlePressAction = (target, {personalColor, faceType}) => () => {
     target === "personalColor"
-      ? updateTmpConditionsPersonalColor(dispatch, personalColor)
+      ? updateTmpConditions(dispatch, {personalColor})
       : target === "faceType"
-        ? updateTmpConditionsFaceType(dispatch, faceType)
+        ? updateTmpConditions(dispatch, {faceType})
         : false
   }
 

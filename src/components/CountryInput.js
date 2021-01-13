@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {searchStore, updateTmpConditionsCountry, fetchPosts} from "../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
 const countries = [
@@ -16,7 +16,7 @@ const createItems = (countries, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: country.key === tmpConditions.country,
     onPress: () => {
-      updateTmpConditionsCountry(dispatch, country.key)
+      updateTmpConditions(dispatch, {country: country.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

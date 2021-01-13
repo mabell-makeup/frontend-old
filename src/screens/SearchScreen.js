@@ -5,7 +5,7 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditionsKeywords} from "../stores/searchStore"
+import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditions} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
@@ -40,7 +40,7 @@ const getSuggestionKeywords = (dispatch, text) => {
 }
 
 const handleInputKeywords = (dispatch, text) => {
-  updateTmpConditionsKeywords(dispatch, text)
+  updateTmpConditions(dispatch, {keywords: text})
   getSuggestionKeywords(dispatch, text)
 }
 
