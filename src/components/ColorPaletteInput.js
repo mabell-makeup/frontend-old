@@ -18,7 +18,7 @@ const createStyles = () => ({
 const numColumns = 6
 
 const onPress = (dispatch, state, color) => () => {
-  updateTmpConditions(dispatch, {color})
+  updateTmpConditions(dispatch, state.tmpConditions, {color})
   fetchPosts(dispatch, state.tmpConditions)
 }
 

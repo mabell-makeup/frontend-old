@@ -16,7 +16,7 @@ const createItems = (countries, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: country.key === tmpConditions.country,
     onPress: () => {
-      updateTmpConditions(dispatch, {country: country.key})
+      updateTmpConditions(dispatch, tmpConditions, {country: country.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

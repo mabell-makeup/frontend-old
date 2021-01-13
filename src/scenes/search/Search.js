@@ -15,7 +15,7 @@ const createRows = (screens, dispatch, tmpConditions) =>
     key: screen.key,
     component: SelectConditions,
     listeners: {tabPress: () => {
-      updateTmpConditions(dispatch, {target: screen.key})
+      updateTmpConditions(dispatch, tmpConditions, {target: screen.key})
       fetchPosts(dispatch, tmpConditions)
     }}
   }))

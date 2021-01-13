@@ -28,13 +28,13 @@ const createRows = (dispatch, keywords, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: tmpConditions.keywords.split(/\s/).includes(keyword),
     onPress: () => {
-      updateTmpConditions(dispatch, {keywords: chipAction(tmpConditions.keywords, keyword)})
+      updateTmpConditions(dispatch, tmpConditions, {keywords: chipAction(tmpConditions.keywords, keyword)})
       fetchPosts(dispatch, tmpConditions)
     }
   }))
 
-const handleCancel = (dispatch, navigation, conditions) => {
-  updateTmpConditions(dispatch, {keysords: conditions.keywords || ""})
+const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
+  updateTmpConditions(dispatch, tmpConditions, {keysords: conditions.keywords || ""})
   navigation.goBack()
 }
 
@@ -45,7 +45,7 @@ export const SelectKeywords = ({navigation}) => {
   useEffect(() => {
     // キャンセルボタンの動作を変更する
     // eslint-disable-next-line react/display-name
-    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, conditions)}>キャンセル</Text>})    
+    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})    
   }, [])
 
   return (

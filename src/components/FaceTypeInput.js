@@ -20,7 +20,7 @@ const createItems = (faceTypes, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: faceType.key === tmpConditions.faceType,
     onPress: () => {
-      updateTmpConditions(dispatch, {faceType: faceType.key})
+      updateTmpConditions(dispatch, tmpConditions, {faceType: faceType.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

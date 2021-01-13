@@ -16,7 +16,7 @@ const createItems = (personalColors, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: personalColor.key === tmpConditions.personalColor,
     onPress: () => {
-      updateTmpConditions(dispatch, {personalColor: personalColor.key})
+      updateTmpConditions(dispatch, tmpConditions, {personalColor: personalColor.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

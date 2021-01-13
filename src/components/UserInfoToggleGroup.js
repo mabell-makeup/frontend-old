@@ -25,9 +25,9 @@ export const UserInfoToggleGroup = () => {
   const handleDial = () => setOpen(!open)
   const handlePressAction = (target, {personalColor, faceType}) => () => {
     target === "personalColor"
-      ? updateTmpConditions(dispatch, {personalColor})
+      ? updateTmpConditions(dispatch, tmpConditions, {personalColor})
       : target === "faceType"
-        ? updateTmpConditions(dispatch, {faceType})
+        ? updateTmpConditions(dispatch, tmpConditions, {faceType})
         : false
   }
 

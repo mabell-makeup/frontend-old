@@ -17,7 +17,7 @@ const createItems = (parts, dispatch, tmpConditions) =>
     // eslint-disable-next-line react/display-name
     selected: part.key === tmpConditions.part,
     onPress: () => {
-      updateTmpConditions(dispatch, {part: part.key})
+      updateTmpConditions(dispatch, tmpConditions, {part: part.key})
       fetchPosts(dispatch, tmpConditions)
     }
   }))

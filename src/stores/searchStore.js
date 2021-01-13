@@ -41,7 +41,12 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
-export const updateTmpConditions = (dispatch, tmpConditions) => dispatch({type: UPDATE_TMP_CONDITIONS, payload: tmpConditions})
+export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition) => {
+  Object.entries(nextCondition).map(([key, val]) => {
+    const isClear = preTmpConditions[key] === val
+    dispatch({type: UPDATE_TMP_CONDITIONS, payload: isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}})
+  })
+}
 export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 // eslint-disable-next-line complexity
 export const fetchPosts = (dispatch, conditions={}) => {
