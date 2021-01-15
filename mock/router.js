@@ -10,11 +10,12 @@ const shuffle = ([...array]) => {
 }
 
 export const router = [
-  [q.getSuggestionItems,
-    {
-      suggestionItems: db.items.slice(0, 20).map(item => ({item_id: item.item_id, brand_name: item.brand_name, item_name: item.item_name}))
-    }
-  ],
+  // すぐに使いそうなのでコメントアウトにしておく。不要であれば消してもOK。
+  // [q.getSuggestionItems,
+  //   {
+  //     suggestionItems: db.items.slice(0, 20).map(item => ({item_id: item.item_id, brand_name: item.brand_name, item_name: item.item_name}))
+  //   }
+  // ],
   [q.getTrendPosts,
     {
       posts: shuffle(db.posts.slice(0, 5)).map(post => ({post_id: post.post_id, thumbnail_img_src: post.thumbnail_img_src}))
@@ -25,5 +26,10 @@ export const router = [
       posts: db.posts.slice(0, 2).map(post => ({post_id: post.post_id, thumbnail_img_src: post.thumbnail_img_src}))
     }
   ],
-  [q.getPostDetail, shuffle(db.posts.slice(0, 5)).pop()]
+  [q.getPostDetail, shuffle(db.posts.slice(0, 5)).pop()],
+  [q.getSuggestionKeywords,
+    {
+      suggestionKeywords: Array.from(new Set(db.posts.slice(0, 2).flatMap(post => post.tags)))
+    }
+  ]
 ]

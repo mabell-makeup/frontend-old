@@ -1,9 +1,28 @@
 import * as React from "react"
 import {List as L} from "react-native-paper"
 
-const Item = ({title, ...props}) => <L.Item title={title} {...props} />
+const styles = {
+  row: {
+    height: 30,
+    padding: 0,
+    justifyContent: "center"
+  },
+  rowTitle: {
+    fontSize: 12
+  }
+}
+
+const Item = ({title, style, ...props}) => <L.Item title={title} style={{...styles.row, ...style}} {...props} />
+
 // eslint-disable-next-line react/jsx-key
-const Accordion = ({title, rows, ...props}) => <L.Accordion title={title} {...props}>{rows.map(accordionItem => <Item {...accordionItem} />)}</L.Accordion>
+const Accordion = ({title, rows, style, ...props}) =>
+  <L.Accordion title={title} style={{...styles.row, ...style}} titleStyle={styles.rowTitle} {...props}>
+    {rows.map(accordionItem => 
+      typeof accordionItem === "object" && accordionItem.$$typeof
+        ? accordionItem
+        : <Item {...accordionItem}/>
+    )}
+  </L.Accordion>
 
 
 /* 
@@ -12,7 +31,7 @@ const Accordion = ({title, rows, ...props}) => <L.Accordion title={title} {...pr
 
   const rows = [
     {title: "犬", left: props => <L.Icon {...props} icon="dog" />},
-    {title: "猫", left: props => <L.Icon {...props} icon="cat" />},
+    {title: "猫", rows: [<SelectColor />]},
     {title: "ゴリラ", rows: [
       {title: "マウンテンゴリラ", left: props => <L.Icon {...props} icon="star" />},
       {title: "ニシゴリラ"},
@@ -24,7 +43,7 @@ export const List = ({rows=[{title: ""}]}) => {
   return (
     <L.Section>
       {/* eslint-disable-next-line no-prototype-builtins */}
-      {rows.map(row => row.hasOwnProperty("rows")? <Accordion key={row.title} {...row} /> : <Item key={row.title} {...row} />)}
+      {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item key={row.title} {...row} />)}
     </L.Section>
   )
 }

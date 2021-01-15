@@ -3,7 +3,7 @@
 
   const handlers = ({
     [UPDATE_TMP_CONDITIONS_USER_INFO]: (state, {payload}) => ({tmpConditions: {...state.tmpConditions, userInfo: {...state.tmpConditions.userInfo, ...payload}}}),
-    [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({tmpConditions: {...state.tmpConditions, color: payload}}),
+    [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({tmpConditions: {...state.tmpConditions, color: payload}}),
   })
 */
 

@@ -1,11 +1,16 @@
 /* eslint-disable react/display-name */
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 import {List} from "../../components/List"
-import {Button, List as L, Text} from "react-native-paper"
+import {Button} from "react-native-paper"
 import {ScrollView} from "react-native"
 import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
-import {ColorInput} from "../../components/ColorInput"
-import * as masterData from "../../masterData"
+import {ColorPaletteInput} from "../../components/ColorPaletteInput"
+import {CountryInput} from "../../components/CountryInput"
+import {PersonalColorInput} from "../../components/PersonalColorInput"
+import {FaceTypeInput} from "../../components/FaceTypeInput"
+import {PartInput} from "../../components/PartInput"
+import {FakeSearchInput} from "../../components/FakeSearchInput"
+import {useSomeStates} from "../../helper/hooksHelper"
 
 const styles = {
   button: {
@@ -13,31 +18,22 @@ const styles = {
     marginHorizontal: 5,
     marginTop: 30,
     justifyContent: "center"
+  },
+  accordion: {
+    backgroundColor: "#c5d9e8",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 1
+  },
+  fakeSearchInput: {
+    marginTop: 10
   }
 }
-
-// TODO: おそらくバグが出るから後で直す
-const getTitle = key => {
-  for (const data in masterData) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (masterData[data].hasOwnProperty(key)) {
-      return masterData[data][key]
-    }
-  }
-}
-
-const createRows = (columns, navigation) => columns.map(column => ({
-  title: column.title,
-  onPress: () => navigation.navigate(column.navigateTo),
-  right: column.right ? column.right : props => <L.Icon {...props} icon="chevron-right" />
-}))
-
-const createColumns = tmpConditions => ([
-  {title: "色から探す", navigateTo: "SelectColor", right: tmpConditions.color ? () => <ColorInput color={tmpConditions.color} /> : false},
-  {title: "国から探す", navigateTo: "SelectCountry", right: tmpConditions.country ? () => <Text>{getTitle(tmpConditions.country)}</Text> : false},
-  {title: "髪型から探す", navigateTo: "SelectHairStyle", right: tmpConditions.hairStyle ? () => <Text>{getTitle(tmpConditions.hairStyle)}</Text> : false},
-  {title: "使用アイテムから探す", navigateTo: "SelectItems", right: tmpConditions.items.length > 0 ? () => <Text>{tmpConditions.items.length}件選択中</Text> : false}
-])
 
 const handlePress = (dispatch, navigation) => () => {
   updateSearchResult(dispatch)
@@ -45,10 +41,33 @@ const handlePress = (dispatch, navigation) => () => {
   navigation.navigate("NewsFeed", {screen: "Women"})
 }
 
+const createRows = conditions => conditions.map(({title, inner, isExpanded, setIsExpanded}) => 
+  ({title: title, rows: [inner], expanded: isExpanded, style: styles.accordion, onPress: () => setIsExpanded(!isExpanded), theme:{colors: {primary:"#000"}}})
+)
+
+
 export const SelectConditions = ({navigation}) => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const columns = createColumns(tmpConditions)
-  const rows = createRows(columns, navigation, tmpConditions)
+  const [
+    [isPartExpanded, setIsPartExpanded],
+    [isColorExpanded, setIsColorExpanded],
+    [isCountryExpanded, setIsCountryExpanded],
+    [isPersonalColorExpanded, setIsPersonalColorExpanded],
+    [isFaceTypeExpanded, setIsFaceTypeExpanded],
+    [isKeywordExpanded, setIsKeywordExpanded]
+  ] = useSomeStates(useState, [true, true, true, true, true, true])
+  
+  // TODO: 後でコンポーネントの外に出す
+  const conditions = [
+    {title: "パーツで絞り込む", inner: <PartInput key="part" />, isExpanded: isPartExpanded, setIsExpanded: setIsPartExpanded},
+    {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />, isExpanded: isColorExpanded, setIsExpanded: setIsColorExpanded},
+    {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
+    {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
+    {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
+    {title: "キーワードで絞り込む", inner: <FakeSearchInput value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
+  ]
+  
+  const rows = createRows(conditions)
 
   return (
     <ScrollView>

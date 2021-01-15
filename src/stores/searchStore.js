@@ -4,17 +4,16 @@ import {apiRequest} from "../helper/requestHelper"
 
 const initialState = {
   conditions: {},
-  suggestionItems: [],
+  suggestionKeywords: [],
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
-    userInfo: {
-      personalColor: false,
-      faceType: false
-    },
+    target: "makeup",
+    personalColor: false,
+    faceType: false,
     color: "",
     country: "",
-    parts: "",
+    part: "",
     hairStyle: "",
     items: [],
     keywords: ""
@@ -34,33 +33,21 @@ const initialState = {
 const searchStore = createContext(initialState)
 
 // Define Types
-const UPDATE_TMP_CONDITIONS_USER_INFO = "UPDATE_TMP_CONDITIONS_USER_INFO"
-const UPDATE_TMP_CONDITIONS_COLOR = "UPDATE_TMP_CONDITIONS_COLOR"
-const UPDATE_TMP_CONDITIONS_COUNTRY = "UPDATE_TMP_CONDITIONS_COUNTRY"
-const UPDATE_TMP_CONDITIONS_PARTS = "UPDATE_TMP_CONDITIONS_PARTS"
-const UPDATE_TMP_CONDITIONS_HAIR_STYLE = "UPDATE_TMP_CONDITIONS_HAIR_STYLE"
-const UPDATE_TMP_CONDITIONS_ITEMS = "UPDATE_TMP_CONDITIONS_ITEMS"
-const UPDATE_TMP_CONDITIONS_KEYWORDS = "UPDATE_TMP_CONDITIONS_KEYWORDS"
-const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
+const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
+const UPDATE_SUGGESTION_KEYWORDS = "UPDATE_SUGGESTION_KEYWORDS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
-export const updateTmpConditionsUserInfo = (dispatch, userInfo) => dispatch({type: UPDATE_TMP_CONDITIONS_USER_INFO, payload: userInfo})
-export const updateTmpConditionsColor = (dispatch, color) => dispatch({type: UPDATE_TMP_CONDITIONS_COLOR, payload: color})
-export const updateTmpConditionsCountry = (dispatch, country) => dispatch({type: UPDATE_TMP_CONDITIONS_COUNTRY, payload: country})
-export const updateTmpConditionsParts = (dispatch, parts) => dispatch({type: UPDATE_TMP_CONDITIONS_PARTS, payload: parts})
-export const updateTmpConditionsHairStyle = (dispatch, hairStyle) => dispatch({type: UPDATE_TMP_CONDITIONS_HAIR_STYLE, payload: hairStyle})
-export const updateTmpConditionsKeywords = (dispatch, keywords="") => dispatch({type: UPDATE_TMP_CONDITIONS_KEYWORDS, payload: keywords})
-export const updateTmpConditionsItems = (dispatch, selectedItems, itemId) => {
-  const newSelectedItems = selectedItems.includes(itemId)
-    ? selectedItems.filter(selected => selected !== itemId)
-    : [...selectedItems, itemId]
-  dispatch({type: UPDATE_TMP_CONDITIONS_ITEMS, payload: newSelectedItems})
+export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition) => {
+  Object.entries(nextCondition).map(([key, val]) => {
+    const isClear = preTmpConditions[key] === val
+    dispatch({type: UPDATE_TMP_CONDITIONS, payload: isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}})
+  })
 }
-export const updateSuggestionItems = (dispatch, items) => dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: items})
+export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 // eslint-disable-next-line complexity
 export const fetchPosts = (dispatch, conditions={}) => {
   const {error, loading, data} = apiRequest(`${`{
@@ -70,7 +57,7 @@ export const fetchPosts = (dispatch, conditions={}) => {
       ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
       ${conditions.color ? `color: ${conditions.color},` : ""}
       ${conditions.country ? `country: ${conditions.country},` : ""}
-      ${conditions.parts ? `parts: ${conditions.parts},` : ""}
+      ${conditions.part ? `part: ${conditions.part},` : ""}
       ${conditions.hairStyle ? `hair_style: ${conditions.hairStyle},` : ""}
       ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
       ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
@@ -104,14 +91,8 @@ const {Provider} = searchStore
 const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_TMP_CONDITIONS_USER_INFO]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, userInfo: {...state.tmpConditions.userInfo, ...payload}}}),
-    [UPDATE_TMP_CONDITIONS_COLOR]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, color: payload}}),
-    [UPDATE_TMP_CONDITIONS_COUNTRY]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, country: payload}}),
-    [UPDATE_TMP_CONDITIONS_PARTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, parts: payload}}),
-    [UPDATE_TMP_CONDITIONS_HAIR_STYLE]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, hairStyle: payload}}),
-    [UPDATE_TMP_CONDITIONS_ITEMS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, items: payload}}),
-    [UPDATE_TMP_CONDITIONS_KEYWORDS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, keywords: payload}}),
-    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionItems: payload}),
+    [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
+    [UPDATE_SUGGESTION_KEYWORDS]: (state, {payload}) => ({...state, suggestionKeywords: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),

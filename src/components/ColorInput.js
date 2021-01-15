@@ -12,13 +12,13 @@ const createStyles = ({color}) => ({
     borderRadius: "50%",
     alignItems: "center",
     justifyContent: "center",
-    margin: 5
+    margin: 4
   }
 })
 
 
 // eslint-disable-next-line no-unused-vars
-export const ColorInput = ({color, navigation, onPress=(navigation, dispatch, state, color)=>{}}) => {
+export const ColorInput = ({color, onPress=(dispatch, state, color)=>{}}) => {
   const {dispatch, state} = useContext(searchStore)
   const styles = createStyles({color})
 
@@ -26,7 +26,7 @@ export const ColorInput = ({color, navigation, onPress=(navigation, dispatch, st
     <View style={styles.checkbox}>
       <Checkbox
         status={color === state.tmpConditions.color ? "checked" : "unchecked"}
-        onPress={onPress(navigation, dispatch, state, color)}
+        onPress={onPress(dispatch, state, color)}
         color="#fff"
         width={40}
       />
