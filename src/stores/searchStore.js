@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 
-const initialState = {
+export const initialState = {
   conditions: {},
   suggestionKeywords: [],
   searchResult: [],
