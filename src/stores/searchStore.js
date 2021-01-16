@@ -12,6 +12,7 @@ export const initialState = {
     personalColor: false,
     faceType: false,
     color: "",
+    lame: false,
     country: "",
     part: "",
     hairStyle: "",
