@@ -3,7 +3,7 @@ import React, {useContext, useState} from "react"
 import {List} from "../../components/List"
 import {Button} from "react-native-paper"
 import {ScrollView} from "react-native"
-import {searchStore, updateConditions, updateSearchResult} from "../../stores/searchStore"
+import {searchStore, updateConditions, updateSearchResult, initialState} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -11,12 +11,12 @@ import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {PartInput} from "../../components/PartInput"
 import {FakeSearchInput} from "../../components/FakeSearchInput"
 import {useSomeStates} from "../../helper/hooksHelper"
+import {isEqual} from "../../helper/storeHelper"
 
 const styles = {
   button: {
     height: 50,
-    marginHorizontal: 5,
-    marginTop: 30,
+    margin: 5,
     justifyContent: "center"
   },
   accordion: {
@@ -58,6 +58,7 @@ export const SelectConditions = ({navigation}) => {
   ] = useSomeStates(useState, [true, true, true, true, true, true])
   
   // TODO: 後でコンポーネントの外に出す
+  // TODO: Accordionをやめるので、isExpanded, setIsExpandedを使わない。
   const conditions = [
     {title: "パーツで絞り込む", inner: <PartInput key="part" />, isExpanded: isPartExpanded, setIsExpanded: setIsPartExpanded},
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />, isExpanded: isColorExpanded, setIsExpanded: setIsColorExpanded},
@@ -70,9 +71,11 @@ export const SelectConditions = ({navigation}) => {
   const rows = createRows(conditions)
 
   return (
-    <ScrollView>
-      <List rows={rows} />
-      <Button mode="contained" style={styles.button} onPress={handlePress(dispatch, navigation)}>絞り込む</Button>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <List rows={rows} />
+      </ScrollView>
+      <Button mode="contained" style={styles.button} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
+    </>
   )
 }
