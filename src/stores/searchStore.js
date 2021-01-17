@@ -14,7 +14,7 @@ export const initialState = {
     color: "",
     lame: false,
     country: "",
-    part: "",
+    makeUpCategory: "",
     hairStyle: "",
     items: [],
     keywords: ""
@@ -58,7 +58,7 @@ export const fetchPosts = (dispatch, conditions={}) => {
       ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
       ${conditions.color ? `color: ${conditions.color},` : ""}
       ${conditions.country ? `country: ${conditions.country},` : ""}
-      ${conditions.part ? `part: ${conditions.part},` : ""}
+      ${conditions.makeUpCategory ? `makeUpCategory: ${conditions.makeUpCategory},` : ""}
       ${conditions.hairStyle ? `hair_style: ${conditions.hairStyle},` : ""}
       ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
       ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
