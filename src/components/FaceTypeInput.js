@@ -1,6 +1,8 @@
 import React, {useContext} from "react"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
+import {Image} from "react-native"
+import * as thumbnail from "../../assets/faceType"
 
 const faceTypes = [
   {title: "フレッシュ", key: "fresh"},
@@ -22,7 +24,8 @@ const createItems = (faceTypes, dispatch, tmpConditions) =>
     onPress: () => {
       updateTmpConditions(dispatch, tmpConditions, {faceType: faceType.key})
       fetchPosts(dispatch, tmpConditions)
-    }
+    },
+    avatar: <Image source={thumbnail[faceType.key]} />
   }))
 
 
