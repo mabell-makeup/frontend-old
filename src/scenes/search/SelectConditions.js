@@ -8,7 +8,7 @@ import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
 import {FaceTypeInput} from "../../components/FaceTypeInput"
-import {PartInput} from "../../components/PartInput"
+import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {FakeSearchInput} from "../../components/FakeSearchInput"
 import {useSomeStates} from "../../helper/hooksHelper"
 import {isEqual} from "../../helper/storeHelper"
@@ -60,7 +60,7 @@ export const SelectConditions = ({navigation}) => {
   // TODO: 後でコンポーネントの外に出す
   // TODO: Accordionをやめるので、isExpanded, setIsExpandedを使わない。
   const conditions = [
-    {title: "パーツで絞り込む", inner: <PartInput key="part" />, isExpanded: isPartExpanded, setIsExpanded: setIsPartExpanded},
+    {title: "カテゴリで絞り込む", inner: <MakeUpCategoryInput key="makeUpCategory" />, isExpanded: isPartExpanded, setIsExpanded: setIsPartExpanded},
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />, isExpanded: isColorExpanded, setIsExpanded: setIsColorExpanded},
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
