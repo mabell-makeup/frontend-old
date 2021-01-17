@@ -1,0 +1,3 @@
+[submodule "mock/Joker-assets"]
+	path = mock/Joker-assets
+	url = https://github.com/daiti0113/Joker-assets.git

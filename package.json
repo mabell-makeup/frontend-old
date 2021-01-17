@@ -1,24 +1,46 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "dev": "NODE_ENV=development expo start",
+    "publish": "NODE_ENV=development expo publish",
+    "android:dev": "NODE_ENV=development expo start --android",
+    "ios:dev": "NODE_ENV=development expo start --ios",
+    "web:dev": "NODE_ENV=development expo start --web",
+    "eject": "expo eject",
+    "mock": "node ./mock/imgServer/server.js",
+    "clearCache": "NODE_ENV=development expo start --clear"
   },
   "dependencies": {
-    "expo": "~39.0.2",
-    "expo-status-bar": "~1.0.2",
+    "@apollo/client": "^3.3.6",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/netinfo": "5.9.6",
+    "@react-navigation/material-bottom-tabs": "^5.3.10",
+    "@react-navigation/material-top-tabs": "^5.3.10",
+    "@react-navigation/native": "^5.8.10",
+    "@react-navigation/stack": "^5.12.8",
+    "amazon-cognito-identity-js": "^4.5.6",
+    "aws-amplify": "^3.3.13",
+    "expo": "^39.0.5",
+    "expo-status-bar": "^1.0.3",
+    "graphql": "^15.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-dotenv": "^2.4.3",
+    "react-native-gesture-handler": "~1.7.0",
+    "react-native-paper": "^4.7.0",
+    "react-native-reanimated": "^1.13.2",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "~2.10.1",
+    "react-native-tab-view": "^2.15.2",
+    "react-native-web": "^0.13.18"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "eslint": "^7.9.0",
-    "eslint-plugin-react": "^7.20.6"
+    "eslint": "^7.16.0",
+    "eslint-plugin-react": "^7.21.5",
+    "json-server": "^0.16.3",
+    "metro-react-native-babel-preset": "^0.63.0"
   },
   "private": true
 }
