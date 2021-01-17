@@ -3,6 +3,7 @@ import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStor
 import {ChipList} from "./ChipList"
 
 const countries = [
+  {title: "日本", key: "japan"},
   {title: "韓国", key: "korea"},
   {title: "中国",  key: "china"},
   {title: "欧米",  key: "america"},
