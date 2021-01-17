@@ -31,5 +31,10 @@ export const router = [
     {
       suggestionKeywords: Array.from(new Set(db.posts.slice(0, 2).flatMap(post => post.tags)))
     }
+  ],
+  [q.getTrendKeywords,
+    {
+      trendKeywords: Array.from(new Set(db.posts.slice(0, 2).flatMap(post => post.tags)))
+    }
   ]
 ]

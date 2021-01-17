@@ -2,7 +2,7 @@
 import React, {useContext, useState} from "react"
 import {List} from "../../components/List"
 import {Button} from "react-native-paper"
-import {ScrollView} from "react-native"
+import {ScrollView, View} from "react-native"
 import {searchStore, updateConditions, updateSearchResult, initialState} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
@@ -13,6 +13,7 @@ import {FakeSearchInput} from "../../components/FakeSearchInput"
 import {useSomeStates} from "../../helper/hooksHelper"
 import {isEqual} from "../../helper/storeHelper"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 
 const styles = {
   button: {
@@ -47,6 +48,7 @@ const createRows = conditions => conditions.map(({title, inner, isExpanded, setI
 )
 
 
+// eslint-disable-next-line max-lines-per-function
 export const SelectConditions = ({navigation}) => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const [
@@ -66,7 +68,17 @@ export const SelectConditions = ({navigation}) => {
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
     {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
-    {title: "キーワードで絞り込む", inner: <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
+    {
+      title: "キーワードで絞り込む",
+      inner:
+        // eslint-disable-next-line react/jsx-indent
+        <View>
+          <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />
+          <TrendKeywordsInput navigation={navigation} />
+        </View>,
+      isExpanded: isKeywordExpanded,
+      setIsExpanded: setIsKeywordExpanded
+    }
   ]
   
   const rows = createRows(conditions)
