@@ -34,7 +34,7 @@ const createRows = (dispatch, keywords, tmpConditions) =>
   }))
 
 const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
-  updateTmpConditions(dispatch, tmpConditions, {keysords: conditions.keywords || ""})
+  updateTmpConditions(dispatch, tmpConditions, {keywords: conditions.keywords || ""})
   navigation.goBack()
 }
 

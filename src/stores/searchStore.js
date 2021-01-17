@@ -42,9 +42,10 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
-export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition) => {
+/* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
+export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, isToggle=true) => {
   Object.entries(nextCondition).map(([key, val]) => {
-    const isClear = preTmpConditions[key] === val
+    const isClear = isToggle && preTmpConditions[key] === val
     dispatch({type: UPDATE_TMP_CONDITIONS, payload: isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}})
   })
 }

@@ -40,7 +40,7 @@ const getSuggestionKeywords = (dispatch, text) => {
 }
 
 const handleInputKeywords = (dispatch, tmpConditions, text) => {
-  updateTmpConditions(dispatch, tmpConditions, {keywords: text})
+  updateTmpConditions(dispatch, tmpConditions, {keywords: text}, false)
   getSuggestionKeywords(dispatch, text)
 }
 
@@ -58,7 +58,7 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
         headerLeft: false,
-        headerTitle: () => <SearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} value={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
+        headerTitle: () => <SearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
