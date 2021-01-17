@@ -1,0 +1,7 @@
+export {default as round} from "./round.png"
+export {default as long} from "./long.png"
+export {default as invertedTriangle} from "./invertedTriangle.png"
+export {default as diamond} from "./diamond.png"
+export {default as base} from "./base.png"
+export {default as octagon} from "./octagon.png"
+export {default as egg} from "./egg.png"

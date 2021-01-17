@@ -10,7 +10,7 @@ export const initialState = {
   tmpConditions: {
     target: "makeup",
     personalColor: {baseColor: "", season: ""},
-    faceType: "",
+    outline: "",
     color: "",
     lame: false,
     country: "",
@@ -56,7 +56,7 @@ export const fetchPosts = (dispatch, conditions={}) => {
     posts(
       ${conditions.keywords ? `keywords: ${conditions.keywords},` : ""}
       ${conditions.personalColor ? `personal_color: ${conditions.personalColor},` : ""}
-      ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
+      ${conditions.outline ? `face_type: ${conditions.outline},` : ""}
       ${conditions.color ? `color: ${conditions.color},` : ""}
       ${conditions.country ? `country: ${conditions.country},` : ""}
       ${conditions.makeUpCategory ? `makeUpCategory: ${conditions.makeUpCategory},` : ""}

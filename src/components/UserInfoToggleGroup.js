@@ -3,7 +3,7 @@ import {FAB, Portal, Provider} from "react-native-paper"
 import {searchStore, updateTmpConditions} from "../stores/searchStore"
 
 
-const actions = (handlePressAction, {personalColor, faceType}) => ([
+const actions = (handlePressAction, {personalColor, outline}) => ([
   {
     icon: "palette",
     label: "パーソナルカラーで絞り込む",
@@ -12,9 +12,9 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
   },
   {
     icon: "face",
-    label: "顔タイプで絞り込む",
-    onPress: handlePressAction("faceType", {faceType: !faceType}),
-    style: {backgroundColor: faceType ? "#FFF" : "#888"}
+    label: "顔型で絞り込む",
+    onPress: handlePressAction("outline", {outline: !outline}),
+    style: {backgroundColor: outline ? "#FFF" : "#888"}
   }
 ])
 
@@ -23,11 +23,11 @@ export const UserInfoToggleGroup = () => {
   const [open, setOpen] = useState(false)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const handleDial = () => setOpen(!open)
-  const handlePressAction = (target, {personalColor, faceType}) => () => {
+  const handlePressAction = (target, {personalColor, outline}) => () => {
     target === "personalColor"
       ? updateTmpConditions(dispatch, tmpConditions, {personalColor})
-      : target === "faceType"
-        ? updateTmpConditions(dispatch, tmpConditions, {faceType})
+      : target === "outline"
+        ? updateTmpConditions(dispatch, tmpConditions, {outline})
         : false
   }
 

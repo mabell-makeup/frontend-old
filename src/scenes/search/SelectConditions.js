@@ -7,7 +7,7 @@ import {searchStore, updateConditions, updateSearchResult, initialState} from ".
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
-import {FaceTypeInput} from "../../components/FaceTypeInput"
+import {OutlineInput} from "../../components/OutlineInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {FakeSearchInput} from "../../components/FakeSearchInput"
 import {useSomeStates} from "../../helper/hooksHelper"
@@ -56,7 +56,7 @@ export const SelectConditions = ({navigation}) => {
     [isColorExpanded, setIsColorExpanded],
     [isCountryExpanded, setIsCountryExpanded],
     [isPersonalColorExpanded, setIsPersonalColorExpanded],
-    [isFaceTypeExpanded, setIsFaceTypeExpanded],
+    [isOutlineExpanded, setIsOutlineExpanded],
     [isKeywordExpanded, setIsKeywordExpanded]
   ] = useSomeStates(useState, [true, true, true, true, true, true])
   
@@ -67,7 +67,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />, isExpanded: isColorExpanded, setIsExpanded: setIsColorExpanded},
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
-    {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
+    {title: "顔型で絞り込む", inner: <OutlineInput key="outline" />, isExpanded: isOutlineExpanded, setIsExpanded: setIsOutlineExpanded},
     {
       title: "キーワードで絞り込む",
       inner:
