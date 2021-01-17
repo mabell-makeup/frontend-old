@@ -9,8 +9,8 @@ export const initialState = {
   tmpResult: [],
   tmpConditions: {
     target: "makeup",
-    personalColor: false,
-    faceType: false,
+    personalColor: {baseColor: "", season: ""},
+    faceType: "",
     color: "",
     lame: false,
     country: "",
