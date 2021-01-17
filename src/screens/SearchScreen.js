@@ -10,7 +10,7 @@ import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {Post} from "../scenes/search/Post"
 import {FakeSearchInput} from "../components/FakeSearchInput"
-import {WINDOW_HEIGHT} from "../styles/constants"
+import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 
 const Stack = createStackNavigator()
 
@@ -58,13 +58,13 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
         headerLeft: false,
-        headerTitle: () => <SearchInput isFocused={true} value={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
+        headerTitle: () => <SearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} value={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeSearchInput navigation={navigation} value={tmpConditions.keywords} />,
+        headerTitle: () => <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />

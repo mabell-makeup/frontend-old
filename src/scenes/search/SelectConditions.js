@@ -12,6 +12,7 @@ import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {FakeSearchInput} from "../../components/FakeSearchInput"
 import {useSomeStates} from "../../helper/hooksHelper"
 import {isEqual} from "../../helper/storeHelper"
+import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 
 const styles = {
   button: {
@@ -65,7 +66,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "国で絞り込む", inner: <CountryInput key="country" />, isExpanded: isCountryExpanded, setIsExpanded: setIsCountryExpanded},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />, isExpanded: isPersonalColorExpanded, setIsExpanded: setIsPersonalColorExpanded},
     {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />, isExpanded: isFaceTypeExpanded, setIsExpanded: setIsFaceTypeExpanded},
-    {title: "キーワードで絞り込む", inner: <FakeSearchInput value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
+    {title: "キーワードで絞り込む", inner: <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />, isExpanded: isKeywordExpanded, setIsExpanded: setIsKeywordExpanded}
   ]
   
   const rows = createRows(conditions)
