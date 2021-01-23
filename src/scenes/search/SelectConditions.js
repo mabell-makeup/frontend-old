@@ -21,8 +21,11 @@ const styles = {
     margin: 5,
     justifyContent: "center"
   },
+  buttonLabel: {
+    fontSize: 16
+  },
   accordion: {
-    backgroundColor: "#c5d9e8",
+    backgroundColor: "rgba(0, 0, 0, 0)",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -31,6 +34,9 @@ const styles = {
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 1
+  },
+  accordionTitle: {
+    fontWeight: "bold"
   },
   fakeSearchInput: {
     marginTop: 10
@@ -44,7 +50,7 @@ const handlePress = (dispatch, navigation) => () => {
 }
 
 const createRows = conditions => conditions.map(({title, inner, isExpanded, setIsExpanded}) => 
-  ({title: title, rows: [inner], expanded: isExpanded, style: styles.accordion, onPress: () => setIsExpanded(!isExpanded), theme:{colors: {primary:"#000"}}})
+  ({title: title, rows: [inner], expanded: isExpanded, style: styles.accordion, titleStyle: styles.accordionTitle, onPress: () => setIsExpanded(!isExpanded), theme:{colors: {primary:"#000"}}})
 )
 
 
@@ -88,7 +94,7 @@ export const SelectConditions = ({navigation}) => {
       <ScrollView>
         <List rows={rows} />
       </ScrollView>
-      <Button mode="contained" style={styles.button} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
+      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
     </>
   )
 }
