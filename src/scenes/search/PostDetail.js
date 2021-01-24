@@ -1,16 +1,17 @@
 import React, {useContext} from "react"
-import {View, StyleSheet, ScrollView, TouchableOpacity} from "react-native"
+import {View, ScrollView, TouchableOpacity} from "react-native"
 import {Title} from "react-native-paper"
-import {Appbar, Avatar, Text, Button} from "react-native-paper"
+import {Appbar, Avatar, Text, Button, IconButton} from "react-native-paper"
 import {Platform} from "react-native"
-import {searchStore} from "../../stores/searchStore"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
+import {updateFavoritePost, postStore} from "../../stores/postStore"
 
 // TODO: Constantsに移動
 const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
 
-const styles = StyleSheet.create({
+// eslint-disable-next-line max-lines-per-function
+const createStyles = favorite => ({
   userName: {
     color: "#000"
   },
@@ -23,11 +24,11 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   infoContainer: {
-    marginTop: 10,
+    marginTop: 6,
     paddingHorizontal: 10
   },
   description: {
-    marginVertical: 20,
+    marginTop: 10,
     lineHeight: 30
   },
   strong: {
@@ -51,18 +52,35 @@ const styles = StyleSheet.create({
   },
   userInfoFollow: {
     marginLeft: "auto"
+  },
+  button: {
+    borderWidth: 1,
+    paddingTop: 2,
+    marginLeft: 0,
+    borderColor: "#ccc",
+  },
+  favoriteButton: {
+    borderColor: favorite ? "#FF7F50" : "#ccc",
+  },
+  buttonContainer: {
+    flexDirection: "row"
+  },
+  tag: {
+    marginTop: 20
   }
 })
 
-const PostHeader = ({user, navigation}) => {
+const PostHeader = ({postUser, navigation}) => {
+  const styles = createStyles()
+
   return (
     <Appbar.Header>
       <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate("UserHome")}>
-        <Avatar.Image size={38} source={{uri: user.thumbnail}} />
+        <Avatar.Image size={38} source={{uri: postUser.thumbnail}} />
         <Appbar.Content 
-          title={user.nickname}
+          title={postUser.nickname}
           titleStyle={styles.userName}
-          subtitle={`@${user.name}`}
+          subtitle={`@${postUser.name}`}
           subtitleStyle={styles.userName}
         />
       </TouchableOpacity>
@@ -71,12 +89,18 @@ const PostHeader = ({user, navigation}) => {
   )
 }
 
-const PostInfo = ({post}) => {
+const PostInfo = ({post, dispatch}) => {
+  const styles = createStyles(post.favorite)
+
   return (
     <View style={styles.infoContainer}>
       <Text>いいね！ <Text style={styles.strong}>{post.page_views}</Text>件</Text>
+      <View style={styles.buttonContainer}>
+        <IconButton icon={post.favorite ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.favorite ? "#FF7F50" : "#999"} onPress={() => updateFavoritePost(dispatch, post.post_id, !post.favorite)} />
+        <IconButton icon="comment-outline" style={styles.button} color="#999" />
+      </View>
       <Text style={styles.description}>{post.description}</Text>
-      <View>
+      <View style={styles.tag}>
         <Title>タグ</Title>
         <ChipList items={post.tags.map(tags => ({label: tags}))} />
       </View>
@@ -84,15 +108,17 @@ const PostInfo = ({post}) => {
   )
 }
 
-const UserInfo = ({user, navigation}) => {
+const UserInfo = ({postUser, navigation}) => {
+  const styles = createStyles()
+
   return (
     <View style={styles.userInfo}>
       <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
-        <Avatar.Image size={50} source={{uri: user.thumbnail}} />
+        <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
       </TouchableOpacity>
       <View style={styles.userInfoTextContainer}>
-        <Text style={styles.userInfoNickname}>{user.nickname}</Text>
-        <Text style={styles.userInfoName}>@{user.name}</Text>
+        <Text style={styles.userInfoNickname}>{postUser.nickname}</Text>
+        <Text style={styles.userInfoName}>@{postUser.name}</Text>
       </View>
       <Button mode="outlined" style={styles.userInfoFollow}>フォローする</Button>
     </View>
@@ -100,15 +126,15 @@ const UserInfo = ({user, navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {state: {post}} = useContext(searchStore)
-  const user = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
+  const {dispatch, state: {post}} = useContext(postStore)
+  const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
 
   return (
     <ScrollView>
-      <PostHeader user={user} navigation={navigation} />
+      <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
-      <PostInfo post={post} />
-      <UserInfo user={user} navigation={navigation} />
+      <PostInfo post={post} dispatch={dispatch} />
+      <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )
 }

@@ -18,15 +18,6 @@ export const initialState = {
     hairStyle: "",
     items: [],
     keywords: ""
-  },
-  post: {
-    user_id: Number,
-    user_name: "",
-    img_src_list: [],
-    items: [],
-    tags: [],
-    description: "",
-    page_views: Number
   }
 }
 
@@ -39,7 +30,6 @@ const UPDATE_SUGGESTION_KEYWORDS = "UPDATE_SUGGESTION_KEYWORDS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
-const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 
 // Define ActionCreator
 /* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
@@ -72,21 +62,6 @@ export const fetchPosts = (dispatch, conditions={}) => {
 }
 export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
-export const fetchPostDetail = (dispatch, id) => {
-  const {error, loading, data} = apiRequest(`{
-    post(id: ${id}) {
-      user_id
-      user_name
-      img_src_list
-      items
-      tags
-      description
-      page_views
-    }
-  }`)
-  !loading && !error && dispatch({type: FETCH_POST_DETAIL, payload: data})
-}
-
 
 // Defin Provider
 const {Provider} = searchStore
@@ -96,11 +71,10 @@ const SearchProvider = ({children}) => {
     [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
     [UPDATE_SUGGESTION_KEYWORDS]: (state, {payload}) => ({...state, suggestionKeywords: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
-    [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions})
   }), initialState)
-  console.log("State is updated:", state)
+  console.log("SearchState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

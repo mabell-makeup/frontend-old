@@ -36,5 +36,8 @@ export const router = [
     {
       trendKeywords: Array.from(new Set(db.posts.slice(0, 2).flatMap(post => post.tags)))
     }
+  ],
+  [q.updateFavoritePost,
+    {result: true}
   ]
 ]

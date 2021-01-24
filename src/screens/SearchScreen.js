@@ -12,6 +12,7 @@ import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeSearchInput} from "../components/FakeSearchInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
+import {PostProvider} from "../stores/postStore"
 
 const Stack = createStackNavigator()
 
@@ -74,4 +75,4 @@ const SearchScreenInner = ({navigation}) => {
   )
 }
 
-export const SearchScreen = props => <SearchProvider><SearchScreenInner {...props} /></SearchProvider>
+export const SearchScreen = props => <SearchProvider><PostProvider><SearchScreenInner {...props} /></PostProvider></SearchProvider>
