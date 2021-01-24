@@ -106,6 +106,7 @@ export const items = [
 export const posts = [...Array(20).keys()].map(userId => ({
   post_id: userId + 1,
   thumbnail_img_src: `${IMG_ROOT}/images/users/user${userId + 1}/posts/1.jpg`,
+  user_nickname: `ハーレークイン${userId + 1}号`,
   user_name: `user${userId + 1}`,
   user_thumbnail_img_src: `${IMG_ROOT}/images/users/user${userId + 1}/user${userId + 1}.jpg`,
   description: `これは説明のサンプルです。user${userId + 1}によって投稿されました。`,
