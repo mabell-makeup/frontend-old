@@ -1,7 +1,23 @@
 import React, {useContext} from "react"
-import {View} from "react-native"
+import {View, StyleSheet} from "react-native"
 import {updateTmpConditions, fetchPosts, searchStore} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
+import {Text} from "react-native-paper"
+
+const styles = StyleSheet.create({
+  lameContainer: {
+    marginTop: 10
+  },
+  lameLabel: {
+    marginTop: 5,
+    marginLeft: 15,
+    fontSize: 12,
+    fontWeight: "bold"
+  },
+  lame: {
+    marginLeft: 15
+  }
+})
 
 // TODO: カラーコードを別ファイルで定数にする
 const colors = [
@@ -18,7 +34,7 @@ const colors = [
   {label: "ブラック", code: "#000"}
 ]
 
-const createItems = (colors, dispatch, tmpConditions) =>
+const createColorInputs = (colors, dispatch, tmpConditions) =>
   colors.map(color => ({
     label: color.label,
     key: color.code,
@@ -30,10 +46,29 @@ const createItems = (colors, dispatch, tmpConditions) =>
     left: <View style={{backgroundColor: color.code, borderRadius: "50%", width: 20, height: 20}} />
   }))
 
+const createLameInputs = (dispatch, tmpConditions) =>
+  [true, false].map(lame => ({
+    label: lame ? "ラメあり" : "ラメなし",
+    key: lame ? "ラメあり" : "ラメなし",
+    selected: lame === tmpConditions.lame,
+    onPress: () => {
+      updateTmpConditions(dispatch, tmpConditions, {lame})
+      fetchPosts(dispatch, tmpConditions)
+    }
+  }))
 
 export const ColorPaletteInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const items = createItems(colors, dispatch, tmpConditions)
+  const colorInputs = createColorInputs(colors, dispatch, tmpConditions)
+  const lameInputs = createLameInputs(dispatch, tmpConditions)
 
-  return <ChipList items={items} />
+  return (
+    <View>
+      <ChipList items={colorInputs} />
+      <View style={styles.lameContainer}>
+        <Text style={styles.lameLabel}>ラメを使う</Text>
+        <ChipList items={lameInputs} style={styles.lame} />
+      </View>
+    </View>
+  )
 }

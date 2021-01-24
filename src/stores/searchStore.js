@@ -12,7 +12,7 @@ export const initialState = {
     personalColor: {baseColor: "", season: ""},
     faceType: "",
     color: "",
-    lame: false,
+    lame: "",
     country: "",
     makeUpCategory: "",
     hairStyle: "",
