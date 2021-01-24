@@ -1,71 +1,39 @@
 import React, {useContext} from "react"
-import {View, FlatList} from "react-native"
-import {ColorInput} from "./ColorInput"
-import {Switch, Text} from "react-native-paper"
+import {View} from "react-native"
 import {updateTmpConditions, fetchPosts, searchStore} from "../stores/searchStore"
-
-
-const createStyles = () => ({
-  colorInputContainer: {
-    width: `${100 / numColumns}%`,
-    alignItems: "center"
-  },
-  container: {
-    paddingVertical: 4,
-    paddingHorizontal: 10
-  },
-  lameSwitch: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    marginTop: 10,
-    paddingRight: 10
-  },
-  lameLabel: {
-    marginRight: 5,
-    fontSize: 12
-  }
-})
-
-const numColumns = 6
-
-const onPress = (dispatch, state, color) => () => {
-  updateTmpConditions(dispatch, state.tmpConditions, {color})
-  fetchPosts(dispatch, state.tmpConditions)
-}
+import {ChipList} from "./ChipList"
 
 // TODO: カラーコードを別ファイルで定数にする
 const colors = [
-  "#EF0001",
-  "#FCA001",
-  "#FEF500",
-  "#009824",
-  "#0772B6",
-  "#A1007E",
-  "#E3B1B8",
-  "#693A2F",
-  "#C1AB05",
-  "#C0C0C0",
-  "#000"
+  {label: "レッド", code: "#EF0001"},
+  {label: "オレンジ", code: "#FCA001"},
+  {label: "イエロー", code: "#FEF500"},
+  {label: "グリーン", code: "#009824"},
+  {label: "ブルー", code: "#0772B6"},
+  {label: "パープル", code: "#A1007E"},
+  {label: "ライトブラウン", code: "#E3B1B8"},
+  {label: "ダークブラウン", code: "#693A2F"},
+  {label: "ゴールド", code: "#C1AB05"},
+  {label: "シルバー", code: "#C0C0C0"},
+  {label: "ブラック", code: "#000"}
 ]
 
+const createItems = (colors, dispatch, tmpConditions) =>
+  colors.map(color => ({
+    label: color.label,
+    key: color.code,
+    selected: color.code === tmpConditions.color,
+    onPress: () => {
+      updateTmpConditions(dispatch, tmpConditions, {color: color.code})
+      fetchPosts(dispatch, tmpConditions)
+    },
+    left: <View style={{backgroundColor: color.code, borderRadius: "50%", width: 20, height: 20}} />
+  }))
+
+
 export const ColorPaletteInput = () => {
-  const styles = createStyles()
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const renderItem = ({item}) => <View style={styles.colorInputContainer}><ColorInput color={item} onPress={onPress} /></View>
-  
-  return (
-    <View style={styles.container}>
-      <FlatList 
-        data={colors}
-        renderItem={renderItem}
-        keyExtractor={({color}) => color}
-        numColumns={numColumns}
-      />
-      <View style={styles.lameSwitch}>
-        <Text style={styles.lameLabel}>ラメを使う</Text>
-        <Switch value={tmpConditions.lame} onValueChange={() => updateTmpConditions(dispatch, tmpConditions, {lame: !tmpConditions.lame})} />
-      </View>
-    </View>
-  )
+  const items = createItems(colors, dispatch, tmpConditions)
+
+  return <ChipList items={items} />
 }
