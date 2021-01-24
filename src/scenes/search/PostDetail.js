@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const PostHeader = ({userName, userId}) => {
+const PostHeader = ({userName, userId, userThumbnail}) => {
   return (
     <Appbar.Header>
       <View style={styles.headerLeft}>
-        <Avatar.Image size={38} source={{uri: "http://192.168.3.23:3000/img/posts/user3/1.jpg"}} />
+        <Avatar.Image size={38} source={{uri: userThumbnail}} />
         <Appbar.Content 
           title={userName}
           titleStyle={styles.userName}
@@ -65,12 +65,12 @@ const PostInfo = ({post}) => {
   )
 }
 
-export const Post = () => {
+export const PostDetail = () => {
   const {state: {post}} = useContext(searchStore)
 
   return (
     <ScrollView>
-      <PostHeader userName={post.user_name} userId={post.user_id} />
+      <PostHeader userName={post.user_name} userId={post.user_id} userThumbnail={post.user_thumbnail_img_src} />
       <Carousel data={post.img_src_list} />
       <PostInfo post={post} />
     </ScrollView>

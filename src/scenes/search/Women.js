@@ -7,7 +7,7 @@ const createDataWithNavigation = (searchResult, navigation, dispatch) => searchR
   ...post,
   onPress: () => {
     fetchPostDetail(dispatch, post.id)
-    navigation.navigate("Post", {id: post.id})
+    navigation.navigate("PostDetail", {id: post.id})
   }
 }))
 

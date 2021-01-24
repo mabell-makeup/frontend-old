@@ -8,7 +8,7 @@ import {Text} from "react-native-paper"
 import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditions} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
-import {Post} from "../scenes/search/Post"
+import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeSearchInput} from "../components/FakeSearchInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 
@@ -67,7 +67,7 @@ const SearchScreenInner = ({navigation}) => {
         headerTitle: () => <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} />,
         gestureDirection: "horizontal-inverted"
       }}/>
-      <Stack.Screen name="Post" component={Post} options={defaultScreenOptions} />
+      <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
     </Stack.Navigator>
   )
 }

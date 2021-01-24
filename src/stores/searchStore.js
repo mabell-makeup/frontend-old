@@ -74,7 +74,7 @@ export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESU
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
 export const fetchPostDetail = (dispatch, id) => {
   const {error, loading, data} = apiRequest(`{
-    posts(id: ${id}) {
+    post(id: ${id}) {
       user_id
       user_name
       img_src_list
