@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {View, StyleSheet, ScrollView} from "react-native"
+import {View, StyleSheet, ScrollView, TouchableOpacity} from "react-native"
 import {Title} from "react-native-paper"
 import {Appbar, Avatar, Text} from "react-native-paper"
 import {Platform} from "react-native"
@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
   }
 })
 
-const PostHeader = ({userName, userId, userThumbnail}) => {
+const PostHeader = ({userName, userId, userThumbnail, navigation}) => {
   return (
     <Appbar.Header>
-      <View style={styles.headerLeft}>
+      <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate("UserHome")}>
         <Avatar.Image size={38} source={{uri: userThumbnail}} />
         <Appbar.Content 
           title={userName}
@@ -46,7 +46,7 @@ const PostHeader = ({userName, userId, userThumbnail}) => {
           subtitle={"Subtitle"}
           subtitleStyle={styles.userName}
         />
-      </View>
+      </TouchableOpacity>
       <Appbar.Action style={styles.moreIcon} icon={MORE_ICON} onPress={() => {}} />
     </Appbar.Header>
   )
@@ -65,12 +65,12 @@ const PostInfo = ({post}) => {
   )
 }
 
-export const PostDetail = () => {
+export const PostDetail = ({navigation}) => {
   const {state: {post}} = useContext(searchStore)
 
   return (
     <ScrollView>
-      <PostHeader userName={post.user_name} userId={post.user_id} userThumbnail={post.user_thumbnail_img_src} />
+      <PostHeader userName={post.user_name} userId={post.user_id} userThumbnail={post.user_thumbnail_img_src} navigation={navigation} />
       <Carousel data={post.img_src_list} />
       <PostInfo post={post} />
     </ScrollView>

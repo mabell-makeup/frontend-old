@@ -11,6 +11,7 @@ import {apiRequest} from "../helper/requestHelper"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeSearchInput} from "../components/FakeSearchInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
+import {UserHome} from "../scenes/search/UserHome"
 
 const Stack = createStackNavigator()
 
@@ -68,6 +69,7 @@ const SearchScreenInner = ({navigation}) => {
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
+      <Stack.Screen name="UserHome" component={UserHome} options={defaultScreenOptions} />
     </Stack.Navigator>
   )
 }
