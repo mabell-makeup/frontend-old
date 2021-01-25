@@ -6,3 +6,4 @@ export const getPostsByConditions = /\{posts\(.*\)\{post_idthumbnail_img_src\}\}
 export const getTrendPosts = /\{posts\(order:DESC\)\{post_idthumbnail_img_src\}\}/
 export const getPostDetail = /\{post\(id:.+\)\{user_iduser_nameimg_src_listitemstagsdescriptionpage_views\}\}/
 export const updateFavoritePost = /\{updateFavoritePost\(post_id:.+,handle:.+\)\{result\}\}/
+export const getItems = /\{fetchItems\(productId:.+\)\{items:\{idnamebrand_namecategorypricerelease_date\}\}\}/

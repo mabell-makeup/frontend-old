@@ -1,14 +1,10 @@
-import React, {useContext} from "react"
-import {View, ScrollView, TouchableOpacity} from "react-native"
-import {Title} from "react-native-paper"
-import {Appbar, Avatar, Text, Button, IconButton} from "react-native-paper"
-import {Platform} from "react-native"
+import React, {useContext, useEffect} from "react"
+import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
+import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
-import {updateFavoritePost, postStore} from "../../stores/postStore"
-
-// TODO: Constantsに移動
-const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical"
+import {updateFavoritePost, postStore, fetchItems} from "../../stores/postStore"
+import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -57,16 +53,36 @@ const createStyles = favorite => ({
     borderWidth: 1,
     paddingTop: 2,
     marginLeft: 0,
-    borderColor: "#ccc",
+    borderColor: "#ccc"
   },
   favoriteButton: {
-    borderColor: favorite ? "#FF7F50" : "#ccc",
+    borderColor: favorite ? "#FF7F50" : "#ccc"
   },
   buttonContainer: {
     flexDirection: "row"
   },
   tag: {
     marginTop: 20
+  },
+  itemInfoTitle: {
+    marginLeft: 10
+  },
+  items: {
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    backgroundColor: "#999"
+  },
+  item: {
+    width: (WINDOW_WIDTH-6) / 3,
+    margin: 1
+  },
+  itemImage: {
+    width: (WINDOW_WIDTH-6) / 3,
+    height: (WINDOW_WIDTH-6) / 3
+  },
+  brandName: {
+    fontWeight: "bold"
   }
 })
 
@@ -125,6 +141,39 @@ const UserInfo = ({postUser, navigation}) => {
   )
 }
 
+const item = ({item}) => {
+  const styles = createStyles()
+
+  return (
+    <TouchableOpacity>
+      <View key={item.id} style={styles.item}>
+        <Image source={{uri: item.img_src}} style={styles.itemImage} />
+        <Text style={styles.brandName} numberOfLines={1}>{item.brand_name}</Text>
+        <Text numberOfLines={1}>{item.item_name}</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const ItemInfo = ({dispatch, post}) => {
+  const styles = createStyles()
+  useEffect(() => {
+    fetchItems(dispatch, post.item_id_list)
+  }, [])
+
+  return (
+    <View>
+      <Title style={styles.itemInfoTitle}>アイテム</Title>
+      <FlatList
+        data={post.items}
+        renderItem={item}
+        keyExtractor={item => item.id}
+        numColumns={3}
+      />
+    </View>
+  )
+}
+
 export const PostDetail = ({navigation}) => {
   const {dispatch, state: {post}} = useContext(postStore)
   const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
@@ -134,6 +183,7 @@ export const PostDetail = ({navigation}) => {
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
       <PostInfo post={post} dispatch={dispatch} />
+      <ItemInfo dispatch={dispatch} post={post} />
       <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )

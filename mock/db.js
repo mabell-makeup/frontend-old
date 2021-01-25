@@ -1,7 +1,7 @@
 // 静的ファイルを取得するためのパス
 const IMG_ROOT= "https://raw.githubusercontent.com/daiti0113/Joker-assets/main"
 
-export const items = [
+const items_data = [
   {item_id: 1, item_name: "ナチュラル チークN", brand_name: "セザンヌ", item_category: ["パウダーチーク"], price: "4g・360円 / -・360円", release_date: "2001年 (2020/9/11追加発売)"},
   {item_id: 2, item_name: "つやぷるリップ", brand_name: "B IDOL（ビー アイドル)", item_category: ["口紅"], price: "2.4g・1,400円", release_date: "2019/5/1 (2020/10/8追加発売)"},
   {item_id: 3, item_name: "アイグロウ ジェム", brand_name: "コスメデコルテ", item_category: ["ジェル・クリームアイシャドウ"], price: "2,700円", release_date: "2018/2/16 (2020/4/16追加発売)"},
@@ -103,6 +103,8 @@ export const items = [
   {item_id: 99, item_name: "アイブロウペンシルA", brand_name: "ケイト", item_category: ["アイブロウペンシル"], price: "550円 (編集部調べ)", release_date: "2018/5/1"},
 ]
 
+export const items = items_data.map(item => ({...item, img_src: `${IMG_ROOT}/images/items/${item.item_id}.jpg`}))
+
 export const posts = [...Array(20).keys()].map(userId => ({
   post_id: userId + 1,
   thumbnail_img_src: `${IMG_ROOT}/images/users/user${userId + 1}/posts/1.jpg`,
@@ -111,8 +113,9 @@ export const posts = [...Array(20).keys()].map(userId => ({
   user_thumbnail_img_src: `${IMG_ROOT}/images/users/user${userId + 1}/user${userId + 1}.jpg`,
   description: `これは説明のサンプルです。user${userId + 1}によって投稿されました。`,
   tags: ["テスト投稿", "地雷メイク", userId % 2 === 0 ? "一重" : "奥二重",`${userId.toString()}回目の投稿`, "モテる", "デート"],
-  items: [...Array(userId).keys()],
+  item_id_list: [...Array(5).keys()],
   user_id: userId + 1,
   img_src_list: [...Array(2).keys()].map(num => `${IMG_ROOT}/images/users/user${userId + 1}/posts/${num + 1}.jpg`),
   page_views: parseInt(Math.random() * 100)
 }))
+

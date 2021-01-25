@@ -8,11 +8,12 @@ export const initialState = {
     user_name: "",
     user_nickname: "",
     img_src_list: [],
-    items: [],
+    item_id_list: [],
     tags: [],
     description: "",
     page_views: Number,
-    favorite: false
+    favorite: false,
+    items: []
   }
 }
 
@@ -22,6 +23,7 @@ const postStore = createContext(initialState)
 // Define Types
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
+const FETCH_ITEMS = "FETCH_ITEMS"
 
 // Define ActionCreator
 export const fetchPostDetail = (dispatch, id) => {
@@ -46,6 +48,21 @@ export const updateFavoritePost = (dispatch, post_id, handleFavorite) => {
   }`)
   !loading && !error && dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
 }
+export const fetchItems = (dispatch, productIdList) => {
+  const {error, loading, data} = apiRequest(`{
+    fetchItems(productId: ${productIdList.toString()}) {
+      items: {
+        id
+        name
+        brand_name
+        category
+        price
+        release_date
+      }
+    }
+  }`)
+  !loading && !error && dispatch({type: FETCH_ITEMS, payload: data.items})
+}
 
 
 // Defin Provider
@@ -54,7 +71,8 @@ const PostProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
-    [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}})
+    [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
+    [FETCH_ITEMS]: (state, {payload}) => ({...state, post: {...state.post, items: payload}})
   }), initialState)
   console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
