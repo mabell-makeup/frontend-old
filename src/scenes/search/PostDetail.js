@@ -64,9 +64,6 @@ const createStyles = favorite => ({
   tag: {
     marginTop: 20
   },
-  itemInfoTitle: {
-    marginLeft: 10
-  },
   items: {
     flexWrap: "wrap",
     flexDirection: "row",
@@ -106,8 +103,27 @@ const PostHeader = ({postUser, navigation}) => {
 }
 
 const PostInfo = ({navigation}) => {
-  const {dispatch, state: {post, items}} = useContext(postStore)
+  const {state: {post, items}} = useContext(postStore)
   const styles = createStyles(post.favorite)
+
+  return (
+    <View style={styles.infoContainer}>
+      <Text style={styles.description}>{post.description}</Text>
+      <View style={styles.tag}>
+        <Title title={styles.title}>タグ</Title>
+        <ChipList items={post.tags.map(tag => ({label: tag}))} />
+        <Title title={styles.title}>アイテム</Title>
+        <ChipList items={items.map(item => ({label: item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
+        <Title title={styles.title}>ブランド</Title>
+        <ChipList items={items.map(item => ({label: item.brand_name}))} />
+      </View>
+    </View>
+  )
+}
+
+const ReactionContainer = () => {
+  const styles = createStyles()
+  const {dispatch, state: {post}} = useContext(postStore)
 
   return (
     <View style={styles.infoContainer}>
@@ -116,30 +132,26 @@ const PostInfo = ({navigation}) => {
         <IconButton icon={post.favorite ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.favorite ? "#FF7F50" : "#999"} onPress={() => updateFavoritePost(dispatch, post.post_id, !post.favorite)} />
         <IconButton icon="comment-outline" style={styles.button} color="#999" />
       </View>
-      <Text style={styles.description}>{post.description}</Text>
-      <View style={styles.tag}>
-        <Title>タグ</Title>
-        <ChipList items={post.tags.map(tag => ({label: tag}))} />
-        <Title>アイテム</Title>
-        <ChipList items={items.map(item => ({label: item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
-      </View>
     </View>
   )
 }
+
 
 const UserInfo = ({postUser, navigation}) => {
   const styles = createStyles()
 
   return (
-    <View style={styles.userInfo}>
-      <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
-        <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
-      </TouchableOpacity>
-      <View style={styles.userInfoTextContainer}>
-        <Text style={styles.userInfoNickname}>{postUser.nickname}</Text>
-        <Text style={styles.userInfoName}>@{postUser.name}</Text>
+    <View style={styles.infoContainer}>
+      <View style={styles.userInfo}>
+        <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
+          <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
+        </TouchableOpacity>
+        <View style={styles.userInfoTextContainer}>
+          <Text style={styles.userInfoNickname}>{postUser.nickname}</Text>
+          <Text style={styles.userInfoName}>@{postUser.name}</Text>
+        </View>
+        <Button mode="outlined" style={styles.userInfoFollow}>フォローする</Button>
       </View>
-      <Button mode="outlined" style={styles.userInfoFollow}>フォローする</Button>
     </View>
   )
 }
@@ -160,18 +172,14 @@ const Item = ({item, navigation}) => {
 
 const ItemInfo = ({navigation}) => {
   const {state: {items}} = useContext(postStore)
-  const styles = createStyles()
 
   return (
-    <View>
-      <Title style={styles.itemInfoTitle}>アイテム</Title>
-      <FlatList
-        data={items}
-        renderItem={({item}) => <Item item={item} navigation={navigation} />}
-        keyExtractor={item => item.id}
-        numColumns={3}
-      />
-    </View>
+    <FlatList
+      data={items}
+      renderItem={({item}) => <Item item={item} navigation={navigation} />}
+      keyExtractor={item => item.id}
+      numColumns={3}
+    />
   )
 }
 
@@ -186,8 +194,9 @@ export const PostDetail = ({navigation}) => {
     <ScrollView>
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
-      <PostInfo navigation={navigation} />
+      <ReactionContainer />
       <ItemInfo navigation={navigation} />
+      <PostInfo navigation={navigation} />
       <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )
