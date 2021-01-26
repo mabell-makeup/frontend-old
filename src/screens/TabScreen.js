@@ -6,7 +6,7 @@ import {IconButton} from "react-native-paper"
 
 const Tab = createMaterialBottomTabNavigator()
 
-export const AuthScreen = () => {
+export const TabScreen = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
