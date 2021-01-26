@@ -105,7 +105,8 @@ const PostHeader = ({postUser, navigation}) => {
   )
 }
 
-const PostInfo = ({post, dispatch}) => {
+const PostInfo = () => {
+  const {dispatch, state: {post, items}} = useContext(postStore)
   const styles = createStyles(post.favorite)
 
   return (
@@ -118,7 +119,9 @@ const PostInfo = ({post, dispatch}) => {
       <Text style={styles.description}>{post.description}</Text>
       <View style={styles.tag}>
         <Title>タグ</Title>
-        <ChipList items={post.tags.map(tags => ({label: tags}))} />
+        <ChipList items={post.tags.map(tag => ({label: tag}))} />
+        <Title>アイテム</Title>
+        <ChipList items={items.map(item => ({label: item.item_name}))} />
       </View>
     </View>
   )
@@ -141,7 +144,7 @@ const UserInfo = ({postUser, navigation}) => {
   )
 }
 
-const item = ({item}) => {
+const Item = ({item}) => {
   const styles = createStyles()
 
   return (
@@ -155,18 +158,16 @@ const item = ({item}) => {
   )
 }
 
-const ItemInfo = ({dispatch, post}) => {
+const ItemInfo = () => {
+  const {state: {items}} = useContext(postStore)
   const styles = createStyles()
-  useEffect(() => {
-    fetchItems(dispatch, post.item_id_list)
-  }, [])
 
   return (
     <View>
       <Title style={styles.itemInfoTitle}>アイテム</Title>
       <FlatList
-        data={post.items}
-        renderItem={item}
+        data={items}
+        renderItem={Item}
         keyExtractor={item => item.id}
         numColumns={3}
       />
@@ -176,14 +177,17 @@ const ItemInfo = ({dispatch, post}) => {
 
 export const PostDetail = ({navigation}) => {
   const {dispatch, state: {post}} = useContext(postStore)
+  useEffect(() => {
+    fetchItems(dispatch, post.item_id_list)
+  }, [])
   const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
 
   return (
     <ScrollView>
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
-      <PostInfo post={post} dispatch={dispatch} />
-      <ItemInfo dispatch={dispatch} post={post} />
+      <PostInfo />
+      <ItemInfo />
       <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )

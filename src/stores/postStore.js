@@ -12,9 +12,9 @@ export const initialState = {
     tags: [],
     description: "",
     page_views: Number,
-    favorite: false,
-    items: []
-  }
+    favorite: false
+  },
+  items: []
 }
 
 // Define Store
@@ -72,7 +72,7 @@ const PostProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
-    [FETCH_ITEMS]: (state, {payload}) => ({...state, post: {...state.post, items: payload}})
+    [FETCH_ITEMS]: (state, {payload}) => ({...state, items: payload})
   }), initialState)
   console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
