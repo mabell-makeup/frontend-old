@@ -13,6 +13,7 @@ import {FakeSearchInput} from "../components/FakeSearchInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {PostProvider} from "../stores/postStore"
+import {ItemDetail} from "../scenes/search/ItemDetail"
 
 const Stack = createStackNavigator()
 
@@ -70,6 +71,8 @@ const SearchScreenInner = ({navigation}) => {
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
+      <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
+      {/* TODO: UserScreenを設けて、UserHome, Follower, Followを入れる */}
       <Stack.Screen name="UserHome" component={UserHome} options={defaultScreenOptions} />
     </Stack.Navigator>
   )

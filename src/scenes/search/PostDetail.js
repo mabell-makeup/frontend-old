@@ -105,7 +105,7 @@ const PostHeader = ({postUser, navigation}) => {
   )
 }
 
-const PostInfo = () => {
+const PostInfo = ({navigation}) => {
   const {dispatch, state: {post, items}} = useContext(postStore)
   const styles = createStyles(post.favorite)
 
@@ -121,7 +121,7 @@ const PostInfo = () => {
         <Title>タグ</Title>
         <ChipList items={post.tags.map(tag => ({label: tag}))} />
         <Title>アイテム</Title>
-        <ChipList items={items.map(item => ({label: item.item_name}))} />
+        <ChipList items={items.map(item => ({label: item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
       </View>
     </View>
   )
@@ -144,11 +144,11 @@ const UserInfo = ({postUser, navigation}) => {
   )
 }
 
-const Item = ({item}) => {
+const Item = ({item, navigation}) => {
   const styles = createStyles()
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate("ItemDetail")}>
       <View key={item.id} style={styles.item}>
         <Image source={{uri: item.img_src}} style={styles.itemImage} />
         <Text style={styles.brandName} numberOfLines={1}>{item.brand_name}</Text>
@@ -158,7 +158,7 @@ const Item = ({item}) => {
   )
 }
 
-const ItemInfo = () => {
+const ItemInfo = ({navigation}) => {
   const {state: {items}} = useContext(postStore)
   const styles = createStyles()
 
@@ -167,7 +167,7 @@ const ItemInfo = () => {
       <Title style={styles.itemInfoTitle}>アイテム</Title>
       <FlatList
         data={items}
-        renderItem={Item}
+        renderItem={({item}) => <Item item={item} navigation={navigation} />}
         keyExtractor={item => item.id}
         numColumns={3}
       />
@@ -186,8 +186,8 @@ export const PostDetail = ({navigation}) => {
     <ScrollView>
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
-      <PostInfo />
-      <ItemInfo />
+      <PostInfo navigation={navigation} />
+      <ItemInfo navigation={navigation} />
       <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )
