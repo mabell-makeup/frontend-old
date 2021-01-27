@@ -4,7 +4,7 @@ import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {SearchInput} from "../components/SearchInput"
-import {Text, IconButton} from "react-native-paper"
+import {Text} from "react-native-paper"
 import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditions} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
@@ -65,7 +65,7 @@ const SearchScreenInner = ({navigation}) => {
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
-        headerRight: () => <IconButton icon="pencil-plus-outline" size={25} style={{marginRight: 10}} onPress={() => navigation.navigate("PostScreen", {screen: "Post"})} />,
+        headerRight: false,
         headerLeft: false,
         headerTitle: () => <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} />,
         gestureDirection: "horizontal-inverted"
