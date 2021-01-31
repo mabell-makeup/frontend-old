@@ -8,7 +8,17 @@ import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
+  container: {
+    backgroundColor: "#fff"
+  },
+  header: {
+    height: 45
+  },
   userName: {
+    color: "#000",
+    fontSize: 14
+  },
+  subTitle: {
     color: "#000"
   },
   moreIcon: {
@@ -17,15 +27,21 @@ const createStyles = favorite => ({
   },
   headerLeft: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center"
   },
   infoContainer: {
     marginTop: 6,
-    paddingHorizontal: 10
+    padding: 10
   },
   description: {
     marginTop: 10,
-    lineHeight: 30
+    lineHeight: 30,
+  },
+  createdAt: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 20
   },
   strong: {
     fontWeight: "bold"
@@ -33,8 +49,7 @@ const createStyles = favorite => ({
   userInfo: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 10
+    backgroundColor: "#fff"
   },
   userInfoTextContainer: {
     marginLeft: 10
@@ -64,6 +79,9 @@ const createStyles = favorite => ({
   tag: {
     marginTop: 20
   },
+  tagTitle: {
+    marginTop: 20
+  },
   items: {
     flexWrap: "wrap",
     flexDirection: "row",
@@ -87,14 +105,14 @@ const PostHeader = ({postUser, navigation}) => {
   const styles = createStyles()
 
   return (
-    <Appbar.Header>
+    <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
       <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate("UserHome")}>
         <Avatar.Image size={38} source={{uri: postUser.thumbnail}} />
         <Appbar.Content 
           title={postUser.nickname}
           titleStyle={styles.userName}
           subtitle={`@${postUser.name}`}
-          subtitleStyle={styles.userName}
+          subtitleStyle={styles.subTitle}
         />
       </TouchableOpacity>
       <Appbar.Action style={styles.moreIcon} icon={MORE_ICON} onPress={() => {}} />
@@ -109,13 +127,17 @@ const PostInfo = ({navigation}) => {
   return (
     <View style={styles.infoContainer}>
       <Text style={styles.description}>{post.description}</Text>
+      <View style={styles.createdAt}>
+        <IconButton size={15} icon="clock" style={{margin: 0}} />
+        <Text>{post.created_at}</Text>
+      </View>
       <View style={styles.tag}>
-        <Title title={styles.title}>タグ</Title>
-        <ChipList items={post.tags.map(tag => ({label: tag}))} />
-        <Title title={styles.title}>アイテム</Title>
-        <ChipList items={items.map(item => ({label: item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
-        <Title title={styles.title}>ブランド</Title>
-        <ChipList items={items.map(item => ({label: item.brand_name}))} />
+        <Title style={styles.tagTitle}>アイテム</Title>
+        <ChipList items={items.map(item => ({label: "#" + item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
+        <Title style={styles.tagTitle}>ブランド</Title>
+        <ChipList items={items.map(item => ({label: "#" + item.brand_name}))} />
+        <Title style={styles.tagTitle}>タグ</Title>
+        <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} />
       </View>
     </View>
   )
@@ -185,19 +207,20 @@ const ItemInfo = ({navigation}) => {
 
 export const PostDetail = ({navigation}) => {
   const {dispatch, state: {post}} = useContext(postStore)
+  const styles = createStyles()
   useEffect(() => {
     fetchItems(dispatch, post.item_id_list)
   }, [])
   const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
       <ReactionContainer />
-      <ItemInfo navigation={navigation} />
+      {/* <ItemInfo navigation={navigation} /> */}
       <PostInfo navigation={navigation} />
-      <UserInfo postUser={postUser} navigation={navigation} />
+      {/* <UserInfo postUser={postUser} navigation={navigation} /> */}
     </ScrollView>
   )
 }

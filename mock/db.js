@@ -116,6 +116,7 @@ export const posts = [...Array(20).keys()].map(userId => ({
   item_id_list: [...Array(5).keys()],
   user_id: userId + 1,
   img_src_list: [...Array(2).keys()].map(num => `${IMG_ROOT}/images/users/user${userId + 1}/posts/${num + 1}.jpg`),
-  page_views: parseInt(Math.random() * 100)
+  page_views: parseInt(Math.random() * 100),
+  created_at: "2021-02-01"
 }))
 

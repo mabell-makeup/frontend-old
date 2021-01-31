@@ -29,7 +29,8 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#FF7F50",
-    accent: "yellow"
+    accent: "yellow",
+    background: "fff"
   }
 }
 
