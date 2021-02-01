@@ -27,7 +27,7 @@ export default class ImageBrowser extends React.Component {
     hasCameraRollPermission: null,
     numColumns: null,
     photos: [],
-    selected: [],
+    selected: [0],
     isEmpty: false,
     after: null,
     hasNextPage: true
@@ -65,6 +65,8 @@ export default class ImageBrowser extends React.Component {
   }
 
   selectImage = (index) => {
+    const { loadCompleteMetadata } = this.props;
+    const { photos } = this.state;
     let newSelected = Array.from(this.state.selected);
     if (newSelected.indexOf(index) === -1) {
       newSelected.push(index);
@@ -75,7 +77,13 @@ export default class ImageBrowser extends React.Component {
     if (newSelected.length > this.props.max) return;
     if (!newSelected) newSelected = []; 
     this.setState({selected: newSelected}, () =>{
-      this.props.onChange(newSelected.length, () => this.prepareCallback());
+      const selectedPhotos = newSelected.map(i => photos[i]);
+      if (!loadCompleteMetadata){
+      } else {
+        const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
+        this.props.callback(assetsInfo);
+      }  
+      // this.props.onChange(newSelected.length, () => this.prepareCallback());
     });
   }
 

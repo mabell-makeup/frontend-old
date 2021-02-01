@@ -1,5 +1,5 @@
-import React from "react"
-import {StyleSheet, View, Text, TouchableOpacity, ActivityIndicator} from "react-native"
+import React, {useEffect} from "react"
+import {StyleSheet, View, Text, ActivityIndicator} from "react-native"
 import * as ImageManipulator from "expo-image-manipulator"
 import ImageBrowser from "./ImageBrowser"
 
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const imagesCallback = navigation => callback => {
+const imagesCallback = (navigation, setImages) => callback => {
   navigation.setOptions({
     headerRight: () => <ActivityIndicator size="small" color={"#0580FF"}/>
   })
-
+  
   callback.then(async (photos) => {
     const cPhotos = []
     for(let photo of photos) {
@@ -43,7 +43,7 @@ const imagesCallback = navigation => callback => {
         type: "image/jpg"
       })
     }
-    navigation.navigate("Main", {photos: cPhotos})
+    setImages(cPhotos)
   })
     .catch((e) => console.log(e))
 }
@@ -57,18 +57,12 @@ const processImageAsync = async uri => {
   return file
 }
 
-const DoneButton = onSubmit => 
-  <TouchableOpacity title={"Done"} onPress={onSubmit}>
-    <Text onPress={onSubmit}>Done</Text>
-  </TouchableOpacity>
+const DoneButton = ({onPress}) => <Text onPress={onPress}>次へ</Text>
 
-const updateHandler = navigation => (count, onSubmit) => {
+const updateHandler = navigation => (count, onPress) => {
   count > 0
-    ? navigation.setOptions({
-      title: `Selected ${count} files`,
-      headerRight: () => <DoneButton count={count} onSubmit={onSubmit} />
-    })
-    : navigation.setOptions({title: false, headerRight: false})
+    ? navigation.setOptions({headerRight: () => <DoneButton count={count} onPress={onPress} />})
+    : navigation.setOptions({headerRight: false})
 }
 
 const SelectedComponent = number => (
@@ -79,13 +73,17 @@ const SelectedComponent = number => (
 
 const EmptyStayComponent = <Text style={styles.emptyStay}>Empty =(</Text>
 
-export const ImagePicker = ({navigation}) => {
+export const ImagePicker = ({navigation, setImages}) => {
+  useEffect(() => {
+    navigation.setOptions({headerRight: () => <DoneButton />})
+  }, [])
+
   return (
     <View style={styles.container}>
       <ImageBrowser
         max={4}
         onChange={updateHandler(navigation)}
-        callback={imagesCallback(navigation)}
+        callback={imagesCallback(navigation, setImages)}
         renderSelectedComponent={SelectedComponent}
         emptyStayComponent={EmptyStayComponent}
       />
