@@ -36,7 +36,7 @@ const createStyles = favorite => ({
   },
   description: {
     marginTop: 10,
-    lineHeight: 30,
+    lineHeight: 30
   },
   createdAt: {
     alignItems: "center",

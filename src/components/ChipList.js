@@ -21,7 +21,7 @@ const createStyles = (hasLeft, selected) => ({
     borderWidth: 0.5,
     borderRadius: 50,
     borderColor: "#ccc",
-    backgroundColor: selected ? "#ddd" : "#fff"
+    backgroundColor: selected ? "#ddd" : "#fafafa"
   },
   chipText: {
     fontSize: 10,

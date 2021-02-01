@@ -8,7 +8,7 @@ const styles = {
     justifyContent: "center"
   },
   rowTitle: {
-    fontSize: 12
+    fontSize: 14
   }
 }
 
