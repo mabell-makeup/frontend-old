@@ -5,7 +5,6 @@ import {TextInput, View} from "react-native"
 
 const styles = {
   container: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
@@ -21,10 +20,10 @@ const styles = {
 }
 
 
-export const SearchInput = ({onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
+export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
   return (
     <View style={styles.container}>
-      <IconButton icon="magnify" />
+      <IconButton icon={icon} />
       <TextInput
         placeholder="Search"
         onChangeText={onChangeText}

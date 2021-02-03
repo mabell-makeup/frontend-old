@@ -10,7 +10,7 @@ export const MyPage = ({navigation}) =>
         icon="pencil-plus-outline"
         size={25}
         mode="outlined"
-        onPress={() => navigation.navigate("PostScreen", {screen: "Post"})}
+        onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})}
       >
         投稿する
       </Button>

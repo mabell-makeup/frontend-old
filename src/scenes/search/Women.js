@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {ImageList} from "../../components/ImageList"
 import {searchStore} from "../../stores/searchStore"
-import {fetchPostDetail, postStore} from "../../stores/postStore"
+import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 
 const createDataWithNavigation = (searchResult, navigation, dispatch) => searchResult.map(post => ({
@@ -14,7 +14,7 @@ const createDataWithNavigation = (searchResult, navigation, dispatch) => searchR
 
 export const Women = ({navigation}) => {
   const {state: {searchResult}} = useContext(searchStore)
-  const {dispatch} = useContext(postStore)
+  const {dispatch} = useContext(postDetailStore)
 
   return (
     <>

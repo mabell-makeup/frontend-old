@@ -3,7 +3,7 @@ import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
-import {updateFavoritePost, postStore, fetchItems} from "../../stores/postStore"
+import {updateFavoritePost, postDetailStore, fetchItems} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
@@ -121,7 +121,7 @@ const PostHeader = ({postUser, navigation}) => {
 }
 
 const PostInfo = ({navigation}) => {
-  const {state: {post, items}} = useContext(postStore)
+  const {state: {post, items}} = useContext(postDetailStore)
   const styles = createStyles(post.favorite)
 
   return (
@@ -145,7 +145,7 @@ const PostInfo = ({navigation}) => {
 
 const ReactionContainer = () => {
   const styles = createStyles()
-  const {dispatch, state: {post}} = useContext(postStore)
+  const {dispatch, state: {post}} = useContext(postDetailStore)
 
   return (
     <View style={styles.infoContainer}>
@@ -193,7 +193,7 @@ const Item = ({item, navigation}) => {
 }
 
 const ItemInfo = ({navigation}) => {
-  const {state: {items}} = useContext(postStore)
+  const {state: {items}} = useContext(postDetailStore)
 
   return (
     <FlatList
@@ -206,7 +206,7 @@ const ItemInfo = ({navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {dispatch, state: {post}} = useContext(postStore)
+  const {dispatch, state: {post}} = useContext(postDetailStore)
   const styles = createStyles()
   useEffect(() => {
     fetchItems(dispatch, post.item_id_list)

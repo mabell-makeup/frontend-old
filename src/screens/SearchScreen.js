@@ -3,17 +3,18 @@ import React, {useContext} from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
-import {SearchInput} from "../components/SearchInput"
+import {IconTextInput} from "../components/IconTextInput"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore, updateSuggestionKeywords, updateTmpConditions} from "../stores/searchStore"
+import {SearchProvider, searchStore, updateTmpConditions} from "../stores/searchStore"
 import {SelectKeywords} from "../scenes/search/SelectKeywords"
 import {apiRequest} from "../helper/requestHelper"
 import {PostDetail} from "../scenes/search/PostDetail"
-import {FakeSearchInput} from "../components/FakeSearchInput"
+import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
-import {PostProvider} from "../stores/postStore"
+import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
+import {updateSuggestionKeywords} from "../stores/appStore"
 
 const Stack = createStackNavigator()
 
@@ -61,13 +62,13 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
         ...defaultScreenOptions,
         headerLeft: false,
-        headerTitle: () => <SearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
+        headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} />,
+        headerTitle: () => <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
@@ -78,4 +79,4 @@ const SearchScreenInner = ({navigation}) => {
   )
 }
 
-export const SearchScreen = props => <SearchProvider><PostProvider><SearchScreenInner {...props} /></PostProvider></SearchProvider>
+export const SearchScreen = props => <SearchProvider><PostDetailProvider><SearchScreenInner {...props} /></PostDetailProvider></SearchProvider>

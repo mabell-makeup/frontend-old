@@ -23,15 +23,12 @@ const chipAction = (preKeywords, keyword) => {
   return tmp.concat([keyword]).join(" ") + " "
 }
 
-const createRows = (dispatch, keywords, tmpConditions) =>
+const createRows = (keywords) =>
   keywords.map(keyword => ({
     label: `#${keyword}`,
     // eslint-disable-next-line react/display-name
-    selected: tmpConditions.keywords.split(/\s/).includes(keyword),
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {keywords: chipAction(tmpConditions.keywords, keyword)})
-      fetchPosts(dispatch, tmpConditions)
-    }
+    selected: false,
+    onPress: () => {}
   }))
 
 const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
@@ -40,14 +37,13 @@ const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
 }
 
 export const SelectKeywords = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, conditions}} = useContext(searchStore)
-  const {state: {suggestionKeywords}} = useContext(appStore)
-  const rows = createRows(dispatch, suggestionKeywords, tmpConditions)
+  const {dispatch, state: {suggestionKeywords}} = useContext(appStore)
+  const rows = createRows(suggestionKeywords)
 
   useEffect(() => {
     // キャンセルボタンの動作を変更する
     // eslint-disable-next-line react/display-name
-    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})    
+    // navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})    
   }, [])
 
   return (

@@ -9,7 +9,7 @@ import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
 import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
-import {FakeSearchInput} from "../../components/FakeSearchInput"
+import {FakeInput} from "../../components/FakeInput"
 import {useSomeStates} from "../../helper/hooksHelper"
 import {isEqual} from "../../helper/storeHelper"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
@@ -41,7 +41,7 @@ const styles = {
   accordionTitle: {
     fontWeight: "bold"
   },
-  fakeSearchInput: {
+  FakeInput: {
     marginTop: 10
   }
 }
@@ -82,7 +82,7 @@ export const SelectConditions = ({navigation}) => {
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View>
-          <FakeSearchInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.fakeSearchInput} />
+          <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.FakeInput} />
           <TrendKeywordsInput navigation={navigation} />
         </View>,
       isExpanded: isKeywordExpanded,

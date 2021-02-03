@@ -6,6 +6,7 @@ import {TouchableWithoutFeedback, Keyboard, StatusBar} from "react-native"
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import {LoginScreen} from "./src/screens/LoginScreen"
 import Amplify from "aws-amplify"
+import {AppProvider} from "./src/stores/appStore"
 
 Amplify.configure({
   Auth: {
@@ -58,8 +59,10 @@ export default function App() {
       <SafeAreaProvider>
         <DissmissKeyboard>
           <PaperProvider theme={theme}>
-            <StatusBar barStyle="dark-content" />
-            <LoginScreen />
+            <AppProvider>
+              <StatusBar barStyle="dark-content" />
+              <LoginScreen />
+            </AppProvider>
           </PaperProvider>
         </DissmissKeyboard>
       </SafeAreaProvider>

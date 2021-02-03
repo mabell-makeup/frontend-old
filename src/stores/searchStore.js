@@ -4,7 +4,6 @@ import {apiRequest} from "../helper/requestHelper"
 
 export const initialState = {
   conditions: {},
-  suggestionKeywords: [],
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
@@ -26,7 +25,6 @@ const searchStore = createContext(initialState)
 
 // Define Types
 const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
-const UPDATE_SUGGESTION_KEYWORDS = "UPDATE_SUGGESTION_KEYWORDS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
@@ -39,7 +37,6 @@ export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, i
     dispatch({type: UPDATE_TMP_CONDITIONS, payload: isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}})
   })
 }
-export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 // eslint-disable-next-line complexity
 export const fetchPosts = (dispatch, conditions={}) => {
   const {error, loading, data} = apiRequest(`${`{
@@ -69,7 +66,6 @@ const SearchProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
-    [UPDATE_SUGGESTION_KEYWORDS]: (state, {payload}) => ({...state, suggestionKeywords: payload}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions})
