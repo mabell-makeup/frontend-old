@@ -1,9 +1,11 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text, SafeAreaView} from "react-native"
-import {addPostData, postStore} from "../stores/postStore"
+import {updatePostData, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
-import {FakeInput} from "./FakeInput"
+import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
+import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
+import {List} from "../../components/List"
 
 const styles = {
   container: {
@@ -21,13 +23,24 @@ const styles = {
     backgroundColor: "#999"
   },
   FakeInput: {
-    marginTop: 10
+    marginTop: 10,
+    height: 35
+  },
+  tag: {
+    height: 40,
+    backgroundColor: "#eee",
+    marginVertical: 1
   }
+}
+
+const onChipPress = (navigation, dispatch, preTags) => keyword => () => {
+  updatePostData(dispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
+  // navigation.navigate("SelectKeywords")
 }
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {dispatch} = useContext(postStore)
+  const {dispatch, state: {tags}} = useContext(postStore)
   const [image, setImage] = useState(null)
 
   useEffect(() => {
@@ -39,7 +52,7 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    pickImage()
+    // pickImage()
   }, [])
 
   const pickImage = async () => {
@@ -64,6 +77,11 @@ export const SelectImages = ({navigation}) => {
           <TextInput placeholder="キャプションを書く"/>
         </View>
         <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
+        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.tag}))} />}
+        <TrendKeywordsInput onChipPress={onChipPress(navigation, dispatch, tags)} />
+        <View>
+          <Text>test</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )

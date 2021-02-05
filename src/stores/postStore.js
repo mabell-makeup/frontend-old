@@ -3,8 +3,7 @@ import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 
 export const initialState = {
-  data: {
-  }
+  tags: ""
 }
 
 // Define Store
@@ -14,7 +13,7 @@ const postStore = createContext(initialState)
 const ADD_POST_DATA = "ADD_POST_DATA"
 
 // Define ActionCreator
-export const addPostData = (dispatch, data) => dispatch({type: ADD_POST_DATA, payload: data})
+export const updatePostData = (dispatch, data) => dispatch({type: ADD_POST_DATA, payload: data})
 
 
 // Defin Provider
@@ -22,7 +21,7 @@ const {Provider} = postStore
 const PostProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [ADD_POST_DATA]: (state, {payload}) => ({...state, data: {...state.data, ...payload}})
+    [ADD_POST_DATA]: (state, {payload}) => ({...state, ...payload})
   }), initialState)
   console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

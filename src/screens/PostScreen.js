@@ -1,6 +1,6 @@
 import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
-import {SelectImages} from "../components/SelectImages"
+import {SelectImages} from "../scenes/post/SelectImages"
 import {SelectTags} from "../scenes/post/SelectTags"
 import {PostProvider} from "../stores/postStore"
 import {SelectItems} from "../scenes/post/SelectItems"

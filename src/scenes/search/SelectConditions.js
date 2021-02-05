@@ -3,7 +3,7 @@ import React, {useContext, useState} from "react"
 import {List} from "../../components/List"
 import {Button} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {searchStore, updateConditions, updateSearchResult, initialState} from "../../stores/searchStore"
+import {searchStore, updateConditions, updateSearchResult, initialState, updateTmpConditions, fetchPosts} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -42,7 +42,8 @@ const styles = {
     fontWeight: "bold"
   },
   FakeInput: {
-    marginTop: 10
+    marginTop: 10,
+    maxHeight: 35
   }
 }
 
@@ -55,6 +56,12 @@ const handlePress = (dispatch, navigation) => () => {
 const createRows = conditions => conditions.map(({title, inner, isExpanded, setIsExpanded}) => 
   ({title: title, rows: [inner], expanded: isExpanded, style: styles.accordion, titleStyle: styles.accordionTitle, onPress: () => setIsExpanded(!isExpanded), theme:{colors: {primary:"#000"}}})
 )
+
+const onChipPress = (dispatch, tmpConditions, navigation) => keyword => () => {
+  updateTmpConditions(dispatch, tmpConditions, {keywords: keyword})
+  fetchPosts(dispatch, tmpConditions)
+  navigation.navigate("SelectKeywords")
+}
 
 
 // eslint-disable-next-line max-lines-per-function
@@ -83,7 +90,7 @@ export const SelectConditions = ({navigation}) => {
         // eslint-disable-next-line react/jsx-indent
         <View>
           <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.FakeInput} />
-          <TrendKeywordsInput navigation={navigation} />
+          <TrendKeywordsInput onChipPress={onChipPress(dispatch, tmpConditions, navigation)} />
         </View>,
       isExpanded: isKeywordExpanded,
       setIsExpanded: setIsKeywordExpanded

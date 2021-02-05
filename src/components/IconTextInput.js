@@ -8,14 +8,15 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    height: "100%",
     backgroundColor: "#eee",
-    borderRadius: 50,
-    maxHeight: 35
+    borderRadius: 18
   },
   input: {
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0)"
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    justifyContent: "center"
   }
 }
 

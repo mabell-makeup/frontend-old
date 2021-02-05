@@ -13,20 +13,14 @@ const getTrendKeywords = () => {
   return !loading && !error ? data.trendKeywords : []
 }
 
-const createRows = (dispatch, keywords, tmpConditions, navigation) =>
-  keywords.map(keyword => ({
-    label: `#${keyword}`,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {keywords: keyword})
-      fetchPosts(dispatch, tmpConditions)
-      navigation.navigate("SelectKeywords")
-    }
-  }))
+const createRows = (keywords, onChipPress) => keywords.map(keyword => ({
+  label: `#${keyword}`,
+  onPress: onChipPress(keyword)
+}))
 
-export const TrendKeywordsInput = ({navigation}) => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+export const TrendKeywordsInput = ({onChipPress=keyword=>keyword}) => {
   const trendKeywords = getTrendKeywords()
-  const rows = createRows(dispatch, trendKeywords, tmpConditions, navigation)
+  const rows = createRows(trendKeywords, onChipPress)
 
   return <ChipList items={rows} />
 }
