@@ -23,13 +23,18 @@ const styles = {
     backgroundColor: "#999"
   },
   FakeInput: {
-    marginTop: 10,
     height: 35
   },
-  tag: {
+  listItem: {
     height: 40,
-    backgroundColor: "#eee",
-    marginVertical: 1
+    borderBottomWidth: 0.5
+  },
+  inputContainer: {
+    marginTop: 20
+  },
+  label: {
+    fontWeight: "bold",
+    marginBottom: 10
   }
 }
 
@@ -37,6 +42,14 @@ const onChipPress = (navigation, dispatch, preTags) => keyword => () => {
   updatePostData(dispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
   // navigation.navigate("SelectKeywords")
 }
+
+const userInfoSample = [
+  {label: "顔型", data: "卵型"},
+  {label: "パーソナルカラー", data: "ブルベ夏"},
+  {label: "肌タイプ", data: "普通肌"},
+  {label: "年齢", data: "21歳"},
+  {label: "性別", data: "WOMEN"}
+]
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
@@ -70,19 +83,26 @@ export const SelectImages = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView style={styles.container}>
-        <View style={styles.captionContainer}>
-          <Image source={{uri: image}} style={styles.image} />
-          <TextInput placeholder="キャプションを書く"/>
-        </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.captionContainer}>
+        <Image source={{uri: image}} style={styles.image} />
+        <TextInput placeholder="キャプションを書く"/>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>タグ付け</Text>
         <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
-        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.tag}))} />}
+        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
         <TrendKeywordsInput onChipPress={onChipPress(navigation, dispatch, tags)} />
-        <View>
-          <Text>test</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>使用アイテム</Text>
+        <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="使用アイテム" style={styles.FakeInput} />
+        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>ユーザー情報</Text>
+        <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <View style={{justifyContent: "center"}}><Text style={{color: "#666"}}>{data}</Text></View>, style: styles.listItem}))} />
+      </View>
+    </ScrollView>
   )
 }

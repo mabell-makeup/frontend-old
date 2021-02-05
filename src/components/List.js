@@ -2,6 +2,9 @@ import * as React from "react"
 import {List as L} from "react-native-paper"
 
 const styles = {
+  container: {
+    marginVertical: 0
+  },
   row: {
     height: 30,
     padding: 0,
@@ -41,7 +44,7 @@ const Accordion = ({title, rows, style, titleStyle,  ...props}) =>
 */
 export const List = ({rows=[{title: ""}]}) => {
   return (
-    <L.Section>
+    <L.Section style={styles.container}>
       {/* eslint-disable-next-line no-prototype-builtins */}
       {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item key={row.title} {...row} />)}
     </L.Section>
