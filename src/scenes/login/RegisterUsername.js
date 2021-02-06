@@ -30,8 +30,8 @@ export const RegisterUsername = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Title>ユーザー名を作成</Title>
-      <TextInput style={styles.input} mode="outlined" label="ユーザー名" onChangeText={text => updateNewUser(dispatch, {username: text})} />
+      <Title>表示名を作成</Title>
+      <TextInput style={styles.input} mode="outlined" label="表示名" onChangeText={text => updateNewUser(dispatch, {username: text})} />
       <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterPassword")}>次へ</Button>
     </View>
   )
