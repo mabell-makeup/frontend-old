@@ -31,7 +31,7 @@ const theme = {
     ...DefaultTheme.colors,
     primary: "#FF7F50",
     accent: "yellow",
-    background: "fff"
+    background: "#fff"
   }
 }
 

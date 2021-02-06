@@ -9,6 +9,7 @@ import {PostScreen} from "./PostScreen"
 import {IconButton} from "react-native-paper"
 import {RegisterPassword} from "../scenes/login/RegisterPassword"
 import {RegisterBirthdate} from "../scenes/login/RegisterBirthdate"
+import {RegisterMail} from "../scenes/login/RegisterMail"
 
 const styles = {
   header: {
@@ -52,6 +53,7 @@ const LoginScreenInner = () => {
             <Stack.Screen name="RegisterUsername" component={RegisterUsername} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
             <Stack.Screen name="RegisterPassword" component={RegisterPassword} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
             <Stack.Screen name="RegisterBirthdate" component={RegisterBirthdate} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
+            <Stack.Screen name="RegisterMail" component={RegisterMail} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
           </>
         }
       </Stack.Navigator>

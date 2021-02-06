@@ -29,25 +29,27 @@ const styles = StyleSheet.create({
   }
 })
 
-export const RegisterPassword = ({navigation}) => {
+// TODO: バリデーション系はヘルパーにまとめる
+const isEmail = text => /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(text)
+
+export const RegisterMail = ({navigation}) => {
   const {dispatch} = useContext(authStore)
-  const [password, setPassword] = useState("")
   const [errMsg, setErrMsg] = useState("")
 
-  // TODO: 必須入力と使用可能文字のバリデーションを追加
-  const validate = text => text !== password ? setErrMsg("パスワードが一致しません") : setErrMsg("")
+  // TODO: 必須入力のバリデーションを追加
+  const validate = text => isEmail(text) ? setErrMsg("") : setErrMsg("有効なメールアドレスを入力してください")
   const onChange = text => {
-    setPassword(text)
-    updateNewUser(dispatch, {password: text})
+    validate(text)
+    updateNewUser(dispatch, {mail: text})
   }
 
   return (
     <View style={styles.container}>
-      <Title>パスワードを作成</Title>
-      <TextInput style={styles.input} mode="outlined" label="パスワード" onChangeText={onChange} secureTextEntry={true} />
-      <TextInput style={styles.input} mode="outlined" label="パスワード再確認" onChangeText={text => validate(text)} secureTextEntry={true} error={errMsg !== ""} />
+      <Title>メールアドレスを追加</Title>
+      <Text></Text>
+      <TextInput style={styles.input} mode="outlined" label="メールアドレス" onChangeText={onChange} secureTextEntry={true} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterMail")}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterBirthdate")}>次へ</Button>
     </View>
   )
 }
