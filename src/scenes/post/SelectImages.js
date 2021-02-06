@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from "react"
-import {View, Image, Platform, TextInput, Text} from "react-native"
+import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
 import {Button} from "react-native-paper"
 import {updatePostData, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
@@ -7,6 +7,7 @@ import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
 import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 import {List} from "../../components/List"
+import {WheelPicker} from "../../components/WheelPicker"
 
 const styles = {
   container: {
@@ -61,10 +62,26 @@ const userInfoSample = [
   {label: "性別", data: "WOMEN"}
 ]
 
+const UserInfoItem = ({data, pickerState, setPickerState}) =>
+  <View style={{justifyContent: "center"}}>
+    <Text style={{color: "#666"}} onPress={() => setPickerState({...pickerState, isShown: true})}>{data}</Text>
+  </View>
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {dispatch, state: {tags}} = useContext(postStore)
   const [image, setImage] = useState(null)
+  const [pickerState, setPickerState] = useState({
+    isShown: false,
+    items: [
+      {label: "テスト0", value: 0},
+      {label: "テスト1", value: 1},
+      {label: "テスト2", value: 2},
+      {label: "テスト3", value: 3},
+      {label: "テスト4", value: 4}
+    ],
+    selected: 2
+  })
 
   useEffect(() => {
     (async () => {
@@ -79,17 +96,13 @@ export const SelectImages = ({navigation}) => {
   }, [])
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1
     })
 
-    console.log(result)
-
-    if (!result.cancelled) {
-      setImage(result.uri)
-    }
+    !result.cancelled && setImage(result.uri)
   }
 
   return (
@@ -112,9 +125,10 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
-          <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <View style={{justifyContent: "center"}}><Text style={{color: "#666"}}>{data}</Text></View>, style: styles.listItem}))} />
+          <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <UserInfoItem {...{data, pickerState, setPickerState}} />, style: styles.listItem}))} />
         </View>
       </ScrollView>
+      <WheelPicker usePickerState={[pickerState, setPickerState]} />
       <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={() => {}} disabled={false}>投稿する</Button>
     </>
   )
