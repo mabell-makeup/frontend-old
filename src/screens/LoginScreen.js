@@ -7,6 +7,7 @@ import {Login} from "../scenes/login/Login"
 import {CreateUsername} from "../scenes/login/CreateUsername"
 import {PostScreen} from "./PostScreen"
 import {IconButton} from "react-native-paper"
+import {CreatePassword} from "../scenes/login/CreatePassword"
 
 const styles = {
   header: {
@@ -32,6 +33,8 @@ const navigatorProps = ({
   initialRouteName: "Login"
 })
 
+const signupScreenOptions = (navigation, dispatch) => ({headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})
+
 const LoginScreenInner = () => {
   const {dispatch, state: {isLoggedIn}} = useContext(authStore)
 
@@ -45,7 +48,8 @@ const LoginScreenInner = () => {
           </>
           : <>
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
-            <Stack.Screen name="CreateUsername" component={CreateUsername} options={({navigation}) => ({headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})} />
+            <Stack.Screen name="CreateUsername" component={CreateUsername} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
+            <Stack.Screen name="CreatePassword" component={CreatePassword} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
           </>
         }
       </Stack.Navigator>
