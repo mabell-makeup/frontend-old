@@ -44,7 +44,7 @@ export const RegisterBirthdate = ({navigation}) => {
         onChange={onChange}
         style={styles.datePicker}
       />
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("")}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={() => navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})}>次へ</Button>
     </View>
   )
 }
