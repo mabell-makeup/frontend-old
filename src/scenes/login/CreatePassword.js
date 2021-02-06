@@ -47,7 +47,7 @@ export const CreatePassword = ({navigation}) => {
       <TextInput style={styles.input} mode="outlined" label="パスワード" onChangeText={onChange} secureTextEntry={true} />
       <TextInput style={styles.input} mode="outlined" label="パスワード再確認" onChangeText={text => validate(text)} secureTextEntry={true} error={errMsg !== ""} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} mode="contained" onPress={() => {}}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("CreateBirthdate")}>次へ</Button>
     </View>
   )
 }
