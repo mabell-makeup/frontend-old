@@ -45,7 +45,7 @@ export const Login = ({navigation}) => {
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
       <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, mail, password)}>ログイン</Button>
-      <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("Signup")}>登録はこちら</Text></Text>
+      <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("CreateUsername")}>登録はこちら</Text></Text>
     </View>
   )
 }

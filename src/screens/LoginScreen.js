@@ -2,22 +2,38 @@ import React, {useContext} from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {TabScreen} from "./TabScreen"
 import {NavigationContainer} from "@react-navigation/native"
-import {AuthProvider, authStore} from "../stores/authStore"
+import {AuthProvider, authStore, cancelSignup} from "../stores/authStore"
 import {Login} from "../scenes/login/Login"
-import {Signup} from "../scenes/login/Signup"
+import {CreateUsername} from "../scenes/login/CreateUsername"
 import {PostScreen} from "./PostScreen"
+import {IconButton} from "react-native-paper"
+
+const styles = {
+  header: {
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0
+    },
+    shadowColor: "transparent",
+    elevation:0 ,
+    borderBottomWidth: 0,
+    height: 80
+  }
+}
+
+const handleCancel = (navigation, dispatch) => () => {
+  navigation.navigate("Login")
+  cancelSignup(dispatch)
+}
 
 const Stack = createStackNavigator()
 
 const navigatorProps = ({
-  initialRouteName: "Login",
-  screenOptions: {
-    headerShown: false
-  }
+  initialRouteName: "Login"
 })
 
 const LoginScreenInner = () => {
-  const {state: {isLoggedIn}} = useContext(authStore)
+  const {dispatch, state: {isLoggedIn}} = useContext(authStore)
 
   return (
     <NavigationContainer>
@@ -28,8 +44,8 @@ const LoginScreenInner = () => {
             <Stack.Screen name="PostScreen" component={PostScreen} />
           </>
           : <>
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+            <Stack.Screen name="CreateUsername" component={CreateUsername} options={({navigation}) => ({headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})} />
           </>
         }
       </Stack.Navigator>

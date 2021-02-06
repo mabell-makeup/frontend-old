@@ -4,7 +4,15 @@ import {Auth} from "aws-amplify"
 
 const initialState = {
   isLoggedIn: false,
-  errMsg: ""
+  errMsg: "",
+  newUser: {
+    mail: "",
+    password: "",
+    gender: "",
+    username: "",
+    nickname: "",
+    birthdate: ""
+  }
 }
 
 // Define Store
@@ -15,6 +23,8 @@ const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 const LOGIN_FAILURE = "LOGIN_FAILURE"
 const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
 const SIGNUP_SUCCESS = "SIGNUP_SUCCESS"
+const UPDATE_NEW_USER = "UPDATE_NEW_USER"
+const CANCEL_SIGNUP = "CANCEL_SIGNUP"
 
 
 // Define ActionCreator
@@ -57,6 +67,8 @@ export const logout = async (dispatch) => {
   dispatch({type: LOGOUT_SUCCESS, payload: true})
 }
 
+export const updateNewUser = (dispatch, data) => dispatch({type: UPDATE_NEW_USER, payload: data})
+export const cancelSignup = dispatch => dispatch({type: CANCEL_SIGNUP})
 
 // Defin Provider
 const {Provider} = authStore
@@ -64,7 +76,9 @@ const AuthProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [LOGIN_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload}),
-    [LOGIN_FAILURE]: (state, {payload}) => ({...state, errMsg: payload})
+    [LOGIN_FAILURE]: (state, {payload}) => ({...state, errMsg: payload}),
+    [UPDATE_NEW_USER]: (state, {payload}) => ({...state, newUser: {...state.newUser, ...payload}}),
+    [CANCEL_SIGNUP]: state => ({...state, newUser: initialState.newUser})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
