@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect} from "react"
-import {View, Image, Platform, TextInput, Text, SafeAreaView} from "react-native"
+import {View, Image, Platform, TextInput, Text} from "react-native"
+import {Button} from "react-native-paper"
 import {updatePostData, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
@@ -35,6 +36,15 @@ const styles = {
   label: {
     fontWeight: "bold",
     marginBottom: 10
+  },
+  button: {
+    height: 50,
+    position: "absolute",
+    bottom: 40,
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    marginHorizontal: 10
   }
 }
 
@@ -83,26 +93,29 @@ export const SelectImages = ({navigation}) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.captionContainer}>
-        <Image source={{uri: image}} style={styles.image} />
-        <TextInput placeholder="キャプションを書く"/>
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>タグ付け</Text>
-        <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
-        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
-        <TrendKeywordsInput onChipPress={onChipPress(navigation, dispatch, tags)} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>使用アイテム</Text>
-        <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="使用アイテム" style={styles.FakeInput} />
-        {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>ユーザー情報</Text>
-        <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <View style={{justifyContent: "center"}}><Text style={{color: "#666"}}>{data}</Text></View>, style: styles.listItem}))} />
-      </View>
-    </ScrollView>
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.captionContainer}>
+          <Image source={{uri: image}} style={styles.image} />
+          <TextInput placeholder="キャプションを書く"/>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>タグ付け</Text>
+          <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
+          {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
+          <TrendKeywordsInput onChipPress={onChipPress(navigation, dispatch, tags)} />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>使用アイテム</Text>
+          <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="使用アイテム" style={styles.FakeInput} />
+          {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>ユーザー情報</Text>
+          <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <View style={{justifyContent: "center"}}><Text style={{color: "#666"}}>{data}</Text></View>, style: styles.listItem}))} />
+        </View>
+      </ScrollView>
+      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={() => {}} disabled={false}>投稿する</Button>
+    </>
   )
 }
