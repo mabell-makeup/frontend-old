@@ -3,7 +3,7 @@ import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   errMsg: ""
 }
 

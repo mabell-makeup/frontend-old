@@ -25,5 +25,6 @@ export default {
   extra: {
     // eslint-disable-next-line no-undef
     env: process.env.NODE_ENV !== "production" ? "development" : "production"
+    
   }
 }

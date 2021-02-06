@@ -15,4 +15,5 @@ yarn-error.log
 .history/
 
 # ENV
+.env.development
 .env.production
