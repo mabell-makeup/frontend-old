@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CreateUsername = ({navigation}) => {
+export const RegisterUsername = ({navigation}) => {
   const {dispatch} = useContext(authStore)
 
   // TODO: 必須入力と重複不可のバリデーションを追加
@@ -32,7 +32,7 @@ export const CreateUsername = ({navigation}) => {
     <View style={styles.container}>
       <Title>ユーザー名を作成</Title>
       <TextInput style={styles.input} mode="outlined" label="ユーザー名" onChangeText={text => updateNewUser(dispatch, {username: text})} />
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("CreatePassword")}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterPassword")}>次へ</Button>
     </View>
   )
 }

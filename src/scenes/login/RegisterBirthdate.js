@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CreateBirthdate = ({navigation}) => {
+export const RegisterBirthdate = ({navigation}) => {
   const {dispatch} = useContext(authStore)
   const [birthdate, setBirthdate] = useState(new Date())
 

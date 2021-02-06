@@ -4,11 +4,11 @@ import {TabScreen} from "./TabScreen"
 import {NavigationContainer} from "@react-navigation/native"
 import {AuthProvider, authStore, cancelSignup} from "../stores/authStore"
 import {Login} from "../scenes/login/Login"
-import {CreateUsername} from "../scenes/login/CreateUsername"
+import {RegisterUsername} from "../scenes/login/RegisterUsername"
 import {PostScreen} from "./PostScreen"
 import {IconButton} from "react-native-paper"
-import {CreatePassword} from "../scenes/login/CreatePassword"
-import {CreateBirthdate} from "../scenes/login/CreateBirthdate"
+import {RegisterPassword} from "../scenes/login/RegisterPassword"
+import {RegisterBirthdate} from "../scenes/login/RegisterBirthdate"
 
 const styles = {
   header: {
@@ -49,9 +49,9 @@ const LoginScreenInner = () => {
           </>
           : <>
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
-            <Stack.Screen name="CreateUsername" component={CreateUsername} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
-            <Stack.Screen name="CreatePassword" component={CreatePassword} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
-            <Stack.Screen name="CreateBirthdate" component={CreateBirthdate} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
+            <Stack.Screen name="RegisterUsername" component={RegisterUsername} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
+            <Stack.Screen name="RegisterPassword" component={RegisterPassword} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
+            <Stack.Screen name="RegisterBirthdate" component={RegisterBirthdate} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
           </>
         }
       </Stack.Navigator>
