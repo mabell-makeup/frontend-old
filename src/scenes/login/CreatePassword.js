@@ -35,7 +35,7 @@ export const CreatePassword = ({navigation}) => {
   const [errMsg, setErrMsg] = useState("")
 
   // TODO: 必須入力と使用可能文字のバリデーションを追加
-  const validate = text => text !== password && setErrMsg("パスワードが一致しません")
+  const validate = text => text !== password ? setErrMsg("パスワードが一致しません") : setErrMsg("")
   const onChange = text => {
     setPassword(text)
     updateNewUser(dispatch, {password: text})
