@@ -8,6 +8,7 @@ import {ScrollView} from "react-native-gesture-handler"
 import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 import {List} from "../../components/List"
 import {WheelPicker} from "../../components/WheelPicker"
+import {UserInfoList} from "../../components/UserInfoList"
 
 const styles = {
   container: {
@@ -53,19 +54,6 @@ const onChipPress = (navigation, dispatch, preTags) => keyword => () => {
   updatePostData(dispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
   // navigation.navigate("SelectKeywords")
 }
-
-const userInfoSample = [
-  {label: "顔型", data: "卵型"},
-  {label: "パーソナルカラー", data: "ブルベ夏"},
-  {label: "肌タイプ", data: "普通肌"},
-  {label: "年齢", data: "21歳"},
-  {label: "性別", data: "WOMEN"}
-]
-
-const UserInfoItem = ({data, pickerState, setPickerState}) =>
-  <View style={{justifyContent: "center"}}>
-    <Text style={{color: "#666"}} onPress={() => setPickerState({...pickerState, isShown: true})}>{data}</Text>
-  </View>
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
@@ -125,7 +113,7 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
-          <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <UserInfoItem {...{data, pickerState, setPickerState}} />, style: styles.listItem}))} />
+          <UserInfoList pickerState={pickerState} setPickerState={setPickerState} />
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
