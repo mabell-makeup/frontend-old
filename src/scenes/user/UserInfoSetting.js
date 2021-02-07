@@ -6,8 +6,9 @@ import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
 
 const styles = StyleSheet.create({
-  formContainer: {
-    padding: 12
+  container: {
+    padding: 12,
+    marginBottom: 80
   },
   imageContainer: {
     marginTop: 5,
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     position: "absolute",
-    bottom: 0,
+    bottom: 40,
     left: 0,
     right: 0,
     justifyContent: "center",
@@ -55,25 +56,27 @@ export const UserInfoSetting = ({navigation}) => {
   })
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.formContainer}>
-          <View style={styles.imageContainer}>
-            <Avatar.Image size={90} />
-            <Text style={styles.selectImage}>プロフィール写真を変更</Text>
+    <>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <Avatar.Image size={90} />
+              <Text style={styles.selectImage}>プロフィール写真を変更</Text>
+            </View>
+            <View style={styles.userInfoContainer}>
+              <Title>自己紹介</Title>
+              <TextInput placeholder="自己紹介" defaultValue={sampleSelfIntroduction} multiline={true} />
+            </View>
+            <View style={styles.userInfoContainer}>
+              <Title>基本情報</Title>
+              <UserInfoList pickerState={pickerState} setPickerState={setPickerState} />
+            </View>
           </View>
-          <View style={styles.userInfoContainer}>
-            <Title>自己紹介</Title>
-            <TextInput placeholder="自己紹介" defaultValue={sampleSelfIntroduction} multiline={true} />
-          </View>
-          <View style={styles.userInfoContainer}>
-            <Title>基本情報</Title>
-            <UserInfoList pickerState={pickerState} setPickerState={setPickerState} />
-          </View>
-        </View>
-      </ScrollView>
-      <WheelPicker usePickerState={[pickerState, setPickerState]} />
+        </ScrollView>
+      </SafeAreaView>
       <Button mode="contained" style={styles.button} onPress={() => {}} disabled={false}>変更する</Button>
-    </SafeAreaView>
+      <WheelPicker usePickerState={[pickerState, setPickerState]} />
+    </>
   )
 }
