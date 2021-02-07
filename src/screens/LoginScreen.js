@@ -33,10 +33,13 @@ const handleCancel = (navigation, dispatch) => () => {
 const Stack = createStackNavigator()
 
 const navigatorProps = ({
-  initialRouteName: "Login"
+  initialRouteName: "Login",
+  screenOptions: {
+    headerShown: false
+  }
 })
 
-const signupScreenOptions = (navigation, dispatch) => ({headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})
+const signupScreenOptions = (navigation, dispatch) => ({headerShown: true, headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})
 
 const LoginScreenInner = () => {
   const {dispatch, state: {isLoggedIn}} = useContext(authStore)
@@ -47,15 +50,15 @@ const LoginScreenInner = () => {
         {isLoggedIn
           ? <>
             <Stack.Screen name="TabScreen" component={TabScreen} />
-            <Stack.Screen name="PostScreen" component={PostScreen} />
+            <Stack.Screen name="PostScreen" component={PostScreen} options={{headerStyle: {}}} />
           </>
           : <>
-            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="RegisterUsername" component={RegisterUsername} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
             <Stack.Screen name="RegisterPassword" component={RegisterPassword} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
             <Stack.Screen name="RegisterBirthdate" component={RegisterBirthdate} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
             <Stack.Screen name="RegisterMail" component={RegisterMail} options={({navigation}) => signupScreenOptions(navigation, dispatch)} />
-            <Stack.Screen name="SendConfirmationMail" component={SendConfirmationMail} options={{headerStyle: styles.header, headerTitle: false, headerLeft: () => {}}} />
+            <Stack.Screen name="SendConfirmationMail" component={SendConfirmationMail} options={{headerShown: true, headerStyle: styles.header, headerTitle: false, headerLeft: () => {}}} />
           </>
         }
       </Stack.Navigator>
