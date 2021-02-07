@@ -12,6 +12,15 @@ const initialState = {
     username: "",
     nickname: "",
     birthdate: ""
+  },
+  user: {
+    mail: "",
+    password: "",
+    gender: "",
+    username: "",
+    nickname: "",
+    birthdate: "",
+    thumbnail: "https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user1/user1.jpg"
   }
 }
 
