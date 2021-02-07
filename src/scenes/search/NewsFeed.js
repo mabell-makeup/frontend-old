@@ -9,8 +9,8 @@ const items = [
   {label: "Men", routeName: "Men", component: Men}
 ]
 
-const fetchTrendPosts = dispatch => {
-  fetchPosts(dispatch, {order: "DESC"})
+const fetchTrendPosts = async dispatch => {
+  await fetchPosts(dispatch, {order: "DESC"})
   updateSearchResult(dispatch)
 }
 

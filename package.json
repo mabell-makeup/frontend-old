@@ -1,7 +1,8 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "dev": "NODE_ENV=development expo start",
+    "start:dev": "NODE_ENV=development expo start",
+    "start:prd": "NODE_ENV=production expo start",
     "publish": "NODE_ENV=development expo publish",
     "android:dev": "NODE_ENV=development expo start --android",
     "ios:dev": "NODE_ENV=development expo start --ios",
@@ -12,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
+    "@react-native-community/datetimepicker": "3.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "5.9.6",
     "@react-native-picker/picker": "^1.9.10",
@@ -20,7 +22,8 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "amazon-cognito-identity-js": "^4.5.6",
-    "aws-amplify": "^3.3.13",
+    "aws-amplify": "^3.3.17",
+    "aws-amplify-react-native": "^4.3.1",
     "expo": "^39.0.5",
     "expo-image-crop": "^1.0.4",
     "expo-image-manipulator": "~8.3.0",
@@ -40,8 +43,7 @@
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-tab-view": "^2.15.2",
-    "react-native-web": "^0.13.18",
-    "@react-native-community/datetimepicker": "3.0.0"
+    "react-native-web": "^0.13.18"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

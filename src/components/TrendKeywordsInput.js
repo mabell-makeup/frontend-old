@@ -1,16 +1,16 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect, useState} from "react"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "../components/ChipList"
 import {apiRequest} from "../helper/requestHelper"
 
-const getTrendKeywords = () => {
+const getTrendKeywords = async setTrendKeywords => {
   const query = `{
     trendKeywords(limit: 10) {
         keyword
       }
   }`
-  const {data, error, loading} = apiRequest(query)
-  return !loading && !error ? data.trendKeywords : []
+  const {data, error, loading} = await apiRequest(query)
+  setTrendKeywords(!loading && !error ? data.trendKeywords : [])
 }
 
 const createRows = (keywords, onChipPress) => keywords.map(keyword => ({
@@ -19,7 +19,11 @@ const createRows = (keywords, onChipPress) => keywords.map(keyword => ({
 }))
 
 export const TrendKeywordsInput = ({onChipPress=keyword=>keyword}) => {
-  const trendKeywords = getTrendKeywords()
+  const [trendKeywords, setTrendKeywords] = useState([])
+  useEffect(() => {
+    getTrendKeywords(setTrendKeywords)
+  })
+
   const rows = createRows(trendKeywords, onChipPress)
 
   return <ChipList items={rows} />

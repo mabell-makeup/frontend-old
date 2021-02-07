@@ -1,0 +1,62 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-jokerfrontend-dev-215628-authRole",
+      "UnauthRoleArn": "arn:aws:iam::869390154761:role/amplify-jokerfrontend-dev-215628-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::869390154761:role/amplify-jokerfrontend-dev-215628-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-jokerfrontend-dev-215628-deployment",
+      "UnauthRoleName": "amplify-jokerfrontend-dev-215628-unauthRole",
+      "StackName": "amplify-jokerfrontend-dev-215628",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:869390154761:stack/amplify-jokerfrontend-dev-215628/e68cbb00-6943-11eb-8f7e-06e06928d272",
+      "AmplifyAppId": "d130la9akcptpo"
+    },
+    "categories": {
+      "auth": {
+        "jokerfrontend1045c05b": {
+          "userPoolId": "ap-northeast-1_Drs53P1Zc",
+          "userPoolName": "Joker Main",
+          "webClientId": "175edr7o2bdgl2932n6kur41ku",
+          "nativeClientId": "c84g9adjqk9kqi0l7fdht5f5j",
+          "identityPoolId": "ap-northeast-1:423547c3-fe5b-416d-b3aa-1a2bca4cfa21",
+          "identityPoolName": "ExistingIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_ExistingIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_ExistingIdentityPoolUnauth_Role"
+        }
+      }
+    }
+  },
+  "develop": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-jokerfrontend-develop-234110-authRole",
+      "UnauthRoleArn": "arn:aws:iam::643590863731:role/amplify-jokerfrontend-develop-234110-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::643590863731:role/amplify-jokerfrontend-develop-234110-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-jokerfrontend-develop-234110-deployment",
+      "UnauthRoleName": "amplify-jokerfrontend-develop-234110-unauthRole",
+      "StackName": "amplify-jokerfrontend-develop-234110",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:643590863731:stack/amplify-jokerfrontend-develop-234110/86bd26b0-6952-11eb-87ba-064b7e986d20",
+      "AmplifyAppId": "dhh7zti7heqqw"
+    },
+    "categories": {
+      "auth": {
+        "jokerfrontend1045c05b": {
+          "userPoolId": "ap-northeast-1_Drs53P1Zc",
+          "userPoolName": "Joker Main",
+          "webClientId": "175edr7o2bdgl2932n6kur41ku",
+          "nativeClientId": "c84g9adjqk9kqi0l7fdht5f5j",
+          "identityPoolId": "ap-northeast-1:423547c3-fe5b-416d-b3aa-1a2bca4cfa21",
+          "identityPoolName": "ExistingIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_ExistingIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_ExistingIdentityPoolUnauth_Role"
+        }
+      }
+    }
+  }
+}

@@ -38,8 +38,8 @@ export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, i
   })
 }
 // eslint-disable-next-line complexity
-export const fetchPosts = (dispatch, conditions={}) => {
-  const {error, loading, data} = apiRequest(`${`{
+export const fetchPosts = async (dispatch, conditions={}) => {
+  const {error, loading, data} = await apiRequest(`${`{
     posts(
       ${conditions.keywords ? `keywords: ${conditions.keywords},` : ""}
       ${conditions.personalColor ? `personal_color: ${conditions.personalColor},` : ""}
