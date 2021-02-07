@@ -1,8 +1,9 @@
 import React from "react"
 import {View, Text, StyleSheet} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
-import {Avatar, Button, IconButton} from "react-native-paper"
+import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {useContext} from "react/cjs/react.development"
+import {ImageList} from "../../components/ImageList"
 import {authStore} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
@@ -51,7 +52,10 @@ const styles = StyleSheet.create({
   userDataItem: {
     marginRight: 10,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
+  },
+  imageList: {
+    marginTop: 2
   }
 })
 
@@ -98,7 +102,7 @@ const SelfIntroduction = () => {
 
 
 export const MyPage = ({navigation}) => {
-  const {state: {user: {thumbnail}}} = useContext(authStore)
+  const {state: {user: {thumbnail, posts}}} = useContext(authStore)
 
   return (
     <ScrollView style={styles.container}>
@@ -109,14 +113,8 @@ export const MyPage = ({navigation}) => {
         </View>
         <SelfIntroduction />
       </View>
-      <Button
-        icon="pencil-plus-outline"
-        size={25}
-        mode="outlined"
-        onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})}
-      >
-        投稿する
-      </Button>
+      <Divider />
+      <ImageList data={posts} style={styles.imageList} />
     </ScrollView>
   )
 }

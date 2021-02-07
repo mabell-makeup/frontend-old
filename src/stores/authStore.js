@@ -20,7 +20,8 @@ const initialState = {
     username: "",
     nickname: "",
     birthdate: "",
-    thumbnail: "https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user1/user1.jpg"
+    thumbnail: "https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user1/user1.jpg",
+    posts: [...Array(4).keys()].map(idx => ({id: idx + 1, imgSrc: `https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user${idx + 1}/posts/1.jpg`}))
   }
 }
 

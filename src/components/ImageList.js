@@ -26,13 +26,14 @@ const renderItem = ({item}) =>
     />
   </TouchableHighlight>
 
-export const ImageList = ({data}) => {
+export const ImageList = ({data, style}) => {
   return (
     <FlatList
       data={data}
       renderItem={renderItem}
       keyExtractor={item => item.id}
       numColumns={3}
+      style={style}
     />
   )
 }
