@@ -11,7 +11,7 @@ const HeaderRightIcons = ({navigation}) => {
   return (
     <View style={{flexDirection: "row", alignItems: "center", marginRight: 5}}>
       <IconButton icon="plus" size={30} mode="outlined" onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})} />
-      <IconButton icon="menu" size={30} mode="outlined" onPress={() => {}} />
+      <IconButton icon="account-edit" size={30} mode="outlined" onPress={() => {}} />
     </View>
   )
 }

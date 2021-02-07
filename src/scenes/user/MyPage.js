@@ -54,8 +54,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center"
   },
-  imageList: {
-    marginTop: 2
+  divider: {
+    marginVertical: 5
+  },
+  button: {
+    alignSelf: "center",
+    width: 200
   }
 })
 
@@ -113,8 +117,16 @@ export const MyPage = ({navigation}) => {
         </View>
         <SelfIntroduction />
       </View>
-      <Divider />
-      <ImageList data={posts} style={styles.imageList} />
+      <Button
+        mode="contained"
+        icon="plus"
+        onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})}
+        style={styles.button}
+      >
+        投稿する
+      </Button>
+      <Divider style={styles.divider} />
+      <ImageList data={posts} />
     </ScrollView>
   )
 }
