@@ -11,6 +11,7 @@ import {RegisterPassword} from "../scenes/login/RegisterPassword"
 import {RegisterBirthdate} from "../scenes/login/RegisterBirthdate"
 import {RegisterMail} from "../scenes/login/RegisterMail"
 import {SendConfirmationMail} from "../scenes/login/SendConfirmationMail"
+import {UserScreen} from "./UserScreen"
 
 const styles = {
   header: {
@@ -50,7 +51,8 @@ const LoginScreenInner = () => {
         {isLoggedIn
           ? <>
             <Stack.Screen name="TabScreen" component={TabScreen} />
-            <Stack.Screen name="PostScreen" component={PostScreen} options={{headerStyle: {}}} />
+            <Stack.Screen name="PostScreen" component={PostScreen} />
+            <Stack.Screen name="UserScreen" component={UserScreen} />
           </>
           : <>
             <Stack.Screen name="Login" component={Login} />

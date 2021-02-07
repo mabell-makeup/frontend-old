@@ -3,7 +3,7 @@ import {createMaterialBottomTabNavigator} from "@react-navigation/material-botto
 import {HomeScreen} from "./HomeScreen"
 import {SearchScreen} from "./SearchScreen"
 import {IconButton} from "react-native-paper"
-import {UserScreen} from "./UserScreen"
+import {MyPageScreen} from "./MyPageScreen"
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -18,7 +18,7 @@ export const TabScreen = () => {
     >
       <Tab.Screen name="HomeScreen" component={HomeScreen} options={{tabBarIcon: ({color}) => <IconButton icon="home" size={30} color={color} style={{margin: 0}} />}} />
       <Tab.Screen name="SearchScreen" component={SearchScreen} options={{tabBarIcon: ({color}) => <IconButton icon="magnify" size={30} color={color} style={{margin: 0}} />}} />
-      <Tab.Screen name="UserScreen" component={UserScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}} />
+      <Tab.Screen name="MyPageScreen" component={MyPageScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}} />
     </Tab.Navigator>
   )
 }

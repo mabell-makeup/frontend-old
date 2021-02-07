@@ -10,11 +10,13 @@ const styles = {
 }
 
 const userInfoSample = [
-  {label: "顔型", data: "卵型"},
-  {label: "パーソナルカラー", data: "ブルベ夏"},
-  {label: "肌タイプ", data: "普通肌"},
-  {label: "生年月日", data: "1999-01-03 (21歳)"},
-  {label: "性別", data: "WOMEN"}
+  {key: "name", label: "名前", data: "だいち"},
+  {key: "username", label: "ユーザーネーム", data: "test1"},
+  {key: "faceType", label: "顔型", data: "卵型"},
+  {key: "personalColor", label: "パーソナルカラー", data: "ブルベ夏"},
+  {key: "skinType", label: "肌タイプ", data: "普通肌"},
+  {key: "birthdate", label: "生年月日", data: "1999-01-03 (21歳)"},
+  {key: "gender", label: "性別", data: "WOMEN"}
 ]
 
 const UserInfoItem = ({data, pickerState, setPickerState}) =>
@@ -23,6 +25,10 @@ const UserInfoItem = ({data, pickerState, setPickerState}) =>
   </View>
 
 // eslint-disable-next-line max-lines-per-function
-export const UserInfoList = ({pickerState, setPickerState}) => {
-  return <List rows={userInfoSample.map(({label, data}) => ({title: label, right: () => <UserInfoItem {...{data, pickerState, setPickerState}} />, style: styles.listItem}))} />
+export const UserInfoList = ({displayItems=["name","username", "faceType", "personalColor", "skinType", "birthdate", "gender"], pickerState, setPickerState}) => {
+  return <List rows={userInfoSample.reduce((accumulator, {key, label, data}) => {
+    // eslint-disable-next-line react/display-name
+    displayItems.includes(key) && accumulator.push({title: label, right: () => <UserInfoItem {...{data, pickerState, setPickerState}} />, style: styles.listItem})
+    return accumulator
+  }, [])} />
 }

@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from "react"
-import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
+import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button} from "react-native-paper"
 import {updatePostData, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
@@ -113,11 +113,11 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
-          <UserInfoList pickerState={pickerState} setPickerState={setPickerState} />
+          <UserInfoList displayItems={["faceType", "personalColor", "skinType"]} pickerState={pickerState} setPickerState={setPickerState} />
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={() => {}} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} onPress={() => {}} disabled={false}>投稿する</Button>
     </>
   )
 }
