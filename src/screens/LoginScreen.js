@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {TabScreen} from "./TabScreen"
-import {NavigationContainer} from "@react-navigation/native"
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native"
 import {AuthProvider, authStore, cancelSignup} from "../stores/authStore"
 import {Login} from "../scenes/login/Login"
 import {RegisterUsername} from "../scenes/login/RegisterUsername"
@@ -46,7 +46,7 @@ const LoginScreenInner = () => {
   const {dispatch, state: {isLoggedIn}} = useContext(authStore)
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={{...DefaultTheme, colors: {...DefaultTheme.colors, background: "#fff"}}}>
       <Stack.Navigator {...navigatorProps}>
         {isLoggedIn
           ? <>

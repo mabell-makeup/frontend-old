@@ -8,9 +8,6 @@ import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
-  container: {
-    backgroundColor: "#fff"
-  },
   header: {
     height: 45
   },
@@ -48,8 +45,7 @@ const createStyles = favorite => ({
   },
   userInfo: {
     flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff"
+    alignItems: "center"
   },
   userInfoTextContainer: {
     marginLeft: 10

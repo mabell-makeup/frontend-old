@@ -16,9 +16,6 @@ import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 
 const styles = {
-  container: {
-    backgroundColor: "#fff"
-  },
   button: {
     height: 50,
     margin: 5,
@@ -101,7 +98,7 @@ export const SelectConditions = ({navigation}) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView>
         <List rows={rows} />
       </ScrollView>
       <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>

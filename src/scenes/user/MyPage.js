@@ -7,9 +7,6 @@ import {ImageList} from "../../components/ImageList"
 import {authStore} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff"
-  },
   userInfo: {
     padding: 12
   },
@@ -109,7 +106,7 @@ export const MyPage = ({navigation}) => {
   const {state: {user: {thumbnail, posts}}} = useContext(authStore)
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <View style={styles.userInfo}>
         <View style={styles.row}>
           <Avatar.Image size={80} source={{uri: thumbnail}} />

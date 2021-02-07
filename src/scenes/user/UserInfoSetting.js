@@ -6,8 +6,7 @@ import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
+  formContainer: {
     padding: 12
   },
   imageContainer: {
@@ -58,7 +57,7 @@ export const UserInfoSetting = ({navigation}) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View style={styles.container}>
+        <View style={styles.formContainer}>
           <View style={styles.imageContainer}>
             <Avatar.Image size={90} />
             <Text style={styles.selectImage}>プロフィール写真を変更</Text>

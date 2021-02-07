@@ -14,7 +14,6 @@ const styles = {
   container: {
     paddingTop: 10,
     paddingHorizontal: 20,
-    backgroundColor: "#fff",
     height: "100%"
   },
   captionContainer: {
