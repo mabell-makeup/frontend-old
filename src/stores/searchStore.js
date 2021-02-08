@@ -11,6 +11,7 @@ export const initialState = {
     target: "makeup",
     personalColor: {baseColor: "", season: ""},
     faceType: "",
+    skinType: "",
     color: "",
     lame: "",
     country: "",

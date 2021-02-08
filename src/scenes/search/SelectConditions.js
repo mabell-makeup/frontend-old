@@ -13,6 +13,7 @@ import {FakeInput} from "../../components/FakeInput"
 import {isEqual} from "../../helper/storeHelper"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
+import {SkinTypeInput} from "../../components/SkinTypeInput"
 
 const styles = {
   button: {
@@ -72,6 +73,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "国で絞り込む", inner: <CountryInput key="country" />},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />},
     {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
+    {title: "肌タイプで絞り込む", inner: <SkinTypeInput key="skinType" />},
     {
       title: "キーワードで絞り込む",
       inner:
