@@ -1,13 +1,18 @@
-import React from "react"
+import React, {useEffect, useContext} from "react"
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs"
 import {HomeScreen} from "./HomeScreen"
 import {SearchScreen} from "./SearchScreen"
 import {IconButton} from "react-native-paper"
 import {MyPageScreen} from "./MyPageScreen"
+import {appStore, fetchMasterData} from "../stores/appStore"
 
 const Tab = createMaterialBottomTabNavigator()
 
 export const TabScreen = () => {
+  const {dispatch} = useContext(appStore)
+
+  useEffect(() => {fetchMasterData(dispatch)}, [])
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
