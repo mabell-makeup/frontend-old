@@ -46,7 +46,7 @@ export const RegisterMail = ({navigation}) => {
     <View style={styles.container}>
       <Title>メールアドレスを追加</Title>
       <Text></Text>
-      <TextInput style={styles.input} mode="outlined" label="メールアドレス" onChangeText={onChange} secureTextEntry={true} />
+      <TextInput style={styles.input} mode="outlined" label="メールアドレス" onChangeText={onChange} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
       <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterBirthdate")}>次へ</Button>
     </View>
