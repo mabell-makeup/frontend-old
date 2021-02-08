@@ -1,18 +1,13 @@
 import React, {useContext} from "react"
+import {parseMasterData} from "../helper/requestHelper"
+import {appStore} from "../stores/appStore"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
-const countries = [
-  {title: "日本", key: "japan"},
-  {title: "韓国", key: "korea"},
-  {title: "中国",  key: "china"},
-  {title: "欧米",  key: "america"},
-  {title: "その他", key: "other"}
-]
 
 const createItems = (countries, dispatch, tmpConditions) =>
   countries.map(country => ({
-    label: country.title,
+    label: country.label,
     key: country.key,
     // eslint-disable-next-line react/display-name
     selected: country.key === tmpConditions.country,
@@ -25,6 +20,8 @@ const createItems = (countries, dispatch, tmpConditions) =>
 
 export const CountryInput = () => {
   const {dispatch, state} = useContext(searchStore)
+  const {state: {masterData}} = useContext(appStore)
+  const countries = parseMasterData(masterData, "country")
   const items = createItems(countries, dispatch, state.tmpConditions)
 
   return <ChipList items={items} />
