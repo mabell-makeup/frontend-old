@@ -1,8 +1,9 @@
 import React, {useContext, useState} from "react"
 import {Button, Title} from "react-native-paper"
 import {View, StyleSheet} from "react-native"
-import {authStore, updateNewUser} from "../../stores/authStore"
+import {authStore, signup, updateNewUser} from "../../stores/authStore"
 import DateTimePicker from "@react-native-community/datetimepicker"
+import {formatDate} from "../../helper/dateHelper"
 
 const styles = StyleSheet.create({
   container: {
@@ -21,15 +22,20 @@ const styles = StyleSheet.create({
   }
 })
 
+const onPress = (navigation, dispatch, newUser) => () => {
+  navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})
+  signup(dispatch, newUser)
+}
+
 export const RegisterBirthdate = ({navigation}) => {
-  const {dispatch} = useContext(authStore)
+  const {dispatch, state: {newUser}} = useContext(authStore)
   const [birthdate, setBirthdate] = useState(new Date())
 
   // TODO: 必須入力と有効日付のバリデーションを追加
 
   const onChange = (e, selectedDate) => {
     setBirthdate(selectedDate)
-    updateNewUser(dispatch, {birthdate: selectedDate})
+    updateNewUser(dispatch, {birthdate: formatDate(selectedDate)})
   }
 
   return (
@@ -43,7 +49,7 @@ export const RegisterBirthdate = ({navigation}) => {
         onChange={onChange}
         style={styles.datePicker}
       />
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, newUser)}>次へ</Button>
     </View>
   )
 }
