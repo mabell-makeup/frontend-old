@@ -46,7 +46,7 @@ export const Login = ({navigation}) => {
     <View style={styles.container}>
       {/* eslint-disable-next-line no-undef */}
       <Image source={require("../../../assets/icon.png")} style={styles.logo} />
-      <TextInput style={styles.input} mode="outlined" label="メールアドレス" value={mail} onChangeText={text => setMail(text)} />
+      <TextInput style={styles.input} mode="outlined" label="ユーザー名またはメールアドレス" value={mail} onChangeText={text => setMail(text)} />
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
       <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, mail, password, sub)}>ログイン</Button>
