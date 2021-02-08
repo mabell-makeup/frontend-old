@@ -49,7 +49,7 @@ export const login = async (dispatch, username, password) => {
   }
 }
 
-export const signup = async (dispatch, username, password, email, nickname, gender, birthdate) => {
+export const signup = async (dispatch, {username, password, email, nickname, gender, birthdate}) => {
   try {
     const {user} = await Auth.signUp({
       username,
