@@ -1,6 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
+import {listPostTypes} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
@@ -38,24 +39,9 @@ export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, i
   })
 }
 // eslint-disable-next-line complexity
-export const fetchPosts = async (dispatch, conditions={}) => {
-  const {error, loading, data} = await apiRequest(`${`{
-    posts(
-      ${conditions.keywords ? `keywords: ${conditions.keywords},` : ""}
-      ${conditions.personalColor ? `personal_color: ${conditions.personalColor},` : ""}
-      ${conditions.faceType ? `face_type: ${conditions.faceType},` : ""}
-      ${conditions.color ? `color: ${conditions.color},` : ""}
-      ${conditions.country ? `country: ${conditions.country},` : ""}
-      ${conditions.makeUpCategory ? `makeUpCategory: ${conditions.makeUpCategory},` : ""}
-      ${conditions.hairStyle ? `hair_style: ${conditions.hairStyle},` : ""}
-      ${conditions.items ? `hair_style: [${conditions.items.join(",")}],` : ""}
-      ${conditions.order ? `order: ${conditions.order},` : ""}`.slice(0, -1)}
-    ) {
-      post_id
-      thumbnail_img_src
-      }
-  }`)
-  !loading && !error && dispatch({type: FETCH_POSTS, payload: data.posts.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src}))})
+export const fetchPosts = async (dispatch) => {
+  const res = await apiRequest(listPostTypes)
+  dispatch({type: FETCH_POSTS, payload: res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src}))})
 }
 export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})

@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
 const renderItem = ({item}) =>
   <TouchableHighlight onPress={item.onPress}>
     <Image
-      source={{uri: item.imgSrc}}
+      // eslint-disable-next-line no-undef
+      source={item.imgSrc !== "" ? {uri: item.imgSrc} : require("../../assets/no_image.png")}
       style={styles.imageStyle}
     />
   </TouchableHighlight>
