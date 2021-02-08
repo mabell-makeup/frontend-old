@@ -1,4 +1,5 @@
 import React, {useContext} from "react"
+import {parseMasterData} from "../helper/requestHelper"
 import {appStore} from "../stores/appStore"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
@@ -19,7 +20,7 @@ const createItems = (makeUpCategories, dispatch, tmpConditions) =>
 export const MakeUpCategoryInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const {state: {masterData}} = useContext(appStore)
-  const makeUpCategories = Object.entries(masterData.makeup_categories).map(([label, key]) => ({label, key}))
+  const makeUpCategories = parseMasterData(masterData, "makeup_categories")
   const items = createItems(makeUpCategories, dispatch, tmpConditions)
 
   return <ChipList items={items} />

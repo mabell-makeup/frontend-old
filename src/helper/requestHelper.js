@@ -15,3 +15,5 @@ export const apiRequest = async (queryLiterals="", params={}, needParse=false, p
     console.log("error fetching", e)
   }
 }
+
+export const parseMasterData = (masterData, target) => Object.entries(masterData[target]).map(([label, key]) => ({label, key}))
