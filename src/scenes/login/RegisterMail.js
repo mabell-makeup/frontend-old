@@ -39,7 +39,7 @@ export const RegisterMail = ({navigation}) => {
   const validate = text => isEmail(text) ? setErrMsg("") : setErrMsg("有効なメールアドレスを入力してください")
   const onChange = text => {
     validate(text)
-    updateNewUser(dispatch, {mail: text})
+    updateNewUser(dispatch, {email: text})
   }
 
   return (

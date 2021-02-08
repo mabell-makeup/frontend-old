@@ -1,12 +1,12 @@
-import React, {useContext} from "react"
-import {Button, Title} from "react-native-paper"
+import React, {useContext, useState} from "react"
+import {Button, Title, TextInput} from "react-native-paper"
 import {View, StyleSheet, Text} from "react-native"
-import {authStore} from "../../stores/authStore"
+import {authStore, confirmSignup, resendConfirmMail} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    padding: 20,
     alignItems: "center"
   },
   input: {
@@ -17,29 +17,36 @@ const styles = StyleSheet.create({
   submit: {
     minHeight: 50,
     minWidth: 280,
-    margin: 20,
+    marginTop: 20,
     justifyContent: "center"
   },
   link: {
     fontWeight: "bold",
     color: "#0099ff"
   },
-  linkContainer: {
-    marginTop: 5
+  resendLink: {
+    marginTop: 10
+  },
+  contactLink: {
+    marginTop: 30
   }
 })
 
+const onChange = setCode => text => setCode(text)
+
+
 export const SendConfirmationMail = ({navigation}) => {
-  const {state: {newUser: {mail}}} = useContext(authStore)
+  const {dispatch, state: {newUser: {email, username, password}}} = useContext(authStore)
+  const [code, setCode] = useState("")
 
   return (
     <View style={styles.container}>
       <Title>確認メールを送信しました</Title>
-      <Text>{mail} へ確認用のメールを送信しました。</Text>
-      <Text>メールをご確認いただき、登録を完了してください。</Text>
-      <Button style={styles.submit} mode="contained" onPress={() => {}}>ログイン</Button>
-      <Text style={styles.linkContainer}>お困りですか？ <Text style={styles.link} onPress={() => navigation.navigate("")}>お問い合わせへ</Text></Text>
-      <Text style={styles.linkContainer}>または <Text style={styles.link} onPress={() => navigation.reset({index: 0, routes: [{name: "Login"}]})}>ログイン画面に戻る</Text></Text>
+      <Text>{email} へ確認コードを送信しました。お使いの電子メールアドレスであることを確認するために、確認コードを入力してください。</Text>
+      <TextInput style={styles.input} mode="outlined" label="確認コード" onChangeText={onChange(setCode)} />
+      <Button style={styles.submit} mode="contained" onPress={() => confirmSignup(dispatch, code, username, password, navigation)}>次へ</Button>
+      <Text style={styles.resendLink}><Text style={styles.link} onPress={() => resendConfirmMail(username, navigation)}>確認コードを再送する</Text></Text>
+      <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => navigation.navigate("")}>お問い合わせへ</Text></Text>
     </View>
   )
 }

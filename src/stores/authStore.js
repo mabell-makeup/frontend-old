@@ -5,10 +5,10 @@ import {apiRequest} from "../helper/requestHelper"
 import {getUserType} from "../graphql/queries"
 
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   errMsg: "",
   newUser: {
-    mail: "",
+    email: "",
     password: "",
     gender: "",
     username: "",
@@ -16,7 +16,7 @@ const initialState = {
     birthdate: ""
   },
   user: {
-    mail: "",
+    email: "",
     password: "",
     gender: "",
     username: "",
@@ -71,6 +71,24 @@ export const signup = async (dispatch, {username, password, email, nickname, gen
     console.log("error signing up:", error)
   }
   dispatch({type: SIGNUP_SUCCESS, payload: true})
+}
+
+export const confirmSignup = async (dispatch, code, username, password, navigation) => {
+  try {
+    await Auth.confirmSignUp(username, code)
+    login(navigation, dispatch, username, password)
+  } catch (error) {
+    console.log("error confirmSignup:", error)
+  }
+}
+
+export const resendConfirmMail = async (username, navigation) => {
+  try {
+    await Auth.resendSignUp(username)
+    navigation.push("SendConfirmationMail")
+  } catch (error) {
+    console.log("error resendConfirmMail:", error)
+  }
 }
 
 export const logout = async (dispatch) => {
