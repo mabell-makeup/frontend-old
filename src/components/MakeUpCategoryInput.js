@@ -1,24 +1,11 @@
 import React, {useContext} from "react"
+import {appStore} from "../stores/appStore"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
-const makeUpCategories = [
-  {title: "下地", key: "base"},
-  {title: "ファンデ", key: "foundation"},
-  {title: "フェイスパウダー", key: "facePowder"},
-  {title: "アイブロウ", key: "eyebrow"},
-  {title: "アイシャドウ", key: "eyeshadow"},
-  {title: "アイライン", key: "eyeline"},
-  {title: "マスカラ", key: "mascara"},
-  {title: "リップ", key: "lip"},
-  {title: "チーク", key:"cheek"},
-  {title: "ハイライト", key:"highlight"},
-  {title: "シェーディング", key:"shading"}
-]
-
 const createItems = (makeUpCategories, dispatch, tmpConditions) =>
   makeUpCategories.map(category => ({
-    label: category.title,
+    label: category.label,
     key: category.key,
     // eslint-disable-next-line react/display-name
     selected: category.key === tmpConditions.makeUpCategory,
@@ -31,6 +18,8 @@ const createItems = (makeUpCategories, dispatch, tmpConditions) =>
 
 export const MakeUpCategoryInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const {state: {masterData}} = useContext(appStore)
+  const makeUpCategories = Object.entries(masterData.makeup_categories).map(([label, key]) => ({label, key}))
   const items = createItems(makeUpCategories, dispatch, tmpConditions)
 
   return <ChipList items={items} />
