@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react"
 import {Button, TextInput, Text} from "react-native-paper"
 import {View, StyleSheet, Image} from "react-native"
 import {defaultStyle} from "../../styles/defaultStyle"
-import {authStore, login} from "../../stores/authStore"
+import {authStore, fetchUser, login} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
   ...defaultStyle,
@@ -32,8 +32,13 @@ const styles = StyleSheet.create({
   }
 })
 
+const onPress = (navigation ,dispatch, mail, password) => async () => {
+  const user_id = await login(navigation, dispatch, mail, password)
+  await fetchUser(dispatch, user_id)
+}
+
 export const Login = ({navigation}) => {
-  const {dispatch, state: {errMsg}} = useContext(authStore)
+  const {dispatch, state: {errMsg, user: {sub}}} = useContext(authStore)
   const [mail, setMail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -44,7 +49,7 @@ export const Login = ({navigation}) => {
       <TextInput style={styles.input} mode="outlined" label="メールアドレス" value={mail} onChangeText={text => setMail(text)} />
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} mode="contained" onPress={() => login(dispatch, mail, password)}>ログイン</Button>
+      <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, mail, password, sub)}>ログイン</Button>
       <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterUsername")}>登録はこちら</Text></Text>
     </View>
   )
