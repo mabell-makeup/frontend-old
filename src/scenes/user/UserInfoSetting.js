@@ -1,16 +1,17 @@
-import React, {useState} from "react"
+import React, {useState, useContext} from "react"
 import {Text, StyleSheet, View, TextInput, SafeAreaView} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Title} from "react-native-paper"
 import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
+import {authStore, logout} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
   container: {
     padding: 12,
     marginBottom: 80
   },
-  imageContainer: {
+  toCenter: {
     marginTop: 5,
     alignItems: "center"
   },
@@ -30,6 +31,11 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: "center",
     marginHorizontal: 10
+  },
+  logout: {
+    fontWeight: "bold",
+    color: "#0099ff",
+    marginTop: 30
   }
 })
 
@@ -43,6 +49,7 @@ https://beauty.coolpepper.jp/kr/hogehoge/staff/W0001`
 
 // eslint-disable-next-line max-lines-per-function
 export const UserInfoSetting = ({navigation}) => {
+  const {dispatch} = useContext(authStore)
   const [pickerState, setPickerState] = useState({
     isShown: false,
     items: [
@@ -60,7 +67,7 @@ export const UserInfoSetting = ({navigation}) => {
       <SafeAreaView>
         <ScrollView>
           <View style={styles.container}>
-            <View style={styles.imageContainer}>
+            <View style={styles.toCenter}>
               <Avatar.Image size={90} />
               <Text style={styles.selectImage}>プロフィール写真を変更</Text>
             </View>
@@ -71,6 +78,9 @@ export const UserInfoSetting = ({navigation}) => {
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>
               <UserInfoList pickerState={pickerState} setPickerState={setPickerState} />
+            </View>
+            <View style={styles.toCenter}>
+              <Text onPress={() => logout(dispatch)} style={styles.logout}>ログアウト</Text>
             </View>
           </View>
         </ScrollView>

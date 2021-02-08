@@ -74,7 +74,7 @@ export const logout = async (dispatch) => {
   } catch (error) {
     console.log("error signing out: ", error)
   }
-  dispatch({type: LOGOUT_SUCCESS, payload: true})
+  dispatch({type: LOGOUT_SUCCESS, payload: false})
 }
 
 export const updateNewUser = (dispatch, data) => dispatch({type: UPDATE_NEW_USER, payload: data})
@@ -87,6 +87,7 @@ const AuthProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [LOGIN_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload}),
     [LOGIN_FAILURE]: (state, {payload}) => ({...state, errMsg: payload}),
+    [LOGOUT_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload}),
     [UPDATE_NEW_USER]: (state, {payload}) => ({...state, newUser: {...state.newUser, ...payload}}),
     [CANCEL_SIGNUP]: state => ({...state, newUser: initialState.newUser})
   }), initialState)
