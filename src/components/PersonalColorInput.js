@@ -1,6 +1,8 @@
 import React, {useContext} from "react"
 import {StyleSheet, View} from "react-native"
 import {Text} from "react-native-paper"
+import {parseMasterData} from "../helper/requestHelper"
+import {appStore} from "../stores/appStore"
 import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 
@@ -22,18 +24,9 @@ const styles = StyleSheet.create({
   }
 })
 
-const baseColor = [
-  {title: "イエローべース", key: "yellow"},
-  {title: "ブルーベース",  key: "blue"}
-]
-
-const getSeason = baseColor => baseColor && baseColor === "yellow" ? [
-  {title: "春", key: "spring"},
-  {title: "秋",  key: "autumn"}
-] : [
-  {title: "夏",  key: "summer"},
-  {title: "冬", key: "winter"}
-]
+const filterSeason = (baseColor, seasons) => baseColor === 0
+  ? seasons.filter(season => season.key % 2 === 0)
+  : seasons.filter(season => season.key % 2 === 1)
 
 const handlePress = (raw, element, dispatch, tmpConditions) => () => {
   // TODO: 雑なのであとで直す
@@ -45,7 +38,7 @@ const handlePress = (raw, element, dispatch, tmpConditions) => () => {
 
 const createItems = (raws, element="baseColor", dispatch, tmpConditions) =>
   raws.map(raw => ({
-    label: raw.title,
+    label: raw.label,
     key: raw.key,
     // eslint-disable-next-line react/display-name
     selected: tmpConditions.personalColor[element] === raw.key,
@@ -54,9 +47,12 @@ const createItems = (raws, element="baseColor", dispatch, tmpConditions) =>
 
 export const PersonalColorInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const season = getSeason(tmpConditions.personalColor.baseColor)
+  const {state: {masterData}} = useContext(appStore)
+  const seasons = parseMasterData(masterData, "season")
+  const filteredSeasons = filterSeason(tmpConditions.personalColor.baseColor, seasons)
+  const baseColor = parseMasterData(masterData, "base_color")
   const itemBaseColor = createItems(baseColor, "baseColor", dispatch, tmpConditions)
-  const itemSeason = createItems(season, "season", dispatch, tmpConditions)
+  const itemSeason = createItems(filteredSeasons, "season", dispatch, tmpConditions)
   const isShownSeason = tmpConditions.personalColor.baseColor !== ""
 
   return (
