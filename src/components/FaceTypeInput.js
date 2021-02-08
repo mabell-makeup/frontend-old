@@ -3,21 +3,12 @@ import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStor
 import {ChipList} from "./ChipList"
 import {Image} from "react-native"
 import * as thumbnail from "../../assets/faceType"
-
-const faceTypes = [
-  {title: "フレッシュ", key: "fresh"},
-  {title: "キュート",  key: "cute"},
-  {title: "ソフトエレガント",  key: "softElegant"},
-  {title: "アクティブキュート", key: "activeCute"},
-  {title: "クール", key: "cool"},
-  {title: "フェミニン", key: "feminine"},
-  {title: "クールカジュアル", key: "coolCasual"},
-  {title: "エレガント", key: "elegant"}
-]
+import {appStore} from "../stores/appStore"
+import {parseMasterData} from "../helper/requestHelper"
 
 const createItems = (faceTypes, dispatch, tmpConditions) =>
   faceTypes.map(faceType => ({
-    label: faceType.title,
+    label: faceType.label,
     key: faceType.key,
     // eslint-disable-next-line react/display-name
     selected: faceType.key === tmpConditions.faceType,
@@ -31,6 +22,8 @@ const createItems = (faceTypes, dispatch, tmpConditions) =>
 
 export const FaceTypeInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const {state: {masterData}} = useContext(appStore)
+  const faceTypes = parseMasterData(masterData, "face_type")
   const items = createItems(faceTypes, dispatch, tmpConditions)
 
   return <ChipList items={items} />

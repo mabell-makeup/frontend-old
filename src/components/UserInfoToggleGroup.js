@@ -12,7 +12,7 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
   },
   {
     icon: "face",
-    label: "顔タイプで絞り込む",
+    label: "顔型で絞り込む",
     onPress: handlePressAction("faceType", {faceType: !faceType}),
     style: {backgroundColor: faceType ? "#FFF" : "#888"}
   }

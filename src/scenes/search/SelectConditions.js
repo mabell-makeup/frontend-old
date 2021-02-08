@@ -71,7 +71,7 @@ export const SelectConditions = ({navigation}) => {
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />},
     {title: "国で絞り込む", inner: <CountryInput key="country" />},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />},
-    {title: "顔タイプで絞り込む", inner: <FaceTypeInput key="faceType" />},
+    {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
     {
       title: "キーワードで絞り込む",
       inner:
