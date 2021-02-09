@@ -16,6 +16,7 @@ export const getPostType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       color
       country
       parts
@@ -47,6 +48,7 @@ export const listPostTypes = /* GraphQL */ `
         base_color
         season
         face_type
+        skin_type
         color
         country
         parts
@@ -76,6 +78,7 @@ export const queryPostTypesByViewRank = /* GraphQL */ `
         base_color
         season
         face_type
+        skin_type
         color
         country
         parts
@@ -98,6 +101,7 @@ export const getUserType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       age
     }
   }
@@ -117,6 +121,7 @@ export const listUserTypes = /* GraphQL */ `
         season
         face_type
         age
+        skin_type
       }
       nextToken
     }
