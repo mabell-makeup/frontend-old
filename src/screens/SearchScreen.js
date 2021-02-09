@@ -33,14 +33,14 @@ const navigatorProps = ({
   }
 })
 
-const getSuggestionKeywords = (dispatch, text) => {
+const getSuggestionKeywords = async (dispatch, text) => {
   const query = `{
     suggestionKeywords(keyword: "${text}", limit: 10) {
         keyword
       }
   }`
-  const {data, error, loading} = apiRequest(query)
-  return !loading && !error && updateSuggestionKeywords(dispatch, data.suggestionKeywords)
+  const data = await apiRequest(query)
+  return updateSuggestionKeywords(dispatch, data.suggestionKeywords)
 }
 
 const handleInputKeywords = (dispatch, tmpConditions, text) => {

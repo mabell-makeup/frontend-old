@@ -10,7 +10,6 @@ const styles = StyleSheet.create(defaultStyle)
 
 const fetchMaster = async setResponse => {
   const res = await apiRequest(getMasterType, {id: 0}, true, "getMasterType")
-  console.log(res)
   setResponse(res)
 }
 

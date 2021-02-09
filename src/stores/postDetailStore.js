@@ -27,7 +27,7 @@ const FETCH_ITEMS = "FETCH_ITEMS"
 
 // Define ActionCreator
 export const fetchPostDetail = async (dispatch, id) => {
-  const {error, loading, data} = await apiRequest(`{
+  const data = await apiRequest(`{
     post(id: ${id}) {
       user_id
       user_name
@@ -38,19 +38,19 @@ export const fetchPostDetail = async (dispatch, id) => {
       page_views
     }
   }`)
-  !loading && !error && dispatch({type: FETCH_POST_DETAIL, payload: data})
+  dispatch({type: FETCH_POST_DETAIL, payload: data})
 }
 export const updateFavoritePost = async (dispatch, post_id, handleFavorite) => {
-  const {error, loading, data} = await apiRequest(`{
+  const data = await apiRequest(`{
     updateFavoritePost(post_id: ${post_id}, handle: ${handleFavorite}) {
       result
     }
   }`)
-  !loading && !error && dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
+  dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
 }
 export const fetchItems = async (dispatch, productIdList) => {
-  const {error, loading, data} = await apiRequest(`{
-    fetchItems(productId: ${productIdList.toString()}) {
+  const data = await apiRequest(`{
+    fetchItems(productId:hogehoge) {
       items: {
         id
         name
@@ -61,7 +61,7 @@ export const fetchItems = async (dispatch, productIdList) => {
       }
     }
   }`)
-  !loading && !error && dispatch({type: FETCH_ITEMS, payload: data.items})
+  dispatch({type: FETCH_ITEMS, payload: data})
 }
 
 

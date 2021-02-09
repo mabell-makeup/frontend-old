@@ -9,8 +9,8 @@ const getTrendKeywords = async setTrendKeywords => {
         keyword
       }
   }`
-  const {data, error, loading} = await apiRequest(query)
-  setTrendKeywords(!loading && !error ? data.trendKeywords : [])
+  const data = await apiRequest(query)
+  setTrendKeywords(data.trendKeywords)
 }
 
 const createRows = (keywords, onChipPress) => keywords.map(keyword => ({

@@ -5,7 +5,7 @@ import {apiRequest} from "../helper/requestHelper"
 import {getUserType} from "../graphql/queries"
 
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   errMsg: "",
   newUser: {
     email: "",
