@@ -16,6 +16,7 @@ export const createPostType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       color
       country
       parts
@@ -42,6 +43,7 @@ export const updatePostType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       color
       country
       parts
@@ -68,6 +70,7 @@ export const deletePostType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       color
       country
       parts
@@ -88,6 +91,7 @@ export const createUserType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       age
     }
   }
@@ -101,6 +105,7 @@ export const updateUserType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       age
     }
   }
@@ -114,6 +119,7 @@ export const deleteUserType = /* GraphQL */ `
       base_color
       season
       face_type
+      skin_type
       age
     }
   }
