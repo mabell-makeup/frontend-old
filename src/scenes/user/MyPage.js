@@ -1,8 +1,7 @@
-import React from "react"
+import React, {useContext} from "react"
 import {View, Text, StyleSheet} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
-import {useContext} from "react/cjs/react.development"
 import {ImageList} from "../../components/ImageList"
 import {authStore} from "../../stores/authStore"
 
