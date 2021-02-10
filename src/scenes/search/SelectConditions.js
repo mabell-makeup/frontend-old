@@ -78,7 +78,7 @@ export const SelectConditions = ({navigation}) => {
       title: "キーワードで絞り込む",
       inner:
         // eslint-disable-next-line react/jsx-indent
-        <View>
+        <View key="keywords">
           <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.FakeInput} />
           <TrendKeywordsInput onChipPress={onChipPress(dispatch, tmpConditions, navigation)} />
         </View>

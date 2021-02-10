@@ -22,7 +22,7 @@ export const getPostType = /* GraphQL */ `
       parts
       products_id
       makeup_categories
-      is_glittery
+      glitter
       DateTime
       age
     }
@@ -48,13 +48,12 @@ export const listPostTypes = /* GraphQL */ `
         base_color
         season
         face_type
-        skin_type
         color
         country
         parts
         products_id
         makeup_categories
-        is_glittery
+        glitter
         DateTime
         age
       }
@@ -84,7 +83,7 @@ export const queryPostTypesByViewRank = /* GraphQL */ `
         parts
         products_id
         makeup_categories
-        is_glittery
+        glitter
         DateTime
         age
       }

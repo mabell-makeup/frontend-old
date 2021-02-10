@@ -10,7 +10,7 @@ const items = [
 ]
 
 const fetchTrendPosts = async dispatch => {
-  await fetchPosts(dispatch, {order: "DESC"})
+  await fetchPosts(dispatch, {})
   updateSearchResult(dispatch)
 }
 

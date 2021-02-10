@@ -4,6 +4,7 @@
     "start:dev": "NODE_ENV=development expo start",
     "start:prd": "NODE_ENV=production expo start --clear",
     "publish": "NODE_ENV=development expo publish",
+    "publish:debug": "NODE_ENV=development expo start --no-dev --minify",
     "android:dev": "NODE_ENV=development expo start --android",
     "ios:dev": "NODE_ENV=development expo start --ios",
     "web:dev": "NODE_ENV=development expo start --web",

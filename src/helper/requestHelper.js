@@ -6,6 +6,7 @@ import {API, graphqlOperation} from "aws-amplify"
 export const apiRequest = async (queryLiterals="", params={}, needParse=false, parseTarget="") => {
   if(Constants.manifest.extra.env !== "production") return mockRequest(queryLiterals)
   try {
+    console.log("Requested: ", graphqlOperation(queryLiterals, params))
     const response = await API.graphql(graphqlOperation(queryLiterals, params))
     const data = needParse
       ? Object.fromEntries(Object.entries(response.data[parseTarget]).map(([key, value]) => [key, JSON.parse(value)]))
@@ -17,3 +18,5 @@ export const apiRequest = async (queryLiterals="", params={}, needParse=false, p
 }
 
 export const parseMasterData = (masterData, target) => Object.entries(masterData[target]).map(([label, key]) => ({label, key}))
+
+export const camelToSnake = text => text.replace(/([A-Z])/g, s => "_" + s.charAt(0).toLowerCase())

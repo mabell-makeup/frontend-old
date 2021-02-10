@@ -1,6 +1,6 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest} from "../helper/requestHelper"
+import {apiRequest, camelToSnake} from "../helper/requestHelper"
 import {listPostTypes} from "../graphql/queries"
 
 export const initialState = {
@@ -8,8 +8,8 @@ export const initialState = {
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
-    target: "makeup",
-    personalColor: {baseColor: "", season: ""},
+    baseColor: "",
+    season: "",
     faceType: "",
     skinType: "",
     color: "",
@@ -34,15 +34,24 @@ const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 // Define ActionCreator
 /* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
 export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, isToggle=true) => {
-  Object.entries(nextCondition).map(([key, val]) => {
+  Object.entries(nextCondition).map(async ([key, val]) => {
     const isClear = isToggle && preTmpConditions[key] === val
-    dispatch({type: UPDATE_TMP_CONDITIONS, payload: isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}})
+    const payload = isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}
+    dispatch({type: UPDATE_TMP_CONDITIONS, payload})
+    await fetchPosts(dispatch, payload)
   })
+  
 }
-// eslint-disable-next-line complexity
-export const fetchPosts = async (dispatch) => {
-  const res = await apiRequest(listPostTypes)
-  dispatch({type: FETCH_POSTS, payload: res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src}))})
+export const fetchPosts = async (dispatch, tmpConditions) => {
+  const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)
+    // eslint-disable-next-line no-unused-vars
+    .filter(([key, val]) => typeof val !== "undefined")
+    .map(([key, val]) => ([camelToSnake(key), {eq: val}]))
+  )
+  const res = Object.keys(filteredConditions).length > 0
+    ? await apiRequest(listPostTypes, {filter: filteredConditions})
+    : await apiRequest(listPostTypes)
+  dispatch({type: FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
 }
 export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})

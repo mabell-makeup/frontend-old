@@ -46,7 +46,7 @@ export const List = ({rows=[{title: ""}]}) => {
   return (
     <L.Section style={styles.container}>
       {/* eslint-disable-next-line no-prototype-builtins */}
-      {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item key={row.title} {...row} />)}
+      {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item {...row} />)}
     </L.Section>
   )
 }

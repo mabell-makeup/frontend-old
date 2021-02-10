@@ -28,32 +28,28 @@ const filterSeason = (baseColor, seasons) => baseColor === 0
   ? seasons.filter(season => season.key % 2 === 0)
   : seasons.filter(season => season.key % 2 === 1)
 
-const handlePress = (raw, element, dispatch, tmpConditions) => () => {
-  // TODO: 雑なのであとで直す
-  const next = tmpConditions.personalColor[element] === raw.key ? "" : raw.key
-  const isClearSeason = element === "baseColor"
-  updateTmpConditions(dispatch, tmpConditions, {personalColor: isClearSeason ? {[element]: next} : {...tmpConditions.personalColor, [element]: next}})
-  fetchPosts(dispatch, tmpConditions)
+const handlePress = (key, element, dispatch, tmpConditions) => () => {
+  updateTmpConditions(dispatch, tmpConditions, {[element]: key})
+  element === "baseColor" && updateTmpConditions(dispatch, tmpConditions, {season: ""})
 }
 
 const createItems = (raws, element="baseColor", dispatch, tmpConditions) =>
   raws.map(raw => ({
     label: raw.label,
     key: raw.key,
-    // eslint-disable-next-line react/display-name
-    selected: tmpConditions.personalColor[element] === raw.key,
-    onPress: handlePress(raw, element, dispatch, tmpConditions)
+    selected: tmpConditions[element] === raw.key,
+    onPress: handlePress(raw.key, element, dispatch, tmpConditions)
   }))
 
 export const PersonalColorInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const {state: {masterData}} = useContext(appStore)
   const seasons = parseMasterData(masterData, "season")
-  const filteredSeasons = filterSeason(tmpConditions.personalColor.baseColor, seasons)
+  const filteredSeasons = filterSeason(tmpConditions.baseColor, seasons)
   const baseColor = parseMasterData(masterData, "base_color")
   const itemBaseColor = createItems(baseColor, "baseColor", dispatch, tmpConditions)
   const itemSeason = createItems(filteredSeasons, "season", dispatch, tmpConditions)
-  const isShownSeason = tmpConditions.personalColor.baseColor !== ""
+  const isShownSeason = tmpConditions.baseColor !== ""
 
   return (
     <View style={styles.container}>

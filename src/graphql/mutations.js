@@ -22,7 +22,7 @@ export const createPostType = /* GraphQL */ `
       parts
       products_id
       makeup_categories
-      is_glittery
+      glitter
       DateTime
       age
     }
@@ -49,7 +49,7 @@ export const updatePostType = /* GraphQL */ `
       parts
       products_id
       makeup_categories
-      is_glittery
+      glitter
       DateTime
       age
     }
@@ -76,7 +76,7 @@ export const deletePostType = /* GraphQL */ `
       parts
       products_id
       makeup_categories
-      is_glittery
+      glitter
       DateTime
       age
     }
