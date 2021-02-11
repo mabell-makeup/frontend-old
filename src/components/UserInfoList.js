@@ -1,7 +1,8 @@
 import React, {useContext} from "react"
 import {View, Text, TextInput} from "react-native"
 import {List} from "../components/List"
-import {authStore} from "../stores/authStore"
+import {parseMasterData} from "../helper/requestHelper"
+import {appStore} from "../stores/appStore"
 
 const styles = {
   listItem: {
@@ -14,49 +15,45 @@ const styles = {
   }
 }
 
-const userInfoSample = [
-  {key: "name", label: "名前", value: "だいち"},
-  {key: "name", label: "ユーザーネーム", value: "test1"},
-  {key: "faceType", label: "顔型", value: "卵型"},
-  {key: "personalColor", label: "パーソナルカラー", value: "ブルベ夏"},
-  {key: "skinType", label: "肌タイプ", value: "普通肌"},
-  {key: "birthdate", label: "生年月日", value: "1999-01-03 (21歳)"},
-  {key: "gender", label: "性別", value: "WOMEN"}
-]
-
-const UserInfoItem = ({value, type, handleState}) => {
-  const [state, setState] = handleState
-
+const UserInfoItem = ({value, type, onPress, onChange}) => {
   return (
     <View style={{justifyContent: "center"}}>
       {type === "text"
-        ? <TextInput defaultValue={value ? value : "未入力"} color="#666" style={styles.textInput} />
-        : <Text style={{color: "#666"}} onPress={() => setState({...state, isShown: true})}>{value ? value : "未入力"}</Text>
+        ? <TextInput defaultValue={value} placeholder="未入力" color="#666" style={styles.textInput} onChangeText={onChange} />
+        : <Text style={{color: "#666"}} onPress={onPress}>{value ? value : "未選択"}</Text>
       }
     </View>
   )
 }
 
-// ここにあるもののうち、displayItemsと一致したものが表示される
-const displayItemsMap = {
-  nickname: {label: "名前", type: "text"}, 
-  name: {label: "ユーザー名", type: "text"},
-  faceType: {label: "顔型", type: "picker"},
-  personalColor: {label: "パーソナルカラー", type: "picker"},
-  skinType: {label: "肌タイプ", type: "picker"},
-  birthdate: {label: "生年月日", type: "date"},
-  gender: {label: "性別", type: "picker"}
-}
+// displayItemsMapのフォーマット
+// typeはtext, picker, date
+// 
+// {
+//   nickname: {label: "表示名", type: "text"}, 
+//   face_type: {label: "顔型", type: "picker"},
+//   birthdate: {label: "生年月日", type: "date"},
+// }
 
-// eslint-disable-next-line max-lines-per-function
-export const UserInfoList = ({displayItems=["name", "username", "faceType", "personalColor", "skinType", "birthdate", "gender"], handlePickerState=[{}, ()=>{}], handleDatePickerState=[{}, ()=>{}]}) => {
-  const {state: {user}} = useContext(authStore)
-  return <List rows={Object.entries(user).reduce((accumulator, [key, value]) => {
-    console.log(accumulator, [key, value])
-    if(!displayItems.includes(key)) return accumulator
-    const handleState = displayItemsMap[key].type === "picker" ? handlePickerState : displayItemsMap[key].type === "date" ? handleDatePickerState : [{}, ()=>{}]
-    // eslint-disable-next-line react/display-name
-    accumulator.push({title: displayItemsMap[key].label, right: () => <UserInfoItem {...{value, type: displayItemsMap[key].type, handleState}} />, style: styles.listItem})
+
+export const UserInfoList = ({displayItemsMap, handleTmpUser: [tmpUser, setTmpUser], handleWheelPicker=[{}, ()=>{}], handleDatePicker=[{}, ()=>{}]}) => {
+  const {state: {masterData}} = useContext(appStore)
+
+  return <List rows={Object.entries(tmpUser).reduce((accumulator, [key, value]) => {
+    if(!Object.keys(displayItemsMap).includes(key)) return accumulator
+    const choices = displayItemsMap[key].type === "picker" ? parseMasterData(masterData, key): []
+    const [state, setState] = displayItemsMap[key].type === "picker" ? handleWheelPicker : displayItemsMap[key].type === "date" ? handleDatePicker : [{}, ()=>{}]
+    accumulator.push({title: displayItemsMap[key].label, style: styles.listItem,
+      // eslint-disable-next-line react/display-name
+      right: () => 
+        <UserInfoItem
+          key={key}
+          value={displayItemsMap[key].type === "picker" ? masterData[key][value] : value}
+          type={displayItemsMap[key].type}
+          onChange={value => setTmpUser({...tmpUser, [key]: value})}
+          onPress={() => setState({...state, isShown: true, choices})}
+        />
+    })
     return accumulator
   }, [])} />
 }
