@@ -5,7 +5,7 @@ import {apiRequest} from "../helper/requestHelper"
 import {getUserType} from "../graphql/queries"
 
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   errMsg: "",
   newUser: {
     email: "",
@@ -22,8 +22,9 @@ const initialState = {
     username: "",
     nickname: "",
     birthdate: "",
-    thumbnail: "https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user1/user1.jpg",
-    posts: [...Array(4).keys()].map(idx => ({id: idx + 1, imgSrc: `https://raw.githubusercontent.com/daiti0113/Joker-assets/main/images/users/user${idx + 1}/posts/1.jpg`}))
+    thumbnail: "",
+    posts: [],
+    skinType: ""
   }
 }
 
@@ -45,7 +46,7 @@ export const login = async (navigation, dispatch, username, password) => {
   try {
     const user = await Auth.signIn(username, password)
     console.log("LOGIN_USER: ", user)
-    dispatch({type: LOGIN_SUCCESS, payload: {isLoggedIn: true, user: user.attributes}})
+    dispatch({type: LOGIN_SUCCESS, payload: user.attributes})
     navigation.navigate("TabScreen", {screen: "HomeScreen"})
     return user.attributes.sub
   } catch (error) {
@@ -97,7 +98,7 @@ export const logout = async (dispatch) => {
   } catch (error) {
     console.log("error signing out: ", error)
   }
-  dispatch({type: LOGOUT_SUCCESS, payload: false})
+  dispatch({type: LOGOUT_SUCCESS})
 }
 
 export const updateNewUser = (dispatch, data) => dispatch({type: UPDATE_NEW_USER, payload: data})
@@ -114,9 +115,9 @@ const {Provider} = authStore
 const AuthProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [LOGIN_SUCCESS]: (state, {payload}) => ({...state, ...payload}),
+    [LOGIN_SUCCESS]: (state, {payload}) => ({...state, user: {...state.user, ...payload}, isLoggedIn: true}),
     [LOGIN_FAILURE]: (state, {payload}) => ({...state, errMsg: payload}),
-    [LOGOUT_SUCCESS]: (state, {payload}) => ({...state, isLoggedIn: payload}),
+    [LOGOUT_SUCCESS]: state => ({...state, isLoggedIn: false}),
     [UPDATE_NEW_USER]: (state, {payload}) => ({...state, newUser: {...state.newUser, ...payload}}),
     [CANCEL_SIGNUP]: state => ({...state, newUser: initialState.newUser}),
     [FETCH_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}})

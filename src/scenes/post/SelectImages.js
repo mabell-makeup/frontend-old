@@ -112,7 +112,7 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
-          <UserInfoList displayItems={["faceType", "personalColor", "skinType"]} pickerState={pickerState} setPickerState={setPickerState} />
+          <UserInfoList displayItems={["faceType", "personalColor", "skinType"]} handlePickerState={[pickerState, setPickerState]} />
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />

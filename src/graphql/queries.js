@@ -100,7 +100,6 @@ export const getUserType = /* GraphQL */ `
       base_color
       season
       face_type
-      skin_type
       age
     }
   }

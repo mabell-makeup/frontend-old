@@ -39,8 +39,8 @@ const onPress = (navigation ,dispatch, mail, password) => async () => {
 
 export const Login = ({navigation}) => {
   const {dispatch, state: {errMsg, user: {sub}}} = useContext(authStore)
-  const [mail, setMail] = useState("")
-  const [password, setPassword] = useState("")
+  const [mail, setMail] = useState("username1")
+  const [password, setPassword] = useState("P@$$w0rd")
 
   return (
     <View style={styles.container}>
