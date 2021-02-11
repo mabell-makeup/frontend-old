@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {MyPage} from "../scenes/user/MyPage"
 import {WINDOW_HEIGHT} from "../styles/constants"
@@ -26,7 +26,11 @@ const navigatorProps = ({
   }
 })
 
-export const MyPageScreen = () => {
+export const MyPageScreen = ({navigation}) => {
+  useEffect(() => {
+    
+  })
+
   return (
     <Stack.Navigator {...navigatorProps}>
       {/* eslint-disable-next-line react/display-name */}

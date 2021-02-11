@@ -54,13 +54,12 @@ const UserInfoItem = ({value, type, onPress, onChange}) => {
     <View style={{justifyContent: "center"}}>
       {type === "text"
         ? <TextInput defaultValue={value} placeholder="未入力" color="#666" style={styles.textInput} onChangeText={onChange} />
-        : <Text style={{color: "#666"}} onPress={onPress}>{value ? value : "未入力"}</Text>
+        : <Text style={{color: "#666"}} onPress={onPress}>{value ? value : "未選択"}</Text>
       }
     </View>
   )
 }
 
-// ここにあるもののうち、displayItemsと一致したものが表示される
 const displayItemsMap = {
   nickname: {label: "表示名", type: "text"}, 
   name: {label: "ユーザー名", type: "text"},
@@ -87,7 +86,7 @@ const UserInfoList = ({handleTmpUser: [tmpUser, setTmpUser], handleWheelPicker=[
           value={value}
           type={displayItemsMap[key].type}
           onChange={value => setTmpUser({...tmpUser, [key]: value})}
-          onPress={() => setState({...state, items: choices, isShown: true})}
+          onPress={() => setState({...state, isShown: true, choices})}
         />
     })
     return accumulator
