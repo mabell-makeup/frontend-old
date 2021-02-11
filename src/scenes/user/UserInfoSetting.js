@@ -64,8 +64,8 @@ const displayItemsMap = {
   nickname: {label: "表示名", type: "text"}, 
   name: {label: "ユーザー名", type: "text"},
   face_type: {label: "顔型", type: "picker"},
-  base_color: {label: "ベースカラー", type: "picker"},
-  season: {label: "季節", type: "picker"},
+  base_color: {label: "ベースカラー(パーソナルカラー)", type: "picker"},
+  season: {label: "季節(パーソナルカラー)", type: "picker"},
   skin_type: {label: "肌タイプ", type: "picker"},
   birthdate: {label: "生年月日", type: "date"},
   gender: {label: "性別", type: "text"}
@@ -83,7 +83,7 @@ const UserInfoList = ({handleTmpUser: [tmpUser, setTmpUser], handleWheelPicker=[
       right: () => 
         <UserInfoItem
           key={key}
-          value={value}
+          value={displayItemsMap[key].type === "picker" ? masterData[key][value] : value}
           type={displayItemsMap[key].type}
           onChange={value => setTmpUser({...tmpUser, [key]: value})}
           onPress={() => setState({...state, isShown: true, choices})}
@@ -120,7 +120,7 @@ export const UserInfoSetting = ({navigation}) => {
             </View>
             <View style={styles.userInfoContainer}>
               <Title>自己紹介</Title>
-              <TextInput placeholder="自己紹介" defaultValue={sampleSelfIntroduction} multiline={true} />
+              <TextInput placeholder="自己紹介" defaultValue={user.self_introduction} multiline={true} />
             </View>
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>
