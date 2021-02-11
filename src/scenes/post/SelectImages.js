@@ -9,6 +9,7 @@ import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 import {List} from "../../components/List"
 import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
+import {authStore} from "../../stores/authStore"
 
 const styles = {
   container: {
@@ -54,10 +55,19 @@ const onChipPress = (navigation, dispatch, preTags) => keyword => () => {
   // navigation.navigate("SelectKeywords")
 }
 
+const displayItemsMap = {
+  face_type: {label: "顔型", type: "picker"},
+  base_color: {label: "ベースカラー(パーソナルカラー)", type: "picker"},
+  season: {label: "季節(パーソナルカラー)", type: "picker"},
+  skin_type: {label: "肌タイプ", type: "picker"}
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {dispatch, state: {tags}} = useContext(postStore)
+  const {state: {user}} = useContext(authStore)
   const [image, setImage] = useState(null)
+  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))))
   const [pickerState, setPickerState] = useState({
     isShown: false,
     items: [
@@ -112,7 +122,7 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
-          <UserInfoList displayItems={["faceType", "personalColor", "skinType"]} handlePickerState={[pickerState, setPickerState]} />
+          <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} />
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
