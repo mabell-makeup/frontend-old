@@ -115,7 +115,8 @@ export const UserInfoSetting = ({navigation}) => {
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.toCenter}>
-              <Avatar.Image size={90} />
+              {/* eslint-disable-next-line no-undef */}
+              <Avatar.Image size={90} source={user.thumbnail_img_src !== "" ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
               <Text style={styles.selectImage}>プロフィール写真を変更</Text>
             </View>
             <View style={styles.userInfoContainer}>

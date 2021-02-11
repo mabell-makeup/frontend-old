@@ -101,6 +101,8 @@ export const getUserType = /* GraphQL */ `
       season
       face_type
       age
+      thumbnail_img_src
+      skin_type
     }
   }
 `;
