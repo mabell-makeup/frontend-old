@@ -38,7 +38,7 @@ const onPress = (navigation ,dispatch, mail, password) => async () => {
 }
 
 export const Login = ({navigation}) => {
-  const {dispatch, state: {errMsg, user: {sub}}} = useContext(authStore)
+  const {dispatch, state: {err_msg, user: {sub}}} = useContext(authStore)
   const [mail, setMail] = useState("username1")
   const [password, setPassword] = useState("P@$$w0rd")
 
@@ -48,7 +48,7 @@ export const Login = ({navigation}) => {
       <Image source={require("../../../assets/icon.png")} style={styles.logo} />
       <TextInput style={styles.input} mode="outlined" label="ユーザー名またはメールアドレス" value={mail} onChangeText={text => setMail(text)} />
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
-      {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
+      {err_msg !== "" && <Text style={styles.errMsg}>{err_msg}</Text>}
       <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, mail, password, sub)}>ログイン</Button>
       <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterUsername")}>登録はこちら</Text></Text>
     </View>

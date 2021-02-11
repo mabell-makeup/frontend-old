@@ -16,7 +16,7 @@ const styles = {
 
 const userInfoSample = [
   {key: "name", label: "名前", value: "だいち"},
-  {key: "username", label: "ユーザーネーム", value: "test1"},
+  {key: "name", label: "ユーザーネーム", value: "test1"},
   {key: "faceType", label: "顔型", value: "卵型"},
   {key: "personalColor", label: "パーソナルカラー", value: "ブルベ夏"},
   {key: "skinType", label: "肌タイプ", value: "普通肌"},
@@ -39,8 +39,8 @@ const UserInfoItem = ({value, type, handleState}) => {
 
 // ここにあるもののうち、displayItemsと一致したものが表示される
 const displayItemsMap = {
-  name: {label: "名前", type: "text"}, 
-  username: {label: "ユーザー名", type: "text"},
+  nickname: {label: "名前", type: "text"}, 
+  name: {label: "ユーザー名", type: "text"},
   faceType: {label: "顔型", type: "picker"},
   personalColor: {label: "パーソナルカラー", type: "picker"},
   skinType: {label: "肌タイプ", type: "picker"},

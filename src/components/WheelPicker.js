@@ -22,9 +22,9 @@ const styles = {
 }
 
 
-export const WheelPicker = ({usePickerState=[{isShown: false, items: [], selected: ""}, ()=>{}]}) => {
+export const WheelPicker = ({usePickerState=[{isShown: false, choices: [], selected: ""}, ()=>{}]}) => {
   const [pickerState, setPickerState] = usePickerState
-  const {isShown, items, selected} = pickerState
+  const {isShown, choices, selected} = pickerState
 
   return (
     <>
@@ -36,7 +36,7 @@ export const WheelPicker = ({usePickerState=[{isShown: false, items: [], selecte
             onValueChange={itemValue => setPickerState({...pickerState, selected: itemValue})}
             style={styles.picker}
           >
-            {items.map(item => <Picker.Item key={item.value} {...item} />)}
+            {choices.map(item => <Picker.Item key={item.key} {...item} />)}
           </Picker>
         </View>
       }

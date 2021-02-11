@@ -43,12 +43,12 @@ const navigatorProps = ({
 const signupScreenOptions = (navigation, dispatch) => ({headerShown: true, headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})
 
 const LoginScreenInner = () => {
-  const {dispatch, state: {isLoggedIn}} = useContext(authStore)
+  const {dispatch, state: {is_logged_in}} = useContext(authStore)
 
   return (
     <NavigationContainer theme={{...DefaultTheme, colors: {...DefaultTheme.colors, background: "#fff"}}}>
       <Stack.Navigator {...navigatorProps}>
-        {isLoggedIn
+        {is_logged_in
           ? <>
             <Stack.Screen name="TabScreen" component={TabScreen} />
             <Stack.Screen name="PostScreen" component={PostScreen} />

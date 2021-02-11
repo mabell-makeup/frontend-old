@@ -11,7 +11,7 @@ const createStyles = favorite => ({
   header: {
     height: 45
   },
-  userName: {
+  name: {
     color: "#000",
     fontSize: 14
   },
@@ -106,7 +106,7 @@ const PostHeader = ({postUser, navigation}) => {
         <Avatar.Image size={38} source={{uri: postUser.thumbnail}} />
         <Appbar.Content 
           title={postUser.nickname}
-          titleStyle={styles.userName}
+          titleStyle={styles.name}
           subtitle={`@${postUser.name}`}
           subtitleStyle={styles.subTitle}
         />
