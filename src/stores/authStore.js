@@ -3,7 +3,7 @@ import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
 import {getUserType} from "../graphql/queries"
-import {updateUserType} from "../graphql/mutations"
+import {createUserType, updateUserType} from "../graphql/mutations"
 
 const initialState = {
   is_logged_in: false,
@@ -67,11 +67,20 @@ export const signup = async (dispatch, {name, password, email, nickname, gender,
         birthdate
       }
     })
+    await createUser(dispatch, {name, nickname: name})
     console.log("SIGNUP_USER:", user)
   } catch (error) {
     console.log("error signing up:", error)
   }
   dispatch({type: SIGNUP_SUCCESS, payload: true})
+}
+export const createUser = async (dispatch, newUser) => {
+  try {
+    await apiRequest(createUserType, {input: newUser})
+    dispatch({type: UPDATE_USER, payload: newUser})
+  } catch (error) {
+    console.log("error createUser:", error)
+  }
 }
 export const confirmSignup = async (dispatch, code, name, password, navigation) => {
   try {

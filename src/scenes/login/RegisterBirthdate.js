@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   }
 })
 
-const onPress = (navigation, dispatch, newUser) => () => {
+const onPress = (navigation, dispatch, new_user) => () => {
   navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})
-  signup(dispatch, newUser)
+  signup(dispatch, new_user)
 }
 
 export const RegisterBirthdate = ({navigation}) => {
-  const {dispatch, state: {newUser}} = useContext(authStore)
+  const {dispatch, state: {new_user}} = useContext(authStore)
   const [birthdate, setBirthdate] = useState(new Date())
 
   // TODO: 必須入力と有効日付のバリデーションを追加
@@ -49,7 +49,7 @@ export const RegisterBirthdate = ({navigation}) => {
         onChange={onChange}
         style={styles.datePicker}
       />
-      <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, newUser)}>次へ</Button>
+      <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, new_user)}>次へ</Button>
     </View>
   )
 }

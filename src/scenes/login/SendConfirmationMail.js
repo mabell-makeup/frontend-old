@@ -36,7 +36,7 @@ const onChange = setCode => text => setCode(text)
 
 
 export const SendConfirmationMail = ({navigation}) => {
-  const {dispatch, state: {newUser: {email, name, password}}} = useContext(authStore)
+  const {dispatch, state: {new_user: {email, name, password}}} = useContext(authStore)
   const [code, setCode] = useState("")
 
   return (
