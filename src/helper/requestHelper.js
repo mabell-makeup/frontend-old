@@ -17,6 +17,5 @@ export const apiRequest = async (queryLiterals="", params={}, needParse=false, p
   }
 }
 
-export const parseMasterData = (masterData, target) => Object.entries(masterData[target]).map(([label, key]) => ({label, key}))
-
+export const parseMasterData = (masterData, target) => Object.entries(masterData[target]).map(([key, label]) => ({label, key}))
 export const camelToSnake = text => text.replace(/([A-Z])/g, s => "_" + s.charAt(0).toLowerCase())

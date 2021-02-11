@@ -1,5 +1,5 @@
 import React, {createContext, useReducer} from "react"
-import {createReducer} from "../helper/storeHelper"
+import {createReducer, formatMasterData} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {getMasterType} from "../graphql/queries"
 
@@ -19,7 +19,7 @@ const FETCH_MASTER_DATA = "FETCH_MASTER_DATA"
 export const updateSuggestionKeywords = (dispatch, keywords) => dispatch({type: UPDATE_SUGGESTION_KEYWORDS, payload: keywords})
 export const fetchMasterData = async dispatch => {
   const masterData = await apiRequest(getMasterType, {id: 0}, true, "getMasterType")
-  dispatch({type: FETCH_MASTER_DATA, payload: masterData})
+  dispatch({type: FETCH_MASTER_DATA, payload: formatMasterData(masterData)})
 }
 
 // Defin Provider

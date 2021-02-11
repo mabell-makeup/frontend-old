@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
+import {appStore} from "../../stores/appStore"
 import {authStore} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
@@ -63,38 +64,31 @@ const FollowInfo = () => {
   return (
     <View style={styles.followInfoContainer}>
       <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>52</Text>
+        <Text style={styles.bold}>0</Text>
         <Text>投稿</Text>
       </View>
       <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>156</Text>
+        <Text style={styles.bold}>0</Text>
         <Text>フォロワー</Text>
       </View>
       <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>175</Text>
+        <Text style={styles.bold}>0</Text>
         <Text>フォロー中</Text>
       </View>
     </View>
   )
 }
 
-const sampleSelfIntroduction = `@sample413 eyelist
-📍Shimokitazawa
-ㅤㅤ
-ご予約 / お問い合わせは
-Coolpepper↓
-https://beauty.coolpepper.jp/kr/hogehoge/staff/W0001`
-
-const SelfIntroduction = () => {
+const SelfIntroduction = ({user, M}) => {
   return (
     <View>
-      <Text style={styles.displayname}>だいち</Text>
-      <Text style={styles.grayText}>@0113Ds</Text>
-      <Text style={styles.sentence} ellipsizeMode="tail" numberOfLines={6}>{sampleSelfIntroduction}</Text>
+      <Text style={styles.displayname}>{user.nickname}</Text>
+      <Text style={styles.grayText}>@{user.name}</Text>
+      <Text style={styles.sentence} ellipsizeMode="tail" numberOfLines={6}>{user.self_introduction}</Text>
       <View style={styles.userData}>
-        <View style={styles.userDataItem}><IconButton icon="face" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>卵型</Text></View>
-        <View style={styles.userDataItem}><IconButton icon="palette" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>イエベ秋</Text></View>
-        <View style={styles.userDataItem}><Text style={styles.grayText}>普通肌</Text></View>
+        {user.face_type && <View style={styles.userDataItem}><IconButton icon="face" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.face_type[user.face_type]}</Text></View>}
+        {user.base_color && <View style={styles.userDataItem}><IconButton icon="palette" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.base_color[user.base_color]}{M.season[user.season]}</Text></View>}
+        {user.skin_type && <View style={styles.userDataItem}><Text style={styles.grayText}>{M.skin_type[user.skin_type]}</Text></View>}
       </View>
     </View>
   )
@@ -102,16 +96,17 @@ const SelfIntroduction = () => {
 
 
 export const MyPage = ({navigation}) => {
-  const {state: {user: {thumbnail, posts}}} = useContext(authStore)
+  const {state: {user}} = useContext(authStore)
+  const {state: {masterData}} = useContext(appStore)
 
   return (
     <ScrollView>
       <View style={styles.userInfo}>
         <View style={styles.row}>
-          <Avatar.Image size={80} source={{uri: thumbnail}} />
+          <Avatar.Image size={80} source={{uri: user.thumbnail_img_src}} />
           <FollowInfo />
         </View>
-        <SelfIntroduction />
+        <SelfIntroduction user={user} M={masterData} />
       </View>
       <Button
         mode="contained"
@@ -122,7 +117,7 @@ export const MyPage = ({navigation}) => {
         投稿する
       </Button>
       <Divider style={styles.divider} />
-      <ImageList data={posts} />
+      <ImageList data={user.posts} />
     </ScrollView>
   )
 }
