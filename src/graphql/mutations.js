@@ -16,7 +16,6 @@ export const createPostType = /* GraphQL */ `
       base_color
       season
       face_type
-      skin_type
       color
       country
       parts

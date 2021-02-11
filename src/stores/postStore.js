@@ -1,6 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
+import {createPostType} from "../graphql/mutations"
 
 export const initialState = {
   tags: ""
@@ -10,18 +11,23 @@ export const initialState = {
 const postStore = createContext(initialState)
 
 // Define Types
-const ADD_POST_DATA = "ADD_POST_DATA"
+const CREATE_POST = "CREATE_POST"
 
 // Define ActionCreator
-export const updatePostData = (dispatch, data) => dispatch({type: ADD_POST_DATA, payload: data})
-
+export const createPost = async post => {
+  try {
+    await apiRequest(createPostType, {input: post})
+  } catch (error) {
+    console.log("error create post: ", error)
+  }
+}
 
 // Defin Provider
 const {Provider} = postStore
 const PostProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
-    [ADD_POST_DATA]: (state, {payload}) => ({...state, ...payload})
+    [CREATE_POST]: (state, {payload}) => ({...state, ...payload})
   }), initialState)
   console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

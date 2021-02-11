@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button} from "react-native-paper"
-import {updatePostData, postStore} from "../../stores/postStore"
+import {createPost, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
@@ -50,8 +50,8 @@ const styles = {
   }
 }
 
-const onChipPress = (navigation, dispatch, preTags) => keyword => () => {
-  updatePostData(dispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
+const onChipPress = (navigation, preTags, post, setPost) => keyword => () => {
+  setPost({...post, tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
   // navigation.navigate("SelectKeywords")
 }
 
@@ -59,26 +59,17 @@ const displayItemsMap = {
   face_type: {label: "顔型", type: "picker"},
   base_color: {label: "ベースカラー(パーソナルカラー)", type: "picker"},
   season: {label: "季節(パーソナルカラー)", type: "picker"},
-  skin_type: {label: "肌タイプ", type: "picker"}
+  // skin_type: {label: "肌タイプ", type: "picker"}
 }
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {dispatch, state: {tags}} = useContext(postStore)
+  const {state: {tags}} = useContext(postStore)
   const {state: {user}} = useContext(authStore)
-  const [image, setImage] = useState(null)
-  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))))
-  const [pickerState, setPickerState] = useState({
-    isShown: false,
-    items: [
-      {label: "テスト0", value: 0},
-      {label: "テスト1", value: 1},
-      {label: "テスト2", value: 2},
-      {label: "テスト3", value: 3},
-      {label: "テスト4", value: 4}
-    ],
-    selected: 2
-  })
+  const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
+  const [tmpUser, setTmpUser] = useState(initialTmpUser)
+  const [post, setPost] = useState({...initialTmpUser, products_id: [1, 2], tags: [1, 2]})
+  const [pickerState, setPickerState] = useState({isShown: false, items: [], selected: 2})
 
   useEffect(() => {
     (async () => {
@@ -89,7 +80,7 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    // pickImage()
+    pickImage()
   }, [])
 
   const pickImage = async () => {
@@ -98,22 +89,28 @@ export const SelectImages = ({navigation}) => {
       allowsEditing: true,
       quality: 1
     })
-
-    !result.cancelled && setImage(result.uri)
+    !result.cancelled && setPost(post.img_src_list
+      // 既に1枚でも写真が選択されている場合
+      ? {...post, img_src_list: Object.assign([], [...post.img_src_list, result.uri])}
+      // 写真の選択が初めてだった場合
+      : {...post, thumbnail_img_src: result.uri, img_src_list: [result.uri]}
+    )
   }
 
   return (
     <>
+      {console.log("POST: ", post)}
       <ScrollView style={styles.container}>
         <View style={styles.captionContainer}>
-          <Image source={{uri: image}} style={styles.image} />
-          <TextInput placeholder="キャプションを書く"/>
+          {/* eslint-disable-next-line no-undef */}
+          <Image source={post.img_src_list ? {uri: post.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
+          <TextInput onChangeText={text => setPost({...post, description: text})} placeholder="キャプションを書く"/>
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>タグ付け</Text>
           <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
           {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
-          <TrendKeywordsInput onChipPress={onChipPress(navigation, dispatch, tags)} />
+          <TrendKeywordsInput onChipPress={onChipPress(navigation, tags, post, setPost)} />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>
@@ -126,7 +123,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} onPress={() => {}} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} onPress={() => createPost(post)} disabled={false}>投稿する</Button>
     </>
   )
 }
