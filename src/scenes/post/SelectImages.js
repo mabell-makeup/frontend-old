@@ -59,7 +59,7 @@ const displayItemsMap = {
   face_type: {label: "顔型", type: "picker"},
   base_color: {label: "ベースカラー(パーソナルカラー)", type: "picker"},
   season: {label: "季節(パーソナルカラー)", type: "picker"},
-  // skin_type: {label: "肌タイプ", type: "picker"}
+  skin_type: {label: "肌タイプ", type: "picker"}
 }
 
 // eslint-disable-next-line max-lines-per-function
