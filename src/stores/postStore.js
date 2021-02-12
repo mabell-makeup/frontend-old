@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {createPostType} from "../graphql/mutations"
+import {createPostType, createTagType} from "../graphql/mutations"
 import {listTagTypes} from "../graphql/queries"
 
 export const initialState = {
@@ -36,13 +36,21 @@ export const fetchTrendTags = async dispatch => {
   }
 }
 export const updateTmpPost = async (dispatch, tmpPost) => dispatch({type: UPDATE_TMP_POST, payload: tmpPost})
-export const updateTmpTags = async (dispatch, tags) => dispatch({type: UPDATE_TMP_TAGS, payload: tags})
+export const updateTmpTags = async (dispatch, tag) => dispatch({type: UPDATE_TMP_TAGS, payload: tag})
 export const fetchTags = async (dispatch, text) => {
   try {
     const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
     await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
   } catch (error) {
     console.log("error fetch tags: ", error)
+  }
+}
+export const createTag = async (dispatch, text) => {
+  try {
+    await apiRequest(createTagType, {input: {tag_name: text, count: 0}})
+    updateTmpTags(dispatch, text)
+  } catch (error) {
+    console.log("error create tag: ", error)
   }
 }
 

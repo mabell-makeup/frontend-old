@@ -2,9 +2,10 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
-import {fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
+import {createTag, fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
+import {useState} from "react/cjs/react.development"
 
 const styles = {
   container: {
@@ -28,15 +29,26 @@ const createRows = (dispatch, tags, navigation) =>
     }
   }))
 
+const onPress = (dispatch, text, navigation, suggestionTags) => () => {
+  suggestionTags.map(tag => tag.tag_name).includes(text) ? updateTmpTags(dispatch, text) : createTag(dispatch, text)
+  navigation.goBack()
+}
+
+const onChangeText = (dispatch, setText) => text => {
+  setText(text)
+  fetchTags(dispatch, text)
+}
+
 export const SeletcTags = ({navigation}) => {
   const {dispatch, state: {suggestionTags, tmpPost: {tags}}} = useContext(postStore)
   const rows = createRows(dispatch, suggestionTags, navigation)
+  const [text, setText] = useState("")
 
   useEffect(() => {
     navigation.setOptions({
       headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
-      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={text => fetchTags(dispatch, text)} />
+      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={onChangeText(dispatch, setText)} />
     })
     fetchTrendTags(dispatch)
   }, [dispatch])
@@ -44,7 +56,7 @@ export const SeletcTags = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <ChipList items={rows} />
-      <Button mode="contained" style={styles.button} onPress={() => navigation.goBack()}>タグを追加</Button>
+      <Button mode="contained" style={styles.button} onPress={onPress(dispatch, text, navigation, suggestionTags)}>タグを追加</Button>
     </ScrollView>
   )
 }
