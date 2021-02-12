@@ -62,7 +62,7 @@ const styles = {
 
 const onChipPress = (navigation, preTags, post, setPost) => keyword => () => {
   setPost({...post, tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
-  // navigation.navigate("SelectKeywords")
+  navigation.navigate("SelectTags")
 }
 
 const displayItemsMap = {
@@ -79,7 +79,7 @@ const onSubmit = (post, willUpdate, dispatch, tmpUser) => () => {
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {state: {tags}} = useContext(postStore)
+  const {state: {tmpPost: {tags}}} = useContext(postStore)
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
@@ -96,7 +96,7 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    pickImage()
+    // pickImage()
   }, [])
 
   const pickImage = async () => {
@@ -124,13 +124,13 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>タグ付け</Text>
-          <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="タグ付け" style={styles.FakeInput} />
+          <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
           {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
           <TrendKeywordsInput onChipPress={onChipPress(navigation, tags, post, setPost)} />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>
-          <FakeInput navigation={navigation} icon="pound" linkTo="SelectKeywords" placeholder="使用アイテム" style={styles.FakeInput} />
+          <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="使用アイテム" style={styles.FakeInput} />
           {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
         </View>
         <View style={styles.inputContainer}>
