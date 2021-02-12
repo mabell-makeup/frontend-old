@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
-import {fetchTrendTags, postStore} from "../../stores/postStore"
+import {fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
 
@@ -18,28 +18,25 @@ const styles = {
   }
 }
 
-const chipAction = (preKeywords, keyword) => {
-  const tmp = preKeywords.split(/\s/)
-  tmp.pop() // 入力途中のキーワードを削除する
-  return tmp.concat([keyword]).join(" ") + " "
-}
-
-const createRows = (tags) =>
+const createRows = (dispatch, tags, navigation) =>
   tags.map(tag => ({
     label: `#${tag.tag_name}`,
     selected: false,
-    onPress: () => {}
+    onPress: () => {
+      updateTmpTags(dispatch, [tag.tag_name])
+      navigation.goBack()
+    }
   }))
 
 export const SeletcTags = ({navigation}) => {
   const {dispatch, state: {suggestionTags, tmpPost: {tags}}} = useContext(postStore)
-  const rows = createRows(suggestionTags)
+  const rows = createRows(dispatch, suggestionTags, navigation)
 
   useEffect(() => {
     navigation.setOptions({
       headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
-      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tags} onChangeText={text => {}} />
+      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={text => {}} />
     })
     fetchTrendTags(dispatch)
   }, [dispatch])

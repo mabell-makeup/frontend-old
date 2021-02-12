@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button, Checkbox} from "react-native-paper"
-import {createPost, postStore} from "../../stores/postStore"
+import {createPost, postStore, updateTmpPost} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
@@ -60,8 +60,8 @@ const styles = {
   }
 }
 
-const onChipPress = (navigation, preTags, post, setPost) => keyword => () => {
-  setPost({...post, tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
+const onChipPress = (navigation, preTags, updateTmpPost, postDispatch) => keyword => () => {
+  updateTmpPost(postDispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
   navigation.navigate("SelectTags")
 }
 
@@ -72,18 +72,17 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const onSubmit = (post, willUpdate, dispatch, tmpUser) => () => {
-  createPost(post)
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => () => {
+  createPost(tmpPost)
   willUpdate && updateUser(dispatch, tmpUser)
 }
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {state: {tmpPost: {tags}}} = useContext(postStore)
+  const {dispatch: postDispatch, state: {tmpPost}} = useContext(postStore)
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
-  const [post, setPost] = useState({...initialTmpUser, products_id: [1, 2], tags: [1, 2]})
   const [pickerState, setPickerState] = useState({isShown: false, items: [], selected: 2})
   const [willUpdate, setWillUpdate] = useState(true)
 
@@ -96,6 +95,7 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
+    updateTmpPost(postDispatch, initialTmpUser)
     // pickImage()
   }, [])
 
@@ -105,33 +105,32 @@ export const SelectImages = ({navigation}) => {
       allowsEditing: true,
       quality: 1
     })
-    !result.cancelled && setPost(post.img_src_list
+    !result.cancelled && updateTmpPost(postDispatch, tmpPost.img_src_list
       // 既に1枚でも写真が選択されている場合
-      ? {...post, img_src_list: Object.assign([], [...post.img_src_list, result.uri])}
+      ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
       // 写真の選択が初めてだった場合
-      : {...post, thumbnail_img_src: result.uri, img_src_list: [result.uri]}
+      : {thumbnail_img_src: result.uri, img_src_list: [result.uri]}
     )
   }
 
   return (
     <>
-      {console.log("POST: ", post)}
       <ScrollView style={styles.container}>
         <View style={styles.captionContainer}>
           {/* eslint-disable-next-line no-undef */}
-          <Image source={post.img_src_list ? {uri: post.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-          <TextInput onChangeText={text => setPost({...post, description: text})} placeholder="キャプションを書く"/>
+          <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
+          <TextInput onChangeText={text => updateTmpPost(postDispatch, {description: text})} placeholder="キャプションを書く"/>
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>タグ付け</Text>
           <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
-          {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
-          <TrendKeywordsInput onChipPress={onChipPress(navigation, tags, post, setPost)} />
+          {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
+          <TrendKeywordsInput onChipPress={onChipPress(navigation, tmpPost.tags, updateTmpPost, postDispatch)} />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>
           <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="使用アイテム" style={styles.FakeInput} />
-          {tags !== "" && <List rows={tags.split(" ").map(tag => ({title: tag, style: styles.listItem}))} />}
+          {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>
@@ -149,7 +148,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} onPress={onSubmit(post, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
     </>
   )
 }
