@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
-import {Button} from "react-native-paper"
+import {Button, Checkbox} from "react-native-paper"
 import {createPost, postStore} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
@@ -9,7 +9,7 @@ import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 import {List} from "../../components/List"
 import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
-import {authStore} from "../../stores/authStore"
+import {authStore, updateUser} from "../../stores/authStore"
 
 const styles = {
   container: {
@@ -47,6 +47,16 @@ const styles = {
     right: 0,
     justifyContent: "center",
     marginHorizontal: 10
+  },
+  checkbox: {
+    backgroundColor: "#eee",
+    borderRadius: 50,
+    marginRight: 10
+  },
+  userInfoUpdate: {
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center"
   }
 }
 
@@ -62,14 +72,20 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
+const onSubmit = (post, willUpdate, dispatch, tmpUser) => () => {
+  createPost(post)
+  willUpdate && updateUser(dispatch, tmpUser)
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {state: {tags}} = useContext(postStore)
-  const {state: {user}} = useContext(authStore)
+  const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
-  const [tmpUser, setTmpUser] = useState(initialTmpUser)
+  const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [post, setPost] = useState({...initialTmpUser, products_id: [1, 2], tags: [1, 2]})
   const [pickerState, setPickerState] = useState({isShown: false, items: [], selected: 2})
+  const [willUpdate, setWillUpdate] = useState(true)
 
   useEffect(() => {
     (async () => {
@@ -121,9 +137,19 @@ export const SelectImages = ({navigation}) => {
           <Text style={styles.label}>ユーザー情報</Text>
           <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} />
         </View>
+        <View style={styles.userInfoUpdate}>
+          <View style={styles.checkbox}>
+            <Checkbox
+              status={willUpdate ? "checked" : "unchecked"}
+              color="#000"
+              onPress={() => setWillUpdate(!willUpdate)}
+            />
+          </View>
+          <Text>ユーザー情報を更新する</Text>
+        </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} onPress={() => createPost(post)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} onPress={onSubmit(post, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
     </>
   )
 }
