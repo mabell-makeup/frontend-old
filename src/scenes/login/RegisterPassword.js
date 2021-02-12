@@ -15,10 +15,13 @@ const styles = StyleSheet.create({
     margin: 10
   },
   submit: {
-    minHeight: 50,
+    height: 50,
     minWidth: 280,
     margin: 20,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   },
   errMsg: {
     marginTop: 20,
@@ -46,7 +49,7 @@ export const RegisterPassword = ({navigation}) => {
       <TextInput style={styles.input} mode="outlined" label="パスワード" onChangeText={onChange} secureTextEntry={true} />
       <TextInput style={styles.input} mode="outlined" label="パスワード再確認" onChangeText={text => validate(text)} secureTextEntry={true} error={errMsg !== ""} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterMail")}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => navigation.navigate("RegisterMail")}>次へ</Button>
     </View>
   )
 }

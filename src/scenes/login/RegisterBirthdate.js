@@ -12,10 +12,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   submit: {
-    minHeight: 50,
+    height: 50,
     minWidth: 280,
     margin: 20,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   },
   datePicker: {
     width: 320
@@ -49,7 +52,7 @@ export const RegisterBirthdate = ({navigation}) => {
         onChange={onChange}
         style={styles.datePicker}
       />
-      <Button style={styles.submit} mode="contained" onPress={onPress(navigation, dispatch, new_user)}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={onPress(navigation, dispatch, new_user)}>次へ</Button>
     </View>
   )
 }

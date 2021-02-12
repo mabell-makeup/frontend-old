@@ -16,6 +16,9 @@ const styles = {
     marginHorizontal: 5,
     marginTop: 30,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   }
 }
 
@@ -56,7 +59,7 @@ export const SeletcTags = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <ChipList items={rows} />
-      <Button mode="contained" style={styles.button} onPress={onPress(dispatch, text, navigation, suggestionTags)}>タグを追加</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onPress(dispatch, text, navigation, suggestionTags)}>タグを追加</Button>
     </ScrollView>
   )
 }

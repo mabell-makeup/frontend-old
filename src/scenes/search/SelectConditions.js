@@ -24,6 +24,9 @@ const styles = {
   buttonLabel: {
     fontSize: 16
   },
+  buttonContentStyle: {
+    height: "100%"
+  },
   accordion: {
     backgroundColor: "rgba(0, 0, 0, 0)",
     shadowColor: "#000",
@@ -92,7 +95,7 @@ export const SelectConditions = ({navigation}) => {
       <ScrollView>
         <List rows={rows} />
       </ScrollView>
-      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
+      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
     </>
   )
 }

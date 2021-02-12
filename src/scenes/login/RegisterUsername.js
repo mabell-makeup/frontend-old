@@ -15,10 +15,13 @@ const styles = StyleSheet.create({
     margin: 10
   },
   submit: {
-    minHeight: 50,
+    height: 50,
     minWidth: 280,
     margin: 20,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   }
 })
 
@@ -31,7 +34,7 @@ export const RegisterUsername = ({navigation}) => {
     <View style={styles.container}>
       <Title>ユーザー名を作成</Title>
       <TextInput style={styles.input} mode="outlined" label="ユーザー名" onChangeText={text => updateNewUser(dispatch, {name: text})} />
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterPassword")}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => navigation.navigate("RegisterPassword")}>次へ</Button>
     </View>
   )
 }

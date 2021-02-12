@@ -48,6 +48,9 @@ const styles = {
     justifyContent: "center",
     marginHorizontal: 10
   },
+  buttonContentStyle: {
+    height: "100%"
+  },
   checkbox: {
     backgroundColor: "#eee",
     borderRadius: 50,
@@ -148,7 +151,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
     </>
   )
 }

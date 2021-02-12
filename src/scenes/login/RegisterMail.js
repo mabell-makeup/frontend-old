@@ -15,10 +15,13 @@ const styles = StyleSheet.create({
     margin: 10
   },
   submit: {
-    minHeight: 50,
+    height: 50,
     minWidth: 280,
     margin: 20,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   },
   errMsg: {
     marginTop: 20,
@@ -48,7 +51,7 @@ export const RegisterMail = ({navigation}) => {
       <Text></Text>
       <TextInput style={styles.input} mode="outlined" label="メールアドレス" onChangeText={onChange} />
       {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} mode="contained" onPress={() => navigation.navigate("RegisterBirthdate")}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => navigation.navigate("RegisterBirthdate")}>次へ</Button>
     </View>
   )
 }

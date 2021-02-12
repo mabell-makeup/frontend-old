@@ -14,6 +14,9 @@ const styles = {
     marginHorizontal: 5,
     marginTop: 30,
     justifyContent: "center"
+  },
+  buttonContentStyle: {
+    height: "100%"
   }
 }
 
@@ -53,7 +56,7 @@ export const SelectKeywords = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <ChipList items={rows} />
-      <Button mode="contained" style={styles.button} onPress={() => navigation.goBack()}>絞り込む</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => navigation.goBack()}>絞り込む</Button>
     </ScrollView>
   )
 }

@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 10
   },
+  buttonContentStyle: {
+    height: "100%"
+  },
   logout: {
     fontWeight: "bold",
     color: "#0099ff",
@@ -80,7 +83,7 @@ export const UserInfoSetting = ({navigation}) => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <Button mode="contained" style={styles.button} onPress={() => updateUser(dispatch, tmpUser)} disabled={false}>変更する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => updateUser(dispatch, tmpUser)} disabled={false}>変更する</Button>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
     </>
   )
