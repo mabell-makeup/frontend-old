@@ -37,6 +37,14 @@ export const fetchTrendTags = async dispatch => {
 }
 export const updateTmpPost = async (dispatch, tmpPost) => dispatch({type: UPDATE_TMP_POST, payload: tmpPost})
 export const updateTmpTags = async (dispatch, tags) => dispatch({type: UPDATE_TMP_TAGS, payload: tags})
+export const fetchTags = async (dispatch, text) => {
+  try {
+    const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+  } catch (error) {
+    console.log("error fetch tags: ", error)
+  }
+}
 
 // Defin Provider
 const {Provider} = postStore

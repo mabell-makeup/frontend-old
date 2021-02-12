@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
-import {fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
+import {fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
 
@@ -23,7 +23,7 @@ const createRows = (dispatch, tags, navigation) =>
     label: `#${tag.tag_name}`,
     selected: false,
     onPress: () => {
-      updateTmpTags(dispatch, [tag.tag_name])
+      updateTmpTags(dispatch, tag.tag_name)
       navigation.goBack()
     }
   }))
@@ -36,7 +36,7 @@ export const SeletcTags = ({navigation}) => {
     navigation.setOptions({
       headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
-      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={text => {}} />
+      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={text => fetchTags(dispatch, text)} />
     })
     fetchTrendTags(dispatch)
   }, [dispatch])
