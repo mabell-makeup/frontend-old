@@ -1,10 +1,10 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import {View, Text, StyleSheet} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
 import {appStore} from "../../stores/appStore"
-import {authStore} from "../../stores/authStore"
+import {authStore, fetchMyPosts} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -96,8 +96,12 @@ const SelfIntroduction = ({user, M}) => {
 
 
 export const MyPage = ({navigation}) => {
-  const {state: {user}} = useContext(authStore)
+  const {dispatch, state: {user}} = useContext(authStore)
   const {state: {masterData}} = useContext(appStore)
+
+  useEffect(() => {
+    fetchMyPosts(dispatch, user.user_id)
+  }, [])
 
   return (
     <ScrollView>

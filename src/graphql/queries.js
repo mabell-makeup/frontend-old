@@ -8,7 +8,6 @@ export const getPostType = /* GraphQL */ `
       user_id
       img_src_list
       thumbnail_img_src
-      items
       tags
       description
       page_views
@@ -39,7 +38,6 @@ export const listPostTypes = /* GraphQL */ `
         user_id
         img_src_list
         thumbnail_img_src
-        items
         tags
         description
         page_views
@@ -67,7 +65,6 @@ export const queryPostTypesByViewRank = /* GraphQL */ `
         user_id
         img_src_list
         thumbnail_img_src
-        items
         tags
         description
         page_views

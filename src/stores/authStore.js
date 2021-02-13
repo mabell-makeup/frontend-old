@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
-import {getUserType} from "../graphql/queries"
+import {getUserType, listPostTypes} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
 
 const initialState = {
@@ -40,6 +40,7 @@ const SIGNUP_SUCCESS = "SIGNUP_SUCCESS"
 const UPDATE_NEW_USER = "UPDATE_NEW_USER"
 const CANCEL_SIGNUP = "CANCEL_SIGNUP"
 const UPDATE_USER = "UPDATE_USER"
+const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
 
 
 // Define ActionCreator
@@ -122,6 +123,15 @@ export const updateUser = async (dispatch, tmpUser) => {
   }
   dispatch({type: UPDATE_USER, payload: tmpUser})
 }
+export const fetchMyPosts = async (dispatch, user_name) => {
+  try {
+    const posts = await apiRequest(listPostTypes, {filter: {user_name: {eq: user_name}}})
+    console.log(posts)
+    dispatch({type: UPDATE_MY_POSTS, payload: posts.listPostTypes.items})
+  } catch (error) {
+    console.log("error fetch my posts: ", error)
+  }
+}
 
 // Defin Provider
 const {Provider} = authStore
@@ -133,7 +143,8 @@ const AuthProvider = ({children}) => {
     [LOGOUT_SUCCESS]: state => ({...state, is_logged_in: false}),
     [UPDATE_NEW_USER]: (state, {payload}) => ({...state, new_user: {...state.new_user, ...payload}}),
     [CANCEL_SIGNUP]: state => ({...state, new_user: initialState.new_user}),
-    [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}})
+    [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
+    [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

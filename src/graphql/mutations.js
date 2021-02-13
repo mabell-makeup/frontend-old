@@ -8,7 +8,6 @@ export const createPostType = /* GraphQL */ `
       user_id
       img_src_list
       thumbnail_img_src
-      items
       tags
       description
       page_views
@@ -33,7 +32,6 @@ export const updatePostType = /* GraphQL */ `
       user_id
       img_src_list
       thumbnail_img_src
-      items
       tags
       description
       page_views
@@ -59,7 +57,6 @@ export const deletePostType = /* GraphQL */ `
       user_id
       img_src_list
       thumbnail_img_src
-      items
       tags
       description
       page_views
