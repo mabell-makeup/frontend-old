@@ -123,11 +123,10 @@ export const updateUser = async (dispatch, tmpUser) => {
   }
   dispatch({type: UPDATE_USER, payload: tmpUser})
 }
-export const fetchMyPosts = async (dispatch, user_name) => {
+export const fetchMyPosts = async (dispatch, user_id) => {
   try {
-    const posts = await apiRequest(listPostTypes, {filter: {user_name: {eq: user_name}}})
-    console.log(posts)
-    dispatch({type: UPDATE_MY_POSTS, payload: posts.listPostTypes.items})
+    const res = await apiRequest(listPostTypes, {filter: {user_id: {eq: user_id}}})
+    dispatch({type: UPDATE_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
   } catch (error) {
     console.log("error fetch my posts: ", error)
   }
@@ -144,7 +143,7 @@ const AuthProvider = ({children}) => {
     [UPDATE_NEW_USER]: (state, {payload}) => ({...state, new_user: {...state.new_user, ...payload}}),
     [CANCEL_SIGNUP]: state => ({...state, new_user: initialState.new_user}),
     [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
-    [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}})
+    [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}})
   }), initialState)
   console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
