@@ -1,15 +1,15 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button, Checkbox} from "react-native-paper"
-import {createPost, postStore, updateTmpPost} from "../../stores/postStore"
+import {createPost, fetchTrendTags, postStore, updateTmpPost, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
-import {TrendKeywordsInput} from "../../components/TrendKeywordsInput"
 import {List} from "../../components/List"
 import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {authStore, updateUser} from "../../stores/authStore"
+import {ChipList} from "../../components/ChipList"
 
 const styles = {
   container: {
@@ -63,11 +63,6 @@ const styles = {
   }
 }
 
-const onChipPress = (navigation, preTags, updateTmpPost, postDispatch) => keyword => () => {
-  updateTmpPost(postDispatch, {tags: preTags === "" ? `#${keyword}`: `${preTags} #${keyword}`})
-  navigation.navigate("SelectTags")
-}
-
 const displayItemsMap = {
   face_type: {label: "顔型", type: "picker"},
   base_color: {label: "ベースカラー(パーソナルカラー)", type: "picker"},
@@ -80,14 +75,20 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => () => {
   willUpdate && updateUser(dispatch, tmpUser)
 }
 
+const createTags = (dispatch, tags) => tags.map(tag => ({
+  label: `#${tag.tag_name}`,
+  onPress: () => {updateTmpTags(dispatch, tag.tag_name)}
+}))
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {dispatch: postDispatch, state: {tmpPost}} = useContext(postStore)
+  const {dispatch: postDispatch, state: {tmpPost, suggestionTags}} = useContext(postStore)
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [pickerState, setPickerState] = useState({isShown: false, items: [], selected: 2})
   const [willUpdate, setWillUpdate] = useState(true)
+  const trendTags = createTags(postDispatch, suggestionTags)
 
   useEffect(() => {
     (async () => {
@@ -98,8 +99,9 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    updateTmpPost(postDispatch, initialTmpUser)
     // pickImage()
+    updateTmpPost(postDispatch, initialTmpUser)
+    fetchTrendTags(postDispatch)
   }, [])
 
   const pickImage = async () => {
@@ -128,7 +130,8 @@ export const SelectImages = ({navigation}) => {
           <Text style={styles.label}>タグ付け</Text>
           <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
           {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
-          <TrendKeywordsInput onChipPress={onChipPress(navigation, tmpPost.tags, updateTmpPost, postDispatch)} />
+          <ChipList items={trendTags} />
+          {/* <TrendKeywordsInput onChipPress={onChipPress(navigation, tmpPost.tags, updateTmpPost, postDispatch)} /> */}
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>
