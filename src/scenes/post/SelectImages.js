@@ -10,6 +10,8 @@ import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {authStore, updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
+import {pickImage, createS3Client} from "../../helper/imageHelper"
+import {Auth} from "aws-amplify"
 
 const styles = {
   container: {
@@ -70,8 +72,15 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => async () => {
   createPost(tmpPost)
+  // TODO: こっちで書き換える
+  // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
+  const s3Client = await createS3Client()
+  const credentials = await Auth.currentCredentials()
+  s3Client.putObject({Key: `${credentials.identityId}/test3.jpg`, ContentType: "image", Body: tmpPost.thumbnail_img_src},
+    (err, data) => data !== null ? console.log("アップロード成功！", data) : console.log("アップロード失敗！", err.stack)
+  )
   willUpdate && updateUser(dispatch, tmpUser)
 }
 
@@ -99,24 +108,18 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    // pickImage()
+    pickImage(onPickSuccess)
     updateTmpPost(postDispatch, initialTmpUser)
     fetchTrendTags(postDispatch)
   }, [])
 
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1
-    })
-    !result.cancelled && updateTmpPost(postDispatch, tmpPost.img_src_list
-      // 既に1枚でも写真が選択されている場合
-      ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
-      // 写真の選択が初めてだった場合
-      : {thumbnail_img_src: result.uri, img_src_list: [result.uri]}
-    )
-  }
+  const onPickSuccess = result => !result.cancelled && updateTmpPost(postDispatch, tmpPost.img_src_list
+    // 既に1枚でも写真が選択されている場合
+    ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
+    // 写真の選択が初めてだった場合
+    : {thumbnail_img_src: result.uri, img_src_list: [result.uri]}
+  )
+
 
   return (
     <>
@@ -154,7 +157,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => onSubmit(tmpPost, willUpdate, dispatch, tmpUser)()} disabled={false}>投稿する</Button>
     </>
   )
 }
