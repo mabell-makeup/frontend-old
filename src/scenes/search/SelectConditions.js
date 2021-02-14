@@ -60,7 +60,7 @@ const createRows = conditions => conditions.map(({title, inner}) =>
 const onChipPress = (dispatch, tmpConditions, navigation) => keyword => () => {
   updateTmpConditions(dispatch, tmpConditions, {keywords: keyword})
   fetchPosts(dispatch, tmpConditions)
-  navigation.navigate("SelectKeywords")
+  navigation.navigate("SelectTags")
 }
 
 
@@ -78,11 +78,11 @@ export const SelectConditions = ({navigation}) => {
     {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
     {title: "肌タイプで絞り込む", inner: <SkinTypeInput key="skinType" />},
     {
-      title: "キーワードで絞り込む",
+      title: "タグで絞り込む",
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
-          <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectKeywords" key="keyword" style={styles.FakeInput} />
+          <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
           <TrendKeywordsInput onChipPress={onChipPress(dispatch, tmpConditions, navigation)} />
         </View>
     }

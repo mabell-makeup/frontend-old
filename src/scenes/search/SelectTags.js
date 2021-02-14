@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
 import {appStore} from "../../stores/appStore"
-import {searchStore, updateTmpConditions, fetchPosts} from "../../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts, fetchTrendTags} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 
 const styles = {
@@ -20,37 +20,36 @@ const styles = {
   }
 }
 
-const chipAction = (preKeywords, keyword) => {
-  const tmp = preKeywords.split(/\s/)
+const chipAction = (preTags, tag) => {
+  const tmp = preTags.split(/\s/)
   tmp.pop() // 入力途中のキーワードを削除する
-  return tmp.concat([keyword]).join(" ") + " "
+  return tmp.concat([tag]).join(" ") + " "
 }
 
-const createRows = (dispatch, keywords, tmpConditions) =>
-  keywords.map(keyword => ({
-    label: `#${keyword}`,
-    // eslint-disable-next-line react/display-name
-    selected: tmpConditions.keywords.split(/\s/).includes(keyword),
+const createRows = (dispatch, tags, tmpConditions) =>
+  tags.map(tag => ({
+    label: `#${tag.tag_name}`,
+    selected: false,
     onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {keywords: chipAction(tmpConditions.keywords, keyword)})
+      updateTmpConditions(dispatch, tmpConditions, {tags: chipAction(tmpConditions.tags, tag.tag_name)})
       fetchPosts(dispatch, tmpConditions)
     }
   }))
 
 const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
-  updateTmpConditions(dispatch, tmpConditions, {keywords: conditions.keywords || ""})
+  updateTmpConditions(dispatch, tmpConditions, {tags: conditions.tags || ""})
   navigation.goBack()
 }
 
-export const SelectKeywords = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, conditions}} = useContext(searchStore)
-  const {state: {suggestionKeywords}} = useContext(appStore)
-  const rows = createRows(dispatch, suggestionKeywords, tmpConditions)
+export const SelectTags = ({navigation}) => {
+  const {dispatch, state: {tmpConditions, conditions, suggestionTags}} = useContext(searchStore)
+  const rows = createRows(dispatch, suggestionTags, tmpConditions)
 
   useEffect(() => {
     // キャンセルボタンの動作を変更する
     // eslint-disable-next-line react/display-name
-    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})    
+    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})
+    fetchTrendTags(dispatch)
   }, [])
 
   return (

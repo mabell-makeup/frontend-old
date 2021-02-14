@@ -1,10 +1,11 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, camelToSnake} from "../helper/requestHelper"
-import {listPostTypes} from "../graphql/queries"
+import {listPostTypes, listTagTypes} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
+  suggestionTags: [],
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
@@ -18,7 +19,7 @@ export const initialState = {
     makeUpCategory: "",
     hairStyle: "",
     items: [],
-    keywords: ""
+    tags: ""
   }
 }
 
@@ -30,6 +31,8 @@ const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
+const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
+
 
 // Define ActionCreator
 /* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
@@ -55,6 +58,24 @@ export const fetchPosts = async (dispatch, tmpConditions) => {
 }
 export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
+export const fetchTrendTags = async dispatch => {
+  try {
+    const response = await apiRequest(listTagTypes, {limit: 20})
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+  } catch (error) {
+    console.log("error fetch trend tags: ", error)
+  }
+}
+export const updateSuggestionTags = (dispatch, tags) => dispatch({type: UPDATE_SUGGESTION_TAGS, payload: tags})
+export const fetchTags = async (dispatch, text) => {
+  try {
+    const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+  } catch (error) {
+    console.log("error fetch tags: ", error)
+  }
+}
+
 
 // Defin Provider
 const {Provider} = searchStore
@@ -64,10 +85,12 @@ const SearchProvider = ({children}) => {
     [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
-    [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions})
+    [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
+    [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload})
   }), initialState)
   console.log("SearchState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
+
 
 export {searchStore, SearchProvider}

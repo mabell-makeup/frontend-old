@@ -5,8 +5,8 @@ import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {IconTextInput} from "../components/IconTextInput"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore, updateTmpConditions} from "../stores/searchStore"
-import {SelectKeywords} from "../scenes/search/SelectKeywords"
+import {fetchTags, SearchProvider, searchStore, updateTmpConditions} from "../stores/searchStore"
+import {SelectTags} from "../scenes/search/SelectTags"
 import {apiRequest} from "../helper/requestHelper"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
@@ -14,7 +14,7 @@ import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
-import {updateSuggestionKeywords} from "../stores/appStore"
+import {updateSuggestionTags} from "../stores/appStore"
 
 const Stack = createStackNavigator()
 
@@ -40,12 +40,12 @@ const getSuggestionKeywords = async (dispatch, text) => {
       }
   }`
   const data = await apiRequest(query)
-  return updateSuggestionKeywords(dispatch, data.suggestionKeywords)
+  return updateSuggestionTags(dispatch, data.suggestionKeywords)
 }
 
 const handleInputKeywords = (dispatch, tmpConditions, text) => {
-  updateTmpConditions(dispatch, tmpConditions, {keywords: text}, false)
-  getSuggestionKeywords(dispatch, text)
+  updateTmpConditions(dispatch, tmpConditions, {tags: text}, false)
+  fetchTags(dispatch, text.split(" ").pop())
 }
 
 
@@ -59,16 +59,16 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions
       }}/>
-      <Stack.Screen name="SelectKeywords" component={SelectKeywords} options={{
+      <Stack.Screen name="SelectTags" component={SelectTags} options={{
         ...defaultScreenOptions,
         headerLeft: false,
-        headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.keywords} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
+        headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.tags} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.keywords} style={{maxHeight: 35}} />,
+        headerTitle: () => <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
