@@ -10,7 +10,7 @@ import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {authStore, updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
-import {pickImage, createS3Client} from "../../helper/imageHelper"
+import {pickImage, createS3Client, uploadImage} from "../../helper/imageHelper"
 import {Auth} from "aws-amplify"
 
 const styles = {
@@ -72,15 +72,15 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => async () => {
-  createPost(tmpPost)
+const registerPost = async (tmpPost) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
-  const s3Client = await createS3Client()
-  const credentials = await Auth.currentCredentials()
-  s3Client.putObject({Key: `${credentials.identityId}/test3.jpg`, ContentType: "image", Body: tmpPost.thumbnail_img_src},
-    (err, data) => data !== null ? console.log("アップロード成功！", data) : console.log("アップロード失敗！", err.stack)
-  )
+  const uri = await uploadImage(tmpPost.thumbnail_img_src)
+  createPost({...tmpPost, thumbnail_img_src: uri})
+}
+
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => () => {
+  registerPost(tmpPost)
   willUpdate && updateUser(dispatch, tmpUser)
 }
 
