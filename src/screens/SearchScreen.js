@@ -7,14 +7,12 @@ import {IconTextInput} from "../components/IconTextInput"
 import {Text} from "react-native-paper"
 import {fetchTags, SearchProvider, searchStore, updateTmpConditions} from "../stores/searchStore"
 import {SelectTags} from "../scenes/search/SelectTags"
-import {apiRequest} from "../helper/requestHelper"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
-import {updateSuggestionTags} from "../stores/appStore"
 
 const Stack = createStackNavigator()
 
@@ -33,21 +31,10 @@ const navigatorProps = ({
   }
 })
 
-const getSuggestionKeywords = async (dispatch, text) => {
-  const query = `{
-    suggestionKeywords(keyword: "${text}", limit: 10) {
-        keyword
-      }
-  }`
-  const data = await apiRequest(query)
-  return updateSuggestionTags(dispatch, data.suggestionKeywords)
-}
-
 const handleInputKeywords = (dispatch, tmpConditions, text) => {
   updateTmpConditions(dispatch, tmpConditions, {tags: text}, false)
-  fetchTags(dispatch, text.split(" ").pop())
+  fetchTags(dispatch, text.split(/\s/).pop())
 }
-
 
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
-import {Button, Text} from "react-native-paper"
+import {Button} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
 import {createTag, fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
 import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
