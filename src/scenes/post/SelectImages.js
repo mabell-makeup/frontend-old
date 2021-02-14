@@ -76,12 +76,13 @@ const registerPost = async (tmpPost) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   const uri = await uploadImage(tmpPost.thumbnail_img_src)
-  createPost({...tmpPost, thumbnail_img_src: uri})
+  createPost({...tmpPost, thumbnail_img_src: uri, products_id: "[1, 2]"})
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser) => () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation) => () => {
   registerPost(tmpPost)
   willUpdate && updateUser(dispatch, tmpUser)
+  navigation.goBack()
 }
 
 const createTags = (dispatch, tags) => tags.map(tag => ({
@@ -157,7 +158,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => onSubmit(tmpPost, willUpdate, dispatch, tmpUser)()} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation)} disabled={false}>投稿する</Button>
     </>
   )
 }
