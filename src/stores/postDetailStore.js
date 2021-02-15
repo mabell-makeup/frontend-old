@@ -30,7 +30,7 @@ const FETCH_ITEMS = "FETCH_ITEMS"
 export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
   try {
     const data = await apiRequest(getPostType, {post_id, DateTime})
-    dispatch({type: FETCH_POST_DETAIL, payload: data})
+    dispatch({type: FETCH_POST_DETAIL, payload: data.getPostType})
   } catch (error) {
     console.log("fetch post detail error:", error)
   }

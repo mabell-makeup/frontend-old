@@ -75,7 +75,7 @@ const registerPost = async (tmpPost) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   const uri = await uploadImage(tmpPost.thumbnail_img_src)
-  createPost({...tmpPost, thumbnail_img_src: uri, products_id: "[1, 2]"})
+  createPost({...tmpPost, thumbnail_img_src: uri, products_id: [1, 2]})
 }
 
 const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation) => () => {
