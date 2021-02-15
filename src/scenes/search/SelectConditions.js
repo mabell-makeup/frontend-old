@@ -11,7 +11,7 @@ import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {FakeInput} from "../../components/FakeInput"
 import {isEqual} from "../../helper/storeHelper"
-import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
 
@@ -87,7 +87,7 @@ export const SelectConditions = ({navigation}) => {
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
-          <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
+          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
           <ChipList items={trendTags} />
         </View>
     }

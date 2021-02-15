@@ -75,7 +75,8 @@ const registerPost = async (tmpPost) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   const uri = await uploadImage(tmpPost.thumbnail_img_src)
-  createPost({...tmpPost, thumbnail_img_src: uri, products_id: [1, 2]})
+  const {products, ...post} = await tmpPost
+  createPost({...post, thumbnail_img_src: uri, products_id: products.map(p => p.product_id)})
 }
 
 const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation) => () => {
@@ -138,8 +139,8 @@ export const SelectImages = ({navigation}) => {
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>
-          <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="使用アイテム" style={styles.FakeInput} />
-          {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
+          <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
+          {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>ユーザー情報</Text>

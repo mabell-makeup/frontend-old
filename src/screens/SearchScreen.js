@@ -9,7 +9,7 @@ import {fetchTags, SearchProvider, searchStore, updateTmpConditions} from "../st
 import {SelectTags} from "../scenes/search/SelectTags"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
-import {WINDOW_HEIGHT, KEYWORD_SEARCH_PLACE_HOLDER} from "../styles/constants"
+import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
@@ -50,13 +50,13 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="SelectTags" component={SelectTags} options={{
         ...defaultScreenOptions,
         headerLeft: false,
-        headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.tags} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
+        headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.tags} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
       }}/>
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags} style={{maxHeight: 35}} />,
+        headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={{

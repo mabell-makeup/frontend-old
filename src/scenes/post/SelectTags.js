@@ -3,7 +3,7 @@ import {ScrollView} from "react-native"
 import {Button} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
 import {createTag, fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
-import {KEYWORD_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
 import {useState} from "react/cjs/react.development"
 
@@ -51,7 +51,7 @@ export const SeletcTags = ({navigation}) => {
     navigation.setOptions({
       headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
-      headerTitle: () => <IconTextInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={onChangeText(dispatch, setText)} />
+      headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} defaultValue={tags} onChangeText={onChangeText(dispatch, setText)} />
     })
     fetchTrendTags(dispatch)
   }, [dispatch])

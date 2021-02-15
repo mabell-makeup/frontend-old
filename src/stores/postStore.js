@@ -2,13 +2,16 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {createPostType, createTagType} from "../graphql/mutations"
-import {listTagTypes} from "../graphql/queries"
+import {listProductTypes, listTagTypes} from "../graphql/queries"
 
 export const initialState = {
   tmpPost: {
-    tags: []
+    tags: [],
+    products: [],
+    products: []
   },
-  suggestionTags: []
+  suggestionTags: [],
+  suggestionProducts: []
 }
 
 // Define Store
@@ -16,8 +19,10 @@ const postStore = createContext(initialState)
 
 // Define Types
 const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
+const UPDATE_SUGGESTION_ITEMS = "UPDATE_SUGGESTION_ITEMS"
 const UPDATE_TMP_POST = "UPDATE_TMP_POST"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
+const UPDATE_TMP_ITEMS = "UPDATE_TMP_ITEMS"
 
 // Define ActionCreator
 export const createPost = async tmpPost => {
@@ -53,6 +58,24 @@ export const createTag = async (dispatch, text) => {
     console.log("error create tag: ", error)
   }
 }
+export const fetchProducts = async (dispatch, text) => {
+  try {
+    const response = await apiRequest(listProductTypes, {limit: 20, filter: {product_name: {contains: text}}})
+    await dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: response.listProductTypes.items})
+  } catch (error) {
+    console.log("error fetch products: ", error)
+  }
+}
+export const fetchTrendProducts = async dispatch => {
+  try {
+    const response = await apiRequest(listProductTypes, {limit: 20})
+    await dispatch({type: UPDATE_SUGGESTION_ITEMS, payload: response.listProductTypes.items})
+  } catch (error) {
+    console.log("error fetch trend products: ", error)
+  }
+}
+export const updateTmpProducts = async (dispatch, product) => dispatch({type: UPDATE_TMP_ITEMS, payload: product})
+
 
 // Defin Provider
 const {Provider} = postStore
@@ -60,8 +83,10 @@ const PostProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
+    [UPDATE_SUGGESTION_ITEMS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
     [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
-    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: [...state.tmpPost.tags, payload]}})
+    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: [...state.tmpPost.tags, payload]}}),
+    [UPDATE_TMP_ITEMS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: [...state.tmpPost.products, payload]}})
   }), initialState)
   console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
