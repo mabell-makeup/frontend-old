@@ -5,14 +5,13 @@ import {Auth} from "aws-amplify"
 import "react-native-get-random-values"
 import {v4 as uuidv4} from "uuid"
 
-export const pickImage = async (onPickSuccess=result=>result) => {
+export const pickImage = async (onPickSuccess=result=>result, onCancel=()=>{}) => {
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
     quality: 1
   })
-  console.log("PickedImage", result)
-  await onPickSuccess(result)
+  !result.cancelled ? onPickSuccess(result) : onCancel()
 }
 
 const createS3Client = async () => {

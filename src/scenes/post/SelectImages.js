@@ -109,12 +109,12 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    pickImage(onPickSuccess)
+    pickImage(onPickSuccess, () => navigation.goBack())
     updateTmpPost(postDispatch, initialTmpUser)
     fetchTrendTags(postDispatch)
   }, [])
 
-  const onPickSuccess = result => !result.cancelled && updateTmpPost(postDispatch, tmpPost.img_src_list
+  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost.img_src_list
     // 既に1枚でも写真が選択されている場合
     ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
     // 写真の選択が初めてだった場合
