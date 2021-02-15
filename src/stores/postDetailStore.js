@@ -1,6 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
+import {getPostType} from "../graphql/queries"
 
 export const initialState = {
   post: {
@@ -26,19 +27,13 @@ const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
 const FETCH_ITEMS = "FETCH_ITEMS"
 
 // Define ActionCreator
-export const fetchPostDetail = async (dispatch, id) => {
-  const data = await apiRequest(`{
-    post(id: ${id}) {
-      user_id
-      user_name
-      img_src_list
-      items
-      tags
-      description
-      page_views
-    }
-  }`)
-  dispatch({type: FETCH_POST_DETAIL, payload: data})
+export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
+  try {
+    const data = await apiRequest(getPostType, {post_id, DateTime})
+    dispatch({type: FETCH_POST_DETAIL, payload: data})
+  } catch (error) {
+    console.log("fetch post detail error:", error)
+  }
 }
 export const updateFavoritePost = async (dispatch, post_id, handleFavorite) => {
   const data = await apiRequest(`{

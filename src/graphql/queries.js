@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const getPostType = /* GraphQL */ `
-  query GetPostType($color: Int!) {
-    getPostType(color: $color) {
+  query GetPostType($post_id: ID!, $DateTime: AWSDateTime!) {
+    getPostType(post_id: $post_id, DateTime: $DateTime) {
       post_id
       user_id
       img_src_list
@@ -15,10 +15,8 @@ export const getPostType = /* GraphQL */ `
       base_color
       season
       face_type
-      skin_type
       color
       country
-      parts
       products_id
       makeup_categories
       glitter

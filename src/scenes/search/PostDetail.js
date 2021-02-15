@@ -205,7 +205,7 @@ export const PostDetail = ({navigation}) => {
   const {dispatch, state: {post}} = useContext(postDetailStore)
   const styles = createStyles()
   useEffect(() => {
-    fetchItems(dispatch, post.item_id_list)
+    // fetchItems(dispatch, post.item_id_list)
   }, [])
   const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
 

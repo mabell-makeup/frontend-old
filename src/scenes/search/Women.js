@@ -7,7 +7,7 @@ import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 const createDataWithNavigation = (searchResult, navigation, dispatch) => searchResult.map(post => ({
   ...post,
   onPress: () => {
-    fetchPostDetail(dispatch, post.id)
+    fetchPostDetail(dispatch, post.id, post.DateTime)
     navigation.navigate("PostDetail", {id: post.id})
   }
 }))

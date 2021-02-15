@@ -10,8 +10,7 @@ import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {authStore, updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
-import {pickImage, createS3Client, uploadImage} from "../../helper/imageHelper"
-import {Auth} from "aws-amplify"
+import {pickImage, uploadImage} from "../../helper/imageHelper"
 
 const styles = {
   container: {
