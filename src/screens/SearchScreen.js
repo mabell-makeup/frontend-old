@@ -36,6 +36,7 @@ const handleInputKeywords = (dispatch, tmpConditions, text) => {
   fetchTags(dispatch, text.split(/\s/).pop())
 }
 
+// eslint-disable-next-line max-lines-per-function
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
@@ -58,7 +59,10 @@ const SearchScreenInner = ({navigation}) => {
         headerTitle: () => <FakeInput placeholder={KEYWORD_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
-      <Stack.Screen name="PostDetail" component={PostDetail} options={defaultScreenOptions} />
+      <Stack.Screen name="PostDetail" component={PostDetail} options={{
+        ...defaultScreenOptions,
+        headerRight: false
+      }} />
       <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
       {/* TODO: UserScreenを設けて、UserHome, Follower, Followを入れる */}
       <Stack.Screen name="UserHome" component={UserHome} options={defaultScreenOptions} />

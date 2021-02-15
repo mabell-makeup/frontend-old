@@ -47,7 +47,7 @@ const createStyles = favorite => ({
     flexDirection: "row",
     alignItems: "center"
   },
-  userInfoTextContainer: {
+  marginLeft: {
     marginLeft: 10
   },
   userInfoNickname: {
@@ -126,15 +126,15 @@ const PostInfo = ({navigation}) => {
       <Text style={styles.description}>{post.description}</Text>
       <View style={styles.createdAt}>
         <IconButton size={15} icon="clock" style={{margin: 0}} />
-        <Text>{post.created_at}</Text>
+        <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
       </View>
       <View style={styles.tag}>
         <Title style={styles.tagTitle}>アイテム</Title>
-        <ChipList items={items.map(item => ({label: "#" + item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} />
+        {items.length > 0 ? <ChipList items={items.map(item => ({label: "#" + item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>ブランド</Title>
-        <ChipList items={items.map(item => ({label: "#" + item.brand_name}))} />
+        {items.length > 0 ? <ChipList items={items.map(item => ({label: "#" + item.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>タグ</Title>
-        <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} />
+        {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
       </View>
     </View>
   )
@@ -146,7 +146,7 @@ const ReactionContainer = () => {
 
   return (
     <View style={styles.infoContainer}>
-      <Text>いいね！ <Text style={styles.strong}>{post.page_views}</Text>件</Text>
+      <Text>いいね！ <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
       <View style={styles.buttonContainer}>
         <IconButton icon={post.favorite ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.favorite ? "#FF7F50" : "#999"} onPress={() => updateFavoritePost(dispatch, post.post_id, !post.favorite)} />
         <IconButton icon="comment-outline" style={styles.button} color="#999" />
@@ -165,7 +165,7 @@ const UserInfo = ({postUser, navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
           <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
         </TouchableOpacity>
-        <View style={styles.userInfoTextContainer}>
+        <View style={styles.marginLeft}>
           <Text style={styles.userInfoNickname}>{postUser.nickname}</Text>
           <Text style={styles.userInfoName}>@{postUser.name}</Text>
         </View>
