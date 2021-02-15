@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {getPostType} from "../graphql/queries"
+import {getPostType, getUserType} from "../graphql/queries"
 
 export const initialState = {
   post: {
@@ -15,7 +15,10 @@ export const initialState = {
     page_views: Number,
     favorite: false
   },
-  items: []
+  items: [],
+  postUser: {
+
+  }
 }
 
 // Define Store
@@ -23,14 +26,17 @@ const postDetailStore = createContext(initialState)
 
 // Define Types
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
+const FETCH_POST_USER = "FETCH_POST_USER"
 const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
 const FETCH_ITEMS = "FETCH_ITEMS"
 
 // Define ActionCreator
 export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
   try {
-    const data = await apiRequest(getPostType, {post_id, DateTime})
-    dispatch({type: FETCH_POST_DETAIL, payload: data.getPostType})
+    const post = await apiRequest(getPostType, {post_id, DateTime})
+    dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
+    const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
+    dispatch({type: FETCH_POST_USER, payload: user.getUserType})
   } catch (error) {
     console.log("fetch post detail error:", error)
   }
@@ -66,6 +72,7 @@ const PostDetailProvider = ({children}) => {
   // Define Reducer
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
+    [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
     [FETCH_ITEMS]: (state, {payload}) => ({...state, items: payload})
   }), initialState)

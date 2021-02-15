@@ -103,7 +103,8 @@ const PostHeader = ({postUser, navigation}) => {
   return (
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
       <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate("UserHome")}>
-        <Avatar.Image size={38} source={{uri: postUser.thumbnail}} />
+        {/* eslint-disable-next-line no-undef */}
+        <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
         <Appbar.Content 
           title={postUser.nickname}
           titleStyle={styles.name}
@@ -202,12 +203,11 @@ const ItemInfo = ({navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {dispatch, state: {post}} = useContext(postDetailStore)
+  const {dispatch, state: {post, postUser}} = useContext(postDetailStore)
   const styles = createStyles()
   useEffect(() => {
     // fetchItems(dispatch, post.item_id_list)
   }, [])
-  const postUser = {nickname: post.user_nickname, name: post.user_name, id: post.user_id, thumbnail: post.user_thumbnail_img_src}
 
   return (
     <ScrollView style={styles.container}>
