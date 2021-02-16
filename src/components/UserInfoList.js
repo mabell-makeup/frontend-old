@@ -9,9 +9,10 @@ const styles = {
     height: 40,
     borderBottomWidth: 0.5
   },
-  textInput: {
+  selected: {
     minWidth: 70,
-    textAlign: "right"
+    textAlign: "right",
+    color: "#666"
   }
 }
 
@@ -19,8 +20,8 @@ const UserInfoItem = ({value, type, onPress, onChange}) => {
   return (
     <View style={{justifyContent: "center"}}>
       {type === "text"
-        ? <TextInput defaultValue={value} placeholder="未入力" color="#666" style={styles.textInput} onChangeText={onChange} />
-        : <Text style={{color: "#666"}} onPress={onPress}>{value ? value : "未選択"}</Text>
+        ? <TextInput defaultValue={value} placeholder="未入力" color="#666" style={styles.selected} onChangeText={onChange} />
+        : <Text style={styles.selected} onPress={onPress}>{value ? value : "未選択"}</Text>
       }
     </View>
   )

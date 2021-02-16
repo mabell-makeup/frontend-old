@@ -57,8 +57,8 @@ const displayItemsMap = {
 // eslint-disable-next-line max-lines-per-function
 export const UserInfoSetting = ({navigation}) => {
   const {dispatch, state: {user}} = useContext(authStore)
-  const [pickerState, setPickerState] = useState({isShown: false, choices: []})
-  const [dtPickerState, setDTPickerState] = useState({isShown: false})
+  const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
+  const [dtPickerState, setDTPickerState] = useState({isShown: false, selected: new Date(user.birthdate)})
   const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))))
 
   return (
@@ -87,7 +87,7 @@ export const UserInfoSetting = ({navigation}) => {
       </SafeAreaView>
       <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => updateUser(dispatch, tmpUser)} disabled={false}>変更する</Button>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
-      <DatePicker usePickerState={[dtPickerState, setDTPickerState]} onChange={()=>{}} />
+      <DatePicker usePickerState={[dtPickerState, setDTPickerState]} onChange={selectedDate => setTmpUser({...tmpUser, birthdate: selectedDate})} />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import React from "react"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {Text, StyleSheet, View} from "react-native"
+import {formatDate} from "../helper/dateHelper"
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
 })
 
 
-export const DatePicker = ({usePickerState=[{isShown: false, selected: ""}, ()=>{}]}) => {
+export const DatePicker = ({usePickerState=[{isShown: false, selected: ""}, ()=>{}], onChange=selectedDate=>selectedDate}) => {
   const [pickerState, setPickerState] = usePickerState
   const {isShown, selected} = pickerState
 
@@ -27,10 +28,13 @@ export const DatePicker = ({usePickerState=[{isShown: false, selected: ""}, ()=>
     <View style={styles.container}>
       <Text onPress={() => setPickerState({...pickerState, isShown: false})} style={styles.close}>閉じる</Text>
       <DateTimePicker
-        value={selected}
+        value={new Date(selected)}
         mode="date"
         display="spinner"
-        onChange={(e, selectedDate) => setPickerState({...pickerState, selected: selectedDate})}
+        onChange={(e, selectedDate) => {
+          setPickerState({...pickerState, selected: selectedDate})
+          onChange(formatDate(selectedDate))
+        }}
       />
     </View>
 }
