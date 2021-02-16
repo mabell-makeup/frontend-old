@@ -50,7 +50,7 @@ export const ColorPaletteInput = () => {
     <View>
       <ChipList items={colorInputs} />
       <View style={styles.glitterContainer}>
-        <Text style={styles.glitterLabel}>ラメを使う</Text>
+        <Text style={styles.glitterLabel}>ラメの使用有無</Text>
         <ChipList items={glitterInputs} style={styles.glitter} />
       </View>
     </View>

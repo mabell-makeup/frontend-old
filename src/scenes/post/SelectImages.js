@@ -13,6 +13,7 @@ import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
+import {CountryInput} from "./CountryInput"
 
 const styles = {
   container: {
@@ -139,6 +140,10 @@ export const SelectImages = ({navigation}) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>色を選ぶ</Text>
           <ColorPaletteInput />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>国を選ぶ</Text>
+          <CountryInput />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>タグ付け</Text>
