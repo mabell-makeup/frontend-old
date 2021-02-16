@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const FollowInfo = () => {
+const FollowInfo = ({postCount}) => {
   return (
     <View style={styles.followInfoContainer}>
       <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>0</Text>
+        <Text style={styles.bold}>{postCount ? postCount : 0}</Text>
         <Text>投稿</Text>
       </View>
       <View style={styles.followInfoItem}>
@@ -108,7 +108,7 @@ export const MyPage = ({navigation}) => {
       <View style={styles.userInfo}>
         <View style={styles.row}>
           <Avatar.Image size={80} source={{uri: user.thumbnail_img_src}} />
-          <FollowInfo />
+          <FollowInfo postCount={user.posts.length} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
       </View>
