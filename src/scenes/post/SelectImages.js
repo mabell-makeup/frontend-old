@@ -12,6 +12,7 @@ import {authStore, updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "./ColorPaletteInput"
+import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 
 const styles = {
   container: {
@@ -130,6 +131,10 @@ export const SelectImages = ({navigation}) => {
           {/* eslint-disable-next-line no-undef */}
           <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
           <TextInput onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text})} placeholder="キャプションを書く"/>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>カテゴリを選ぶ</Text>
+          <MakeUpCategoryInput />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>色を選ぶ</Text>

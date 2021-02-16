@@ -1,8 +1,8 @@
 import React, {useContext} from "react"
-import {parseMasterData} from "../helper/requestHelper"
-import {appStore} from "../stores/appStore"
-import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
-import {ChipList} from "./ChipList"
+import {parseMasterData} from "../../helper/requestHelper"
+import {appStore} from "../../stores/appStore"
+import {searchStore, updateTmpConditions, fetchPosts} from "../../stores/searchStore"
+import {ChipList} from "../../components/ChipList"
 
 const createItems = (makeUpCategories, dispatch, tmpConditions) =>
   makeUpCategories.map(category => ({

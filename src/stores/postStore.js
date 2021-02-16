@@ -13,7 +13,8 @@ export const initialState = {
     products: [],
     season: "",
     skin_type: "",
-    tags: []
+    tags: [],
+    makeup_categories: ""
   },
   suggestionTags: [],
   suggestionProducts: []
