@@ -22,21 +22,25 @@ const styles = {
 }
 
 
-export const WheelPicker = ({usePickerState=[{isShown: false, choices: [], selected: ""}, ()=>{}]}) => {
+export const WheelPicker = ({usePickerState=[{isShown: false, choices: []}, ()=>{}], onChange=itemValue=>itemValue}) => {
   const [pickerState, setPickerState] = usePickerState
-  const {isShown, choices, selected} = pickerState
+  const {isShown, choices, key, selected} = pickerState
 
   return (
     <>
       {isShown &&
         <View style={styles.container}>
-          <Text onPress={() => setPickerState({...pickerState, isShown: false})} style={styles.close}>閉じる</Text>
+          <Text onPress={() => setPickerState({choices, isShown: false})} style={styles.close}>閉じる</Text>
           <Picker
             selectedValue={selected}
-            onValueChange={itemValue => setPickerState({...pickerState, selected: itemValue})}
+            onValueChange={itemValue => {
+              setPickerState({...pickerState, selected: itemValue})
+              onChange({[key]: itemValue})
+            }}
             style={styles.picker}
           >
-            {choices.map(item => <Picker.Item key={item.key} {...item} />)}
+            {/* eslint-disable-next-line react/jsx-key */}
+            {choices.map(item => <Picker.Item value={item.key} {...item} />)}
           </Picker>
         </View>
       }

@@ -2,6 +2,7 @@ import React, {useState, useContext} from "react"
 import {Text, StyleSheet, View, TextInput, SafeAreaView} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Title} from "react-native-paper"
+import {DatePicker} from "../../components/DatePicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
 import {authStore, logout, updateUser} from "../../stores/authStore"
@@ -56,7 +57,8 @@ const displayItemsMap = {
 // eslint-disable-next-line max-lines-per-function
 export const UserInfoSetting = ({navigation}) => {
   const {dispatch, state: {user}} = useContext(authStore)
-  const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: 2})
+  const [pickerState, setPickerState] = useState({isShown: false, choices: []})
+  const [dtPickerState, setDTPickerState] = useState({isShown: false})
   const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))))
 
   return (
@@ -75,7 +77,7 @@ export const UserInfoSetting = ({navigation}) => {
             </View>
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>
-              <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} />
+              <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} handleDatePicker={[dtPickerState, setDTPickerState]} />
             </View>
             <View style={styles.toCenter}>
               <Text onPress={() => logout(dispatch)} style={styles.logout}>ログアウト</Text>
@@ -84,7 +86,8 @@ export const UserInfoSetting = ({navigation}) => {
         </ScrollView>
       </SafeAreaView>
       <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => updateUser(dispatch, tmpUser)} disabled={false}>変更する</Button>
-      <WheelPicker usePickerState={[pickerState, setPickerState]} />
+      <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
+      <DatePicker usePickerState={[dtPickerState, setDTPickerState]} onChange={()=>{}} />
     </>
   )
 }

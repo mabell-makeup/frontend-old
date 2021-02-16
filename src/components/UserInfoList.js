@@ -51,7 +51,7 @@ export const UserInfoList = ({displayItemsMap, handleTmpUser: [tmpUser, setTmpUs
           value={displayItemsMap[key].type === "picker" ? masterData[key][value] : value}
           type={displayItemsMap[key].type}
           onChange={value => setTmpUser({...tmpUser, [key]: value})}
-          onPress={() => setState({...state, isShown: true, choices})}
+          onPress={() => setState({...state, isShown: true, choices, key, selected: value})}
         />
     })
     return accumulator
