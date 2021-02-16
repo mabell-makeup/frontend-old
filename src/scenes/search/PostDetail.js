@@ -216,7 +216,7 @@ export const PostDetail = ({navigation}) => {
       <ReactionContainer />
       {/* <ProductInfo navigation={navigation} /> */}
       <PostInfo navigation={navigation} />
-      {/* <UserInfo postUser={postUser} navigation={navigation} /> */}
+      <UserInfo postUser={postUser} navigation={navigation} />
     </ScrollView>
   )
 }

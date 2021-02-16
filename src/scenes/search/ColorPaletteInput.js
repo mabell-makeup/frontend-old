@@ -1,10 +1,10 @@
 import React, {useContext} from "react"
 import {View, StyleSheet} from "react-native"
-import {updateTmpConditions, fetchPosts, searchStore} from "../stores/searchStore"
-import {ChipList} from "./ChipList"
+import {updateTmpConditions, fetchPosts, searchStore} from "../../stores/searchStore"
+import {ChipList} from "../../components/ChipList"
 import {Text} from "react-native-paper"
-import {parseMasterData} from "../helper/requestHelper"
-import {appStore} from "../stores/appStore"
+import {parseMasterData} from "../../helper/requestHelper"
+import {appStore} from "../../stores/appStore"
 
 const styles = StyleSheet.create({
   lameContainer: {

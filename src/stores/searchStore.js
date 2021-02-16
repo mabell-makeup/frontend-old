@@ -43,7 +43,6 @@ export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, i
     dispatch({type: UPDATE_TMP_CONDITIONS, payload})
     await fetchPosts(dispatch, payload)
   })
-  
 }
 export const fetchPosts = async (dispatch, tmpConditions) => {
   const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)

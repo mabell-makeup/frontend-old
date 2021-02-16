@@ -130,6 +130,7 @@ export const getMasterType = /* GraphQL */ `
       season
       face_type
       skin_type
+      glitter
     }
   }
 `;
@@ -149,6 +150,7 @@ export const listMasterTypes = /* GraphQL */ `
         season
         face_type
         skin_type
+        glitter
       }
       nextToken
     }

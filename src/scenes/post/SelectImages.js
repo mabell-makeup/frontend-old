@@ -11,6 +11,7 @@ import {UserInfoList} from "../../components/UserInfoList"
 import {authStore, updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
+import {ColorPaletteInput} from "./ColorPaletteInput"
 
 const styles = {
   container: {
@@ -34,7 +35,7 @@ const styles = {
     borderBottomWidth: 0.5
   },
   inputContainer: {
-    marginTop: 20
+    marginTop: 30
   },
   label: {
     fontWeight: "bold",
@@ -109,12 +110,12 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    pickImage(onPickSuccess, () => navigation.goBack())
-    updateTmpPost(postDispatch, initialTmpUser)
+    // pickImage(onPickSuccess, () => navigation.goBack())
+    updateTmpPost(postDispatch, tmpPost, initialTmpUser)
     fetchTrendTags(postDispatch)
   }, [])
 
-  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost.img_src_list
+  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost, tmpPost.img_src_list
     // 既に1枚でも写真が選択されている場合
     ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
     // 写真の選択が初めてだった場合
@@ -128,14 +129,17 @@ export const SelectImages = ({navigation}) => {
         <View style={styles.captionContainer}>
           {/* eslint-disable-next-line no-undef */}
           <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-          <TextInput onChangeText={text => updateTmpPost(postDispatch, {description: text})} placeholder="キャプションを書く"/>
+          <TextInput onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text})} placeholder="キャプションを書く"/>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>色を選ぶ</Text>
+          <ColorPaletteInput />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>タグ付け</Text>
           <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
           {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
           <ChipList items={trendTags} />
-          {/* <TrendKeywordsInput onChipPress={onChipPress(navigation, tmpPost.tags, updateTmpPost, postDispatch)} /> */}
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>使用アイテム</Text>

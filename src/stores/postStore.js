@@ -6,9 +6,14 @@ import {listProductTypes, listTagTypes} from "../graphql/queries"
 
 export const initialState = {
   tmpPost: {
-    tags: [],
+    base_color: "",
+    color: "",
+    face_type: "",
+    glitter: "",
     products: [],
-    products: []
+    season: "",
+    skin_type: "",
+    tags: []
   },
   suggestionTags: [],
   suggestionProducts: []
@@ -40,7 +45,14 @@ export const fetchTrendTags = async dispatch => {
     console.log("error fetch trend tags: ", error)
   }
 }
-export const updateTmpPost = async (dispatch, tmpPost) => dispatch({type: UPDATE_TMP_POST, payload: tmpPost})
+/* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
+export const updateTmpPost = (dispatch, preTmpPost, nextCondition, isToggle=true) => {
+  Object.entries(nextCondition).map(async ([key, val]) => {
+    const isClear = isToggle && preTmpPost[key] === val
+    const payload = isClear ? {[key]: initialState.tmpPost[key]} : {[key]: val}
+    dispatch({type: UPDATE_TMP_POST, payload})
+  })
+}
 export const updateTmpTags = async (dispatch, tag) => dispatch({type: UPDATE_TMP_TAGS, payload: tag})
 export const fetchTags = async (dispatch, text) => {
   try {
