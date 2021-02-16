@@ -100,9 +100,10 @@ export const SelectImages = ({navigation}) => {
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
-  const [pickerState, setPickerState] = useState({isShown: false, items: [], selected: 2})
+  const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [willUpdate, setWillUpdate] = useState(true)
   const trendTags = createTags(postDispatch, suggestionTags)
+  console.log(tmpUser)
 
   useEffect(() => {
     (async () => {
@@ -174,7 +175,7 @@ export const SelectImages = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-      <WheelPicker usePickerState={[pickerState, setPickerState]} />
+      <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
       <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation)} disabled={false}>投稿する</Button>
     </>
   )
