@@ -117,7 +117,7 @@ export const fetchUser = async (dispatch, sub) => {
 export const updateUser = async (dispatch, tmpUser) => {
   try {
     // await apiRequest(updateUserType, {input: tmpUser})
-    await apiRequest(updateUserType, {input: {nickname: tmpUser.nickname, name: tmpUser.name}})
+    await apiRequest(updateUserType, {input: tmpUser})
   } catch (error) {
     console.log("error update user: ", error)
   }

@@ -51,7 +51,7 @@ const displayItemsMap = {
   season: {label: "季節(パーソナルカラー)", type: "picker"},
   skin_type: {label: "肌タイプ", type: "picker"},
   birthdate: {label: "生年月日", type: "date"},
-  gender: {label: "性別", type: "text"}
+  gender: {label: "性別", type: "picker"}
 }
 
 // eslint-disable-next-line max-lines-per-function

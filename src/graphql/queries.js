@@ -131,6 +131,7 @@ export const getMasterType = /* GraphQL */ `
       face_type
       skin_type
       glitter
+      gender
     }
   }
 `;
@@ -151,6 +152,7 @@ export const listMasterTypes = /* GraphQL */ `
         face_type
         skin_type
         glitter
+        gender
       }
       nextToken
     }
