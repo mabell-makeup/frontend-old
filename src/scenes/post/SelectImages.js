@@ -19,6 +19,7 @@ const styles = {
   container: {
     paddingTop: 10,
     paddingHorizontal: 20,
+    paddingBottom: 120,
     height: "100%"
   },
   captionContainer: {
@@ -112,7 +113,7 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    // pickImage(onPickSuccess, () => navigation.goBack())
+    pickImage(onPickSuccess, () => navigation.goBack())
     updateTmpPost(postDispatch, tmpPost, initialTmpUser)
     fetchTrendTags(postDispatch)
   }, [])
@@ -127,48 +128,50 @@ export const SelectImages = ({navigation}) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <View style={styles.captionContainer}>
-          {/* eslint-disable-next-line no-undef */}
-          <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-          <TextInput onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text})} placeholder="キャプションを書く"/>
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>カテゴリを選ぶ</Text>
-          <MakeUpCategoryInput />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>色を選ぶ</Text>
-          <ColorPaletteInput />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>国を選ぶ</Text>
-          <CountryInput />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>タグ付け</Text>
-          <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
-          {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
-          <ChipList items={trendTags} />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>使用アイテム</Text>
-          <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
-          {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>ユーザー情報</Text>
-          <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} />
-        </View>
-        <View style={styles.userInfoUpdate}>
-          <View style={styles.checkbox}>
-            <Checkbox
-              status={willUpdate ? "checked" : "unchecked"}
-              color="#000"
-              onPress={() => setWillUpdate(!willUpdate)}
-            />
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.captionContainer}>
+            {/* eslint-disable-next-line no-undef */}
+            <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
+            <TextInput onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text})} placeholder="キャプションを書く"/>
           </View>
-          <Text>ユーザー情報を更新する</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>カテゴリを選ぶ</Text>
+            <MakeUpCategoryInput />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>色を選ぶ</Text>
+            <ColorPaletteInput />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>国を選ぶ</Text>
+            <CountryInput />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>タグ付け</Text>
+            <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
+            {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
+            <ChipList items={trendTags} />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>使用アイテム</Text>
+            <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
+            {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>ユーザー情報</Text>
+            <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} />
+          </View>
+          <View style={styles.userInfoUpdate}>
+            <View style={styles.checkbox}>
+              <Checkbox
+                status={willUpdate ? "checked" : "unchecked"}
+                color="#000"
+                onPress={() => setWillUpdate(!willUpdate)}
+              />
+            </View>
+            <Text>ユーザー情報を更新する</Text>
+          </View>
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} />

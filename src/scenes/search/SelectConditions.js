@@ -74,7 +74,6 @@ export const SelectConditions = ({navigation}) => {
   const trendTags = createTags(dispatch, tmpConditions, navigation, suggestionTags)
   
   // TODO: 後でコンポーネントの外に出す
-  // TODO: Accordionをやめるので、isExpanded, setIsExpandedを使わない。
   const conditions = [
     {title: "カテゴリで絞り込む", inner: <MakeUpCategoryInput key="makeUpCategory" />},
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />},
