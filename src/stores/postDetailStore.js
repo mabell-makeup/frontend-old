@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {getPostType, getUserType} from "../graphql/queries"
+import {getPostType, getProductType, getUserType} from "../graphql/queries"
 
 export const initialState = {
   post: {
@@ -15,10 +15,8 @@ export const initialState = {
     page_views: Number,
     favorite: false
   },
-  items: [],
-  postUser: {
-
-  }
+  products: [],
+  postUser: {}
 }
 
 // Define Store
@@ -28,7 +26,7 @@ const postDetailStore = createContext(initialState)
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 const FETCH_POST_USER = "FETCH_POST_USER"
 const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
-const FETCH_ITEMS = "FETCH_ITEMS"
+const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL"
 
 // Define ActionCreator
 export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
@@ -49,22 +47,14 @@ export const updateFavoritePost = async (dispatch, post_id, handleFavorite) => {
   }`)
   dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
 }
-export const fetchItems = async (dispatch, productIdList) => {
-  const data = await apiRequest(`{
-    fetchItems(productId:hogehoge) {
-      items: {
-        id
-        name
-        brand_name
-        category
-        price
-        release_date
-      }
-    }
-  }`)
-  dispatch({type: FETCH_ITEMS, payload: data})
+export const fetchProductDetails = async (dispatch, products_id) => {
+  try {
+    const products = await Promise.all(products_id.map(async product_id => apiRequest(getProductType, {product_id})))
+    dispatch({type: FETCH_PRODUCT_DETAIL, payload: products.map(p => p.getProductType)})
+  } catch (error) {
+    console.log("fetch product details error:", error)
+  }
 }
-
 
 // Defin Provider
 const {Provider} = postDetailStore
@@ -74,7 +64,7 @@ const PostDetailProvider = ({children}) => {
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
-    [FETCH_ITEMS]: (state, {payload}) => ({...state, items: payload})
+    [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload})
   }), initialState)
   console.log("PostDetailState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>

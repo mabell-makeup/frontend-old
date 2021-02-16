@@ -2,8 +2,8 @@ import React, {useContext, useEffect} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
-import {ChipList} from "../../components/ChipList"
-import {updateFavoritePost, postDetailStore, fetchItems} from "../../stores/postDetailStore"
+import {ChipList} from "../../components/ChipList" // TODO: getProductTypeを叩いて、ProductDetailの商品情報を表示する
+import {updateFavoritePost, postDetailStore, fetchProductDetails} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
@@ -25,7 +25,7 @@ const createStyles = favorite => ({
   headerLeft: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignProducts: "center"
   },
   infoContainer: {
     marginTop: 6,
@@ -36,7 +36,7 @@ const createStyles = favorite => ({
     lineHeight: 30
   },
   createdAt: {
-    alignItems: "center",
+    alignProducts: "center",
     flexDirection: "row",
     marginTop: 20
   },
@@ -45,7 +45,7 @@ const createStyles = favorite => ({
   },
   userInfo: {
     flexDirection: "row",
-    alignItems: "center"
+    alignProducts: "center"
   },
   marginLeft: {
     marginLeft: 10
@@ -78,17 +78,17 @@ const createStyles = favorite => ({
   tagTitle: {
     marginTop: 20
   },
-  items: {
+  products: {
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "flex-start",
     backgroundColor: "#999"
   },
-  item: {
+  product: {
     width: (WINDOW_WIDTH-6) / 3,
     margin: 1
   },
-  itemImage: {
+  productImage: {
     width: (WINDOW_WIDTH-6) / 3,
     height: (WINDOW_WIDTH-6) / 3
   },
@@ -118,7 +118,7 @@ const PostHeader = ({postUser, navigation}) => {
 }
 
 const PostInfo = ({navigation}) => {
-  const {state: {post, items}} = useContext(postDetailStore)
+  const {state: {post, products}} = useContext(postDetailStore)
   const styles = createStyles(post.favorite)
 
   return (
@@ -130,9 +130,9 @@ const PostInfo = ({navigation}) => {
       </View>
       <View style={styles.tag}>
         <Title style={styles.tagTitle}>アイテム</Title>
-        {items.length > 0 ? <ChipList items={items.map(item => ({label: "#" + item.item_name, onPress: () => navigation.navigate("ItemDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        {products.length > 0 ? <ChipList items={products.map(product => ({label: "#" + product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>ブランド</Title>
-        {items.length > 0 ? <ChipList items={items.map(item => ({label: "#" + item.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        {products.length > 0 ? <ChipList items={products.map(product => ({label: "#" + product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>タグ</Title>
         {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
       </View>
@@ -175,28 +175,28 @@ const UserInfo = ({postUser, navigation}) => {
   )
 }
 
-const Item = ({item, navigation}) => {
+const Product = ({product, navigation}) => {
   const styles = createStyles()
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("ItemDetail")}>
-      <View key={item.id} style={styles.item}>
-        <Image source={{uri: item.img_src}} style={styles.itemImage} />
-        <Text style={styles.brandName} numberOfLines={1}>{item.brand_name}</Text>
-        <Text numberOfLines={1}>{item.item_name}</Text>
+    <TouchableOpacity onPress={() => navigation.navigate("ProductDetail")}>
+      <View key={product.id} style={styles.product}>
+        <Image source={{uri: product.img_src}} style={styles.productImage} />
+        <Text style={styles.brandName} numberOfLines={1}>{product.brand_name}</Text>
+        <Text numberOfLines={1}>{product.product_name}</Text>
       </View>
     </TouchableOpacity>
   )
 }
 
-const ItemInfo = ({navigation}) => {
-  const {state: {items}} = useContext(postDetailStore)
+const ProductInfo = ({navigation}) => {
+  const {state: {products}} = useContext(postDetailStore)
 
   return (
     <FlatList
-      data={items}
-      renderItem={({item}) => <Item item={item} navigation={navigation} />}
-      keyExtractor={item => item.id}
+      data={products}
+      renderProduct={({product}) => <Product product={product} navigation={navigation} />}
+      keyExtractor={product => product.id}
       numColumns={3}
     />
   )
@@ -206,15 +206,15 @@ export const PostDetail = ({navigation}) => {
   const {dispatch, state: {post, postUser}} = useContext(postDetailStore)
   const styles = createStyles()
   useEffect(() => {
-    // fetchItems(dispatch, post.item_id_list)
-  }, [])
+    fetchProductDetails(dispatch, post.products_id)
+  }, [post])
 
   return (
     <ScrollView style={styles.container}>
       <PostHeader postUser={postUser} navigation={navigation} />
       <Carousel data={post.img_src_list} />
       <ReactionContainer />
-      {/* <ItemInfo navigation={navigation} /> */}
+      {/* <ProductInfo navigation={navigation} /> */}
       <PostInfo navigation={navigation} />
       {/* <UserInfo postUser={postUser} navigation={navigation} /> */}
     </ScrollView>
