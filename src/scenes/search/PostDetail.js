@@ -139,9 +139,9 @@ const PostInfo = ({navigation}) => {
         <Title style={styles.tagTitle}>ユーザー情報</Title>
         {products.length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>アイテム</Title>
-        {products.length > 0 ? <ChipList items={products.map(product => ({label: "#" + product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        {products.length > 0 ? <ChipList items={products.map(product => ({label: product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>ブランド</Title>
-        {products.length > 0 ? <ChipList items={products.map(product => ({label: "#" + product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        {products.length > 0 ? <ChipList items={products.map(product => ({label: product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>タグ</Title>
         {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
       </View>
