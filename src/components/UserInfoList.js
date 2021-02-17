@@ -12,7 +12,8 @@ const styles = {
   selected: {
     minWidth: 70,
     textAlign: "right",
-    color: "#666"
+    color: "#666",
+    marginRight: 10
   }
 }
 

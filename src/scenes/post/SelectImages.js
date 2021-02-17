@@ -103,7 +103,6 @@ export const SelectImages = ({navigation}) => {
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [willUpdate, setWillUpdate] = useState(true)
   const trendTags = createTags(postDispatch, suggestionTags)
-  console.log(tmpUser)
 
   useEffect(() => {
     (async () => {

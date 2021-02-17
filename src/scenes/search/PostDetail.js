@@ -2,7 +2,9 @@ import React, {useContext, useEffect} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
-import {ChipList} from "../../components/ChipList" // TODO: getProductTypeを叩いて、ProductDetailの商品情報を表示する
+import {ChipList} from "../../components/ChipList"
+import {parseMasterData} from "../../helper/requestHelper"
+import {appStore} from "../../stores/appStore"
 import {updateFavoritePost, postDetailStore, fetchProductDetails} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
@@ -43,21 +45,21 @@ const createStyles = favorite => ({
   strong: {
     fontWeight: "bold"
   },
-  userInfo: {
+  followLink: {
     flexDirection: "row",
     alignProducts: "center"
   },
   marginLeft: {
     marginLeft: 10
   },
-  userInfoNickname: {
+  followLinkNickname: {
     marginBottom: 2,
     fontSize: 16
   },
-  userInfoName: {
+  followLinkName: {
     color: "#999"
   },
-  userInfoFollow: {
+  followLinkButton: {
     marginLeft: "auto"
   },
   button: {
@@ -117,8 +119,13 @@ const PostHeader = ({postUser, navigation}) => {
   )
 }
 
+const displayItemsList = ["base_color", "season", "face_type", "skin_type"]
+
+// eslint-disable-next-line complexity
 const PostInfo = ({navigation}) => {
   const {state: {post, products}} = useContext(postDetailStore)
+  const {state: {masterData}} = useContext(appStore)
+  const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.favorite)
 
   return (
@@ -129,6 +136,8 @@ const PostInfo = ({navigation}) => {
         <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
       </View>
       <View style={styles.tag}>
+        <Title style={styles.tagTitle}>ユーザー情報</Title>
+        {products.length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>アイテム</Title>
         {products.length > 0 ? <ChipList items={products.map(product => ({label: "#" + product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         <Title style={styles.tagTitle}>ブランド</Title>
@@ -156,21 +165,19 @@ const ReactionContainer = () => {
 }
 
 
-const UserInfo = ({postUser, navigation}) => {
+const FollowLink = ({postUser, navigation}) => {
   const styles = createStyles()
 
   return (
-    <View style={styles.infoContainer}>
-      <View style={styles.userInfo}>
-        <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
-          <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
-        </TouchableOpacity>
-        <View style={styles.marginLeft}>
-          <Text style={styles.userInfoNickname}>{postUser.nickname}</Text>
-          <Text style={styles.userInfoName}>@{postUser.name}</Text>
-        </View>
-        <Button mode="outlined" style={styles.userInfoFollow}>フォローする</Button>
+    <View style={{...styles.infoContainer, ...styles.followLink}}>
+      <TouchableOpacity onPress={() => navigation.navigate("UserHome")}>
+        <Avatar.Image size={50} source={{uri: postUser.thumbnail}} />
+      </TouchableOpacity>
+      <View style={styles.marginLeft}>
+        <Text style={styles.followLinkNickname}>{postUser.nickname}</Text>
+        <Text style={styles.followLinkName}>@{postUser.name}</Text>
       </View>
+      <Button mode="outlined" style={styles.followLinkButton}>フォローする</Button>
     </View>
   )
 }
@@ -216,7 +223,7 @@ export const PostDetail = ({navigation}) => {
       <ReactionContainer />
       {/* <ProductInfo navigation={navigation} /> */}
       <PostInfo navigation={navigation} />
-      <UserInfo postUser={postUser} navigation={navigation} />
+      {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
     </ScrollView>
   )
 }
