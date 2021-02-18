@@ -1,23 +1,30 @@
-import React, {useContext, useEffect} from "react"
+import React, {useContext} from "react"
 import {TopNavigation} from "../../components/TopNavigation"
-import {fetchPosts, searchStore, updateSearchResult} from "../../stores/searchStore"
-import {Men} from "./Men"
+import {parseMasterData} from "../../helper/requestHelper"
+import {appStore} from "../../stores/appStore"
+import {searchStore, updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
 import {Women} from "./Women"
 
-const items = [
-  {label: "Women", routeName: "Women", component: Women},
-  {label: "Men", routeName: "Men", component: Men}
-]
 
-const fetchTrendPosts = async dispatch => {
-  await fetchPosts(dispatch, {})
+const createItems = (screens, dispatch, tmpConditions, searchResult) => 
+  screens.map(({label, key}) => ({
+    label,
+    routeName: label,
+    component: Women,
+    key,
+    listeners: {focus: () => changeTab(dispatch, tmpConditions, key, searchResult)}
+  }))
+
+const changeTab = async (dispatch, tmpConditions, key, searchResult) => {
+  await updateTmpConditions(dispatch, tmpConditions, searchResult.length === 0 ? {} : {gender: key})
   updateSearchResult(dispatch)
 }
 
 export const NewsFeed = () => {
-  const {dispatch, state: {searchResult}} = useContext(searchStore)
-  
-  useEffect(() => {if (searchResult.length === 0) fetchTrendPosts(dispatch)}, [])
+  const {dispatch, state: {tmpConditions, searchResult}} = useContext(searchStore)
+  const {state: {masterData}} = useContext(appStore)
+  const genders = parseMasterData(masterData, "gender")
+  const items = createItems(genders, dispatch, tmpConditions, searchResult)
 
   return <TopNavigation items={items} />
 }

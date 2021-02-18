@@ -30,10 +30,7 @@ const createRows = (dispatch, tags, tmpConditions) =>
   tags.map(tag => ({
     label: `#${tag.tag_name}`,
     selected: false,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {tags: chipAction(tmpConditions.tags, tag.tag_name)})
-      fetchPosts(dispatch, tmpConditions)
-    }
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {tags: chipAction(tmpConditions.tags, tag.tag_name)})
   }))
 
 const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {

@@ -14,10 +14,7 @@ const createRows = (screens, dispatch, tmpConditions) =>
     routeName: screen.routeName,
     key: screen.key,
     component: SelectConditions,
-    listeners: {tabPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {target: screen.key})
-      fetchPosts(dispatch, tmpConditions)
-    }}
+    listeners: {tabPress: () => updateTmpConditions(dispatch, tmpConditions, {target: screen.key})}
   }))
 
 export const Search = () => {

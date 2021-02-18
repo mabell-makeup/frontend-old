@@ -26,10 +26,7 @@ const createColorInputs = (colors, dispatch, tmpConditions) =>
     label: color.label.match(/^.+\((.+)\)$/)[1],
     key: color.key,
     selected: color.key === tmpConditions.color,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {color: color.key})
-      fetchPosts(dispatch, tmpConditions)
-    },
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {color: color.key}),
     left: <View style={{backgroundColor: color.label.replace(/\(.+\)/, ""), borderRadius: "50%", width: 20, height: 20}} />
   }))
 
@@ -38,10 +35,7 @@ const createLameInputs = (dispatch, tmpConditions) =>
     label: lame ? "ラメあり" : "ラメなし",
     key: lame ? "ラメあり" : "ラメなし",
     selected: lame === tmpConditions.lame,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {lame})
-      fetchPosts(dispatch, tmpConditions)
-    }
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {lame})
   }))
 
 export const ColorPaletteInput = () => {

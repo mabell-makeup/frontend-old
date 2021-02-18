@@ -66,7 +66,6 @@ const PostDetailProvider = ({children}) => {
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
     [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload})
   }), initialState)
-  console.log("PostDetailState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

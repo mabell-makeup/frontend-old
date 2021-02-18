@@ -10,10 +10,7 @@ const createItems = (skinTypes, dispatch, tmpConditions) =>
     key: skinType.key,
     // eslint-disable-next-line react/display-name
     selected: skinType.key === tmpConditions.skinType,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {skinType: skinType.key})
-      fetchPosts(dispatch, tmpConditions)
-    }
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {skinType: skinType.key})
   }))
 
 

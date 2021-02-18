@@ -91,14 +91,14 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation) => () => {
 
 const createTags = (dispatch, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
-  onPress: () => {updateTmpTags(dispatch, tag.tag_name)}
+  onPress: () => updateTmpTags(dispatch, tag.tag_name)
 }))
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {dispatch: postDispatch, state: {tmpPost, suggestionTags}} = useContext(postStore)
   const {dispatch, state: {user}} = useContext(authStore)
-  const initialTmpUser = Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key)))
+  const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [willUpdate, setWillUpdate] = useState(true)

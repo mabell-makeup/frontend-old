@@ -102,7 +102,6 @@ const PostProvider = ({children}) => {
     [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: [...state.tmpPost.tags, payload]}}),
     [UPDATE_TMP_ITEMS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: [...state.tmpPost.products, payload]}})
   }), initialState)
-  console.log("PostState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

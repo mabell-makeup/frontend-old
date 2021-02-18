@@ -22,6 +22,7 @@ export const createPostType = /* GraphQL */ `
       makeup_categories
       glitter
       DateTime
+      gender
     }
   }
 `;
@@ -47,6 +48,7 @@ export const updatePostType = /* GraphQL */ `
       makeup_categories
       glitter
       DateTime
+      gender
     }
   }
 `;
@@ -72,6 +74,7 @@ export const deletePostType = /* GraphQL */ `
       makeup_categories
       glitter
       DateTime
+      gender
     }
   }
 `;
@@ -85,6 +88,7 @@ export const createUserType = /* GraphQL */ `
       season
       face_type
       skin_type
+      gender
     }
   }
 `;
@@ -98,6 +102,7 @@ export const updateUserType = /* GraphQL */ `
       season
       face_type
       skin_type
+      gender
     }
   }
 `;
@@ -111,6 +116,7 @@ export const deleteUserType = /* GraphQL */ `
       season
       face_type
       skin_type
+      gender
     }
   }
 `;

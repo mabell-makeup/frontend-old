@@ -26,7 +26,6 @@ const AppProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [FETCH_MASTER_DATA]: (state, {payload}) => ({...state, masterData: payload})
   }), initialState)
-  console.log("AppState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

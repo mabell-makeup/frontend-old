@@ -145,7 +145,6 @@ const AuthProvider = ({children}) => {
     [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
     [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}})
   }), initialState)
-  console.log("State is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

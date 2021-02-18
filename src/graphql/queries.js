@@ -21,6 +21,7 @@ export const getPostType = /* GraphQL */ `
       makeup_categories
       glitter
       DateTime
+      gender
     }
   }
 `;
@@ -50,6 +51,7 @@ export const listPostTypes = /* GraphQL */ `
         makeup_categories
         glitter
         DateTime
+        gender
       }
       nextToken
     }
@@ -78,6 +80,7 @@ export const queryPostTypesByViewRank = /* GraphQL */ `
         makeup_categories
         glitter
         DateTime
+        gender
       }
       nextToken
     }
@@ -95,6 +98,7 @@ export const getUserType = /* GraphQL */ `
       thumbnail_img_src
       skin_type
       self_introduction
+      gender
     }
   }
 `;
@@ -114,6 +118,7 @@ export const listUserTypes = /* GraphQL */ `
         face_type
         skin_type
         self_introduction
+        gender
       }
       nextToken
     }

@@ -36,13 +36,14 @@ const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
 
 // Define ActionCreator
 /* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
-export const updateTmpConditions = (dispatch, preTmpConditions, nextCondition, isToggle=true) => {
-  Object.entries(nextCondition).map(async ([key, val]) => {
+export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondition={}, isToggle=true) => {
+  const payload = Object.fromEntries(Object.entries(nextCondition).map(([key, val]) => {
     const isClear = isToggle && preTmpConditions[key] === val
-    const payload = isClear ? {[key]: initialState.tmpConditions[key]} : {[key]: val}
-    dispatch({type: UPDATE_TMP_CONDITIONS, payload})
-    await fetchPosts(dispatch, payload)
-  })
+    const newVal = isClear ? initialState.tmpConditions[key] : val
+    return [key, newVal]
+  }))
+  dispatch({type: UPDATE_TMP_CONDITIONS, payload})
+  await fetchPosts(dispatch, payload)
 }
 export const fetchPosts = async (dispatch, tmpConditions) => {
   const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)
@@ -55,7 +56,9 @@ export const fetchPosts = async (dispatch, tmpConditions) => {
     : await apiRequest(listPostTypes)
   dispatch({type: FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
 }
-export const updateSearchResult = dispatch => dispatch({type: UPDATE_SEARCH_RESULT})
+export const updateSearchResult = dispatch => {
+  dispatch({type: UPDATE_SEARCH_RESULT})
+}
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
 export const fetchTrendTags = async dispatch => {
   try {
@@ -87,7 +90,6 @@ const SearchProvider = ({children}) => {
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload})
   }), initialState)
-  console.log("SearchState is updated:", state)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 

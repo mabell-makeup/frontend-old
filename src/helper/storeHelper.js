@@ -8,8 +8,11 @@
 */
 
 export const createReducer = (initialState={}, handlers={}) =>
-  (state = initialState, action) =>
-    handlers[action.type] && handlers[action.type]({...state}, action) || {...state}
+  (state = initialState, action) => {
+    console.log(`###${action.type}###`)
+    console.log("payload: ", action.payload ? action.payload : "no payload")
+    return handlers[action.type] && handlers[action.type]({...state}, action) || {...state}
+  }
 
 
 /* オブジェクトの比較を行うヘルパー */

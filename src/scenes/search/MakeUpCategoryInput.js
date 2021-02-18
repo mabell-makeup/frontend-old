@@ -10,10 +10,7 @@ const createItems = (makeUpCategories, dispatch, tmpConditions) =>
     key: category.key,
     // eslint-disable-next-line react/display-name
     selected: category.key === tmpConditions.makeUpCategory,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {makeUpCategory: category.key})
-      fetchPosts(dispatch, tmpConditions)
-    }
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {makeUpCategory: category.key})
   }))
 
 

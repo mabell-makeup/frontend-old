@@ -61,7 +61,6 @@ const createTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag =
   label: `#${tag.tag_name}`,
   onPress: () => {
     updateTmpConditions(dispatch, tmpConditions, {tags: tag.tag_name + " "})
-    fetchPosts(dispatch, tmpConditions)
     navigation.navigate("SelectTags")
   }
 }))
