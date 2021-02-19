@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker"
 import AWS from "aws-sdk"
-import config from "../../src/aws-exports"
+import config from "../aws-exports"
 import {Auth} from "aws-amplify"
 import "react-native-get-random-values"
 import {v4 as uuidv4} from "uuid"
