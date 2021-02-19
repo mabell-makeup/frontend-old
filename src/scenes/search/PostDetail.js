@@ -161,7 +161,7 @@ const ReactionContainer = () => {
 
   return (
     <View style={styles.infoContainer}>
-      <Text>いいね！ <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
+      <Text>閲覧数 <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
       <View style={styles.buttonContainer}>
         <IconButton icon={post.favorite ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.favorite ? "#FF7F50" : "#999"} onPress={() => updateFavoritePost(dispatch, post.post_id, !post.favorite)} />
         <IconButton icon="comment-outline" style={styles.button} color="#999" />
