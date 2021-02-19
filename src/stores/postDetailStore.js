@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {getPostType, getProductType, getUserType} from "../graphql/queries"
+import {getPostType, getProductType, getUserType, listPostTypes} from "../graphql/queries"
 
 export const initialState = {
   post: {
@@ -16,7 +16,9 @@ export const initialState = {
     favorite: false
   },
   products: [],
-  postUser: {}
+  postUser: {
+    posts: []
+  }
 }
 
 // Define Store
@@ -27,6 +29,7 @@ const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 const FETCH_POST_USER = "FETCH_POST_USER"
 const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
 const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL"
+const FETCH_USER_POSTS = "FETCH_USER_POSTS"
 
 // Define ActionCreator
 export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
@@ -55,6 +58,14 @@ export const fetchProductDetails = async (dispatch, products_id) => {
     console.log("fetch product details error:", error)
   }
 }
+export const fetchUserPosts = async (dispatch, user_id) => {
+  try {
+    const res = await apiRequest(listPostTypes, {filter: {user_id: {eq: user_id}}})
+    dispatch({type: FETCH_USER_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
+  } catch (error) {
+    console.log("error fetch my posts: ", error)
+  }
+}
 
 // Defin Provider
 const {Provider} = postDetailStore
@@ -63,6 +74,7 @@ const PostDetailProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
     [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
+    [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
     [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload})
   }), initialState)

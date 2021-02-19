@@ -5,7 +5,7 @@ import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
 import {parseMasterData} from "../../helper/requestHelper"
 import {appStore} from "../../stores/appStore"
-import {updateFavoritePost, postDetailStore, fetchProductDetails} from "../../stores/postDetailStore"
+import {updateFavoritePost, postDetailStore, fetchProductDetails, fetchUserPosts} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
@@ -99,12 +99,18 @@ const createStyles = favorite => ({
   }
 })
 
+const userFetchAction = (navigation, dispatch, user_id) => async () => {
+  await fetchUserPosts(dispatch, user_id)
+  navigation.navigate("UserHome")
+}
+
 const PostHeader = ({postUser, navigation}) => {
+  const {dispatch} = useContext(postDetailStore)
   const styles = createStyles()
 
   return (
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
-      <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate("UserHome")}>
+      <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id)}>
         {/* eslint-disable-next-line no-undef */}
         <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
         <Appbar.Content 

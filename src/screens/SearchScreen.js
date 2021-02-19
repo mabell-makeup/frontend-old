@@ -65,7 +65,10 @@ const SearchScreenInner = ({navigation}) => {
       }} />
       <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
       {/* TODO: UserScreenを設けて、UserHome, Follower, Followを入れる */}
-      <Stack.Screen name="UserHome" component={UserHome} options={defaultScreenOptions} />
+      <Stack.Screen name="UserHome" component={UserHome} options={{
+        ...defaultScreenOptions,
+        headerRight: false
+      }} />
     </Stack.Navigator>
   )
 }
