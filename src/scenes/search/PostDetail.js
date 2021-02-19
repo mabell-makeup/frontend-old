@@ -5,7 +5,7 @@ import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
 import {parseMasterData} from "../../helper/requestHelper"
 import {appStore} from "../../stores/appStore"
-import {updateFavoritePost, postDetailStore, fetchProductDetails, fetchUserPosts} from "../../stores/postDetailStore"
+import {updateLikePost, postDetailStore, fetchProductDetails, fetchUserPosts} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
@@ -132,7 +132,7 @@ const PostInfo = ({navigation}) => {
   const {state: {post, products}} = useContext(postDetailStore)
   const {state: {masterData}} = useContext(appStore)
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
-  const styles = createStyles(post.favorite)
+  const styles = createStyles(post.isLike)
 
   return (
     <View style={styles.infoContainer}>
@@ -163,7 +163,7 @@ const ReactionContainer = () => {
     <View style={styles.infoContainer}>
       <Text>閲覧数 <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
       <View style={styles.buttonContainer}>
-        <IconButton icon={post.favorite ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.favorite ? "#FF7F50" : "#999"} onPress={() => updateFavoritePost(dispatch, post.post_id, !post.favorite)} />
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? "#FF7F50" : "#999"} onPress={() => updateLikePost(dispatch, post.post_id, !post.isLike)} />
         <IconButton icon="comment-outline" style={styles.button} color="#999" />
       </View>
     </View>

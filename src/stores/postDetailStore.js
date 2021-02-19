@@ -1,7 +1,7 @@
 import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {getPostType, getProductType, getUserType, listPostTypes, listPostViewTypes} from "../graphql/queries"
+import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostTypes, listPostViewTypes} from "../graphql/queries"
 import {createPostViewType} from "../graphql/mutations"
 
 export const initialState = {
@@ -14,7 +14,7 @@ export const initialState = {
     tags: [],
     description: "",
     page_views: Number,
-    favorite: false
+    isLike: false
   },
   products: [],
   postUser: {
@@ -34,14 +34,15 @@ const FETCH_USER_POSTS = "FETCH_USER_POSTS"
 const UPDATE_POST_DETAIL = "UPDATE_POST_DETAIL"
 
 // Define ActionCreator
-export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
+export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
   try {
     const post = await apiRequest(getPostType, {post_id, DateTime})
     dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
     const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
     dispatch({type: FETCH_POST_USER, payload: user.getUserType})
-    fetchViewCount(dispatch, post.getPostType.post_id)
-    addViewCount(post.getPostType.post_id)
+    fetchViewCount(dispatch, post_id)
+    checkLikePost(dispatch, myId, post_id)
+    addViewCount(post_id)
   } catch (error) {
     console.log("fetch post detail error:", error)
   }
@@ -53,6 +54,14 @@ export const updateFavoritePost = async (dispatch, post_id, handleFavorite) => {
     }
   }`)
   dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
+}
+export const checkLikePost = async (dispatch, user_id, post_id) => {
+  try {
+    const res = await apiRequest(listPostLikeTypes, {filter: {user_id: {eq: user_id}, post_id: {eq: post_id}}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {isLike: res.listPostLikeTypes.items.length > 0}})
+  } catch (error) {
+    console.log("error fetch my posts: ", error)
+  }
 }
 export const fetchProductDetails = async (dispatch, products_id) => {
   try {
