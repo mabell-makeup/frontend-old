@@ -96,6 +96,9 @@ const createStyles = favorite => ({
   },
   brandName: {
     fontWeight: "bold"
+  },
+  count: {
+    flexDirection: "row"
   }
 })
 
@@ -161,10 +164,13 @@ const ReactionContainer = () => {
 
   return (
     <View style={styles.infoContainer}>
-      <Text>閲覧数 <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
+      <View style={styles.count}>
+        <Text>閲覧数 <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
+        <Text style={styles.marginLeft}>いいね <Text style={styles.strong}>{post.like_count ? post.like_count : 0}</Text>件</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? "#FF7F50" : "#999"} onPress={() => updateLikePost(dispatch, post.post_id, !post.isLike)} />
-        <IconButton icon="comment-outline" style={styles.button} color="#999" />
+        {/* <IconButton icon="comment-outline" style={styles.button} color="#999" /> */}
       </View>
     </View>
   )

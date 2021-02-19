@@ -14,7 +14,8 @@ export const initialState = {
     tags: [],
     description: "",
     page_views: Number,
-    isLike: false
+    isLike: false,
+    like_count: Number
   },
   products: [],
   postUser: {
@@ -41,6 +42,7 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
     dispatch({type: FETCH_POST_USER, payload: user.getUserType})
     fetchViewCount(dispatch, post_id)
+    fetchLikeCount(dispatch, post_id)
     checkLikePost(dispatch, myId, post_id)
     addViewCount(post_id)
   } catch (error) {
@@ -92,6 +94,14 @@ export const fetchViewCount = async (dispatch, post_id) => {
     dispatch({type: UPDATE_POST_DETAIL, payload: {page_views: view.listPostViewTypes.items.length}})
   } catch (error) {
     console.log("error fetch view count: ", error)
+  }
+}
+export const fetchLikeCount = async (dispatch, post_id) => {
+  try {
+    const view = await apiRequest(listPostLikeTypes, {filter: {post_id: {eq: post_id}}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {like_count: view.listPostLikeTypes.items.length}})
+  } catch (error) {
+    console.log("error fetch like count: ", error)
   }
 }
 
