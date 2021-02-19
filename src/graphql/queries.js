@@ -217,3 +217,37 @@ export const listProductTypes = /* GraphQL */ `
     }
   }
 `;
+export const listPostLikeTypes = /* GraphQL */ `
+  query ListPostLikeTypes(
+    $filter: TablePostLikeTypeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPostLikeTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        date
+        like_id
+        post_id
+        user_id
+      }
+      nextToken
+    }
+  }
+`;
+export const listPostViewTypes = /* GraphQL */ `
+  query ListPostViewTypes(
+    $filter: TablePostViewTypeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPostViewTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        date
+        post_id
+        user_id
+        view_id
+      }
+      nextToken
+    }
+  }
+`;

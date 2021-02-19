@@ -180,3 +180,24 @@ export const deleteProductType = /* GraphQL */ `
     }
   }
 `;
+export const createPostLikeType = /* GraphQL */ `
+  mutation CreatePostLikeType($input: CreatePostLikeTypeInput!) {
+    createPostLikeType(input: $input) {
+      post_id
+    }
+  }
+`;
+export const createPostViewType = /* GraphQL */ `
+  mutation CreatePostViewType($input: CreatePostViewTypeInput!) {
+    createPostViewType(input: $input) {
+      post_id
+    }
+  }
+`;
+export const deletePostLikeType = /* GraphQL */ `
+  mutation DeletePostLikeType($input: DeletePostLikeTypeInput!) {
+    deletePostLikeType(input: $input) {
+      post_id
+    }
+  }
+`;
