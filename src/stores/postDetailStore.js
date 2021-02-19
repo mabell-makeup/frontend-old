@@ -2,6 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {getPostType, getProductType, getUserType, listPostTypes} from "../graphql/queries"
+import {createPostViewType} from "../graphql/mutations"
 
 export const initialState = {
   post: {
@@ -38,6 +39,7 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime) => {
     dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
     const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
     dispatch({type: FETCH_POST_USER, payload: user.getUserType})
+    addViewCount(post.getPostType.post_id)
   } catch (error) {
     console.log("fetch post detail error:", error)
   }
@@ -62,6 +64,13 @@ export const fetchUserPosts = async (dispatch, user_id) => {
   try {
     const res = await apiRequest(listPostTypes, {filter: {user_id: {eq: user_id}}})
     dispatch({type: FETCH_USER_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
+  } catch (error) {
+    console.log("error fetch my posts: ", error)
+  }
+}
+export const addViewCount = post_id => {
+  try {
+    apiRequest(createPostViewType, {input: {post_id}})
   } catch (error) {
     console.log("error fetch my posts: ", error)
   }
