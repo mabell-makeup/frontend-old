@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostTypes, listPostViewTypes} from "../graphql/queries"
-import {createPostViewType} from "../graphql/mutations"
+import {createPostLikeType, createPostViewType, deletePostLikeType} from "../graphql/mutations"
 
 export const initialState = {
   post: {
@@ -49,13 +49,14 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     console.log("fetch post detail error:", error)
   }
 }
-export const updateFavoritePost = async (dispatch, post_id, handleFavorite) => {
-  const data = await apiRequest(`{
-    updateFavoritePost(post_id: ${post_id}, handle: ${handleFavorite}) {
-      result
-    }
-  }`)
-  dispatch({type: UPDATE_FAVORITE_POST, payload: data.result ? handleFavorite : false})
+export const updateLikePost = async (dispatch, isLike, post_id) => {
+  try {
+    await apiRequest(isLike ? deletePostLikeType : createPostLikeType, {input: {post_id}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {isLike: !isLike}})
+  } catch (error) {
+    console.log("error update like: ", error)
+  }
+  await fetchLikeCount(dispatch, post_id)
 }
 export const checkLikePost = async (dispatch, user_id, post_id) => {
   try {
