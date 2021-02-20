@@ -4,6 +4,7 @@ import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
 import {getUserType, listPostTypes} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
+import {addError} from "./appStore"
 
 const initialState = {
   is_logged_in: false,
@@ -44,27 +45,29 @@ const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
 
 
 // Define ActionCreator
-export const login = async (navigation, dispatch, name, password) => {
+export const login = async (navigation, dispatch, name, password, appDispatch) => {
   try {
     const user = await Auth.signIn(name, password)
-    console.log("LOGIN_USER: ", user)
     dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
+    await fetchUser(dispatch, user.attributes.sub)
     navigation.navigate("TabScreen", {screen: "HomeScreen"})
-    return user.attributes.sub
-  } catch (error) {
-    console.log("error signing in", error)
-    dispatch({type: LOGIN_FAILURE, payload: error.message})
+  } catch (e) {
+    console.log("error signing in", e)
+    dispatch({type: LOGIN_FAILURE, payload: e.message})
+    if (!["InvalidParameterException", "NotAuthorizedException"].includes(e.code)) {
+      addError(appDispatch, {errorType: "AUTH_ERROR", message: "予期せぬエラーが発生しました。"})
+    }
   }
 }
-export const signup = async (dispatch, {name, password, email, nickname, gender, birthdate}) => {
+export const signup = async (dispatch, {name, password, email, birthdate}) => {
   try {
     const {user} = await Auth.signUp({
       username: name,
+      preferred_username: name,
       password,
       attributes: {
         email,
-        nickname,
-        gender,
+        nickname: name,
         birthdate
       }
     })

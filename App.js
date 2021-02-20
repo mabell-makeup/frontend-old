@@ -6,6 +6,7 @@ import {LoginScreen} from "./src/screens/LoginScreen"
 import {AppProvider} from "./src/stores/appStore"
 import Amplify from "aws-amplify"
 import config from "./src/aws-exports"
+import {ErrorModal} from "./src/components/ErrorModal"
 
 Amplify.configure(config)
 
@@ -33,6 +34,7 @@ export default function App() {
           <AppProvider>
             <StatusBar barStyle="dark-content" />
             <LoginScreen />
+            <ErrorModal />
           </AppProvider>
         </PaperProvider>
       </DissmissKeyboard>
