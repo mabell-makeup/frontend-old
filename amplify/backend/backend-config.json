@@ -1,6 +1,6 @@
 {
   "auth": {
-    "jokerfrontend1045c05b": {
+    "jokerfrontendb43d072d": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
