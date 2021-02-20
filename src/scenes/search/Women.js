@@ -21,7 +21,7 @@ export const Women = ({navigation}) => {
   return (
     <>
       <ImageList data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)} />
-      <UserInfoToggleGroup />
+      {/* <UserInfoToggleGroup /> */}
     </>
   )
 }

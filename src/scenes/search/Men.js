@@ -24,7 +24,7 @@ export const Men = () => {
   return (
     <View>
       <ImageList data={data} />
-      <UserInfoToggleGroup />
+      {/* <UserInfoToggleGroup /> */}
     </View>
   ) 
 }
