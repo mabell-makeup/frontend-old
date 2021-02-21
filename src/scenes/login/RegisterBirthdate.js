@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react"
 import {Button, Title} from "react-native-paper"
 import {View, StyleSheet} from "react-native"
-import {authStore, signup, updateNewUser} from "../../stores/authStore"
+import {authStore, updateNewUser} from "../../stores/authStore"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {formatDate} from "../../helper/dateHelper"
 
@@ -25,13 +25,9 @@ const styles = StyleSheet.create({
   }
 })
 
-const onPress = (navigation, dispatch, new_user) => () => {
-  navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})
-  signup(dispatch, new_user)
-}
 
 export const RegisterBirthdate = ({navigation}) => {
-  const {dispatch, state: {new_user}} = useContext(authStore)
+  const {dispatch} = useContext(authStore)
   const [birthdate, setBirthdate] = useState(new Date())
 
   const onChange = (e, selectedDate) => {
@@ -51,7 +47,7 @@ export const RegisterBirthdate = ({navigation}) => {
         maximumDate={new Date()}
         style={styles.datePicker}
       />
-      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={onPress(navigation, dispatch, new_user)}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => navigation.navigate("RegisterUsername")}>次へ</Button>
     </View>
   )
 }

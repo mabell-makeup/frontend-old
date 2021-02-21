@@ -43,7 +43,7 @@ const onSubmit = (dispatch, navigation, setError, text) => () => {
   setError(messages)
   if (messages.length === 0) {
     updateNewUser(dispatch, {email: text})
-    navigation.navigate("RegisterBirthdate")
+    navigation.navigate("RegisterPassword")
   }
 }
 

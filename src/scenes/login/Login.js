@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 })
 
 export const Login = ({navigation}) => {
-  const {dispatch, state: {err_msg, user: {sub}}} = useContext(authStore)
+  const {dispatch, state: {err_msg}} = useContext(authStore)
   const {dispatch: appDispatch} = useContext(appStore)
   const [mail, setMail] = useState("username1")
   const [password, setPassword] = useState("P@$$w0rd")
@@ -51,7 +51,7 @@ export const Login = ({navigation}) => {
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
       <View style={styles.errorContainer}>{err_msg !== "" && <Text style={styles.errMsg}>{err_msg}</Text>}</View>
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => login(navigation, dispatch, mail, password, appDispatch)}>ログイン</Button>
-      <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterUsername")}>登録はこちら</Text></Text>
+      <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterMail")}>登録はこちら</Text></Text>
     </View>
   )
 }

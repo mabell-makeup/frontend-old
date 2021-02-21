@@ -74,6 +74,7 @@ export const signup = async (dispatch, {name, password, email, birthdate}) => {
     console.log("SIGNUP_USER:", user)
   } catch (error) {
     console.log("error signing up:", error)
+    throw error
   }
   dispatch({type: SIGNUP_SUCCESS, payload: true})
 }
