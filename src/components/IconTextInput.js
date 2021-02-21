@@ -13,10 +13,15 @@ const styles = {
     borderRadius: 18
   },
   input: {
-    width: "100%",
+    flex: 9,
     height: "100%",
+    paddingRight: 10,
     backgroundColor: "rgba(0, 0, 0, 0)",
     justifyContent: "center"
+  },
+  icon: {
+    flex: 1,
+    marginVertical: 0
   }
 }
 
@@ -24,7 +29,7 @@ const styles = {
 export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
   return (
     <View style={styles.container}>
-      <IconButton icon={icon} style={{marginVertical: 0}} />
+      <IconButton icon={icon} style={styles.icon} />
       <TextInput
         placeholder="Search"
         onChangeText={onChangeText}

@@ -15,6 +15,7 @@ import {ColorPaletteInput} from "./ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
 import {addError, appStore} from "../../stores/appStore"
+import {WINDOW_WIDTH} from "../../styles/constants"
 
 const styles = {
   container: {
@@ -25,6 +26,10 @@ const styles = {
   },
   captionContainer: {
     flexDirection: "row"
+  },
+  caption: {
+    width: WINDOW_WIDTH - 120, // 画像のwidthとpaddingの長さを引く
+    paddingHorizontal: 10
   },
   image: {
     width: 100,
@@ -140,7 +145,7 @@ export const SelectImages = ({navigation}) => {
           <View style={styles.captionContainer}>
             {/* eslint-disable-next-line no-undef */}
             <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-            <TextInput onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く"/>
+            <TextInput style={styles.caption} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く" multiline={true} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>カテゴリを選ぶ</Text>
