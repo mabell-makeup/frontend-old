@@ -10,5 +10,6 @@ export const rules = {
   includeUppercase: {testFunc: text => /[A-Z]/.test(text), message: "大文字を含む必要があります"},
   includeLowercase: {testFunc: text => /[a-z]/.test(text), message: "小文字を含む必要があります"},
   includeNumber: {testFunc: text => /[0-9]/.test(text), message: "数字を含む必要があります"},
-  onlyWordChar: {testFunc: text => /^\w*$/.test(text), message: "英数字と'_'(アンダーバー)が使えます"}
+  onlyWordChar: {testFunc: text => /^\w*$/.test(text), message: "英数字と'_'(アンダーバー)が使えます"},
+  mail: {testFunc: text => /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(text), message: "有効なメールアドレスを入力してください"}
 }

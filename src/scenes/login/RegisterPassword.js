@@ -44,7 +44,7 @@ const rules = confirm => ([
   {testFunc: text => text === confirm, message: "パスワードが一致しません"}
 ])
 
-const onSubmit = (dispatch, navigation, error, setError, password, confirm) => () => {
+const onSubmit = (dispatch, navigation, setError, password, confirm) => () => {
   const messages = validate(password, rules(confirm))
   setError(messages)
   if (messages.length === 0) {
@@ -77,7 +77,7 @@ export const RegisterPassword = ({navigation}) => {
         contentStyle={styles.buttonContentStyle}
         mode="contained"
         disabled={password.length === 0 || confirm.length === 0}
-        onPress={onSubmit(dispatch, navigation, error, setError, password, confirm)}
+        onPress={onSubmit(dispatch, navigation, setError, password, confirm)}
       >次へ</Button>
     </View>
   )

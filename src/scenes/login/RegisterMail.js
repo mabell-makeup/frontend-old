@@ -2,6 +2,8 @@ import React, {useContext, useState} from "react"
 import {Button, TextInput, Title} from "react-native-paper"
 import {View, StyleSheet, Text} from "react-native"
 import {authStore, updateNewUser} from "../../stores/authStore"
+import {ErrorMessage} from "../../components/ErrorMessage"
+import {validate, rules as R} from "../../helper/validateHelper"
 
 const styles = StyleSheet.create({
   container: {
@@ -11,12 +13,12 @@ const styles = StyleSheet.create({
   },
   input: {
     maxHeight: 50,
-    minWidth: 280,
+    minWidth: 300,
     margin: 10
   },
   submit: {
     height: 50,
-    minWidth: 280,
+    minWidth: 300,
     margin: 20,
     justifyContent: "center"
   },
@@ -31,27 +33,39 @@ const styles = StyleSheet.create({
   }
 })
 
-// TODO: バリデーション系はヘルパーにまとめる
-const isEmail = text => /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(text)
+const rules = [
+  R.require,
+  R.mail
+]
+
+const onSubmit = (dispatch, navigation, setError, text) => () => {
+  const messages = validate(text, rules)
+  setError(messages)
+  if (messages.length === 0) {
+    updateNewUser(dispatch, {email: text})
+    navigation.navigate("RegisterBirthdate")
+  }
+}
+
 
 export const RegisterMail = ({navigation}) => {
   const {dispatch} = useContext(authStore)
-  const [errMsg, setErrMsg] = useState("")
-
-  // TODO: 必須入力のバリデーションを追加
-  const validate = text => isEmail(text) ? setErrMsg("") : setErrMsg("有効なメールアドレスを入力してください")
-  const onChange = text => {
-    validate(text)
-    updateNewUser(dispatch, {email: text})
-  }
+  const [text, setText] = useState("")
+  const [error, setError] = useState([])
 
   return (
     <View style={styles.container}>
       <Title>メールアドレスを追加</Title>
       <Text></Text>
-      <TextInput style={styles.input} mode="outlined" label="メールアドレス" onChangeText={onChange} />
-      {errMsg !== "" && <Text style={styles.errMsg}>{errMsg}</Text>}
-      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => navigation.navigate("RegisterBirthdate")}>次へ</Button>
+      <TextInput style={styles.input} mode="outlined" label="メールアドレス" error={error.length > 0} onChangeText={setText} />
+      <ErrorMessage messages={error} />
+      <Button
+        style={styles.submit}
+        contentStyle={styles.buttonContentStyle}
+        mode="contained"
+        disabled={text.length === ""}
+        onPress={onSubmit(dispatch, navigation, setError, text)}
+      >次へ</Button>
     </View>
   )
 }
