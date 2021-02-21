@@ -71,7 +71,6 @@ export const signup = async (dispatch, {name, password, email, birthdate}) => {
         birthdate
       }
     })
-    await createUser(dispatch, {name, nickname: name})
     console.log("SIGNUP_USER:", user)
   } catch (error) {
     console.log("error signing up:", error)
@@ -89,7 +88,8 @@ export const createUser = async (dispatch, newUser) => {
 export const confirmSignup = async (dispatch, code, name, password, navigation) => {
   try {
     await Auth.confirmSignUp(name, code)
-    login(navigation, dispatch, name, password)
+    await login(navigation, dispatch, name, password)
+    await createUser(dispatch, {name, nickname: name})
   } catch (error) {
     console.log("error confirmSignup:", error)
   }
