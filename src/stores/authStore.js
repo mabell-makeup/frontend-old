@@ -119,7 +119,8 @@ export const fetchUser = async (dispatch, sub) => {
 }
 export const updateUser = async (dispatch, tmpUser) => {
   try {
-    // await apiRequest(updateUserType, {input: tmpUser})
+    const user = await Auth.currentAuthenticatedUser()
+    await Auth.updateUserAttributes(user, {preferred_username: tmpUser.name})
     await apiRequest(updateUserType, {input: tmpUser})
   } catch (error) {
     console.log("error update user: ", error)
