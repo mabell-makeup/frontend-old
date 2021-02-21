@@ -31,6 +31,7 @@ export const DatePicker = ({usePickerState=[{isShown: false, selected: ""}, ()=>
         value={new Date(selected)}
         mode="date"
         display="spinner"
+        maximumDate={new Date()}
         onChange={(e, selectedDate) => {
           setPickerState({...pickerState, selected: selectedDate})
           onChange(formatDate(selectedDate))

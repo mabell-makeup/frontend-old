@@ -34,8 +34,6 @@ export const RegisterBirthdate = ({navigation}) => {
   const {dispatch, state: {new_user}} = useContext(authStore)
   const [birthdate, setBirthdate] = useState(new Date())
 
-  // TODO: 必須入力と有効日付のバリデーションを追加
-
   const onChange = (e, selectedDate) => {
     setBirthdate(selectedDate)
     updateNewUser(dispatch, {birthdate: formatDate(selectedDate)})
@@ -50,6 +48,7 @@ export const RegisterBirthdate = ({navigation}) => {
         mode="date"
         display="spinner"
         onChange={onChange}
+        maximumDate={new Date()}
         style={styles.datePicker}
       />
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={onPress(navigation, dispatch, new_user)}>次へ</Button>
