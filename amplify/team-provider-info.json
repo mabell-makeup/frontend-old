@@ -43,11 +43,18 @@
     },
     "categories": {
       "auth": {
-        "jokerfrontendb43d072d": {
+        "jokerfrontend79bb1280": {
           "userPoolId": "ap-northeast-1_dtyFaTn5I",
           "userPoolName": "Joker-production",
           "webClientId": "2r5cj9jtat7lndubb1680ml3j9",
-          "nativeClientId": "1au235gur40ihoau9q6t2bcd4p"
+          "nativeClientId": "2r5cj9jtat7lndubb1680ml3j9",
+          "identityPoolId": "ap-northeast-1:423547c3-fe5b-416d-b3aa-1a2bca4cfa21",
+          "identityPoolName": "ExistingIdentityPool",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_ExistingIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::643590863731:role/Cognito_ExistingIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_ExistingIdentityPoolUnauth_Role"
         }
       }
     }
