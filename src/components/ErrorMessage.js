@@ -3,7 +3,8 @@ import {StyleSheet, Text, View} from "react-native"
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20
+    marginTop: 20,
+    width: 300
   },
   errMsg: {
     color: "red"
