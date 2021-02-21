@@ -11,12 +11,12 @@ const styles = StyleSheet.create({
   },
   input: {
     maxHeight: 50,
-    minWidth: 280,
+    minWidth: 300,
     margin: 10
   },
   submit: {
     height: 50,
-    minWidth: 280,
+    minWidth: 300,
     marginTop: 20,
     justifyContent: "center"
   },
@@ -46,7 +46,7 @@ export const SendConfirmationMail = ({navigation}) => {
     <View style={styles.container}>
       <Title>確認メールを送信しました</Title>
       <Text>{email} へ確認コードを送信しました。お使いの電子メールアドレスであることを確認するために、確認コードを入力してください。</Text>
-      <TextInput style={styles.input} mode="outlined" label="確認コード" onChangeText={onChange(setCode)} />
+      <TextInput style={styles.input} mode="outlined" label="確認コード" keyboardType="number-pad" onChangeText={onChange(setCode)} />
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => confirmSignup(dispatch, code, name, password, navigation)}>次へ</Button>
       <Text style={styles.resendLink}><Text style={styles.link} onPress={() => resendConfirmMail(name, navigation)}>確認コードを再送する</Text></Text>
       <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => navigation.navigate("")}>お問い合わせへ</Text></Text>
