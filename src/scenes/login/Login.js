@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
   ...defaultStyle,
   input: {
     maxHeight: 50,
-    minWidth: 280,
+    width: 280,
     margin: 10
   },
   submit: {
     height: 50,
-    minWidth: 280,
+    width: 280,
     margin: 20,
     justifyContent: "center"
   },
@@ -28,10 +28,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100
   },
+  errorContainer: {
+    width: 280
+  },
   errMsg: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: "auto",
+    marginTop: 10,
     color: "red"
   }
 })
@@ -48,7 +49,7 @@ export const Login = ({navigation}) => {
       <Image source={require("../../../assets/icon.png")} style={styles.logo} />
       <TextInput style={styles.input} mode="outlined" label="ユーザー名またはメールアドレス" value={mail} onChangeText={text => setMail(text)} />
       <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
-      {err_msg !== "" && <Text style={styles.errMsg}>{err_msg}</Text>}
+      <View style={styles.errorContainer}>{err_msg !== "" && <Text style={styles.errMsg}>{err_msg}</Text>}</View>
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => login(navigation, dispatch, mail, password, appDispatch)}>ログイン</Button>
       <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterUsername")}>登録はこちら</Text></Text>
     </View>
