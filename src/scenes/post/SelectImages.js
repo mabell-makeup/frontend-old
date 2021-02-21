@@ -14,6 +14,7 @@ import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
+import {addError, appStore} from "../../stores/appStore"
 
 const styles = {
   container: {
@@ -75,16 +76,21 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const registerPost = async (tmpPost) => {
+const registerPost = async (tmpPost, appDispatch) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
-  const uri = await uploadImage(tmpPost.thumbnail_img_src)
-  const {products, ...post} = await tmpPost
-  createPost({...post, thumbnail_img_src: uri, products_id: products.map(p => p.product_id)})
+  try {
+    const thumbnailUri = await uploadImage(tmpPost.thumbnail_img_src)
+    const uriList = await tmpPost.img_src_list.map(async src => await uploadImage(src))
+    const {products, ...post} = await tmpPost
+    createPost({...post, thumbnail_img_src: thumbnailUri, img_src_list: uriList, products_id: products.map(p => p.product_id)})
+  } catch (error) {
+    addError(appDispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
+  }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation) => () => {
-  registerPost(tmpPost)
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch) => () => {
+  registerPost(tmpPost, appDispatch)
   willUpdate && updateUser(dispatch, tmpUser)
   navigation.goBack()
 }
@@ -97,6 +103,7 @@ const createTags = (dispatch, tags) => tags.map(tag => ({
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {dispatch: postDispatch, state: {tmpPost, suggestionTags}} = useContext(postStore)
+  const {dispatch: appDispatch} = useContext(appStore)
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
@@ -175,7 +182,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch)} disabled={false}>投稿する</Button>
     </>
   )
 }

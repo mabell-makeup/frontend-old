@@ -7,7 +7,7 @@ export const initialState = {
   masterData: {},
   error: {
     errorType: false,
-    message: "予期せぬエラーが発生しました。"
+    message: ""
   }
 }
 

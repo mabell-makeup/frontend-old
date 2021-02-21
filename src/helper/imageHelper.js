@@ -9,7 +9,8 @@ export const pickImage = async (onPickSuccess=result=>result, onCancel=()=>{}) =
   const result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
-    quality: 1
+    aspect: [1, 1],
+    quality: 0.1
   })
   !result.cancelled ? onPickSuccess(result) : onCancel()
 }
@@ -34,5 +35,6 @@ export const uploadImage = async imgSrc => {
     return `https://${config.aws_user_files_s3_bucket}.s3-${config.aws_user_files_s3_bucket_region}.amazonaws.com/${credentials.identityId}/${fileName}`
   } catch (error) {
     console.log("upload image error:", error)
+    throw error
   }
 }
