@@ -34,7 +34,8 @@ const UPDATE_TMP_ITEMS = "UPDATE_TMP_ITEMS"
 // Define ActionCreator
 export const createPost = async tmpPost => {
   try {
-    await apiRequest(createPostType, {input: tmpPost})
+    const postData = Object.fromEntries(Object.entries(tmpPost).filter(([, value]) => typeof value !== "undefined" && value !== null && value !== ""))
+    await apiRequest(createPostType, {input: postData})
   } catch (error) {
     console.log("error create post: ", error)
   }
