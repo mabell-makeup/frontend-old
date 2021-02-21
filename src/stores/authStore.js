@@ -85,13 +85,19 @@ export const createUser = async (dispatch, newUser) => {
     console.log("error createUser:", error)
   }
 }
-export const confirmSignup = async (dispatch, code, name, password, navigation) => {
+export const confirmSignup = async (dispatch, code, name, password, navigation, setError, appDispatch) => {
   try {
     await Auth.confirmSignUp(name, code)
+  } catch (error) {
+    console.log("error confirmSignup:", error)
+    setError(["確認コードが間違っています"])
+  }
+  try {
     await login(navigation, dispatch, name, password)
     await createUser(dispatch, {name, nickname: name})
   } catch (error) {
     console.log("error confirmSignup:", error)
+    addError(appDispatch, {errorType: "REQUEST_ERROR", message: "予期せぬエラーが発生しました"})
   }
 }
 export const resendConfirmMail = async (name, navigation) => {
