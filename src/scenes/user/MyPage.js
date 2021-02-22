@@ -107,7 +107,7 @@ export const MyPage = ({navigation}) => {
     <ScrollView>
       <View style={styles.userInfo}>
         <View style={styles.row}>
-          <Avatar.Image size={80} source={{uri: user.thumbnail_img_src}} />
+          <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
           <FollowInfo postCount={user.posts.length} />
         </View>
         <SelfIntroduction user={user} M={masterData} />

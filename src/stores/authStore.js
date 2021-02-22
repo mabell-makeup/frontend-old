@@ -5,6 +5,7 @@ import {apiRequest} from "../helper/requestHelper"
 import {getUserType, listPostTypes} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
 import {addError} from "./appStore"
+import {uploadImage} from "../helper/imageHelper"
 
 const initialState = {
   is_logged_in: false,
@@ -24,7 +25,7 @@ const initialState = {
     name: "",
     nickname: "",
     birthdate: "",
-    thumbnail: "",
+    thumbnail_img_src: "",
     posts: [],
     skin_type: ""
   }
@@ -54,7 +55,7 @@ export const login = async (navigation, dispatch, name, password, appDispatch) =
   } catch (e) {
     console.log("error signing in", e)
     dispatch({type: LOGIN_FAILURE, payload: e.message})
-    if (!["InvalidParameterException", "NotAuthorizedException"].includes(e.code)) {
+    if (!["InvalidParameterException", "NotAuthorizedException", "UserNotConfirmedException"].includes(e.code)) {
       addError(appDispatch, {errorType: "AUTH_ERROR", message: "予期せぬエラーが発生しました。"})
     }
   }

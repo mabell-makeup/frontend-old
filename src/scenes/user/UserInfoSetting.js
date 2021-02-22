@@ -5,6 +5,8 @@ import {Avatar, Button, Title} from "react-native-paper"
 import {DatePicker} from "../../components/DatePicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
+import {pickImage, uploadImage} from "../../helper/imageHelper"
+import {addError, appStore} from "../../stores/appStore"
 import {authStore, logout, updateUser} from "../../stores/authStore"
 
 const styles = StyleSheet.create({
@@ -54,12 +56,26 @@ const displayItemsMap = {
   gender: {label: "性別", type: "picker"}
 }
 
+const selectImage = (tmpUser, setTmpUser) => () => pickImage(result => setTmpUser({...tmpUser, thumbnail_img_src: result.uri}))
+
+const onSubmit = (dispatch, user, tmpUser, appDispatch, navigation) => async () => {
+  try {
+    const uri = user.thumbnail_img_src !== tmpUser.thumbnail_img_src ? await uploadImage(tmpUser.thumbnail_img_src) : tmpUser.thumbnail_img_src
+    await updateUser(dispatch, {...tmpUser, thumbnail_img_src: uri})
+  } catch (error) {
+    console.log("error update user:", error)
+    addError(appDispatch, {errorType: "REQUEST_ERROR", message: "ユーザー情報の更新に失敗しました"})
+  }
+  navigation.goBack()
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const UserInfoSetting = ({navigation}) => {
   const {dispatch, state: {user}} = useContext(authStore)
+  const {dispatch: appDispatch} = useContext(appStore)
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [dtPickerState, setDTPickerState] = useState({isShown: false, selected: new Date(user.birthdate)})
-  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))))
+  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img_src"].includes(key))))
 
   return (
     <>
@@ -68,8 +84,9 @@ export const UserInfoSetting = ({navigation}) => {
           <View style={styles.container}>
             <View style={styles.toCenter}>
               {/* eslint-disable-next-line no-undef */}
-              <Avatar.Image size={90} source={user.thumbnail_img_src !== "" ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
-              <Text style={styles.selectImage}>プロフィール写真を変更</Text>
+              {console.log(tmpUser.thumbnail_img_src)}
+              <Avatar.Image size={90} source={tmpUser.thumbnail_img_src && tmpUser.thumbnail_img_src !== "" ? {uri: tmpUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
+              <Text style={styles.selectImage} onPress={selectImage(tmpUser, setTmpUser)}>プロフィール写真を変更</Text>
             </View>
             <View style={styles.userInfoContainer}>
               <Title>自己紹介</Title>
@@ -85,7 +102,7 @@ export const UserInfoSetting = ({navigation}) => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => updateUser(dispatch, tmpUser)} disabled={false}>変更する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(dispatch, user, tmpUser, appDispatch, navigation)} disabled={false}>変更する</Button>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
       <DatePicker usePickerState={[dtPickerState, setDTPickerState]} onChange={selectedDate => setTmpUser({...tmpUser, birthdate: selectedDate})} />
     </>
