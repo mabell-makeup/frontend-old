@@ -15,7 +15,8 @@ export const initialState = {
     skin_type: "",
     tags: [],
     makeup_categories: "",
-    country: ""
+    country: "",
+    description: ""
   },
   suggestionTags: [],
   suggestionProducts: []

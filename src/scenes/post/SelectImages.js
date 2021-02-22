@@ -16,6 +16,9 @@ import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
 import {addError, appStore} from "../../stores/appStore"
 import {WINDOW_WIDTH} from "../../styles/constants"
+import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
+import {rules, validate} from "../../helper/validateHelper"
+import {ErrorMessage} from "../../components/ErrorMessage"
 
 const styles = {
   container: {
@@ -24,10 +27,10 @@ const styles = {
     paddingBottom: 120,
     height: "100%"
   },
-  captionContainer: {
+  descriptionContainer: {
     flexDirection: "row"
   },
-  caption: {
+  description: {
     width: WINDOW_WIDTH - 120, // 画像のwidthとpaddingの長さを引く
     paddingHorizontal: 10
   },
@@ -94,10 +97,16 @@ const registerPost = async (tmpPost, appDispatch) => {
   }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch) => () => {
-  registerPost(tmpPost, appDispatch)
-  willUpdate && updateUser(dispatch, tmpUser)
-  navigation.goBack()
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError) => () => {
+  const descriptionError = validate(tmpPost.description, [{testFunc: rules.require.testFunc, message: "キャプションを入力してください"}])
+  const productError = validate(tmpPost.products, [{testFunc: rules.require.testFunc, message: "使用アイテムを選択してください"}])
+  setDescriptionError(descriptionError)
+  setProductError(productError)
+  if (descriptionError.length === 0 && productError.length === 0) {
+    registerPost(tmpPost, appDispatch)
+    willUpdate && updateUser(dispatch, tmpUser)
+    navigation.goBack()
+  }
 }
 
 const createTags = (dispatch, tags) => tags.map(tag => ({
@@ -114,6 +123,8 @@ export const SelectImages = ({navigation}) => {
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [willUpdate, setWillUpdate] = useState(true)
+  const [descriptionError, setDescriptionError] = useState([])
+  const [productError, setProductError] = useState([])
   const trendTags = createTags(postDispatch, suggestionTags)
 
   useEffect(() => {
@@ -142,11 +153,12 @@ export const SelectImages = ({navigation}) => {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.captionContainer}>
+          <View style={styles.descriptionContainer}>
             {/* eslint-disable-next-line no-undef */}
             <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-            <TextInput style={styles.caption} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く" multiline={true} />
+            <TextInput style={styles.description} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
           </View>
+          <ErrorMessage messages={descriptionError} />
           <View style={styles.inputContainer}>
             <Text style={styles.label}>カテゴリを選ぶ</Text>
             <MakeUpCategoryInput />
@@ -166,9 +178,10 @@ export const SelectImages = ({navigation}) => {
             <ChipList items={trendTags} />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>使用アイテム</Text>
+            <TextWithImportantLabel label="必須">使用アイテム</TextWithImportantLabel>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
             {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
+            <ErrorMessage messages={productError} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>ユーザー情報</Text>
@@ -187,7 +200,7 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch)} disabled={false}>投稿する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError)} disabled={false}>投稿する</Button>
     </>
   )
 }
