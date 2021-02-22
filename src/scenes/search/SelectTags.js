@@ -1,8 +1,6 @@
 import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
-import {Button, Text} from "react-native-paper"
-import {appStore} from "../../stores/appStore"
-import {searchStore, updateTmpConditions, fetchPosts, fetchTrendTags, fetchTags} from "../../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchTrendTags, fetchTags} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 import {IconTextInput} from "../../components/IconTextInput"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
@@ -42,7 +40,7 @@ export const SelectTags = ({navigation}) => {
       headerBackTitleVisible: true,
       headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
-      headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} onChangeText={text => fetchTags(dispatch, text)} />,
+      headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} onChangeText={text => fetchTags(dispatch, text)} />
     })
     fetchTrendTags(dispatch)
   }, [])

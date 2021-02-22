@@ -61,17 +61,14 @@ const createRows = conditions => conditions.map(({title, inner}) =>
   ({title: title, rows: [inner], expanded: true, style: styles.accordion, titleStyle: styles.accordionTitle, theme:{colors: {primary:"#000"}}})
 )
 
-const createTrendTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag => ({
+const createTrendTags = (dispatch, tmpConditions, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
   onPress: () => updateTmpConditions(dispatch, tmpConditions, {tags: [...tmpConditions.tags, tag.tag_name]})
 }))
 
-const createTrendProducts = (dispatch, tmpConditions, navigation, products) => products.map(product => ({
+const createTrendProducts = (dispatch, tmpConditions, products) => products.map(product => ({
   label: `#${product.product_name}`,
-  onPress: () => {
-    updateTmpConditions(dispatch, tmpConditions, {products: product.product_name})
-    navigation.navigate("SelectProducts")
-  }
+  onPress: () => updateTmpConditions(dispatch, tmpConditions, {products: [...tmpConditions.products, product]})
 }))
 
 
@@ -83,8 +80,8 @@ export const SelectConditions = ({navigation}) => {
     fetchTrendTags(dispatch)
     fetchTrendProducts(dispatch)
   }, [])
-  const trendTags = createTrendTags(dispatch, tmpConditions, navigation, suggestionTags)
-  const trendProducts = createTrendProducts(dispatch, tmpConditions, navigation, suggestionProducts)
+  const trendTags = createTrendTags(dispatch, tmpConditions, suggestionTags)
+  const trendProducts = createTrendProducts(dispatch, tmpConditions, suggestionProducts)
   
   // TODO: 後でコンポーネントの外に出す
   const conditions = [
@@ -110,6 +107,7 @@ export const SelectConditions = ({navigation}) => {
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
           <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="keyword" style={styles.FakeInput} />
+          {tmpConditions.products.length > 0 && <List rows={tmpConditions.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
           <ChipList items={trendProducts} />
         </View>
     }

@@ -3,9 +3,8 @@ import React, {useContext} from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
-import {IconTextInput} from "../components/IconTextInput"
 import {Text} from "react-native-paper"
-import {fetchTags, SearchProvider, searchStore, updateTmpConditions} from "../stores/searchStore"
+import {SearchProvider, searchStore} from "../stores/searchStore"
 import {SelectTags} from "../scenes/search/SelectTags"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
@@ -13,6 +12,7 @@ import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
+import {SelectProducts} from "../scenes/search/SelectProducts"
 
 const Stack = createStackNavigator()
 
@@ -34,7 +34,7 @@ const navigatorProps = ({
 // eslint-disable-next-line max-lines-per-function
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const {state: {tmpConditions}} = useContext(searchStore)
 
   return (
     <Stack.Navigator {...navigatorProps}>
@@ -43,6 +43,7 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions
       }}/>
       <Stack.Screen name="SelectTags" component={SelectTags} />
+      <Stack.Screen name="SelectProducts" component={SelectProducts} />
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
