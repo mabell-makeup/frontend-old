@@ -3,7 +3,7 @@ import React, {useContext, useEffect} from "react"
 import {List} from "../../components/List"
 import {Button} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {searchStore, updateConditions, updateSearchResult, initialState, updateTmpConditions, fetchPosts, fetchTrendTags} from "../../stores/searchStore"
+import {searchStore, updateConditions, updateSearchResult, initialState, updateTmpConditions, fetchTrendTags, fetchTrendProducts} from "../../stores/searchStore"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {CountryInput} from "./CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -11,7 +11,7 @@ import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {FakeInput} from "../../components/FakeInput"
 import {isEqual} from "../../helper/storeHelper"
-import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {PRODUCT_SEARCH_PLACE_HOLDER, TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
 
@@ -44,6 +44,10 @@ const styles = {
   FakeInput: {
     marginTop: 10,
     maxHeight: 35
+  },
+  listItem: {
+    height: 40,
+    borderBottomWidth: 0.5
   }
 }
 
@@ -57,7 +61,7 @@ const createRows = conditions => conditions.map(({title, inner}) =>
   ({title: title, rows: [inner], expanded: true, style: styles.accordion, titleStyle: styles.accordionTitle, theme:{colors: {primary:"#000"}}})
 )
 
-const createTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag => ({
+const createTrendTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
   onPress: () => {
     updateTmpConditions(dispatch, tmpConditions, {tags: tag.tag_name + " "})
@@ -65,12 +69,25 @@ const createTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag =
   }
 }))
 
+const createTrendProducts = (dispatch, tmpConditions, navigation, products) => products.map(product => ({
+  label: `#${product.product_name}`,
+  onPress: () => {
+    updateTmpConditions(dispatch, tmpConditions, {products: product.product_name})
+    navigation.navigate("SelectProducts")
+  }
+}))
+
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectConditions = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, suggestionTags}} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions, suggestionTags, suggestionProducts}} = useContext(searchStore)
 
-  useEffect(() => {fetchTrendTags(dispatch)}, [])
-  const trendTags = createTags(dispatch, tmpConditions, navigation, suggestionTags)
+  useEffect(() => {
+    fetchTrendTags(dispatch)
+    fetchTrendProducts(dispatch)
+  }, [])
+  const trendTags = createTrendTags(dispatch, tmpConditions, navigation, suggestionTags)
+  const trendProducts = createTrendProducts(dispatch, tmpConditions, navigation, suggestionProducts)
   
   // TODO: 後でコンポーネントの外に出す
   const conditions = [
@@ -85,8 +102,18 @@ export const SelectConditions = ({navigation}) => {
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
-          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} value={tmpConditions.keywords} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
+          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} value={tmpConditions.tags.join(" ")} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
+          {tmpConditions.tags.length > 0 && <List rows={tmpConditions.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
           <ChipList items={trendTags} />
+        </View>
+    },
+    {
+      title: "使用アイテムで絞り込む",
+      inner:
+        // eslint-disable-next-line react/jsx-indent
+        <View key="keywords">
+          <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} value={tmpConditions.products.join(" ")} navigation={navigation} linkTo="SelectProducts" key="keyword" style={styles.FakeInput} />
+          <ChipList items={trendProducts} />
         </View>
     }
   ]

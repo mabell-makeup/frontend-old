@@ -2,9 +2,9 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Button, Checkbox} from "react-native-paper"
-import {fetchProducts, fetchTrendProducts, postStore, updateTmpProducts} from "../../stores/postStore"
 import {IconTextInput} from "../../components/IconTextInput"
 import {PRODUCT_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {fetchTrendProducts, searchStore, updateTmpProducts, fetchProducts} from "../../stores/searchStore"
 
 const styles = {
   container: {
@@ -33,7 +33,7 @@ const createRows = (dispatch, suggestionProducts, selectedProducts) =>
 
 
 export const SelectProducts = ({navigation}) => {
-  const {dispatch, state: {suggestionProducts, tmpPost: {products}}} = useContext(postStore)
+  const {dispatch, state: {suggestionProducts, tmpConditions: {products}}} = useContext(searchStore)
   const rows = createRows(dispatch, suggestionProducts, products)
 
   useEffect(() => {
