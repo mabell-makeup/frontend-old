@@ -48,6 +48,9 @@ const styles = {
   listItem: {
     height: 40,
     borderBottomWidth: 0.5
+  },
+  inputContainer: {
+    paddingHorizontal: 10
   }
 }
 
@@ -95,8 +98,8 @@ export const SelectConditions = ({navigation}) => {
       title: "タグで絞り込む",
       inner:
         // eslint-disable-next-line react/jsx-indent
-        <View key="keywords">
-          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
+        <View key="tags" style={styles.inputContainer}>
+          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="tag" style={styles.FakeInput} />
           {tmpConditions.tags.length > 0 && <List rows={tmpConditions.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
           <ChipList items={trendTags} />
         </View>
@@ -105,8 +108,8 @@ export const SelectConditions = ({navigation}) => {
       title: "使用アイテムで絞り込む",
       inner:
         // eslint-disable-next-line react/jsx-indent
-        <View key="keywords">
-          <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="keyword" style={styles.FakeInput} />
+        <View key="products" style={styles.inputContainer}>
+          <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="product" style={styles.FakeInput} />
           {tmpConditions.products.length > 0 && <List rows={tmpConditions.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
           <ChipList items={trendProducts} />
         </View>

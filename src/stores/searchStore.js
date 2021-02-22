@@ -10,15 +10,14 @@ export const initialState = {
   searchResult: [],
   tmpResult: [],
   tmpConditions: {
-    baseColor: "",
+    base_color: "",
     season: "",
-    faceType: "",
-    skinType: "",
+    face_type: "",
+    skin_type: "",
     color: "",
-    lame: "",
+    glitter: "",
     country: "",
-    makeUpCategory: "",
-    hairStyle: "",
+    makeup_categories: "",
     products: [],
     tags: []
   }
@@ -50,9 +49,8 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
 }
 export const fetchPosts = async (dispatch, tmpConditions) => {
   const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)
-    // eslint-disable-next-line no-unused-vars
-    .filter(([key, val]) => typeof val !== "undefined")
-    .map(([key, val]) => ([camelToSnake(key), {eq: val}]))
+    .filter(([, val]) => typeof val !== "undefined" && val !== "")
+    .map(([key, val]) => ([key, {eq: val}]))
   )
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, {filter: filteredConditions})

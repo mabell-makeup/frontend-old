@@ -1,5 +1,5 @@
 import React, {useContext} from "react"
-import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
+import {searchStore, updateTmpConditions} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
 import {appStore} from "../stores/appStore"
 import {parseMasterData} from "../helper/requestHelper"
@@ -9,8 +9,8 @@ const createItems = (skinTypes, dispatch, tmpConditions) =>
     label: skinType.label,
     key: skinType.key,
     // eslint-disable-next-line react/display-name
-    selected: skinType.key === tmpConditions.skinType,
-    onPress: () => updateTmpConditions(dispatch, tmpConditions, {skinType: skinType.key})
+    selected: skinType.key === tmpConditions.skin_type,
+    onPress: () => updateTmpConditions(dispatch, tmpConditions, {skin_type: skinType.key})
   }))
 
 

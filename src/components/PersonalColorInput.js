@@ -30,10 +30,10 @@ const filterSeason = (baseColor, seasons) => baseColor === 0
 
 const handlePress = (key, element, dispatch, tmpConditions) => () => {
   updateTmpConditions(dispatch, tmpConditions, {[element]: key})
-  element === "baseColor" && updateTmpConditions(dispatch, tmpConditions, {season: ""})
+  element === "base_color" && updateTmpConditions(dispatch, tmpConditions, {season: ""})
 }
 
-const createItems = (raws, element="baseColor", dispatch, tmpConditions) =>
+const createItems = (raws, element="base_color", dispatch, tmpConditions) =>
   raws.map(raw => ({
     label: raw.label,
     key: raw.key,
@@ -45,11 +45,11 @@ export const PersonalColorInput = () => {
   const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const {state: {masterData}} = useContext(appStore)
   const seasons = parseMasterData(masterData, "season")
-  const filteredSeasons = filterSeason(tmpConditions.baseColor, seasons)
+  const filteredSeasons = filterSeason(tmpConditions.base_color, seasons)
   const baseColor = parseMasterData(masterData, "base_color")
-  const itemBaseColor = createItems(baseColor, "baseColor", dispatch, tmpConditions)
+  const itemBaseColor = createItems(baseColor, "base_color", dispatch, tmpConditions)
   const itemSeason = createItems(filteredSeasons, "season", dispatch, tmpConditions)
-  const isShownSeason = tmpConditions.baseColor !== ""
+  const isShownSeason = tmpConditions.base_color !== ""
 
   return (
     <View style={styles.container}>
