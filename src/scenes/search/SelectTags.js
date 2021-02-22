@@ -2,8 +2,10 @@ import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button, Text} from "react-native-paper"
 import {appStore} from "../../stores/appStore"
-import {searchStore, updateTmpConditions, fetchPosts, fetchTrendTags} from "../../stores/searchStore"
+import {searchStore, updateTmpConditions, fetchPosts, fetchTrendTags, fetchTags} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
+import {IconTextInput} from "../../components/IconTextInput"
+import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 
 const styles = {
   container: {
@@ -20,39 +22,34 @@ const styles = {
   }
 }
 
-const chipAction = (preTags, tag) => {
-  const tmp = preTags.split(/\s/)
-  tmp.pop() // 入力途中のキーワードを削除する
-  return tmp.concat([tag]).join(" ") + " "
-}
-
-const createRows = (dispatch, tags, tmpConditions) =>
+const createRows = (dispatch, tags, tmpConditions, navigation) =>
   tags.map(tag => ({
     label: `#${tag.tag_name}`,
     selected: false,
-    onPress: () => updateTmpConditions(dispatch, tmpConditions, {tags: chipAction(tmpConditions.tags, tag.tag_name)})
+    onPress: () => {
+      updateTmpConditions(dispatch, tmpConditions, {tags: [...tmpConditions.tags, tag.tag_name]})
+      navigation.goBack()
+    }
   }))
 
-const handleCancel = (dispatch, navigation, tmpConditions, conditions) => {
-  updateTmpConditions(dispatch, tmpConditions, {tags: conditions.tags || ""})
-  navigation.goBack()
-}
-
 export const SelectTags = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, conditions, suggestionTags}} = useContext(searchStore)
-  const rows = createRows(dispatch, suggestionTags, tmpConditions)
+  const {dispatch, state: {tmpConditions, suggestionTags}} = useContext(searchStore)
+  const rows = createRows(dispatch, suggestionTags, tmpConditions, navigation)
 
   useEffect(() => {
     // キャンセルボタンの動作を変更する
-    // eslint-disable-next-line react/display-name
-    navigation.setOptions({headerRight: () => <Text onPress={() => handleCancel(dispatch, navigation, tmpConditions, conditions)}>キャンセル</Text>})
+    navigation.setOptions({
+      headerBackTitleVisible: true,
+      headerBackTitle: "Back",
+      // eslint-disable-next-line react/display-name
+      headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} onChangeText={text => fetchTags(dispatch, text)} />,
+    })
     fetchTrendTags(dispatch)
   }, [])
 
   return (
     <ScrollView style={styles.container}>
       <ChipList items={rows} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => navigation.goBack()}>絞り込む</Button>
     </ScrollView>
   )
 }

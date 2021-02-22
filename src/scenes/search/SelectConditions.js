@@ -63,10 +63,7 @@ const createRows = conditions => conditions.map(({title, inner}) =>
 
 const createTrendTags = (dispatch, tmpConditions, navigation, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
-  onPress: () => {
-    updateTmpConditions(dispatch, tmpConditions, {tags: tag.tag_name + " "})
-    navigation.navigate("SelectTags")
-  }
+  onPress: () => updateTmpConditions(dispatch, tmpConditions, {tags: [...tmpConditions.tags, tag.tag_name]})
 }))
 
 const createTrendProducts = (dispatch, tmpConditions, navigation, products) => products.map(product => ({
@@ -102,7 +99,7 @@ export const SelectConditions = ({navigation}) => {
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
-          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} value={tmpConditions.tags.join(" ")} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
+          <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="keyword" style={styles.FakeInput} />
           {tmpConditions.tags.length > 0 && <List rows={tmpConditions.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
           <ChipList items={trendTags} />
         </View>
@@ -112,7 +109,7 @@ export const SelectConditions = ({navigation}) => {
       inner:
         // eslint-disable-next-line react/jsx-indent
         <View key="keywords">
-          <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} value={tmpConditions.products.join(" ")} navigation={navigation} linkTo="SelectProducts" key="keyword" style={styles.FakeInput} />
+          <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="keyword" style={styles.FakeInput} />
           <ChipList items={trendProducts} />
         </View>
     }

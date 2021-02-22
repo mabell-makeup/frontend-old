@@ -31,11 +31,6 @@ const navigatorProps = ({
   }
 })
 
-const handleInputKeywords = (dispatch, tmpConditions, text) => {
-  updateTmpConditions(dispatch, tmpConditions, {tags: text}, false)
-  fetchTags(dispatch, text.split(/\s/).pop())
-}
-
 // eslint-disable-next-line max-lines-per-function
 const SearchScreenInner = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
@@ -47,11 +42,7 @@ const SearchScreenInner = ({navigation}) => {
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions
       }}/>
-      <Stack.Screen name="SelectTags" component={SelectTags} options={{
-        ...defaultScreenOptions,
-        headerLeft: false,
-        headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} isFocused={true} defaultValue={tmpConditions.tags} onChangeText={text => handleInputKeywords(dispatch, tmpConditions, text)} />
-      }}/>
+      <Stack.Screen name="SelectTags" component={SelectTags} />
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
         ...defaultScreenOptions,
         headerRight: false,
