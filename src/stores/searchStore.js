@@ -2,6 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, camelToSnake} from "../helper/requestHelper"
 import {listPostTypes, listProductTypes, listTagTypes} from "../graphql/queries"
+import {items} from "../../mock/db"
 
 export const initialState = {
   conditions: {},
@@ -48,10 +49,9 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
   await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
 export const fetchPosts = async (dispatch, tmpConditions) => {
-  const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)
+  const filteredConditions = Object.fromEntries(Object.entries({...tmpConditions, products_id: tmpConditions.products.map(p => p.product_id)})
     .filter(([, val]) => Array.isArray(val) ? val.length > 0 : typeof val !== "undefined" && val !== "")
-    // TODO: 使用アイテム、タグでのAND検索ができないのでAPIができ次第修正する
-    .map(([key, val]) => (Array.isArray(val) ? [key, {contains: val[0]}] : [key, {eq: val}]))
+    .map(([key, val]) => (Array.isArray(val) ? ["and", val.map(item => ({[key]: {contains: item}}))] : [key, {eq: val}]))
   )
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, {filter: filteredConditions})
