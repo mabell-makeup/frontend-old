@@ -79,6 +79,7 @@ const FollowInfo = ({postCount}) => {
   )
 }
 
+// eslint-disable-next-line complexity
 const SelfIntroduction = ({user, M}) => {
   return (
     <View>
@@ -86,9 +87,9 @@ const SelfIntroduction = ({user, M}) => {
       <Text style={styles.grayText}>@{user.name}</Text>
       <Text style={styles.sentence} ellipsizeMode="tail" numberOfLines={6}>{user.self_introduction}</Text>
       <View style={styles.userData}>
-        {user.face_type !== "" && <View style={styles.userDataItem}><IconButton icon="face" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.face_type[user.face_type]}</Text></View>}
-        {user.base_color !== "" && <View style={styles.userDataItem}><IconButton icon="palette" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.base_color[user.base_color]}{M.season[user.season]}</Text></View>}
-        {user.skin_type !== "" && <View style={styles.userDataItem}><Text style={styles.grayText}>{M.skin_type[user.skin_type]}</Text></View>}
+        {user.face_type && user.face_type !== "" && <View style={styles.userDataItem}><IconButton icon="face" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.face_type[user.face_type]}</Text></View>}
+        {user.base_color && user.base_color !== "" && <View style={styles.userDataItem}><IconButton icon="palette" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.base_color[user.base_color]}{M.season[user.season]}</Text></View>}
+        {user.skin_type && user.skin_type !== "" && <View style={styles.userDataItem}><Text style={styles.grayText}>{M.skin_type[user.skin_type]}</Text></View>}
       </View>
     </View>
   )
