@@ -45,12 +45,13 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
     return [key, newVal]
   }))
   dispatch({type: UPDATE_TMP_CONDITIONS, payload})
-  await fetchPosts(dispatch, payload)
+  await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
 export const fetchPosts = async (dispatch, tmpConditions) => {
   const filteredConditions = Object.fromEntries(Object.entries(tmpConditions)
-    .filter(([, val]) => typeof val !== "undefined" && val !== "")
-    .map(([key, val]) => ([key, {eq: val}]))
+    .filter(([, val]) => Array.isArray(val) ? val.length > 0 : typeof val !== "undefined" && val !== "")
+    // TODO: 使用アイテム、タグでのAND検索ができないのでAPIができ次第修正する
+    .map(([key, val]) => (Array.isArray(val) ? [key, {contains: val[0]}] : [key, {eq: val}]))
   )
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, {filter: filteredConditions})
