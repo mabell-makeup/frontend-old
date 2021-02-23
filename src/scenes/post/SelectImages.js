@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
-import {Button, Checkbox} from "react-native-paper"
+import {Button, Checkbox, IconButton} from "react-native-paper"
 import {createPost, fetchTrendTags, postStore, updateTmpPost, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
@@ -174,7 +174,7 @@ export const SelectImages = ({navigation}) => {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>タグ付け</Text>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
-            {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem}))} />}
+            {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(postDispatch, tmpPost.tags, tag)} />}))} />}
             <ChipList items={trendTags} />
           </View>
           <View style={styles.inputContainer}>
