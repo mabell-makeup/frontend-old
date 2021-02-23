@@ -34,6 +34,7 @@ const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
 const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
+const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
 
 
@@ -87,7 +88,14 @@ export const fetchTrendProducts = async dispatch => {
     console.log("error fetch trend products: ", error)
   }
 }
-export const updateTmpProducts = async (dispatch, product) => dispatch({type: UPDATE_TMP_PRODUCTS, payload: product})
+export const updateTmpTags = async (dispatch, preTags, newTag) => {
+  const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
+  dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})
+}
+export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
+  const nextProducts = preProducts.map(p => p.product_id).includes(newProduct.product_id) ? preProducts.filter(p => p.product_id !== newProduct.product_id) : [...preProducts, newProduct]
+  dispatch({type: UPDATE_TMP_PRODUCTS, payload: nextProducts})
+}
 export const fetchProducts = async (dispatch, text) => {
   try {
     const response = await apiRequest(listProductTypes, {limit: 20, filter: {product_name: {contains: text}}})
@@ -109,7 +117,8 @@ const SearchProvider = ({children}) => {
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
     [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
-    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: [...state.tmpConditions.products, payload]}})
+    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
+    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }

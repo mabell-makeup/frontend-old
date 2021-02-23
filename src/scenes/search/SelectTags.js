@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
-import {searchStore, updateTmpConditions, fetchTrendTags, fetchTags} from "../../stores/searchStore"
+import {searchStore, fetchTrendTags, fetchTags, updateTmpTags} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 import {IconTextInput} from "../../components/IconTextInput"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
@@ -23,9 +23,9 @@ const styles = {
 const createRows = (dispatch, tags, tmpConditions, navigation) =>
   tags.map(tag => ({
     label: `#${tag.tag_name}`,
-    selected: false,
+    selected: tmpConditions.tags.includes(tag.tag_name),
     onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {tags: [...tmpConditions.tags, tag.tag_name]})
+      updateTmpTags(dispatch, tmpConditions.tags, tag.tag_name)
       navigation.goBack()
     }
   }))

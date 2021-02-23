@@ -3,7 +3,7 @@ import React, {useContext, useEffect} from "react"
 import {List} from "../../components/List"
 import {Button} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {searchStore, updateConditions, updateSearchResult, initialState, updateTmpConditions, fetchTrendTags, fetchTrendProducts} from "../../stores/searchStore"
+import {searchStore, updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts} from "../../stores/searchStore"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {CountryInput} from "./CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -66,12 +66,12 @@ const createRows = conditions => conditions.map(({title, inner}) =>
 
 const createTrendTags = (dispatch, tmpConditions, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
-  onPress: () => updateTmpConditions(dispatch, tmpConditions, {tags: [...tmpConditions.tags, tag.tag_name]})
+  onPress: () => updateTmpTags(dispatch, tmpConditions.tags, tag.tag_name)
 }))
 
 const createTrendProducts = (dispatch, tmpConditions, products) => products.map(product => ({
   label: `#${product.product_name}`,
-  onPress: () => updateTmpConditions(dispatch, tmpConditions, {products: [...tmpConditions.products, product]})
+  onPress: () => updateTmpProducts(dispatch, tmpConditions.products, product)
 }))
 
 
