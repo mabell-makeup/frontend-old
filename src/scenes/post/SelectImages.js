@@ -181,13 +181,15 @@ export const SelectImages = ({navigation}) => {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>タグ付け</Text>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
+            {/* eslint-disable-next-line react/display-name */}
             {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(postDispatch, tmpPost.tags, tag)} />}))} />}
             <ChipList items={trendTags} />
           </View>
           <View style={styles.inputContainer}>
             <TextWithImportantLabel label="必須">使用アイテム</TextWithImportantLabel>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
-            {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
+            {/* eslint-disable-next-line react/display-name */}
+            {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(postDispatch, tmpPost.products, product)} />}))} />}
             <ErrorMessage messages={productError} />
             <ChipList items={trendProducts} />
           </View>
