@@ -1,3 +1,6 @@
+// TODO: FIX IT!!!!
+/* eslint-disable complexity */
+/* eslint-disable max-lines-per-function */
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
@@ -119,7 +122,6 @@ const createTrendProducts = (dispatch, preProducts, products) => products.map(pr
   onPress: () => updateTmpProducts(dispatch, preProducts, product)
 }))
 
-// eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
   const {dispatch: postDispatch, state: {tmpPost, suggestionTags, suggestionProducts}} = useContext(postStore)
   const {dispatch: appDispatch} = useContext(appStore)
@@ -127,7 +129,7 @@ export const SelectImages = ({navigation}) => {
   const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
-  const [willUpdate, setWillUpdate] = useState(true)
+  const [willUpdate, setWillUpdate] = useState(false)
   const [descriptionError, setDescriptionError] = useState([])
   const [productError, setProductError] = useState([])
   const trendTags = createTrendTags(postDispatch, tmpPost.tags, suggestionTags)
@@ -210,7 +212,13 @@ export const SelectImages = ({navigation}) => {
         </View>
       </ScrollView>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError)} disabled={false}>投稿する</Button>
+      <Button
+        mode="contained"
+        style={styles.button}
+        contentStyle={styles.buttonContentStyle}
+        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError)}
+        disabled={tmpPost.description === "" || tmpPost.products.length === 0}
+      >投稿する</Button>
     </>
   )
 }
