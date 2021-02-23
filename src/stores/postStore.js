@@ -92,7 +92,10 @@ export const fetchTrendProducts = async dispatch => {
     console.log("error fetch trend products: ", error)
   }
 }
-export const updateTmpProducts = async (dispatch, product) => dispatch({type: UPDATE_TMP_PRODUCTS, payload: product})
+export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
+  const nextProducts = preProducts.map(p => p.product_id).includes(newProduct.product_id) ? preProducts.filter(p => p.product_id !== newProduct.product_id) : [...preProducts, newProduct]
+  dispatch({type: UPDATE_TMP_PRODUCTS, payload: nextProducts})
+}
 
 
 // Defin Provider
@@ -104,7 +107,7 @@ const PostProvider = ({children}) => {
     [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
     [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
     [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
-    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: [...state.tmpPost.products, payload]}})
+    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }

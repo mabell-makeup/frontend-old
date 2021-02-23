@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
-import {createPost, fetchTrendTags, postStore, updateTmpPost, updateTmpTags} from "../../stores/postStore"
+import {createPost, fetchTrendProducts, fetchTrendTags, postStore, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
@@ -109,14 +109,19 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatc
   }
 }
 
-const createTags = (dispatch, preTags, tags) => tags.map(tag => ({
+const createTrendTags = (dispatch, preTags, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
   onPress: () => updateTmpTags(dispatch, preTags, tag.tag_name)
 }))
 
+const createTrendProducts = (dispatch, preProducts, products) => products.map(product => ({
+  label: `#${product.product_name}`,
+  onPress: () => updateTmpProducts(dispatch, preProducts, product)
+}))
+
 // eslint-disable-next-line max-lines-per-function
 export const SelectImages = ({navigation}) => {
-  const {dispatch: postDispatch, state: {tmpPost, suggestionTags}} = useContext(postStore)
+  const {dispatch: postDispatch, state: {tmpPost, suggestionTags, suggestionProducts}} = useContext(postStore)
   const {dispatch: appDispatch} = useContext(appStore)
   const {dispatch, state: {user}} = useContext(authStore)
   const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
@@ -125,7 +130,8 @@ export const SelectImages = ({navigation}) => {
   const [willUpdate, setWillUpdate] = useState(true)
   const [descriptionError, setDescriptionError] = useState([])
   const [productError, setProductError] = useState([])
-  const trendTags = createTags(postDispatch, tmpPost.tags, suggestionTags)
+  const trendTags = createTrendTags(postDispatch, tmpPost.tags, suggestionTags)
+  const trendProducts = createTrendProducts(postDispatch, tmpPost.products, suggestionProducts)
 
   useEffect(() => {
     (async () => {
@@ -139,6 +145,7 @@ export const SelectImages = ({navigation}) => {
     pickImage(onPickSuccess, () => navigation.goBack())
     updateTmpPost(postDispatch, tmpPost, initialTmpUser)
     fetchTrendTags(postDispatch)
+    fetchTrendProducts(postDispatch)
   }, [])
 
   const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost, tmpPost.img_src_list
@@ -182,6 +189,7 @@ export const SelectImages = ({navigation}) => {
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
             {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem}))} />}
             <ErrorMessage messages={productError} />
+            <ChipList items={trendProducts} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>ユーザー情報</Text>
