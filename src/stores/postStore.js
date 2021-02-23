@@ -1,5 +1,5 @@
 import React, {createContext, useReducer} from "react"
-import {createReducer} from "../helper/storeHelper"
+import {createReducer, isEqual} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {createPostType, createTagType} from "../graphql/mutations"
 import {listProductTypes, listTagTypes} from "../graphql/queries"
@@ -49,7 +49,6 @@ export const fetchTrendTags = async dispatch => {
     console.log("error fetch trend tags: ", error)
   }
 }
-/* isToggleがtrueの場合、preTmpConditionsとnextConditionが同じ際、初期値をセットする */
 export const updateTmpPost = (dispatch, preTmpPost, nextCondition, isToggle=true) => {
   Object.entries(nextCondition).map(async ([key, val]) => {
     const isClear = isToggle && preTmpPost[key] === val
@@ -57,7 +56,10 @@ export const updateTmpPost = (dispatch, preTmpPost, nextCondition, isToggle=true
     dispatch({type: UPDATE_TMP_POST, payload})
   })
 }
-export const updateTmpTags = async (dispatch, tag) => dispatch({type: UPDATE_TMP_TAGS, payload: tag})
+export const updateTmpTags = async (dispatch, preTags, newTag) => {
+  const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
+  dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})
+}
 export const fetchTags = async (dispatch, text) => {
   try {
     const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
@@ -101,7 +103,7 @@ const PostProvider = ({children}) => {
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
     [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
     [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
-    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: [...state.tmpPost.tags, payload]}}),
+    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
     [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: [...state.tmpPost.products, payload]}})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>

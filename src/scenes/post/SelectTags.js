@@ -22,12 +22,12 @@ const styles = {
   }
 }
 
-const createRows = (dispatch, tags, navigation) =>
+const createRows = (dispatch, preTags, tags, navigation) =>
   tags.map(tag => ({
     label: `#${tag.tag_name}`,
-    selected: false,
+    selected: preTags.includes(tag.tag_name),
     onPress: () => {
-      updateTmpTags(dispatch, tag.tag_name)
+      updateTmpTags(dispatch, preTags, tag.tag_name)
       navigation.goBack()
     }
   }))
@@ -44,7 +44,7 @@ const onChangeText = (dispatch, setText) => text => {
 
 export const SeletcTags = ({navigation}) => {
   const {dispatch, state: {suggestionTags, tmpPost: {tags}}} = useContext(postStore)
-  const rows = createRows(dispatch, suggestionTags, navigation)
+  const rows = createRows(dispatch, tags, suggestionTags, navigation)
   const [text, setText] = useState("")
 
   useEffect(() => {

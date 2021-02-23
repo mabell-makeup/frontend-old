@@ -109,9 +109,9 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatc
   }
 }
 
-const createTags = (dispatch, tags) => tags.map(tag => ({
+const createTags = (dispatch, preTags, tags) => tags.map(tag => ({
   label: `#${tag.tag_name}`,
-  onPress: () => updateTmpTags(dispatch, tag.tag_name)
+  onPress: () => updateTmpTags(dispatch, preTags, tag.tag_name)
 }))
 
 // eslint-disable-next-line max-lines-per-function
@@ -125,7 +125,7 @@ export const SelectImages = ({navigation}) => {
   const [willUpdate, setWillUpdate] = useState(true)
   const [descriptionError, setDescriptionError] = useState([])
   const [productError, setProductError] = useState([])
-  const trendTags = createTags(postDispatch, suggestionTags)
+  const trendTags = createTags(postDispatch, tmpPost.tags, suggestionTags)
 
   useEffect(() => {
     (async () => {
