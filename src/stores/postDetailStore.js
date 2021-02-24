@@ -41,6 +41,7 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
     const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
     dispatch({type: FETCH_POST_USER, payload: user.getUserType})
+    fetchProductDetails(dispatch, post.getPostType.products_id)
     fetchViewCount(dispatch, post_id)
     fetchLikeCount(dispatch, post_id)
     checkLikePost(dispatch, myId, post_id)

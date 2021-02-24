@@ -1,11 +1,11 @@
-import React, {useContext, useEffect} from "react"
+import React, {useContext} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
 import {parseMasterData} from "../../helper/requestHelper"
 import {appStore} from "../../stores/appStore"
-import {updateLikePost, postDetailStore, fetchProductDetails, fetchUserPosts} from "../../stores/postDetailStore"
+import {updateLikePost, postDetailStore, fetchUserPosts} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
 
 // eslint-disable-next-line max-lines-per-function
@@ -222,11 +222,8 @@ const ProductInfo = ({navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {dispatch, state: {post, postUser}} = useContext(postDetailStore)
+  const {state: {post, postUser}} = useContext(postDetailStore)
   const styles = createStyles()
-  useEffect(() => {
-    fetchProductDetails(dispatch, post.products_id)
-  }, [post])
 
   return (
     <ScrollView style={styles.container}>

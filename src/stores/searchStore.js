@@ -1,8 +1,8 @@
 import React, {createContext, useReducer} from "react"
+import {Image} from "react-native"
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest, camelToSnake} from "../helper/requestHelper"
+import {apiRequest} from "../helper/requestHelper"
 import {listPostTypes, listProductTypes, listTagTypes} from "../graphql/queries"
-import {items} from "../../mock/db"
 
 export const initialState = {
   conditions: {},
@@ -57,6 +57,10 @@ export const fetchPosts = async (dispatch, tmpConditions) => {
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, {filter: filteredConditions})
     : await apiRequest(listPostTypes)
+  res.listPostTypes.items.forEach(post => {
+    Image.prefetch(post.thumbnail_img_src)
+    post.img_src_list.forEach(uri => Image.prefetch(uri))
+  })
   dispatch({type: FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
 }
 export const updateSearchResult = dispatch => {
