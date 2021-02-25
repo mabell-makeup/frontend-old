@@ -5,7 +5,6 @@ import {apiRequest} from "../helper/requestHelper"
 import {getUserType, listPostTypes} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
 import {addError} from "./appStore"
-import {uploadImage} from "../helper/imageHelper"
 
 const initialState = {
   is_logged_in: false,
@@ -138,7 +137,7 @@ export const updateUser = async (dispatch, tmpUser) => {
 export const fetchMyPosts = async (dispatch, user_id) => {
   try {
     const res = await apiRequest(listPostTypes, {filter: {user_id: {eq: user_id}}})
-    dispatch({type: UPDATE_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
+    dispatch({type: UPDATE_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
   } catch (error) {
     console.log("error fetch my posts: ", error)
   }

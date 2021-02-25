@@ -10,7 +10,6 @@ import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
-import {PostDetailProvider} from "../stores/postDetailStore"
 import {ItemDetail} from "../scenes/search/ItemDetail"
 import {SelectProducts} from "../scenes/search/SelectProducts"
 
@@ -65,4 +64,4 @@ const SearchScreenInner = ({navigation}) => {
   )
 }
 
-export const SearchScreen = props => <SearchProvider><PostDetailProvider><SearchScreenInner {...props} /></PostDetailProvider></SearchProvider>
+export const SearchScreen = props => <SearchProvider><SearchScreenInner {...props} /></SearchProvider>

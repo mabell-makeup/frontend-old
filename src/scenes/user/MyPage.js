@@ -5,6 +5,8 @@ import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
 import {appStore} from "../../stores/appStore"
 import {authStore, fetchMyPosts} from "../../stores/authStore"
+import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
+import {searchStore} from "../../stores/searchStore"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -95,11 +97,22 @@ const SelfIntroduction = ({user, M}) => {
   )
 }
 
+const createData = (posts, navigation, searchDispatch) => posts.map(post => ({
+  ...post,
+  onPress: async () => {
+    await fetchPostDetail(searchDispatch, post.id, post.DateTime)
+    navigation.navigate("PostDetail")
+  }
+}))
 
+
+// eslint-disable-next-line max-lines-per-function
 export const MyPage = ({navigation}) => {
   const {dispatch, state: {user}} = useContext(authStore)
   const {state: {masterData}} = useContext(appStore)
-
+  const {dispatch: postDetailDispatch} = useContext(postDetailStore)
+  const data = createData(user.posts, navigation, postDetailDispatch)
+  
   useEffect(() => {
     fetchMyPosts(dispatch, user.user_id)
   }, [])
@@ -108,6 +121,7 @@ export const MyPage = ({navigation}) => {
     <ScrollView>
       <View style={styles.userInfo}>
         <View style={styles.row}>
+          {/* eslint-disable-next-line no-undef */}
           <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
           <FollowInfo postCount={user.posts.length} />
         </View>
@@ -122,7 +136,7 @@ export const MyPage = ({navigation}) => {
         投稿する
       </Button>
       <Divider style={styles.divider} />
-      <ImageList data={user.posts} />
+      <ImageList data={data} />
     </ScrollView>
   )
 }

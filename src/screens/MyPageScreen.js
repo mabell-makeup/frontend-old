@@ -1,9 +1,10 @@
-import React, {useEffect} from "react"
+import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {MyPage} from "../scenes/user/MyPage"
 import {WINDOW_HEIGHT} from "../styles/constants"
 import {IconButton} from "react-native-paper"
 import {View} from "react-native"
+import {PostDetail} from "../scenes/user/PostDetail"
 
 const Stack = createStackNavigator()
 
@@ -26,15 +27,13 @@ const navigatorProps = ({
   }
 })
 
-export const MyPageScreen = ({navigation}) => {
-  useEffect(() => {
-    
-  })
+export const MyPageScreen = () => {
 
   return (
     <Stack.Navigator {...navigatorProps}>
       {/* eslint-disable-next-line react/display-name */}
       <Stack.Screen name="MyPage" component={MyPage} options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />})} />
+      <Stack.Screen name="PostDetail" component={PostDetail} />
     </Stack.Navigator>
   )
 }
