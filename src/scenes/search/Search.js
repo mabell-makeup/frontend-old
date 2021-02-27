@@ -6,7 +6,7 @@ import {SorryPage} from "../../components/SorryPage"
 
 const screens = [
   {label: "メイク", routeName: "SearchMakeup", key: "makeup", component: SelectConditions},
-  {label: "ユーザー", routeName: "SearchUser", key: "user", component: SorryPage}
+  // {label: "ユーザー", routeName: "SearchUser", key: "user", component: SorryPage}
 ]
 
 const createRows = (screens, dispatch, tmpConditions) => 
