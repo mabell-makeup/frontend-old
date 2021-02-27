@@ -92,7 +92,7 @@ export const addViewCount = post_id => {
 }
 export const fetchViewCount = async (dispatch, post_id) => {
   try {
-    const view = await apiRequest(listPostViewTypes, {filter: {post_id: {eq: post_id}}})
+    const view = await apiRequest(listPostViewTypes, {filter: {post_id: {eq: post_id}}, limit: 1000000})
     dispatch({type: UPDATE_POST_DETAIL, payload: {page_views: view.listPostViewTypes.items.length}})
   } catch (error) {
     console.log("error fetch view count: ", error)
@@ -100,7 +100,7 @@ export const fetchViewCount = async (dispatch, post_id) => {
 }
 export const fetchLikeCount = async (dispatch, post_id) => {
   try {
-    const view = await apiRequest(listPostLikeTypes, {filter: {post_id: {eq: post_id}}})
+    const view = await apiRequest(listPostLikeTypes, {filter: {post_id: {eq: post_id}}, limit: 1000000})
     dispatch({type: UPDATE_POST_DETAIL, payload: {like_count: view.listPostLikeTypes.items.length}})
   } catch (error) {
     console.log("error fetch like count: ", error)

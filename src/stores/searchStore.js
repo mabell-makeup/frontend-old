@@ -113,7 +113,7 @@ export const fetchProducts = async (dispatch, text) => {
 }
 export const fetchPostCount = async (dispatch, filteredConditions) => {
   try {
-    const res = await apiRequest(countPosts, {filter: filteredConditions, limit: 10000})
+    const res = await apiRequest(countPosts, {filter: filteredConditions, limit: 1000000})
     dispatch({type: UPDATE_RESULT_COUNT, payload: res ? res.listPostTypes.items.length : 0})
   } catch (error) {
     console.log("error fetch post count: ", error)

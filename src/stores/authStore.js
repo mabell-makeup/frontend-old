@@ -145,7 +145,7 @@ export const fetchMyPosts = async (dispatch, user_id) => {
 }
 export const fetchPostCount = async (dispatch, user_id) => {
   try {
-    const res = await apiRequest(countPosts, {filter: {user_id: {eq: user_id}}, limit: 10000})
+    const res = await apiRequest(countPosts, {filter: {user_id: {eq: user_id}}, limit: 1000000})
     dispatch({type: UPDATE_USER, payload: {post_count: res ? res.listPostTypes.items.length : 0}})
   } catch (error) {
     console.log("error fetch post count: ", error)
