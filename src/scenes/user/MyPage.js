@@ -6,7 +6,6 @@ import {ImageList} from "../../components/ImageList"
 import {appStore} from "../../stores/appStore"
 import {authStore, fetchMyPosts} from "../../stores/authStore"
 import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
-import {searchStore} from "../../stores/searchStore"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -114,8 +113,11 @@ export const MyPage = ({navigation}) => {
   const data = createData(user.posts, navigation, postDetailDispatch)
   
   useEffect(() => {
-    fetchMyPosts(dispatch, user.user_id)
-  }, [])
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchMyPosts(dispatch, user.user_id)
+    })
+    return unsubscribe
+  }, [navigation])
 
   return (
     <ScrollView>

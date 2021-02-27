@@ -1,5 +1,5 @@
 import React, {createContext, useReducer} from "react"
-import {createReducer, isEqual} from "../helper/storeHelper"
+import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {createPostType, createTagType} from "../graphql/mutations"
 import {listProductTypes, listTagTypes} from "../graphql/queries"
