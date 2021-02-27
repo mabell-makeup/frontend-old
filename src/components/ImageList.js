@@ -23,6 +23,7 @@ const renderItem = ({item}) =>
     <Image
       // eslint-disable-next-line no-undef
       source={item.imgSrc !== "" ? {uri: item.imgSrc} : require("../../assets/no_image.png")}
+      key={item.imgSrc}
       style={styles.imageStyle}
     />
   </TouchableHighlight>
