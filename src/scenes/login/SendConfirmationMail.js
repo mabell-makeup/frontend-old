@@ -4,6 +4,7 @@ import {View, StyleSheet, Text} from "react-native"
 import {authStore, confirmSignup, resendConfirmMail} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {appStore} from "../../stores/appStore"
+import {openContactPage} from "../../helper/contactHelper"
 
 const styles = StyleSheet.create({
   container: {
@@ -54,7 +55,7 @@ export const SendConfirmationMail = ({navigation}) => {
       <ErrorMessage messages={error} />
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => confirmSignup(dispatch, code, name, password, navigation, setError, appDispatch)}>次へ</Button>
       <Text style={styles.resendLink}><Text style={styles.link} onPress={() => resendConfirmMail(name, navigation)}>確認コードを再送する</Text></Text>
-      <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => navigation.navigate("")}>お問い合わせへ</Text></Text>
+      <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => openContactPage()}>お問い合わせへ</Text></Text>
     </View>
   )
 }

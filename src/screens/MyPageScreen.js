@@ -10,9 +10,9 @@ const Stack = createStackNavigator()
 
 const HeaderRightIcons = ({navigation}) => {
   return (
-    <View style={{flexDirection: "row", alignItems: "center", marginRight: 5}}>
+    <View style={{flexDirection: "row", alignItems: "center", marginRight: 10}}>
       <IconButton icon="plus" size={30} mode="outlined" onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})} />
-      <IconButton icon="account" size={30} mode="outlined" onPress={() => navigation.navigate("UserScreen", {screen: "UserInfoSetting"})} />
+      <IconButton icon="settings" size={26} mode="outlined" onPress={() => navigation.navigate("UserScreen", {screen: "UserInfoSetting"})} />
     </View>
   )
 }

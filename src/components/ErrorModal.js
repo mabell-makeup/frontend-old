@@ -15,7 +15,7 @@ export const ErrorModal = () => {
             <Paragraph>{error.message}</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => clearError(dispatch)}>Done</Button>
+            <Button onPress={() => clearError(dispatch)}>閉じる</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>

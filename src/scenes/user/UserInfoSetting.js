@@ -5,6 +5,7 @@ import {Avatar, Button, Title} from "react-native-paper"
 import {DatePicker} from "../../components/DatePicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
+import {openContactPage} from "../../helper/contactHelper"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {addError, appStore} from "../../stores/appStore"
 import {authStore, logout, updateUser} from "../../stores/authStore"
@@ -84,7 +85,6 @@ export const UserInfoSetting = ({navigation}) => {
           <View style={styles.container}>
             <View style={styles.toCenter}>
               {/* eslint-disable-next-line no-undef */}
-              {console.log(tmpUser.thumbnail_img_src)}
               <Avatar.Image size={90} source={tmpUser.thumbnail_img_src && tmpUser.thumbnail_img_src !== "" ? {uri: tmpUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
               <Text style={styles.selectImage} onPress={selectImage(tmpUser, setTmpUser)}>プロフィール写真を変更</Text>
             </View>
@@ -95,6 +95,9 @@ export const UserInfoSetting = ({navigation}) => {
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>
               <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} handleDatePicker={[dtPickerState, setDTPickerState]} />
+            </View>
+            <View style={styles.toCenter}>
+              <Text onPress={() => openContactPage()} style={styles.logout}>お問い合わせ</Text>
             </View>
             <View style={styles.toCenter}>
               <Text onPress={() => logout(dispatch)} style={styles.logout}>ログアウト</Text>
