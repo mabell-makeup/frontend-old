@@ -1,8 +1,10 @@
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
+import {PopupMenu} from "../../components/PopupMenu"
+import {openReportInappropriateContentPage} from "../../helper/contactHelper"
 import {parseMasterData} from "../../helper/requestHelper"
 import {appStore} from "../../stores/appStore"
 import {updateLikePost, postDetailStore, fetchUserPosts} from "../../stores/postDetailStore"
@@ -102,12 +104,16 @@ const createStyles = favorite => ({
   }
 })
 
+const menus = post_id => ([
+  // {title: "報告する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)}
+])
+
 const userFetchAction = (navigation, dispatch, user_id) => async () => {
   await fetchUserPosts(dispatch, user_id)
   navigation.navigate("UserHome")
 }
 
-const PostHeader = ({postUser, navigation}) => {
+const PostHeader = ({postUser, navigation, setShowMenu}) => {
   const {dispatch} = useContext(postDetailStore)
   const styles = createStyles()
 
@@ -123,7 +129,7 @@ const PostHeader = ({postUser, navigation}) => {
           subtitleStyle={styles.subTitle}
         />
       </TouchableOpacity>
-      <Appbar.Action style={styles.moreIcon} icon={MORE_ICON} onPress={() => {}} />
+      {/* <Appbar.Action style={styles.moreIcon} icon={MORE_ICON} onPress={() => setShowMenu(true)} /> */}
     </Appbar.Header>
   )
 }
@@ -223,16 +229,20 @@ const ProductInfo = ({navigation}) => {
 
 export const PostDetail = ({navigation}) => {
   const {state: {post, postUser}} = useContext(postDetailStore)
+  const [showMenu, setShowMenu] = useState(false)
   const styles = createStyles()
 
   return (
-    <ScrollView style={styles.container}>
-      <PostHeader postUser={postUser} navigation={navigation} />
-      <Carousel data={post.img_src_list} />
-      <ReactionContainer />
-      {/* <ProductInfo navigation={navigation} /> */}
-      <PostInfo navigation={navigation} />
-      {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
-    </ScrollView>
+    <>
+      <ScrollView style={styles.container}>
+        <PostHeader postUser={postUser} navigation={navigation} setShowMenu={setShowMenu} />
+        <Carousel data={post.img_src_list} />
+        <ReactionContainer />
+        {/* <ProductInfo navigation={navigation} /> */}
+        <PostInfo navigation={navigation} />
+        {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
+      </ScrollView>
+      <PopupMenu menus={menus(post.post_id)} handleShown={[showMenu, setShowMenu]} />
+    </>
   )
 }
