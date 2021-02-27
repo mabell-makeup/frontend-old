@@ -1,9 +1,9 @@
 import {Alert, Linking} from "react-native"
 
-export const openContactPage = async () => {
-  const supported = await Linking.canOpenURL("https://forms.gle/BJ1aSdUmn5ukG35c7")
+export const openContactPage = async (name="", mail="") => {
+  const supported = await Linking.canOpenURL(`https://docs.google.com/forms/d/e/1FAIpQLSfPXxKkNNBnOj1H6R6_YRTMlG7G30J5tzxq9Zg-UOG4gs2ybA/viewform?usp=pp_url&entry.2005620554=${name}&entry.1045781291=${mail}`)
   if (supported) {
-    await Linking.openURL("https://forms.gle/BJ1aSdUmn5ukG35c7")
+    await Linking.openURL(`https://docs.google.com/forms/d/e/1FAIpQLSfPXxKkNNBnOj1H6R6_YRTMlG7G30J5tzxq9Zg-UOG4gs2ybA/viewform?usp=pp_url&entry.2005620554=${name}&entry.1045781291=${mail}`)
   } else {
     Alert.alert(
       "Error",

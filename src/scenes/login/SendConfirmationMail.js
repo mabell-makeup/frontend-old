@@ -55,7 +55,7 @@ export const SendConfirmationMail = ({navigation}) => {
       <ErrorMessage messages={error} />
       <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => confirmSignup(dispatch, code, name, password, navigation, setError, appDispatch)}>次へ</Button>
       <Text style={styles.resendLink}><Text style={styles.link} onPress={() => resendConfirmMail(name, navigation)}>確認コードを再送する</Text></Text>
-      <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => openContactPage()}>お問い合わせへ</Text></Text>
+      <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => openContactPage(name, email)}>お問い合わせへ</Text></Text>
     </View>
   )
 }

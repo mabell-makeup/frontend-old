@@ -97,7 +97,7 @@ export const UserInfoSetting = ({navigation}) => {
               <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} handleDatePicker={[dtPickerState, setDTPickerState]} />
             </View>
             <View style={styles.toCenter}>
-              <Text onPress={() => openContactPage()} style={styles.logout}>お問い合わせ</Text>
+              <Text onPress={() => openContactPage(user.name, user.email)} style={styles.logout}>お問い合わせ</Text>
             </View>
             <View style={styles.toCenter}>
               <Text onPress={() => logout(dispatch)} style={styles.logout}>ログアウト</Text>
