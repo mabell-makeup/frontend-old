@@ -34,24 +34,23 @@ export const listPostTypes = /* GraphQL */ `
     listPostTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         post_id
-        user_id
         img_src_list
         thumbnail_img_src
-        tags
-        description
-        page_views
-        like_count
-        base_color
-        season
-        face_type
-        color
-        country
-        parts
-        products_id
-        makeup_categories
-        glitter
         DateTime
-        gender
+      }
+      nextToken
+    }
+  }
+`;
+export const countPosts = /* GraphQL */ `
+  query ListPostTypes(
+    $filter: TablePostTypeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPostTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        post_id
       }
       nextToken
     }

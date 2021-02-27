@@ -4,7 +4,7 @@ import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
 import {appStore} from "../../stores/appStore"
-import {authStore, fetchMyPosts} from "../../stores/authStore"
+import {authStore, fetchMyPosts, fetchPostCount} from "../../stores/authStore"
 import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
 
 const styles = StyleSheet.create({
@@ -61,11 +61,13 @@ const styles = StyleSheet.create({
   }
 })
 
-const FollowInfo = ({postCount}) => {
+const FollowInfo = () => {
+  const {state: {user: {post_count}}} = useContext(authStore)
+
   return (
     <View style={styles.followInfoContainer}>
       <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>{postCount ? postCount : 0}</Text>
+        <Text style={styles.bold}>{post_count ? post_count : 0}</Text>
         <Text>投稿</Text>
       </View>
       <View style={styles.followInfoItem}>
@@ -115,6 +117,7 @@ export const MyPage = ({navigation}) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       fetchMyPosts(dispatch, user.user_id)
+      fetchPostCount(dispatch, user.user_id)
     })
     return unsubscribe
   }, [navigation])
@@ -125,7 +128,7 @@ export const MyPage = ({navigation}) => {
         <View style={styles.row}>
           {/* eslint-disable-next-line no-undef */}
           <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
-          <FollowInfo postCount={user.posts.length} />
+          <FollowInfo />
         </View>
         <SelfIntroduction user={user} M={masterData} />
       </View>

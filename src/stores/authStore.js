@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
-import {getUserType, listPostTypes} from "../graphql/queries"
+import {getUserType, listPostTypes, countPosts} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
 import {addError} from "./appStore"
 
@@ -26,7 +26,8 @@ const initialState = {
     birthdate: "",
     thumbnail_img_src: "",
     posts: [],
-    skin_type: ""
+    skin_type: "",
+    post_count: 0
   }
 }
 
@@ -140,6 +141,14 @@ export const fetchMyPosts = async (dispatch, user_id) => {
     dispatch({type: UPDATE_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
   } catch (error) {
     console.log("error fetch my posts: ", error)
+  }
+}
+export const fetchPostCount = async (dispatch, user_id) => {
+  try {
+    const res = await apiRequest(countPosts, {filter: {user_id: {eq: user_id}}, limit: 10000})
+    dispatch({type: UPDATE_USER, payload: {post_count: res ? res.listPostTypes.items.length : []}})
+  } catch (error) {
+    console.log("error fetch post count: ", error)
   }
 }
 
