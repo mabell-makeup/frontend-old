@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react"
 import {Image} from "react-native"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {listPostTypes, listProductTypes, listTagTypes} from "../graphql/queries"
+import {countPosts, listPostTypes, listProductTypes, listTagTypes} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
@@ -10,6 +10,7 @@ export const initialState = {
   suggestionProducts: [],
   searchResult: [],
   tmpResult: [],
+  post_count: 0,
   tmpConditions: {
     base_color: "",
     season: "",
@@ -36,6 +37,7 @@ const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
 const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
+const UPDATE_RESULT_COUNT = "UPDATE_RESULT_COUNT"
 
 
 // Define ActionCreator
@@ -57,6 +59,7 @@ export const fetchPosts = async (dispatch, tmpConditions) => {
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, {filter: filteredConditions})
     : await apiRequest(listPostTypes)
+  fetchPostCount(dispatch, filteredConditions)
   res.listPostTypes.items.forEach(post => {
     Image.prefetch(post.thumbnail_img_src)
     post.img_src_list.forEach(uri => Image.prefetch(uri))
@@ -108,7 +111,14 @@ export const fetchProducts = async (dispatch, text) => {
     console.log("error fetch products: ", error)
   }
 }
-
+export const fetchPostCount = async (dispatch, filteredConditions) => {
+  try {
+    const res = await apiRequest(countPosts, {filter: filteredConditions, limit: 10000})
+    dispatch({type: UPDATE_RESULT_COUNT, payload: res ? res.listPostTypes.items.length : 0})
+  } catch (error) {
+    console.log("error fetch post count: ", error)
+  }
+}
 
 // Defin Provider
 const {Provider} = searchStore
@@ -122,7 +132,8 @@ const SearchProvider = ({children}) => {
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
     [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
     [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
-    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}})
+    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
+    [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }

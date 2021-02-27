@@ -77,7 +77,7 @@ const createTrendProducts = (dispatch, tmpConditions, products) => products.map(
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectConditions = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, suggestionTags, suggestionProducts}} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions, suggestionTags, suggestionProducts, post_count}} = useContext(searchStore)
 
   useEffect(() => {
     fetchTrendTags(dispatch)
@@ -123,7 +123,7 @@ export const SelectConditions = ({navigation}) => {
       <ScrollView>
         <List rows={rows} />
       </ScrollView>
-      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>絞り込む</Button>
+      <Button mode="contained" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={handlePress(dispatch, navigation)} disabled={isEqual(initialState.tmpConditions, tmpConditions)}>{`絞り込む ${post_count}件`}</Button>
     </>
   )
 }
