@@ -6,25 +6,25 @@ import {searchStore, updateSearchResult, updateTmpConditions} from "../../stores
 import {Women} from "./Women"
 
 
-const createItems = (screens, dispatch, tmpConditions, searchResult) => 
+const createItems = (screens, dispatch, tmpConditions) => 
   screens.map(({label, key}) => ({
     label,
     routeName: label,
     component: Women,
     key,
-    listeners: {focus: () => changeTab(dispatch, tmpConditions, key, searchResult)}
+    listeners: {focus: () => changeTab(dispatch, tmpConditions, key)}
   }))
 
-const changeTab = async (dispatch, tmpConditions, key, searchResult) => {
-  await updateTmpConditions(dispatch, tmpConditions, searchResult.length === 0 ? {} : {gender: key})
+const changeTab = async (dispatch, tmpConditions, key) => {
+  await updateTmpConditions(dispatch, tmpConditions, {gender: key})
   updateSearchResult(dispatch)
 }
 
 export const NewsFeed = () => {
-  const {dispatch, state: {tmpConditions, searchResult}} = useContext(searchStore)
+  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
   const {state: {masterData}} = useContext(appStore)
   const genders = parseMasterData(masterData, "gender")
-  const items = createItems(genders, dispatch, tmpConditions, searchResult)
+  const items = createItems(genders, dispatch, tmpConditions)
 
   return <TopNavigation items={items} />
 }
