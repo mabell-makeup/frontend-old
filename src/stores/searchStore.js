@@ -22,7 +22,8 @@ export const initialState = {
     makeup_categories: "",
     products: [],
     tags: []
-  }
+  },
+  nextToken: ""
 }
 
 // Define Store
@@ -31,6 +32,7 @@ const searchStore = createContext(initialState)
 // Define Types
 const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
 const FETCH_POSTS = "FETCH_POSTS"
+const UPDATE_POSTS = "UPDATE_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
 const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
@@ -38,6 +40,7 @@ const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
 const UPDATE_RESULT_COUNT = "UPDATE_RESULT_COUNT"
+const UPDATE_NEXT_TOKEN = "UPDATE_NEXT_TOKEN"
 
 
 // Define ActionCreator
@@ -51,20 +54,22 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
   dispatch({type: UPDATE_TMP_CONDITIONS, payload})
   await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
-export const fetchPosts = async (dispatch, tmpConditions) => {
+// eslint-disable-next-line complexity
+export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   const filteredConditions = Object.fromEntries(Object.entries({...tmpConditions, products_id: tmpConditions.products.map(p => p.product_id)})
     .filter(([, val]) => Array.isArray(val) ? val.length > 0 : typeof val !== "undefined" && val !== "")
     .map(([key, val]) => (Array.isArray(val) ? ["and", val.map(item => ({[key]: {contains: item}}))] : [key, {eq: val}]))
   )
   const res = Object.keys(filteredConditions).length > 0
-    ? await apiRequest(listPostTypes, {filter: filteredConditions})
-    : await apiRequest(listPostTypes)
+    ? await apiRequest(listPostTypes, nextToken ? {filter: filteredConditions, nextToken} : {filter: filteredConditions})
+    : await apiRequest(listPostTypes, nextToken ? {nextToken} : undefined)
   fetchPostCount(dispatch, filteredConditions)
   res.listPostTypes.items.forEach(post => {
     Image.prefetch(post.thumbnail_img_src)
     post.img_src_list.forEach(uri => Image.prefetch(uri))
   })
-  dispatch({type: FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
+  dispatch({type: nextToken ? UPDATE_POSTS : FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
+  dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken ? res.listPostTypes.nextToken : ""})
 }
 export const updateSearchResult = dispatch => {
   dispatch({type: UPDATE_SEARCH_RESULT})
@@ -127,13 +132,15 @@ const SearchProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
     [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
+    [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
     [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
     [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
     [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
     [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
     [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
     [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
-    [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload})
+    [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload}),
+    [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }

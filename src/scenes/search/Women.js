@@ -1,6 +1,6 @@
 import React, {useContext} from "react"
 import {ImageList} from "../../components/ImageList"
-import {searchStore} from "../../stores/searchStore"
+import {fetchPosts, searchStore, updateSearchResult} from "../../stores/searchStore"
 import {authStore} from "../../stores/authStore"
 import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
@@ -13,14 +13,22 @@ const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) =
   }
 }))
 
+const loadMore = (searchDispatch, tmpConditions, nextToken) => async () => {
+  await fetchPosts(searchDispatch, tmpConditions, nextToken)
+  updateSearchResult(searchDispatch)
+}
+
 export const Women = ({navigation}) => {
-  const {state: {searchResult}} = useContext(searchStore)
+  const {dispatch: searchDispatch, state: {searchResult, tmpConditions, nextToken}} = useContext(searchStore)
   const {state: {user: {user_id}}} = useContext(authStore)
   const {dispatch} = useContext(postDetailStore)
 
   return (
     <>
-      <ImageList data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)} />
+      <ImageList
+        data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
+        onEndReached={loadMore(searchDispatch, tmpConditions, nextToken)}
+      />
       {/* <UserInfoToggleGroup /> */}
     </>
   )
