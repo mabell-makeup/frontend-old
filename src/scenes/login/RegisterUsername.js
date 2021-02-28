@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react"
 import {Button, TextInput, Title} from "react-native-paper"
 import {View, StyleSheet} from "react-native"
-import {authStore, signup} from "../../stores/authStore"
+import {authStore, signup, updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
 import {addError, appStore} from "../../stores/appStore"
@@ -40,6 +40,7 @@ const onSubmit = (text, setError, dispatch, new_user, navigation, appDispatch) =
   if (messages.length === 0) {
     try {
       await signup(dispatch, {...new_user, name: text})
+      await updateNewUser(dispatch, {name: text, nickname: text})
       navigation.reset({index: 0, routes: [{name: "SendConfirmationMail"}]})
     } catch (error) {
       error.code === "UsernameExistsException"
