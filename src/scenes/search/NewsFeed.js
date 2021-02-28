@@ -16,7 +16,7 @@ const createItems = (screens, dispatch, tmpConditions) =>
   }))
 
 const changeTab = async (dispatch, tmpConditions, key) => {
-  await updateTmpConditions(dispatch, tmpConditions, {gender: key})
+  await updateTmpConditions(dispatch, tmpConditions, {gender: key}, false)
   updateSearchResult(dispatch)
 }
 
