@@ -14,8 +14,8 @@ const createRows = (screens, dispatch, tmpConditions) =>
     label,
     routeName,
     key,
-    component,
-    listeners: {tabPress: () => updateTmpConditions(dispatch, tmpConditions, {target: key})}
+    component
+    // listeners: {tabPress: () => updateTmpConditions(dispatch, tmpConditions, {target: key})}
   }))
 
 export const Search = () => {
