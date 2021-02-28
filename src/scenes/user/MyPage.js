@@ -1,6 +1,5 @@
 import React, {useContext, useEffect} from "react"
-import {View, Text, StyleSheet} from "react-native"
-import {ScrollView} from "react-native-gesture-handler"
+import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
 import {appStore} from "../../stores/appStore"
@@ -100,16 +99,23 @@ const SelfIntroduction = ({user, M}) => {
 
 const createData = (posts, navigation, searchDispatch) => posts.map(post => ({
   ...post,
+  id: post.id,
   onPress: async () => {
     await fetchPostDetail(searchDispatch, post.id, post.DateTime)
     navigation.navigate("PostDetail")
   }
 }))
 
+// スクロールエンドの判定を行う
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const paddingToBottom = 20
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+}
 
 // eslint-disable-next-line max-lines-per-function
 export const MyPage = ({navigation}) => {
-  const {dispatch, state: {user}} = useContext(authStore)
+  const {dispatch, state: {user, nextToken}} = useContext(authStore)
   const {state: {masterData}} = useContext(appStore)
   const {dispatch: postDetailDispatch} = useContext(postDetailStore)
   const data = createData(user.posts, navigation, postDetailDispatch)
@@ -123,7 +129,12 @@ export const MyPage = ({navigation}) => {
   }, [navigation])
 
   return (
-    <ScrollView>
+    <ScrollView
+      onScroll={({nativeEvent}) => {
+        isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)
+      }}
+      scrollEventThrottle={400}
+    >
       <View style={styles.userInfo}>
         <View style={styles.row}>
           {/* eslint-disable-next-line no-undef */}
@@ -141,7 +152,7 @@ export const MyPage = ({navigation}) => {
         投稿する
       </Button>
       <Divider style={styles.divider} />
-      <ImageList data={data} />
+      <ImageList data={data} scrollEnabled={false} />
     </ScrollView>
   )
 }
