@@ -1,18 +1,10 @@
 import React from "react"
 import {StyleSheet, View} from "react-native"
 import {Menu} from "react-native-paper"
-import {WINDOW_HEIGHT, WINDOW_WIDTH} from "../styles/constants"
+import {WINDOW_WIDTH} from "../styles/constants"
+import {Overlay} from "./Overlay"
 
 const styles = StyleSheet.create({
-  background: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: WINDOW_WIDTH,
-    height: WINDOW_HEIGHT,
-    backgroundColor: "rgba(0, 0, 0, 0.7)"
-  },
   container: {
     backgroundColor: "#ddd",
     borderRadius: 18,
@@ -47,10 +39,10 @@ export const PopupMenu = ({handleShown=[false, ()=>{}], menus=[{title: "", onPre
   const [isShown, setIsShown] = handleShown
 
   return isShown &&
-    <View style={styles.background}>
+    <Overlay>
       <View style={styles.container}>
         {menus.map((menu, idx) => <Menu.Item style={styles.item} key={idx} title={menu.title} icon={menu.icon} onPress={menu.onPress} />)}
       </View>
       <Menu.Item style={styles.close} titleStyle={styles.closeLabel} title="閉じる" onPress={() => setIsShown(false)} />
-    </View>
+    </Overlay>
 }

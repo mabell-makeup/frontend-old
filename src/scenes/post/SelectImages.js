@@ -22,6 +22,7 @@ import {WINDOW_WIDTH} from "../../styles/constants"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
 import {rules, validate} from "../../helper/validateHelper"
 import {ErrorMessage} from "../../components/ErrorMessage"
+import {Loading} from "../../components/Loading"
 
 const styles = {
   container: {
@@ -100,15 +101,19 @@ const registerPost = async (tmpPost, appDispatch) => {
   }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError) => async () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError, setIsLoading) => async () => {
   const descriptionError = validate(tmpPost.description, [{testFunc: rules.require.testFunc, message: "キャプションを入力してください"}])
   const productError = validate(tmpPost.products, [{testFunc: rules.require.testFunc, message: "使用アイテムを選択してください"}])
   setDescriptionError(descriptionError)
   setProductError(productError)
   if (descriptionError.length === 0 && productError.length === 0) {
+    setIsLoading(true)
     await registerPost(tmpPost, appDispatch)
     willUpdate && await updateUser(dispatch, tmpUser)
-    navigation.goBack()
+    setTimeout(() => {
+      setIsLoading(false)
+      navigation.goBack()
+    }, 3000)
   }
 }
 
@@ -132,6 +137,7 @@ export const SelectImages = ({navigation}) => {
   const [willUpdate, setWillUpdate] = useState(false)
   const [descriptionError, setDescriptionError] = useState([])
   const [productError, setProductError] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const trendTags = createTrendTags(postDispatch, tmpPost.tags, suggestionTags)
   const trendProducts = createTrendProducts(postDispatch, tmpPost.products, suggestionProducts)
 
@@ -216,9 +222,10 @@ export const SelectImages = ({navigation}) => {
         mode="contained"
         style={styles.button}
         contentStyle={styles.buttonContentStyle}
-        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError)}
+        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError, setIsLoading)}
         disabled={tmpPost.description === "" || tmpPost.products.length === 0}
       >投稿する</Button>
+      <Loading isLoading={isLoading} />
     </>
   )
 }
