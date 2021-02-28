@@ -47,7 +47,7 @@ const SearchScreenInner = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags} style={{maxHeight: 35}} />,
+        headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags.join(" ")} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={{
