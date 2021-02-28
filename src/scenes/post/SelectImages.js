@@ -100,14 +100,14 @@ const registerPost = async (tmpPost, appDispatch) => {
   }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError) => () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError) => async () => {
   const descriptionError = validate(tmpPost.description, [{testFunc: rules.require.testFunc, message: "キャプションを入力してください"}])
   const productError = validate(tmpPost.products, [{testFunc: rules.require.testFunc, message: "使用アイテムを選択してください"}])
   setDescriptionError(descriptionError)
   setProductError(productError)
   if (descriptionError.length === 0 && productError.length === 0) {
-    registerPost(tmpPost, appDispatch)
-    willUpdate && updateUser(dispatch, tmpUser)
+    await registerPost(tmpPost, appDispatch)
+    willUpdate && await updateUser(dispatch, tmpUser)
     navigation.goBack()
   }
 }
