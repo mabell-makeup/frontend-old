@@ -3,6 +3,7 @@ import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
+import {Loading} from "../../components/Loading"
 import {PopupMenu} from "../../components/PopupMenu"
 import {openReportInappropriateContentPage} from "../../helper/contactHelper"
 import {parseMasterData} from "../../helper/requestHelper"
@@ -228,7 +229,7 @@ const ProductInfo = ({navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {state: {post, postUser}} = useContext(postDetailStore)
+  const {state: {post, postUser, isLoading}} = useContext(postDetailStore)
   const [showMenu, setShowMenu] = useState(false)
   const styles = createStyles()
 
@@ -243,6 +244,7 @@ export const PostDetail = ({navigation}) => {
         {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
       </ScrollView>
       <PopupMenu menus={menus(post.post_id)} handleShown={[showMenu, setShowMenu]} />
+      <Loading isLoading={isLoading} />
     </>
   )
 }

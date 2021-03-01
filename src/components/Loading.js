@@ -7,7 +7,7 @@ import {Overlay} from "./Overlay"
 const styles = StyleSheet.create({
   spinner: {
     position: "absolute",
-    bottom: WINDOW_HEIGHT / 2,
+    top: WINDOW_HEIGHT / 3,
     left: 0,
     right: 0
   }

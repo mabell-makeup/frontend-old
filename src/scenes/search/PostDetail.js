@@ -3,6 +3,7 @@ import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
 import {ChipList} from "../../components/ChipList"
+import {Loading} from "../../components/Loading"
 import {PopupMenu} from "../../components/PopupMenu"
 import {openReportInappropriateContentPage} from "../../helper/contactHelper"
 import {parseMasterData} from "../../helper/requestHelper"
@@ -138,29 +139,32 @@ const displayItemsList = ["base_color", "season", "face_type", "skin_type"]
 
 // eslint-disable-next-line complexity
 const PostInfo = ({navigation}) => {
-  const {state: {post, products}} = useContext(postDetailStore)
+  const {state: {post, products, isLoading}} = useContext(postDetailStore)
   const {state: {masterData}} = useContext(appStore)
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
 
   return (
-    <View style={styles.infoContainer}>
-      <Text style={styles.description}>{post.description}</Text>
-      <View style={styles.createdAt}>
-        <IconButton size={15} icon="clock" style={{margin: 0}} />
-        <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
+    <>
+      <View style={styles.infoContainer}>
+        <Text style={styles.description}>{post.description}</Text>
+        <View style={styles.createdAt}>
+          <IconButton size={15} icon="clock" style={{margin: 0}} />
+          <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
+        </View>
+        <View style={styles.tag}>
+          <Title style={styles.tagTitle}>ユーザー情報</Title>
+          {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+          <Title style={styles.tagTitle}>アイテム</Title>
+          {products.length > 0 ? <ChipList items={products.map(product => ({label: product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+          <Title style={styles.tagTitle}>ブランド</Title>
+          {products.length > 0 ? <ChipList items={products.map(product => ({label: product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+          <Title style={styles.tagTitle}>タグ</Title>
+          {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        </View>
       </View>
-      <View style={styles.tag}>
-        <Title style={styles.tagTitle}>ユーザー情報</Title>
-        {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
-        <Title style={styles.tagTitle}>アイテム</Title>
-        {products.length > 0 ? <ChipList items={products.map(product => ({label: product.product_name, onPress: () => navigation.navigate("ProductDetail")}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
-        <Title style={styles.tagTitle}>ブランド</Title>
-        {products.length > 0 ? <ChipList items={products.map(product => ({label: product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
-        <Title style={styles.tagTitle}>タグ</Title>
-        {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
-      </View>
-    </View>
+      <Loading isLoading={isLoading} />
+    </>
   )
 }
 

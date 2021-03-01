@@ -20,7 +20,8 @@ export const initialState = {
   products: [],
   postUser: {
     posts: []
-  }
+  },
+  isLoading: false
 }
 
 // Define Store
@@ -33,19 +34,24 @@ const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
 const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL"
 const FETCH_USER_POSTS = "FETCH_USER_POSTS"
 const UPDATE_POST_DETAIL = "UPDATE_POST_DETAIL"
+const UPDATE_LOADING = "UPDATE_LOADING"
 
 // Define ActionCreator
 export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
   try {
+    dispatch({type: UPDATE_LOADING, payload: true})
     const post = await apiRequest(getPostType, {post_id, DateTime})
     dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
     const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
     dispatch({type: FETCH_POST_USER, payload: user.getUserType})
-    fetchProductDetails(dispatch, post.getPostType.products_id)
-    fetchViewCount(dispatch, post_id)
-    fetchLikeCount(dispatch, post_id)
-    checkLikePost(dispatch, myId, post_id)
-    addViewCount(post_id)
+    await Promise.all([
+      fetchProductDetails(dispatch, post.getPostType.products_id),
+      fetchViewCount(dispatch, post_id),
+      fetchLikeCount(dispatch, post_id),
+      checkLikePost(dispatch, myId, post_id),
+      addViewCount(post_id)
+    ])
+    dispatch({type: UPDATE_LOADING, payload: false})
   } catch (error) {
     console.log("fetch post detail error:", error)
   }
@@ -83,7 +89,7 @@ export const fetchUserPosts = async (dispatch, user_id) => {
     console.log("error fetch my posts: ", error)
   }
 }
-export const addViewCount = post_id => {
+export const addViewCount = async post_id => {
   try {
     apiRequest(createPostViewType, {input: {post_id}})
   } catch (error) {
@@ -117,7 +123,8 @@ const PostDetailProvider = ({children}) => {
     [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
     [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
     [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload}),
-    [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}})
+    [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}}),
+    [UPDATE_LOADING]: (state, {payload}) => ({...state, isLoading: payload})
   }), initialState)
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
