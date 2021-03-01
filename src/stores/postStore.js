@@ -68,10 +68,10 @@ export const fetchTags = async (dispatch, text) => {
     console.log("error fetch tags: ", error)
   }
 }
-export const createTag = async (dispatch, text) => {
+export const createTag = async (dispatch, preTags, text) => {
   try {
     await apiRequest(createTagType, {input: {tag_name: text, count: 0}})
-    updateTmpTags(dispatch, text)
+    updateTmpTags(dispatch, preTags, text)
   } catch (error) {
     console.log("error create tag: ", error)
   }

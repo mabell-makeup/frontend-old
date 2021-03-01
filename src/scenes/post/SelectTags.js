@@ -32,8 +32,8 @@ const createRows = (dispatch, preTags, tags, navigation) =>
     }
   }))
 
-const onPress = (dispatch, text, navigation, suggestionTags) => () => {
-  suggestionTags.map(tag => tag.tag_name).includes(text) ? updateTmpTags(dispatch, text) : createTag(dispatch, text)
+const onPress = (dispatch, preTags, text, navigation, suggestionTags) => () => {
+  suggestionTags.map(tag => tag.tag_name).includes(text) ? updateTmpTags(dispatch, preTags, text) : createTag(dispatch, preTags, text)
   navigation.goBack()
 }
 
@@ -59,7 +59,7 @@ export const SeletcTags = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <ChipList items={rows} />
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onPress(dispatch, text, navigation, suggestionTags)}>タグを追加</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onPress(dispatch, tags, text, navigation, suggestionTags)}>タグを追加</Button>
     </ScrollView>
   )
 }
