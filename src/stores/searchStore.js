@@ -68,8 +68,8 @@ export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
     Image.prefetch(post.thumbnail_img_src)
     post.img_src_list.forEach(uri => Image.prefetch(uri))
   })
-  dispatch({type: nextToken ? UPDATE_POSTS : FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
-  dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken ? res.listPostTypes.nextToken : ""})
+  await dispatch({type: nextToken ? UPDATE_POSTS : FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
+  await dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken && res.listPostTypes.nextToken !== "" ? res.listPostTypes.nextToken : ""})
 }
 export const updateSearchResult = dispatch => {
   dispatch({type: UPDATE_SEARCH_RESULT})

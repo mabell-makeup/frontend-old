@@ -14,8 +14,10 @@ const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) =
 }))
 
 const loadMore = (searchDispatch, tmpConditions, nextToken) => async () => {
-  await fetchPosts(searchDispatch, tmpConditions, nextToken)
-  updateSearchResult(searchDispatch)
+  if (nextToken !== "") {
+    await fetchPosts(searchDispatch, tmpConditions, nextToken)
+    updateSearchResult(searchDispatch)
+  }
 }
 
 export const Women = ({navigation}) => {
