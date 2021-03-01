@@ -4,7 +4,7 @@ import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
 import {getUserType, listPostTypes, countPosts} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
-import {addError} from "./appStore"
+import {addError, fetchMasterData} from "./appStore"
 
 const initialState = {
   is_logged_in: false,
@@ -52,9 +52,9 @@ const UPDATE_NEXT_TOKEN = "UPDATE_NEXT_TOKEN"
 export const login = async (navigation, dispatch, name, password, appDispatch) => {
   try {
     const user = await Auth.signIn(name, password)
-    dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
     await fetchUser(dispatch, user.attributes.sub)
-    navigation.navigate("TabScreen", {screen: "HomeScreen"})
+    await fetchMasterData(appDispatch)
+    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
   } catch (e) {
     console.log("error signing in", e)
     dispatch({type: LOGIN_FAILURE, payload: e.message})
