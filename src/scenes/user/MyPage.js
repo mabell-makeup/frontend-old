@@ -69,14 +69,14 @@ const FollowInfo = () => {
         <Text style={styles.bold}>{post_count ? post_count : 0}</Text>
         <Text>投稿</Text>
       </View>
-      <View style={styles.followInfoItem}>
+      {/* <View style={styles.followInfoItem}>
         <Text style={styles.bold}>0</Text>
         <Text>フォロワー</Text>
-      </View>
-      <View style={styles.followInfoItem}>
+      </View> */}
+      {/* <View style={styles.followInfoItem}>
         <Text style={styles.bold}>0</Text>
         <Text>フォロー中</Text>
-      </View>
+      </View> */}
     </View>
   )
 }
