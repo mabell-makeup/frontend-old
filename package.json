@@ -9,6 +9,8 @@
     "android:dev": "NODE_ENV=development expo start --android",
     "ios:dev": "NODE_ENV=development expo start --ios",
     "web:dev": "NODE_ENV=development expo start --web",
+    "build:ios": "NODE_ENV=production expo build:ios",
+    "build:android": "NODE_ENV=production expo build:android",
     "eject": "expo eject",
     "mock": "node ./mock/imgServer/server.js",
     "clearCache": "NODE_ENV=development expo start --clear"

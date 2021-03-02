@@ -1,7 +1,7 @@
 export default {
-  name: "Joker",
+  name: "mabell",
   version: "1.0.0",
-  slug: "joker",
+  slug: "mabell",
   orientation: "portrait",
   icon: "./assets/icon.png",
   splash: {
@@ -16,7 +16,9 @@ export default {
     "**/*"
   ],
   ios: {
-    supportsTablet: true
+    supportsTablet: true,
+    bundleIdentifier: "com.makeup.mabell",
+    buildNumber: "1.0.0"
   },
   web: {
     favicon: "./assets/favicon.png"
