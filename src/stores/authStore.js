@@ -98,7 +98,7 @@ export const confirmSignup = async (dispatch, code, name, password, navigation, 
     setError(["確認コードが間違っています"])
   }
   try {
-    await login(navigation, dispatch, name, password)
+    await login(navigation, dispatch, name, password, appDispatch)
     await createUser(dispatch, {name, nickname: name})
   } catch (error) {
     console.log("error confirmSignup:", error)
