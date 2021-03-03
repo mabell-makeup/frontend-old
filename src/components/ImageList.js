@@ -1,14 +1,16 @@
-import React, {useState} from "react"
+import React from "react"
 import {FlatList, StyleSheet, Image, TouchableHighlight, View} from "react-native"
-import {ActivityIndicator} from "react-native-paper"
 import {WINDOW_WIDTH} from "../styles/constants"
 
 const styles = StyleSheet.create({
   imageStyle: {
     width: (WINDOW_WIDTH-6) / 3,
     height: WINDOW_WIDTH / 3,
-    margin: 1,
     resizeMode: "cover"
+  },
+  imageBackground: {
+    backgroundColor: "#333",
+    margin: 1
   },
   spinner: {
     position: "absolute",
@@ -20,19 +22,14 @@ const styles = StyleSheet.create({
 })
 
 const Item = ({item}) => {
-  const [isLoading, setIsLoading] = useState(false)
-
   return (
     <TouchableHighlight onPress={item.onPress}>
-      <View>
+      <View style={styles.imageBackground}>
         <Image
           // eslint-disable-next-line no-undef
           source={item.imgSrc !== "" ? {uri: item.imgSrc} : require("../../assets/no_image.png")}
           style={styles.imageStyle}
-          onLoadStart={() => setIsLoading(true)}
-          onLoadEnd={() => setIsLoading(false)}
         />
-        <ActivityIndicator animating={isLoading} color="tomato" style={styles.spinner} />
       </View>
     </TouchableHighlight>
   )
