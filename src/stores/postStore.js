@@ -16,7 +16,9 @@ export const initialState = {
     tags: [],
     makeup_categories: "",
     country: "",
-    description: ""
+    description: "",
+    img_src_list: [],
+    thumbnail_img_src: ""
   },
   suggestionTags: [],
   suggestionProducts: []

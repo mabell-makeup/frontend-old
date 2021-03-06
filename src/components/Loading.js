@@ -16,5 +16,5 @@ const styles = StyleSheet.create({
 export const Loading = ({isLoading=false}) =>
   isLoading &&
     <Overlay>
-      <ActivityIndicator animating={isLoading} color="tomato" size="large" style={styles.spinner} />
+      <ActivityIndicator animating={isLoading} color="#FF7F50" size="large" style={styles.spinner} />
     </Overlay>

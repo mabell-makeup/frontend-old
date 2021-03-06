@@ -2,7 +2,7 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
 import React, {useContext, useState, useEffect} from "react"
-import {View, Image, Platform, TextInput, Text} from "react-native"
+import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
 import {createPost, fetchTrendProducts, fetchTrendTags, postStore, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
@@ -26,22 +26,34 @@ import {Loading} from "../../components/Loading"
 
 const styles = {
   container: {
-    paddingTop: 10,
+    paddingTop: 20,
     paddingHorizontal: 20,
     paddingBottom: 120,
     height: "100%"
   },
-  descriptionContainer: {
-    flexDirection: "row"
-  },
   description: {
-    width: WINDOW_WIDTH - 120, // 画像のwidthとpaddingの長さを引く
-    paddingHorizontal: 10
+    minHeight: 50
+  },
+  imageContainer: {
+    paddingVertical: 10
   },
   image: {
-    width: 100,
-    height: 100,
-    backgroundColor: "#999"
+    width: 80,
+    height: 80,
+    marginRight: 15,
+    borderWidth: 0.5,
+    borderColor: "#999",
+    backgroundColor: "#eee",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  deleteImageButton: {
+    position: "absolute",
+    backgroundColor: "rgba(200, 200, 200, 0.8)",
+    right: 0,
+    top: -15,
+    borderWidth: 0.5,
+    borderColor: "#999"
   },
   FakeInput: {
     height: 35
@@ -127,6 +139,7 @@ const createTrendProducts = (dispatch, preProducts, products) => products.map(pr
   onPress: () => updateTmpProducts(dispatch, preProducts, product)
 }))
 
+// eslint-disable-next-line max-statements
 export const SelectImages = ({navigation}) => {
   const {dispatch: postDispatch, state: {tmpPost, suggestionTags, suggestionProducts}} = useContext(postStore)
   const {dispatch: appDispatch} = useContext(appStore)
@@ -150,29 +163,44 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    pickImage(onPickSuccess, () => navigation.goBack())
+    // pickImage(onPickSuccess, () => navigation.goBack())
     updateTmpPost(postDispatch, tmpPost, initialTmpUser)
     fetchTrendTags(postDispatch)
     fetchTrendProducts(postDispatch)
   }, [])
 
-  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost, tmpPost.img_src_list
+  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost, tmpPost.img_src_list.length > 0
     // 既に1枚でも写真が選択されている場合
     ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
     // 写真の選択が初めてだった場合
     : {thumbnail_img_src: result.uri, img_src_list: [result.uri]}
   )
 
+  const deleteImage = target => () => {
+    const newList = tmpPost.img_src_list.filter(uri => uri !== target)
+    updateTmpPost(postDispatch, tmpPost, tmpPost.thumbnail_img_src === target
+      ? {thumbnail_img_src: newList[0] || "", img_src_list: newList}
+      : {img_src_list: newList}
+    )
+  }
+
 
   return (
     <>
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.descriptionContainer}>
-            {/* eslint-disable-next-line no-undef */}
-            <Image source={tmpPost.img_src_list ? {uri: tmpPost.img_src_list[0]} : require("../../../assets/no_image.png")} style={styles.image} />
-            <TextInput style={styles.description} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
-          </View>
+          <ScrollView horizontal={true} style={styles.imageContainer}>
+            {tmpPost.img_src_list && tmpPost.img_src_list.map(uri =>
+              <View key={uri}>
+                <Image source={{uri}} style={styles.image} />
+                <IconButton icon="close" size={15} style={styles.deleteImageButton} onPress={deleteImage(uri)} />
+              </View>
+            )}
+            <TouchableOpacity style={styles.image} onPress={() => pickImage(onPickSuccess)}>
+              <IconButton icon="camera-plus-outline" />
+            </TouchableOpacity>
+          </ScrollView>
+          <TextInput style={styles.description} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
           <ErrorMessage messages={descriptionError} />
           <View style={styles.inputContainer}>
             <Text style={styles.label}>カテゴリを選ぶ</Text>
@@ -223,7 +251,7 @@ export const SelectImages = ({navigation}) => {
         style={styles.button}
         contentStyle={styles.buttonContentStyle}
         onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError, setIsLoading)}
-        disabled={tmpPost.description === "" || tmpPost.products.length === 0}
+        disabled={tmpPost.description === "" || tmpPost.products.length === 0 || tmpPost.thumbnail_img_src === ""}
       >投稿する</Button>
       <Loading isLoading={isLoading} />
     </>
