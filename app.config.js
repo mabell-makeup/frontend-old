@@ -1,6 +1,6 @@
 export default {
   name: "mabell",
-  version: "1.0.1",
+  version: "0.0.2",
   slug: "mabell",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -18,7 +18,7 @@ export default {
   ios: {
     supportsTablet: true,
     bundleIdentifier: "com.makeup.mabell",
-    buildNumber: "1.0.1"
+    buildNumber: "0.0.2"
   },
   web: {
     favicon: "./assets/favicon.png"
