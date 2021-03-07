@@ -1,4 +1,5 @@
 import * as ImagePicker from "expo-image-picker"
+import * as ImageManipulator from "expo-image-manipulator"
 import AWS from "aws-sdk"
 import config from "../aws-exports"
 import {Auth} from "aws-amplify"
@@ -10,7 +11,7 @@ export const pickImage = async (onPickSuccess=result=>result, onCancel=()=>{}) =
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
     aspect: [1, 1],
-    quality: 0.1
+    quality: 1
   })
   !result.cancelled ? onPickSuccess(result) : onCancel()
 }
@@ -21,13 +22,19 @@ const createS3Client = async () => {
   return new AWS.S3({credentials: credentials, params: {Bucket: "mabell-app-img-storage"}})
 }
 
-export const uploadImage = async imgSrc => {
+const compressImage = async (uri, rate=1, resize) => {
+  const compressed = await ImageManipulator.manipulateAsync(uri, resize ? [{resize}] : [], {compress: rate})
+  return compressed.uri
+}
+
+export const uploadImage = async (imgSrc, compressRate, resize) => {
   try {
     const s3Client = await createS3Client()
     const credentials = await Auth.currentCredentials()
     const fileExtension = imgSrc.match(/[^.]+$/)
     const fileName = `${uuidv4()}.${fileExtension}`
-    const response = await fetch(imgSrc)
+    const compressedImgSrc = await compressImage(imgSrc, compressRate, resize)
+    const response = await fetch(compressedImgSrc)
     const blob = await response.blob()
     s3Client.putObject({Key: `${credentials.identityId}/${fileName}`, ContentType: "image", Body: blob},
       (err, data) => data === null && console.log("Failed image upload:", err.stack)

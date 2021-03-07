@@ -103,8 +103,8 @@ const registerPost = async (tmpPost, appDispatch) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   try {
-    const thumbnailUri = await uploadImage(tmpPost.thumbnail_img_src)
-    const uriList = await Promise.all(tmpPost.img_src_list.map(async src => await uploadImage(src)))
+    const thumbnailUri = await uploadImage(tmpPost.thumbnail_img_src, 1, {width: 300, height: 300})
+    const uriList = await Promise.all(tmpPost.img_src_list.map(async src => await uploadImage(src, 0.6, {width: 1080, height: 1080})))
     const {products, ...post} = await tmpPost
     createPost({...post, thumbnail_img_src: thumbnailUri, img_src_list: uriList, products_id: products.map(p => p.product_id)})
   } catch (error) {
