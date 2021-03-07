@@ -6,7 +6,7 @@ export const validate = (text, rules=[{testFunc: text=>text, message: ""}]) => r
 // バリデーションルール
 export const rules = {
   require: {testFunc: text => text.length > 0, message: "必須項目です"},
-  includeSpecialChar: {testFunc: text => /[=+-^$*.[\]{}()?"!@#%&/\\,><':;|_~`]/.test(text), message: "特殊文字を含む必要があります"},
+  includeSpecialChar: {testFunc: text => /[!"#$%&'()*+-.,/:;<=>?@[\]^_`{|}~]/.test(text), message: "記号を含む必要があります"},
   includeUppercase: {testFunc: text => /[A-Z]/.test(text), message: "大文字を含む必要があります"},
   includeLowercase: {testFunc: text => /[a-z]/.test(text), message: "小文字を含む必要があります"},
   includeNumber: {testFunc: text => /[0-9]/.test(text), message: "数字を含む必要があります"},
