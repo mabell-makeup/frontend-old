@@ -18,7 +18,6 @@ import {ColorPaletteInput} from "./ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
 import {addError, appStore} from "../../stores/appStore"
-import {WINDOW_WIDTH} from "../../styles/constants"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
 import {rules, validate} from "../../helper/validateHelper"
 import {ErrorMessage} from "../../components/ErrorMessage"
@@ -194,11 +193,11 @@ export const SelectImages = ({navigation}) => {
               <View key={uri}>
                 <Image source={{uri}} style={styles.image} />
                 <IconButton icon="close" size={15} style={styles.deleteImageButton} onPress={deleteImage(uri)} />
-              </View>
-            )}
-            <TouchableOpacity style={styles.image} onPress={() => pickImage(onPickSuccess)}>
-              <IconButton icon="camera-plus-outline" />
-            </TouchableOpacity>
+              </View>)}
+            {tmpPost.img_src_list && tmpPost.img_src_list.length < 5 &&
+              <TouchableOpacity style={styles.image} onPress={() => pickImage(onPickSuccess)}>
+                <IconButton icon="camera-plus-outline" />
+              </TouchableOpacity>}
           </ScrollView>
           <TextInput style={styles.description} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
           <ErrorMessage messages={descriptionError} />
