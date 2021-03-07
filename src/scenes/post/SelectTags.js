@@ -1,11 +1,10 @@
-import React, {useContext, useEffect} from "react"
+import React, {useState, useContext, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
 import {createTag, fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
-import {useState} from "react/cjs/react.development"
 
 const styles = {
   container: {
