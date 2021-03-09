@@ -113,7 +113,7 @@ export const resendConfirmMail = async (name, navigation) => {
     console.log("error resendConfirmMail:", error)
   }
 }
-export const logout = async (dispatch) => {
+export const logout = async dispatch => {
   try {
     await Auth.signOut({global: true})
   } catch (error) {
@@ -164,7 +164,7 @@ const AuthProvider = ({children}) => {
   const [state, dispatch] = useReducer(createReducer(initialState, {
     [LOGIN_SUCCESS]: (state, {payload}) => ({...state, user: {...state.user, ...payload}, is_logged_in: true}),
     [LOGIN_FAILURE]: (state, {payload}) => ({...state, err_msg: payload}),
-    [LOGOUT_SUCCESS]: state => ({...state, is_logged_in: false}),
+    [LOGOUT_SUCCESS]: () => initialState,
     [UPDATE_NEW_USER]: (state, {payload}) => ({...state, new_user: {...state.new_user, ...payload}}),
     [CANCEL_SIGNUP]: state => ({...state, new_user: initialState.new_user}),
     [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
