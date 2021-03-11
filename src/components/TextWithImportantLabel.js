@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   label: {
-    color: "#FF7F50",
+    color: "#9E649C",
     fontWeight: "bold",
     fontSize: 12,
     marginLeft: 10

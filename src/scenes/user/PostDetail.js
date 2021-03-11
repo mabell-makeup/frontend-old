@@ -72,7 +72,7 @@ const createStyles = favorite => ({
     borderColor: "#ccc"
   },
   favoriteButton: {
-    borderColor: favorite ? "#FF7F50" : "#ccc"
+    borderColor: favorite ? "#9E649C" : "#ccc"
   },
   buttonContainer: {
     flexDirection: "row"
@@ -176,7 +176,7 @@ const ReactionContainer = () => {
         <Text style={styles.marginLeft}>いいね <Text style={styles.strong}>{post.like_count ? post.like_count : 0}</Text>件</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? "#FF7F50" : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? "#9E649C" : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
         {/* <IconButton icon="comment-outline" style={styles.button} color="#999" /> */}
       </View>
     </View>
