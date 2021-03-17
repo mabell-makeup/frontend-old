@@ -27,7 +27,10 @@ const initialState = {
     thumbnail_img_src: "",
     posts: [],
     skin_type: "",
-    post_count: 0
+    post_count: 0,
+    face_type: "",
+    base_color: "",
+    season: ""
   },
   nextToken: ""
 }
