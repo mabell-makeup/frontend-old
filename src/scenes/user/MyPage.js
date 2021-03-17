@@ -97,12 +97,12 @@ const SelfIntroduction = ({user, M}) => {
   )
 }
 
-const createData = (posts, navigation, searchDispatch) => posts.map(post => ({
+const createData = (posts, navigation, postDetailDispatch, user_id) => posts.map(post => ({
   ...post,
   id: post.id,
   onPress: async () => {
-    await fetchPostDetail(searchDispatch, post.id, post.DateTime)
-    navigation.navigate("PostDetail")
+    await fetchPostDetail(postDetailDispatch, post.id, post.DateTime, user_id)
+    await navigation.navigate("PostDetail")
   }
 }))
 
@@ -118,7 +118,7 @@ export const MyPage = ({navigation}) => {
   const {dispatch, state: {user, nextToken}} = useContext(authStore)
   const {state: {masterData}} = useContext(appStore)
   const {dispatch: postDetailDispatch} = useContext(postDetailStore)
-  const data = createData(user.posts, navigation, postDetailDispatch)
+  const data = createData(user.posts, navigation, postDetailDispatch, user.user_id)
   
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
