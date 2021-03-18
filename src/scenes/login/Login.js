@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
 export const Login = ({navigation}) => {
   const {dispatch, state: {err_msg}} = useContext(authStore)
   const {dispatch: appDispatch} = useContext(appStore)
-  const [mail, setMail] = useState("test_sunagawa")
-  const [password, setPassword] = useState("P@$$w0rd")
+  const [mail, setMail] = useState("")
+  const [password, setPassword] = useState("")
 
   return (
     <View style={styles.container}>
