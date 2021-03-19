@@ -1,9 +1,10 @@
-import React, {useContext, useEffect} from "react"
+import React, {useEffect} from "react"
 import {ScrollView} from "react-native"
-import {searchStore, fetchTrendTags, fetchTags, updateTmpTags} from "../../stores/searchStore"
+import {fetchTrendTags, fetchTags, updateTmpTags} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
 import {IconTextInput} from "../../components/IconTextInput"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   container: {
@@ -31,7 +32,8 @@ const createRows = (dispatch, tags, tmpConditions, navigation) =>
   }))
 
 export const SelectTags = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, suggestionTags}} = useContext(searchStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, suggestionTags} = useSelector(({search: {tmpConditions, suggestionTags}}) => ({tmpConditions, suggestionTags}))
   const rows = createRows(dispatch, suggestionTags, tmpConditions, navigation)
 
   useEffect(() => {

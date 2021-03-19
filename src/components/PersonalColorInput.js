@@ -1,10 +1,10 @@
-import React, {useContext} from "react"
+import React from "react"
 import {StyleSheet, View} from "react-native"
 import {Text} from "react-native-paper"
 import {parseMasterData} from "../helper/requestHelper"
-import {appStore} from "../stores/appStore"
-import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
+import {updateTmpConditions} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -42,8 +42,8 @@ const createItems = (raws, element="base_color", dispatch, tmpConditions) =>
   }))
 
 export const PersonalColorInput = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
   const seasons = parseMasterData(masterData, "season")
   const filteredSeasons = filterSeason(tmpConditions.base_color, seasons)
   const baseColor = parseMasterData(masterData, "base_color")

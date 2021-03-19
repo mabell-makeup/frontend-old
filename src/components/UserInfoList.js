@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View, Text, TextInput} from "react-native"
 import {List} from "../components/List"
 import {parseMasterData} from "../helper/requestHelper"
-import {appStore} from "../stores/appStore"
+import {useSelector} from "react-redux"
 
 const styles = {
   listItem: {
@@ -39,7 +39,7 @@ const UserInfoItem = ({value, type, onPress, onChange}) => {
 
 
 export const UserInfoList = ({displayItemsMap, handleTmpUser: [tmpUser, setTmpUser], handleWheelPicker=[{}, ()=>{}], handleDatePicker=[{}, ()=>{}]}) => {
-  const {state: {masterData}} = useContext(appStore)
+  const masterData = useSelector(({app: {masterData}}) => masterData)
 
   return <List rows={Object.entries(tmpUser).reduce((accumulator, [key, value]) => {
     if(!Object.keys(displayItemsMap).includes(key)) return accumulator

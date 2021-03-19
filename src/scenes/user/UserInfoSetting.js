@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react"
+import React, {useState} from "react"
 import {Text, StyleSheet, View, TextInput, SafeAreaView} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Button, Title} from "react-native-paper"
@@ -7,8 +7,9 @@ import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
 import {openContactPage} from "../../helper/contactHelper"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
-import {addError, appStore} from "../../stores/appStore"
-import {authStore, logout, updateUser} from "../../stores/authStore"
+import {addError} from "../../stores/appStore"
+import {logout, updateUser} from "../../stores/authStore"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -59,21 +60,21 @@ const displayItemsMap = {
 
 const selectImage = (tmpUser, setTmpUser) => () => pickImage(result => setTmpUser({...tmpUser, thumbnail_img_src: result.uri}))
 
-const onSubmit = (dispatch, user, tmpUser, appDispatch, navigation) => async () => {
+const onSubmit = (dispatch, user, tmpUser, navigation) => async () => {
   try {
     const uri = user.thumbnail_img_src !== tmpUser.thumbnail_img_src ? await uploadImage(tmpUser.thumbnail_img_src) : tmpUser.thumbnail_img_src
     await updateUser(dispatch, {...tmpUser, thumbnail_img_src: uri})
   } catch (error) {
     console.log("error update user:", error)
-    addError(appDispatch, {errorType: "REQUEST_ERROR", message: "ユーザー情報の更新に失敗しました"})
+    addError(dispatch, {errorType: "REQUEST_ERROR", message: "ユーザー情報の更新に失敗しました"})
   }
   navigation.goBack()
 }
 
 // eslint-disable-next-line max-lines-per-function
 export const UserInfoSetting = ({navigation}) => {
-  const {dispatch, state: {user}} = useContext(authStore)
-  const {dispatch: appDispatch} = useContext(appStore)
+  const dispatch = useDispatch()
+  const user = useSelector(({auth: {user}}) => user)
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [dtPickerState, setDTPickerState] = useState({isShown: false, selected: new Date(user.birthdate)})
   const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img_src"].includes(key))))
@@ -105,7 +106,7 @@ export const UserInfoSetting = ({navigation}) => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(dispatch, user, tmpUser, appDispatch, navigation)} disabled={false}>変更する</Button>
+      <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={onSubmit(dispatch, user, tmpUser, navigation)} disabled={false}>変更する</Button>
       <WheelPicker usePickerState={[pickerState, setPickerState]} onChange={itemValue => setTmpUser({...tmpUser, ...itemValue})} />
       <DatePicker usePickerState={[dtPickerState, setDTPickerState]} onChange={selectedDate => setTmpUser({...tmpUser, birthdate: selectedDate})} />
     </>

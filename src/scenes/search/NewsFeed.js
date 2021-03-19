@@ -1,9 +1,9 @@
-import React, {useContext} from "react"
+import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
-import {searchStore, updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
+import {updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
 import {Women} from "./Women"
+import {useDispatch, useSelector} from "react-redux"
 
 
 const createItems = (screens, dispatch, tmpConditions) => 
@@ -21,8 +21,8 @@ const changeTab = async (dispatch, tmpConditions, key) => {
 }
 
 export const NewsFeed = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
   const genders = parseMasterData(masterData, "gender")
   const items = createItems(genders, dispatch, tmpConditions)
 

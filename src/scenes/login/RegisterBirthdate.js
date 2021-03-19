@@ -1,9 +1,10 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {Button, Title} from "react-native-paper"
 import {View, StyleSheet} from "react-native"
-import {authStore, updateNewUser} from "../../stores/authStore"
+import {updateNewUser} from "../../stores/authStore"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import {formatDate} from "../../helper/dateHelper"
+import {useDispatch} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 
 
 export const RegisterBirthdate = ({navigation}) => {
-  const {dispatch} = useContext(authStore)
+  const dispatch = useDispatch()
   const [birthdate, setBirthdate] = useState(new Date())
 
   const onChange = (e, selectedDate) => {

@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
+import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {TabScreen} from "./TabScreen"
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native"
-import {AuthProvider, authStore, cancelSignup} from "../stores/authStore"
+import {cancelSignup} from "../stores/authStore"
 import {Login} from "../scenes/login/Login"
 import {RegisterUsername} from "../scenes/login/RegisterUsername"
 import {PostScreen} from "./PostScreen"
@@ -12,6 +12,7 @@ import {RegisterBirthdate} from "../scenes/login/RegisterBirthdate"
 import {RegisterMail} from "../scenes/login/RegisterMail"
 import {SendConfirmationMail} from "../scenes/login/SendConfirmationMail"
 import {UserScreen} from "./UserScreen"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   header: {
@@ -42,8 +43,9 @@ const navigatorProps = ({
 
 const signupScreenOptions = (navigation, dispatch) => ({headerShown: true, headerStyle: styles.header, headerTitle: false, headerLeft: () => <IconButton icon="close" size={40} onPress={handleCancel(navigation, dispatch)} />})
 
-const LoginScreenInner = () => {
-  const {dispatch, state: {is_logged_in}} = useContext(authStore)
+export const LoginScreen = () => {
+  const dispatch = useDispatch()
+  const is_logged_in = useSelector(({auth: {is_logged_in}}) => is_logged_in)
 
   return (
     <NavigationContainer theme={{...DefaultTheme, colors: {...DefaultTheme.colors, background: "#fff"}}}>
@@ -67,5 +69,3 @@ const LoginScreenInner = () => {
     </NavigationContainer>
   )
 }
-
-export const LoginScreen = () => <AuthProvider><LoginScreenInner /></AuthProvider>

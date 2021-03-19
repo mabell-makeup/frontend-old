@@ -52,17 +52,17 @@ const UPDATE_NEXT_TOKEN = "UPDATE_NEXT_TOKEN"
 
 
 // Define ActionCreator
-export const login = async (navigation, dispatch, name, password, appDispatch) => {
+export const login = async (navigation, dispatch, name, password) => {
   try {
     const user = await Auth.signIn(name, password)
     await fetchUser(dispatch, user.attributes.sub)
-    await fetchMasterData(appDispatch)
+    await fetchMasterData(dispatch)
     await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
   } catch (e) {
     console.log("error signing in", e)
     dispatch({type: LOGIN_FAILURE, payload: e.message})
     if (!["InvalidParameterException", "NotAuthorizedException", "UserNotConfirmedException"].includes(e.code)) {
-      addError(appDispatch, {errorType: "AUTH_ERROR", message: "予期せぬエラーが発生しました。"})
+      addError(dispatch, {errorType: "AUTH_ERROR", message: "予期せぬエラーが発生しました。"})
     }
   }
 }
@@ -93,7 +93,7 @@ export const createUser = async (dispatch, newUser) => {
     console.log("error createUser:", error)
   }
 }
-export const confirmSignup = async (dispatch, code, name, password, navigation, setError, appDispatch) => {
+export const confirmSignup = async (dispatch, code, name, password, navigation, setError) => {
   try {
     await Auth.confirmSignUp(name, code)
   } catch (error) {
@@ -101,11 +101,11 @@ export const confirmSignup = async (dispatch, code, name, password, navigation, 
     setError(["確認コードが間違っています"])
   }
   try {
-    await login(navigation, dispatch, name, password, appDispatch)
+    await login(navigation, dispatch, name, password)
     await createUser(dispatch, {name, nickname: name})
   } catch (error) {
     console.log("error confirmSignup:", error)
-    addError(appDispatch, {errorType: "REQUEST_ERROR", message: "予期せぬエラーが発生しました"})
+    addError(dispatch, {errorType: "REQUEST_ERROR", message: "予期せぬエラーが発生しました"})
   }
 }
 export const resendConfirmMail = async (name, navigation) => {
@@ -160,22 +160,15 @@ export const fetchPostCount = async (dispatch, user_id) => {
   }
 }
 
-// Defin Provider
-const {Provider} = authStore
-const AuthProvider = ({children}) => {
-  // Define Reducer
-  const [state, dispatch] = useReducer(createReducer(initialState, {
-    [LOGIN_SUCCESS]: (state, {payload}) => ({...state, user: {...state.user, ...payload}, is_logged_in: true}),
-    [LOGIN_FAILURE]: (state, {payload}) => ({...state, err_msg: payload}),
-    [LOGOUT_SUCCESS]: () => initialState,
-    [UPDATE_NEW_USER]: (state, {payload}) => ({...state, new_user: {...state.new_user, ...payload}}),
-    [CANCEL_SIGNUP]: state => ({...state, new_user: initialState.new_user}),
-    [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
-    [FETCH_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
-    [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
-    [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
-  }), initialState)
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-export {authStore, AuthProvider}
+// Define Reducer
+export const authReducer = createReducer(initialState, {
+  [LOGIN_SUCCESS]: (state, {payload}) => ({...state, user: {...state.user, ...payload}, is_logged_in: true}),
+  [LOGIN_FAILURE]: (state, {payload}) => ({...state, err_msg: payload}),
+  [LOGOUT_SUCCESS]: () => initialState,
+  [UPDATE_NEW_USER]: (state, {payload}) => ({...state, new_user: {...state.new_user, ...payload}}),
+  [CANCEL_SIGNUP]: state => ({...state, new_user: initialState.new_user}),
+  [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
+  [FETCH_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
+  [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
+  [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
+})

@@ -1,10 +1,11 @@
-import React, {useState, useContext, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
-import {createTag, fetchTags, fetchTrendTags, postStore, updateTmpTags} from "../../stores/postStore"
+import {createTag, fetchTags, fetchTrendTags, updateTmpTags} from "../../stores/postStore"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   container: {
@@ -41,8 +42,9 @@ const onChangeText = (dispatch, setText) => text => {
   fetchTags(dispatch, text)
 }
 
-export const SeletcTags = ({navigation}) => {
-  const {dispatch, state: {suggestionTags, tmpPost: {tags}}} = useContext(postStore)
+export const SelectTags = ({navigation}) => {
+  const dispatch = useDispatch()
+  const {suggestionTags, tags} = useSelector(({post: {suggestionTags, tmpPost: {tags}}}) => ({suggestionTags, tags}))
   const rows = createRows(dispatch, tags, suggestionTags, navigation)
   const [text, setText] = useState("")
 

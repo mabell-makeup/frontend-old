@@ -1,10 +1,10 @@
-import React, {useContext, useEffect} from "react"
+import React, {useEffect} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
-import {appStore} from "../../stores/appStore"
-import {authStore, fetchMyPosts, fetchPostCount} from "../../stores/authStore"
-import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
+import {fetchMyPosts, fetchPostCount} from "../../stores/authStore"
+import {fetchPostDetail} from "../../stores/postDetailStore"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 })
 
 const FollowInfo = () => {
-  const {state: {user: {post_count}}} = useContext(authStore)
+  const post_count = useSelector(({auth: {user: {post_count}}}) => post_count)
 
   return (
     <View style={styles.followInfoContainer}>
@@ -97,11 +97,11 @@ const SelfIntroduction = ({user, M}) => {
   )
 }
 
-const createData = (posts, navigation, postDetailDispatch, user_id) => posts.map(post => ({
+const createData = (posts, navigation, dispatch, user_id) => posts.map(post => ({
   ...post,
   id: post.id,
   onPress: async () => {
-    await fetchPostDetail(postDetailDispatch, post.id, post.DateTime, user_id)
+    await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
     await navigation.navigate("PostDetail")
   }
 }))
@@ -115,10 +115,9 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 
 // eslint-disable-next-line max-lines-per-function
 export const MyPage = ({navigation}) => {
-  const {dispatch, state: {user, nextToken}} = useContext(authStore)
-  const {state: {masterData}} = useContext(appStore)
-  const {dispatch: postDetailDispatch} = useContext(postDetailStore)
-  const data = createData(user.posts, navigation, postDetailDispatch, user.user_id)
+  const dispatch = useDispatch()
+  const {user, nextToken, masterData} = useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
+  const data = createData(user.posts, navigation, dispatch, user.user_id)
   
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {

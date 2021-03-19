@@ -1,8 +1,7 @@
-import React, {useContext} from "react"
+import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {SelectConditions} from "./SelectConditions"
-import {searchStore, updateTmpConditions} from "../../stores/searchStore"
-import {SorryPage} from "../../components/SorryPage"
+import {useDispatch, useSelector} from "react-redux"
 
 const screens = [
   {label: "メイク", routeName: "SearchMakeup", key: "makeup", component: SelectConditions},
@@ -19,7 +18,8 @@ const createRows = (screens, dispatch, tmpConditions) =>
   }))
 
 export const Search = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const dispatch = useDispatch()
+  const tmpConditions = useSelector(({search: {tmpConditions}}) => tmpConditions)
 
   return <TopNavigation items={createRows(screens, dispatch, tmpConditions)} />
 }

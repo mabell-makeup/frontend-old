@@ -1,10 +1,11 @@
-import React, {useContext, useEffect} from "react"
+import React, {useEffect} from "react"
 import {ScrollView} from "react-native"
 import {List} from "../../components/List"
 import {Button, Checkbox} from "react-native-paper"
-import {fetchProducts, fetchTrendProducts, postStore, updateTmpProducts} from "../../stores/postStore"
+import {fetchProducts, fetchTrendProducts, updateTmpProducts} from "../../stores/postStore"
 import {IconTextInput} from "../../components/IconTextInput"
 import {PRODUCT_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   container: {
@@ -33,7 +34,8 @@ const createRows = (dispatch, suggestionProducts, selectedProducts) =>
 
 
 export const SelectProducts = ({navigation}) => {
-  const {dispatch, state: {suggestionProducts, tmpPost: {products}}} = useContext(postStore)
+  const dispatch = useDispatch()
+  const {suggestionProducts, products} = useSelector(({post: {suggestionProducts, tmpPost: {products}}}) => ({suggestionProducts, products}))
   const rows = createRows(dispatch, suggestionProducts, products)
 
   useEffect(() => {

@@ -1,9 +1,10 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {Button, TextInput, Title} from "react-native-paper"
 import {View, StyleSheet, Text} from "react-native"
-import {authStore, updateNewUser} from "../../stores/authStore"
+import {updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
+import {useDispatch} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +50,7 @@ const onSubmit = (dispatch, navigation, setError, text) => () => {
 
 
 export const RegisterMail = ({navigation}) => {
-  const {dispatch} = useContext(authStore)
+  const dispatch = useDispatch()
   const [text, setText] = useState("")
   const [error, setError] = useState([])
 

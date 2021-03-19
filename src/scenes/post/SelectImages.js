@@ -1,27 +1,28 @@
 // TODO: FIX IT!!!!
 /* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
-import React, {useContext, useState, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
-import {createPost, fetchTrendProducts, fetchTrendTags, postStore, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
+import {createPost, fetchTrendProducts, fetchTrendTags, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
 import {List} from "../../components/List"
 import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
-import {authStore, updateUser} from "../../stores/authStore"
+import {updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
-import {addError, appStore} from "../../stores/appStore"
+import {addError} from "../../stores/appStore"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
 import {rules, validate} from "../../helper/validateHelper"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {Loading} from "../../components/Loading"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   container: {
@@ -99,7 +100,7 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const registerPost = async (tmpPost, appDispatch) => {
+const registerPost = async (tmpPost, dispatch) => {
   // TODO: こっちで書き換える
   // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   try {
@@ -108,18 +109,18 @@ const registerPost = async (tmpPost, appDispatch) => {
     const {products, ...post} = await tmpPost
     createPost({...post, thumbnail_img_src: thumbnailUri, img_src_list: uriList, products_id: products.map(p => p.product_id)})
   } catch (error) {
-    addError(appDispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
+    addError(dispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
   }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError, setIsLoading) => async () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading) => async () => {
   const descriptionError = validate(tmpPost.description, [{testFunc: rules.require.testFunc, message: "キャプションを入力してください"}])
   const productError = validate(tmpPost.products, [{testFunc: rules.require.testFunc, message: "使用アイテムを選択してください"}])
   setDescriptionError(descriptionError)
   setProductError(productError)
   if (descriptionError.length === 0 && productError.length === 0) {
     setIsLoading(true)
-    await registerPost(tmpPost, appDispatch)
+    await registerPost(tmpPost, dispatch)
     willUpdate && await updateUser(dispatch, tmpUser)
     setTimeout(() => {
       setIsLoading(false)
@@ -140,9 +141,10 @@ const createTrendProducts = (dispatch, preProducts, products) => products.map(pr
 
 // eslint-disable-next-line max-statements
 export const SelectImages = ({navigation}) => {
-  const {dispatch: postDispatch, state: {tmpPost, suggestionTags, suggestionProducts}} = useContext(postStore)
-  const {dispatch: appDispatch} = useContext(appStore)
-  const {dispatch, state: {user}} = useContext(authStore)
+  const dispatch = useDispatch()
+  const {tmpPost, suggestionTags, suggestionProducts, user} = useSelector(({
+    post: {tmpPost, suggestionTags, suggestionProducts}, auth: {user}
+  }) => ({tmpPost, suggestionTags, suggestionProducts, user}))
   const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
@@ -150,8 +152,8 @@ export const SelectImages = ({navigation}) => {
   const [descriptionError, setDescriptionError] = useState([])
   const [productError, setProductError] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const trendTags = createTrendTags(postDispatch, tmpPost.tags, suggestionTags)
-  const trendProducts = createTrendProducts(postDispatch, tmpPost.products, suggestionProducts)
+  const trendTags = createTrendTags(dispatch, tmpPost.tags, suggestionTags)
+  const trendProducts = createTrendProducts(dispatch, tmpPost.products, suggestionProducts)
 
   useEffect(() => {
     (async () => {
@@ -163,12 +165,12 @@ export const SelectImages = ({navigation}) => {
       }
     })()
     // pickImage(onPickSuccess, () => navigation.goBack())
-    updateTmpPost(postDispatch, tmpPost, initialTmpUser)
-    fetchTrendTags(postDispatch)
-    fetchTrendProducts(postDispatch)
+    updateTmpPost(dispatch, tmpPost, initialTmpUser)
+    fetchTrendTags(dispatch)
+    fetchTrendProducts(dispatch)
   }, [])
 
-  const onPickSuccess = result => updateTmpPost(postDispatch, tmpPost, tmpPost.img_src_list.length > 0
+  const onPickSuccess = result => updateTmpPost(dispatch, tmpPost, tmpPost.img_src_list.length > 0
     // 既に1枚でも写真が選択されている場合
     ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
     // 写真の選択が初めてだった場合
@@ -177,7 +179,7 @@ export const SelectImages = ({navigation}) => {
 
   const deleteImage = target => () => {
     const newList = tmpPost.img_src_list.filter(uri => uri !== target)
-    updateTmpPost(postDispatch, tmpPost, tmpPost.thumbnail_img_src === target
+    updateTmpPost(dispatch, tmpPost, tmpPost.thumbnail_img_src === target
       ? {thumbnail_img_src: newList[0] || "", img_src_list: newList}
       : {img_src_list: newList}
     )
@@ -199,7 +201,7 @@ export const SelectImages = ({navigation}) => {
                 <IconButton icon="camera-plus-outline" />
               </TouchableOpacity>}
           </ScrollView>
-          <TextInput style={styles.description} onChangeText={text => updateTmpPost(postDispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
+          <TextInput style={styles.description} onChangeText={text => updateTmpPost(dispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
           <ErrorMessage messages={descriptionError} />
           <View style={styles.inputContainer}>
             <Text style={styles.label}>カテゴリを選ぶ</Text>
@@ -217,14 +219,14 @@ export const SelectImages = ({navigation}) => {
             <Text style={styles.label}>タグ付け</Text>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
             {/* eslint-disable-next-line react/display-name */}
-            {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(postDispatch, tmpPost.tags, tag)} />}))} />}
+            {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(dispatch, tmpPost.tags, tag)} />}))} />}
             <ChipList items={trendTags} />
           </View>
           <View style={styles.inputContainer}>
             <TextWithImportantLabel label="必須">使用アイテム</TextWithImportantLabel>
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectProducts" placeholder="使用アイテム" style={styles.FakeInput} />
             {/* eslint-disable-next-line react/display-name */}
-            {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(postDispatch, tmpPost.products, product)} />}))} />}
+            {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(dispatch, tmpPost.products, product)} />}))} />}
             <ErrorMessage messages={productError} />
             <ChipList items={trendProducts} />
           </View>
@@ -249,7 +251,7 @@ export const SelectImages = ({navigation}) => {
         mode="contained"
         style={styles.button}
         contentStyle={styles.buttonContentStyle}
-        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, appDispatch, setDescriptionError, setProductError, setIsLoading)}
+        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading)}
         disabled={tmpPost.description === "" || tmpPost.products.length === 0 || tmpPost.thumbnail_img_src === ""}
       >投稿する</Button>
       <Loading isLoading={isLoading} />

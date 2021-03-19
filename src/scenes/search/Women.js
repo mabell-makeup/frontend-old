@@ -1,9 +1,9 @@
-import React, {useContext} from "react"
+import React from "react"
 import {ImageList} from "../../components/ImageList"
-import {fetchPosts, searchStore, updateSearchResult} from "../../stores/searchStore"
-import {authStore} from "../../stores/authStore"
-import {fetchPostDetail, postDetailStore} from "../../stores/postDetailStore"
+import {fetchPosts, updateSearchResult} from "../../stores/searchStore"
+import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
+import {useDispatch, useSelector} from "react-redux"
 
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
@@ -13,23 +13,24 @@ const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) =
   }
 }))
 
-const loadMore = (searchDispatch, tmpConditions, nextToken) => async () => {
+const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   if (nextToken !== "") {
-    await fetchPosts(searchDispatch, tmpConditions, nextToken)
-    updateSearchResult(searchDispatch)
+    await fetchPosts(dispatch, tmpConditions, nextToken)
+    updateSearchResult(dispatch)
   }
 }
 
 export const Women = ({navigation}) => {
-  const {dispatch: searchDispatch, state: {searchResult, tmpConditions, nextToken}} = useContext(searchStore)
-  const {state: {user: {user_id}}} = useContext(authStore)
-  const {dispatch} = useContext(postDetailStore)
+  const dispatch = useDispatch()
+  const {searchResult, tmpConditions, nextToken, user_id} = useSelector(({
+    search: {searchResult, tmpConditions, nextToken}, auth: {user: {user_id}}
+  }) => ({searchResult, tmpConditions, nextToken, user_id}))
 
   return (
     <>
       <ImageList
         data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
-        onEndReached={loadMore(searchDispatch, tmpConditions, nextToken)}
+        onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
       />
       {/* <UserInfoToggleGroup /> */}
     </>

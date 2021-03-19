@@ -1,9 +1,8 @@
 import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {SelectImages} from "../scenes/post/SelectImages"
-import {PostProvider} from "../stores/postStore"
 import {WINDOW_HEIGHT} from "../styles/constants"
-import {SeletcTags} from "../scenes/post/SelectTags"
+import {SelectTags} from "../scenes/post/SelectTags"
 import {SelectProducts} from "../scenes/post/SelectProducts"
 
 const Stack = createStackNavigator()
@@ -17,14 +16,12 @@ const navigatorProps = ({
   }
 })
 
-const PostScreenInner = () => {
+export const PostScreen = () => {
   return (
     <Stack.Navigator {...navigatorProps}>
       <Stack.Screen name="SelectImages" component={SelectImages} />
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
-      <Stack.Screen name="SelectTags" component={SeletcTags} />
+      <Stack.Screen name="SelectTags" component={SelectTags} />
     </Stack.Navigator>
   )
 }
-
-export const PostScreen = () => <PostProvider><PostScreenInner /></PostProvider>

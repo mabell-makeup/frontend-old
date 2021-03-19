@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
+import React from "react"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
 import {ChipList} from "../../components/ChipList"
-import {postStore, updateTmpPost} from "../../stores/postStore"
+import {updateTmpPost} from "../../stores/postStore"
+import {useDispatch, useSelector} from "react-redux"
 
 
 const createItems = (countries, dispatch, tmpPost) =>
@@ -15,8 +15,8 @@ const createItems = (countries, dispatch, tmpPost) =>
 
 
 export const CountryInput = () => {
-  const {dispatch, state: {tmpPost}} = useContext(postStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpPost, masterData} = useSelector(({post: {tmpPost}, app: {masterData}}) => ({tmpPost, masterData}))
   const countries = parseMasterData(masterData, "country")
   const items = createItems(countries, dispatch, tmpPost)
 

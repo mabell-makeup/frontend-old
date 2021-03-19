@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../../components/Carousel"
@@ -7,9 +7,9 @@ import {Loading} from "../../components/Loading"
 import {PopupMenu} from "../../components/PopupMenu"
 import {openReportInappropriateContentPage} from "../../helper/contactHelper"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
-import {updateLikePost, postDetailStore, fetchUserPosts} from "../../stores/postDetailStore"
+import {updateLikePost, fetchUserPosts} from "../../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
+import {useDispatch, useSelector} from "react-redux"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -115,7 +115,7 @@ const userFetchAction = (navigation, dispatch, user_id) => async () => {
 }
 
 const PostHeader = ({postUser, navigation, setShowMenu}) => {
-  const {dispatch} = useContext(postDetailStore)
+  const dispatch = useDispatch()
   const styles = createStyles()
 
   return (
@@ -139,8 +139,7 @@ const displayItemsList = ["base_color", "season", "face_type", "skin_type"]
 
 // eslint-disable-next-line complexity
 const PostInfo = ({navigation}) => {
-  const {state: {post, products, isLoading}} = useContext(postDetailStore)
-  const {state: {masterData}} = useContext(appStore)
+  const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
 
@@ -170,7 +169,8 @@ const PostInfo = ({navigation}) => {
 
 const ReactionContainer = () => {
   const styles = createStyles()
-  const {dispatch, state: {post}} = useContext(postDetailStore)
+  const dispatch = useDispatch()
+  const post = useSelector(({postDetail: {post}}) => post)
 
   return (
     <View style={styles.infoContainer}>
@@ -219,7 +219,7 @@ const Product = ({product, navigation}) => {
 }
 
 const ProductInfo = ({navigation}) => {
-  const {state: {products}} = useContext(postDetailStore)
+  const products = useSelector(({postDetail: {products}}) => products)
 
   return (
     <FlatList
@@ -232,7 +232,7 @@ const ProductInfo = ({navigation}) => {
 }
 
 export const PostDetail = ({navigation}) => {
-  const {state: {post, postUser}} = useContext(postDetailStore)
+  const {post, postUser} = useSelector(({postDetail: {post, postUser}}) => ({post, postUser}))
   const [showMenu, setShowMenu] = useState(false)
   const styles = createStyles()
 

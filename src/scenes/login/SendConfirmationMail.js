@@ -1,10 +1,10 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {Button, Title, TextInput} from "react-native-paper"
 import {View, StyleSheet, Text} from "react-native"
-import {authStore, confirmSignup, resendConfirmMail} from "../../stores/authStore"
+import {confirmSignup, resendConfirmMail} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
-import {appStore} from "../../stores/appStore"
 import {openContactPage} from "../../helper/contactHelper"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -42,8 +42,8 @@ const onChange = setCode => text => setCode(text)
 
 
 export const SendConfirmationMail = ({navigation}) => {
-  const {dispatch, state: {new_user: {email, name, password}}} = useContext(authStore)
-  const {dispatch: appDispatch} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {email, name, password} = useSelector(({auth: {new_user: {email, name, password}}}) => ({email, name, password}))
   const [error, setError] = useState([])
   const [code, setCode] = useState("")
 
@@ -53,7 +53,7 @@ export const SendConfirmationMail = ({navigation}) => {
       <Text>{email} へ確認コードを送信しました。お使いの電子メールアドレスであることを確認するために、確認コードを入力してください。</Text>
       <TextInput style={styles.input} mode="outlined" label="確認コード" keyboardType="number-pad" onChangeText={onChange(setCode)} />
       <ErrorMessage messages={error} />
-      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => confirmSignup(dispatch, code, name, password, navigation, setError, appDispatch)}>次へ</Button>
+      <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => confirmSignup(dispatch, code, name, password, navigation, setError)}>次へ</Button>
       <Text style={styles.resendLink}><Text style={styles.link} onPress={() => resendConfirmMail(name, navigation)}>確認コードを再送する</Text></Text>
       <Text style={styles.contactLink}>お困りですか？ <Text style={styles.link} onPress={() => openContactPage(name, email)}>お問い合わせへ</Text></Text>
     </View>

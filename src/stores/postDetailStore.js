@@ -113,20 +113,13 @@ export const fetchLikeCount = async (dispatch, post_id) => {
   }
 }
 
-// Defin Provider
-const {Provider} = postDetailStore
-const PostDetailProvider = ({children}) => {
-  // Define Reducer
-  const [state, dispatch] = useReducer(createReducer(initialState, {
-    [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
-    [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
-    [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
-    [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
-    [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload}),
-    [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}}),
-    [UPDATE_LOADING]: (state, {payload}) => ({...state, isLoading: payload})
-  }), initialState)
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-export {postDetailStore, PostDetailProvider}
+// Define Reducer
+export const postDetailReducer = createReducer(initialState, {
+  [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
+  [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
+  [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
+  [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
+  [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload}),
+  [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}}),
+  [UPDATE_LOADING]: (state, {payload}) => ({...state, isLoading: payload})
+})

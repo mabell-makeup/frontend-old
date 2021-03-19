@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
+import React from "react"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
-import {searchStore, updateTmpConditions} from "../../stores/searchStore"
+import {updateTmpConditions} from "../../stores/searchStore"
 import {ChipList} from "../../components/ChipList"
+import {useDispatch, useSelector} from "react-redux"
 
 const createItems = (makeupCategories, dispatch, tmpConditions) =>
   makeupCategories.map(category => ({
@@ -15,8 +15,8 @@ const createItems = (makeupCategories, dispatch, tmpConditions) =>
 
 
 export const MakeUpCategoryInput = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
   const makeupCategories = parseMasterData(masterData, "makeup_categories")
   const items = createItems(makeupCategories, dispatch, tmpConditions)
 

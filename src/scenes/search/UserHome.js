@@ -1,10 +1,9 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View, Text, StyleSheet} from "react-native"
 import {ScrollView} from "react-native-gesture-handler"
 import {Avatar, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../../components/ImageList"
-import {appStore} from "../../stores/appStore"
-import {postDetailStore} from "../../stores/postDetailStore"
+import {useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -96,8 +95,7 @@ const SelfIntroduction = ({user, M}) => {
 
 
 export const UserHome = () => {
-  const {state: {postUser: user}} = useContext(postDetailStore)
-  const {state: {masterData}} = useContext(appStore)
+  const {user, masterData} = useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, masterData}))
 
   return (
     <ScrollView>

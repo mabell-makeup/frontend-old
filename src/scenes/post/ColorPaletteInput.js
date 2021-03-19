@@ -1,10 +1,10 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View, StyleSheet} from "react-native"
 import {ChipList} from "../../components/ChipList"
 import {Text} from "react-native-paper"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
-import {postStore, updateTmpPost} from "../../stores/postStore"
+import {updateTmpPost} from "../../stores/postStore"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   glitterContainer: {
@@ -39,8 +39,8 @@ const createGlitterInputs = (glitters, dispatch, tmpPost) =>
   }))
 
 export const ColorPaletteInput = () => {
-  const {state: {masterData}} = useContext(appStore)
-  const {dispatch, state: {tmpPost}} = useContext(postStore)
+  const dispatch = useDispatch()
+  const {masterData, tmpPost} = useSelector(({app: {masterData}, post: {tmpPost}}) => ({masterData, tmpPost}))
   const colors = parseMasterData(masterData, "color")
   const glitters = parseMasterData(masterData, "glitter")
   const colorInputs = createColorInputs(colors, dispatch, tmpPost)

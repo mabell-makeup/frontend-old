@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
-import {searchStore, updateTmpConditions} from "../stores/searchStore"
+import React from "react"
+import {updateTmpConditions} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
-import {appStore} from "../stores/appStore"
 import {parseMasterData} from "../helper/requestHelper"
+import {useDispatch, useSelector} from "react-redux"
 
 const createItems = (skinTypes, dispatch, tmpConditions) =>
   skinTypes.map(skinType => ({
@@ -15,8 +15,8 @@ const createItems = (skinTypes, dispatch, tmpConditions) =>
 
 
 export const SkinTypeInput = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
   const skinTypes = parseMasterData(masterData, "skin_type")
   const items = createItems(skinTypes, dispatch, tmpConditions)
 

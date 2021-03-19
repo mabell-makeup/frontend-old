@@ -29,16 +29,9 @@ export const addError = (dispatch, error={errorType: "", message: ""}) => {
   dispatch({type: ADD_ERROR, payload: error})
 }
 
-// Defin Provider
-const {Provider} = appStore
-const AppProvider = ({children}) => {
-  // Define Reducer
-  const [state, dispatch] = useReducer(createReducer(initialState, {
-    [FETCH_MASTER_DATA]: (state, {payload}) => ({...state, masterData: payload}),
-    [CLEAR_ERROR]: state => ({...state, error: initialState.error}),
-    [ADD_ERROR]: (state, {payload}) => ({...state, error: payload})
-  }), initialState)
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-export {appStore, AppProvider}
+// Define Reducer
+export const appReducer = createReducer(initialState, {
+  [FETCH_MASTER_DATA]: (state, {payload}) => ({...state, masterData: payload}),
+  [CLEAR_ERROR]: state => ({...state, error: initialState.error}),
+  [ADD_ERROR]: (state, {payload}) => ({...state, error: payload})
+})

@@ -1,6 +1,7 @@
-import React, {useState, useContext} from "react"
+import React, {useState} from "react"
 import {FAB, Portal, Provider} from "react-native-paper"
-import {searchStore, updateTmpConditions} from "../stores/searchStore"
+import {updateTmpConditions} from "../stores/searchStore"
+import {useDispatch, useSelector} from "react-redux"
 
 
 const actions = (handlePressAction, {personalColor, faceType}) => ([
@@ -21,7 +22,8 @@ const actions = (handlePressAction, {personalColor, faceType}) => ([
 // TODO: 適当に直したので後で再修正すること
 export const UserInfoToggleGroup = () => {
   const [open, setOpen] = useState(false)
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
+  const dispatch = useDispatch()
+  const tmpConditions = useSelector(({search: {tmpConditions}}) => tmpConditions)
   const handleDial = () => setOpen(!open)
   const handlePressAction = (target, {personalColor, faceType}) => () => {
     target === "personalColor"

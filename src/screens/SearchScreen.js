@@ -1,10 +1,9 @@
 /* eslint-disable react/display-name */
-import React, {useContext} from "react"
+import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {Text} from "react-native-paper"
-import {SearchProvider, searchStore} from "../stores/searchStore"
 import {SelectTags} from "../scenes/search/SelectTags"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
@@ -12,6 +11,7 @@ import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {ItemDetail} from "../scenes/search/ItemDetail"
 import {SelectProducts} from "../scenes/search/SelectProducts"
+import {useSelector} from "react-redux"
 
 const Stack = createStackNavigator()
 
@@ -31,9 +31,9 @@ const navigatorProps = ({
 })
 
 // eslint-disable-next-line max-lines-per-function
-const SearchScreenInner = ({navigation}) => {
+export const SearchScreen = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
-  const {state: {tmpConditions}} = useContext(searchStore)
+  const tmpConditions = useSelector(({search: {tmpConditions}}) => tmpConditions)
 
   return (
     <Stack.Navigator {...navigatorProps}>
@@ -63,5 +63,3 @@ const SearchScreenInner = ({navigation}) => {
     </Stack.Navigator>
   )
 }
-
-export const SearchScreen = props => <SearchProvider><SearchScreenInner {...props} /></SearchProvider>

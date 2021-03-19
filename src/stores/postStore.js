@@ -100,18 +100,11 @@ export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
 }
 
 
-// Defin Provider
-const {Provider} = postStore
-const PostProvider = ({children}) => {
-  // Define Reducer
-  const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
-    [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
-    [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
-    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
-    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
-  }), initialState)
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-export {postStore, PostProvider}
+// Define Reducer
+export const postReducer = createReducer(initialState, {
+  [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
+  [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
+  [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
+  [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
+  [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
+})

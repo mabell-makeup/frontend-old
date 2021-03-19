@@ -1,10 +1,11 @@
-import React, {useContext, useState} from "react"
+import React, {useState} from "react"
 import {Button, TextInput, Title} from "react-native-paper"
 import {View, StyleSheet} from "react-native"
-import {authStore, signup, updateNewUser} from "../../stores/authStore"
+import {signup, updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
-import {addError, appStore} from "../../stores/appStore"
+import {addError} from "../../stores/appStore"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +35,7 @@ const rules = [
   {testFunc: text => text.length >= 4, message: "ユーザー名が短すぎます"}
 ]
 
-const onSubmit = (text, setError, dispatch, new_user, navigation, appDispatch) => async () => {
+const onSubmit = (text, setError, dispatch, new_user, navigation) => async () => {
   const messages = validate(text, rules)
   setError(messages)
   if (messages.length === 0) {
@@ -45,14 +46,14 @@ const onSubmit = (text, setError, dispatch, new_user, navigation, appDispatch) =
     } catch (error) {
       error.code === "UsernameExistsException"
         ? setError(["このユーザー名は使用できません"])
-        : addError(appDispatch, {errorType: "REQUEST_ERROR", message: "予期せぬエラーが発生しました"})
+        : addError(dispatch, {errorType: "REQUEST_ERROR", message: "予期せぬエラーが発生しました"})
     }
   }
 }
 
 export const RegisterUsername = ({navigation}) => {
-  const {dispatch, state: {new_user}} = useContext(authStore)
-  const {dispatch: appDispatch} = useContext(appStore)
+  const dispatch = useDispatch()
+  const new_user = useSelector(({auth: {new_user}}) => new_user)
   const [error, setError] = useState([])
   const [text, setText] = useState("")
 
@@ -66,7 +67,7 @@ export const RegisterUsername = ({navigation}) => {
         contentStyle={styles.buttonContentStyle}
         mode="contained"
         disabled={text.length === 0}
-        onPress={onSubmit(text, setError, dispatch, new_user, navigation, appDispatch)}
+        onPress={onSubmit(text, setError, dispatch, new_user, navigation)}
       >次へ</Button>
     </View>
   )

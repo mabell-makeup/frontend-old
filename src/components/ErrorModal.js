@@ -1,10 +1,12 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View} from "react-native"
 import {Button, Paragraph, Dialog, Portal} from "react-native-paper"
-import {appStore, clearError} from "../stores/appStore"
+import {clearError} from "../stores/appStore"
+import {useDispatch, useSelector} from "react-redux"
 
 export const ErrorModal = () => {
-  const {dispatch, state: {error}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const error = useSelector(({app: {error}}) => error)
 
   return (
     <View>

@@ -121,25 +121,17 @@ export const fetchPostCount = async (dispatch, filteredConditions) => {
   }
 }
 
-// Defin Provider
-const {Provider} = searchStore
-const SearchProvider = ({children}) => {
-  // Define Reducer
-  const [state, dispatch] = useReducer(createReducer(initialState, {
-    [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
-    [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
-    [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
-    [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
-    [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
-    [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
-    [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
-    [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
-    [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
-    [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload}),
-    [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
-  }), initialState)
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-
-export {searchStore, SearchProvider}
+// Define Reducer
+export const searchReducer = createReducer(initialState, {
+  [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
+  [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
+  [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
+  [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
+  [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
+  [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
+  [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
+  [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
+  [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
+  [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload}),
+  [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
+})

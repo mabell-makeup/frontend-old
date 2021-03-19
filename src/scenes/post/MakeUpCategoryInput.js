@@ -1,8 +1,8 @@
-import React, {useContext} from "react"
-import {postStore, updateTmpPost} from "../../stores/postStore"
+import React from "react"
+import {updateTmpPost} from "../../stores/postStore"
 import {parseMasterData} from "../../helper/requestHelper"
-import {appStore} from "../../stores/appStore"
 import {ChipList} from "../../components/ChipList"
+import {useDispatch, useSelector} from "react-redux"
 
 const createItems = (makeUpCategories, dispatch, tmpPost) =>
   makeUpCategories.map(({label, key}) => ({
@@ -15,8 +15,8 @@ const createItems = (makeUpCategories, dispatch, tmpPost) =>
 
 
 export const MakeUpCategoryInput = () => {
-  const {dispatch, state: {tmpPost}} = useContext(postStore)
-  const {state: {masterData}} = useContext(appStore)
+  const dispatch = useDispatch()
+  const {tmpPost, masterData} = useSelector(({post: {tmpPost}, app: {masterData}}) => ({tmpPost, masterData}))
   const makeUpCategories = parseMasterData(masterData, "makeup_categories")
   const items = createItems(makeUpCategories, dispatch, tmpPost)
 

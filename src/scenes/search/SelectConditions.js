@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
-import React, {useContext, useEffect} from "react"
+import React, {useEffect} from "react"
 import {List} from "../../components/List"
 import {Button, IconButton} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {searchStore, updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts} from "../../stores/searchStore"
+import {updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts} from "../../stores/searchStore"
 import {ColorPaletteInput} from "./ColorPaletteInput"
 import {CountryInput} from "./CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -14,6 +14,7 @@ import {isEqual} from "../../helper/storeHelper"
 import {PRODUCT_SEARCH_PLACE_HOLDER, TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
   button: {
@@ -77,7 +78,10 @@ const createTrendProducts = (dispatch, tmpConditions, products) => products.map(
 
 // eslint-disable-next-line max-lines-per-function
 export const SelectConditions = ({navigation}) => {
-  const {dispatch, state: {tmpConditions, suggestionTags, suggestionProducts, post_count}} = useContext(searchStore)
+  const dispatch = useDispatch()
+  const {tmpConditions, suggestionTags, suggestionProducts, post_count} = useSelector(({
+    search: {tmpConditions, suggestionTags, suggestionProducts, post_count}
+  }) => ({tmpConditions, suggestionTags, suggestionProducts, post_count}))
 
   useEffect(() => {
     fetchTrendTags(dispatch)
