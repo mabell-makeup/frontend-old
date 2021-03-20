@@ -2,8 +2,10 @@ import React from "react"
 import {createStackNavigator} from "@react-navigation/stack"
 import {SelectImages} from "../scenes/post/SelectImages"
 import {WINDOW_HEIGHT} from "../styles/constants"
-import {SelectTags} from "../scenes/post/SelectTags"
+import {SelectTagsInner} from "../scenes/SelectTags"
 import {SelectProducts} from "../scenes/post/SelectProducts"
+import {updateTmpTags} from "../stores/postStore"
+import {useSelector} from "react-redux"
 
 const Stack = createStackNavigator()
 
@@ -15,6 +17,12 @@ const navigatorProps = ({
     headerTitleAlign: "left"
   }
 })
+
+const SelectTags = props => {
+  const {tags} = useSelector(({post: {tmpPost: {tags}}}) => ({tags}))
+
+  return <SelectTagsInner tags={tags} updateTmpTagsFunc={updateTmpTags} {...props} />
+}
 
 export const PostScreen = () => {
   return (

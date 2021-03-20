@@ -4,7 +4,6 @@ import {createStackNavigator} from "@react-navigation/stack"
 import {Search} from "../scenes/search/Search"
 import {NewsFeed} from "../scenes/search/NewsFeed"
 import {Text} from "react-native-paper"
-import {SelectTags} from "../scenes/search/SelectTags"
 import {PostDetail} from "../scenes/search/PostDetail"
 import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
@@ -12,6 +11,8 @@ import {UserHome} from "../scenes/search/UserHome"
 import {ItemDetail} from "../scenes/search/ItemDetail"
 import {SelectProducts} from "../scenes/search/SelectProducts"
 import {useSelector} from "react-redux"
+import {SelectTagsInner} from "../scenes/SelectTags"
+import {updateTmpTags} from "../stores/searchStore"
 
 const Stack = createStackNavigator()
 
@@ -30,6 +31,12 @@ const navigatorProps = ({
   }
 })
 
+const SelectTags = props => {
+  const {tags} = useSelector(({post: {tmpPost: {tags}}}) => ({tags}))
+
+  return <SelectTagsInner tags={tags} updateTmpTagsFunc={updateTmpTags} {...props} />
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const SearchScreen = ({navigation}) => {
   const defaultScreenOptions = createDefaultScreenOptions(navigation)
@@ -37,10 +44,7 @@ export const SearchScreen = ({navigation}) => {
 
   return (
     <Stack.Navigator {...navigatorProps}>
-      {/* SearchbarのonChangeで再レンダリングされないようにheaderTitleにわたすコンポーネントは無名関数でラップする */}
-      <Stack.Screen name="Search" component={Search} options={{
-        ...defaultScreenOptions
-      }}/>
+      <Stack.Screen name="Search" component={Search} options={defaultScreenOptions}/>
       <Stack.Screen name="SelectTags" component={SelectTags} />
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
