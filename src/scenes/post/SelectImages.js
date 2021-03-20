@@ -15,7 +15,7 @@ import {updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
-import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
+import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {CountryInput} from "../../components/CountryInput"
 import {addError} from "../../stores/appStore"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
@@ -205,7 +205,7 @@ export const SelectImages = ({navigation}) => {
           <ErrorMessage messages={descriptionError} />
           <View style={styles.inputContainer}>
             <Text style={styles.label}>カテゴリを選ぶ</Text>
-            <MakeUpCategoryInput />
+            <MakeUpCategoryInput tmpState={tmpPost} onPress={category => () => updateTmpPost(dispatch, tmpPost, {makeup_categories: category})} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>色を選ぶ</Text>
