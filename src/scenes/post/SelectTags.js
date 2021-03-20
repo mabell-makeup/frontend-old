@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react"
 import {ScrollView} from "react-native"
 import {Button} from "react-native-paper"
 import {ChipList} from "../../components/ChipList"
-import {createTag, fetchTags, fetchTrendTags, updateTmpTags} from "../../stores/postStore"
+import {updateTmpTags} from "../../stores/postStore"
 import {TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
 import {IconTextInput} from "../../components/IconTextInput"
 import {useDispatch, useSelector} from "react-redux"
+import {createTag, fetchTags, fetchTrendTags} from "../../stores/appStore"
 
 const styles = {
   container: {
@@ -33,7 +34,7 @@ const createRows = (dispatch, preTags, tags, navigation) =>
   }))
 
 const onPress = (dispatch, preTags, text, navigation, suggestionTags) => () => {
-  suggestionTags.map(tag => tag.tag_name).includes(text) ? updateTmpTags(dispatch, preTags, text) : createTag(dispatch, preTags, text)
+  suggestionTags.map(tag => tag.tag_name).includes(text) ? updateTmpTags(dispatch, preTags, text) : createTag(dispatch, preTags, text, () => updateTmpTags(dispatch, preTags, text))
   navigation.goBack()
 }
 
@@ -44,7 +45,7 @@ const onChangeText = (dispatch, setText) => text => {
 
 export const SelectTags = ({navigation}) => {
   const dispatch = useDispatch()
-  const {suggestionTags, tags} = useSelector(({post: {suggestionTags, tmpPost: {tags}}}) => ({suggestionTags, tags}))
+  const {suggestionTags, tags} = useSelector(({app: {suggestionTags}, post: {tmpPost: {tags}}}) => ({suggestionTags, tags}))
   const rows = createRows(dispatch, tags, suggestionTags, navigation)
   const [text, setText] = useState("")
 

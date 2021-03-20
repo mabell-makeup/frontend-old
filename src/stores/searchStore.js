@@ -1,12 +1,9 @@
-import React, {createContext, useReducer} from "react"
-import {Image} from "react-native"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {countPosts, listPostTypes, listProductTypes, listTagTypes} from "../graphql/queries"
+import {countPosts, listPostTypes, listProductTypes} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
-  suggestionTags: [],
   suggestionProducts: [],
   searchResult: [],
   tmpResult: [],
@@ -26,16 +23,12 @@ export const initialState = {
   nextToken: ""
 }
 
-// Define Store
-const searchStore = createContext(initialState)
-
 // Define Types
 const UPDATE_TMP_CONDITIONS = "UPDATE_TMP_CONDITIONS"
 const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_POSTS = "UPDATE_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
-const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
 const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
@@ -71,23 +64,6 @@ export const updateSearchResult = dispatch => {
   dispatch({type: UPDATE_SEARCH_RESULT})
 }
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
-export const fetchTrendTags = async dispatch => {
-  try {
-    const response = await apiRequest(listTagTypes, {limit: 20})
-    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
-  } catch (error) {
-    console.log("error fetch trend tags: ", error)
-  }
-}
-export const updateSuggestionTags = (dispatch, tags) => dispatch({type: UPDATE_SUGGESTION_TAGS, payload: tags})
-export const fetchTags = async (dispatch, text) => {
-  try {
-    const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
-    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
-  } catch (error) {
-    console.log("error fetch tags: ", error)
-  }
-}
 export const fetchTrendProducts = async dispatch => {
   try {
     const response = await apiRequest(listProductTypes, {limit: 20})
@@ -128,7 +104,6 @@ export const searchReducer = createReducer(initialState, {
   [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
   [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
   [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
-  [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload}),
   [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
   [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
   [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),

@@ -1,23 +1,22 @@
-import React, {createContext, useReducer} from "react"
 import {createReducer, formatMasterData} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {getMasterType} from "../graphql/queries"
+import {getMasterType, listTagTypes} from "../graphql/queries"
+import {createTagType} from "../graphql/mutations"
 
 export const initialState = {
   masterData: {},
+  suggestionTags: [],
   error: {
     errorType: false,
     message: ""
   }
 }
 
-// Define Store
-const appStore = createContext(initialState)
-
 // Define Types
 const FETCH_MASTER_DATA = "FETCH_MASTER_DATA"
 const CLEAR_ERROR = "CLEAR_ERROR"
 const ADD_ERROR = "ADD_ERROR"
+const UPDATE_SUGGESTION_TAGS = "UPDATE_SUGGESTION_TAGS"
 
 // Define ActionCreator
 export const fetchMasterData = async dispatch => {
@@ -28,10 +27,35 @@ export const clearError = async dispatch => dispatch({type: CLEAR_ERROR})
 export const addError = (dispatch, error={errorType: "", message: ""}) => {
   dispatch({type: ADD_ERROR, payload: error})
 }
+export const fetchTrendTags = async dispatch => {
+  try {
+    const response = await apiRequest(listTagTypes, {limit: 20})
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+  } catch (error) {
+    console.log("error fetch trend tags: ", error)
+  }
+}
+export const fetchTags = async (dispatch, text) => {
+  try {
+    const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+  } catch (error) {
+    console.log("error fetch tags: ", error)
+  }
+}
+export const createTag = async (dispatch, preTags, text, updateTmpTagsFunc) => {
+  try {
+    await apiRequest(createTagType, {input: {tag_name: text, count: 0}})
+    updateTmpTagsFunc(dispatch, preTags, text)
+  } catch (error) {
+    console.log("error create tag: ", error)
+  }
+}
 
 // Define Reducer
 export const appReducer = createReducer(initialState, {
   [FETCH_MASTER_DATA]: (state, {payload}) => ({...state, masterData: payload}),
   [CLEAR_ERROR]: state => ({...state, error: initialState.error}),
-  [ADD_ERROR]: (state, {payload}) => ({...state, error: payload})
+  [ADD_ERROR]: (state, {payload}) => ({...state, error: payload}),
+  [UPDATE_SUGGESTION_TAGS]: (state, {payload}) => ({...state, suggestionTags: payload})
 })
