@@ -14,7 +14,7 @@ import {UserInfoList} from "../../components/UserInfoList"
 import {updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
-import {ColorPaletteInput} from "./ColorPaletteInput"
+import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
 import {CountryInput} from "./CountryInput"
 import {addError} from "../../stores/appStore"
@@ -209,7 +209,7 @@ export const SelectImages = ({navigation}) => {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>色を選ぶ</Text>
-            <ColorPaletteInput />
+            <ColorPaletteInput tmpState={tmpPost} onColorInputPress={color => () => updateTmpPost(dispatch, tmpPost, {color})} onGlitterInputPress={glitter => () => updateTmpPost(dispatch, tmpPost, {glitter})} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>国を選ぶ</Text>

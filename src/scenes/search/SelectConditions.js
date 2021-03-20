@@ -3,8 +3,8 @@ import React, {useEffect} from "react"
 import {List} from "../../components/List"
 import {Button, IconButton} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts} from "../../stores/searchStore"
-import {ColorPaletteInput} from "./ColorPaletteInput"
+import {updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
+import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "./CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
 import {FaceTypeInput} from "../../components/FaceTypeInput"
@@ -93,7 +93,7 @@ export const SelectConditions = ({navigation}) => {
   // TODO: 後でコンポーネントの外に出す
   const conditions = [
     {title: "カテゴリで絞り込む", inner: <MakeUpCategoryInput key="makeUpCategory" />},
-    {title: "色で絞り込む", inner: <ColorPaletteInput key="color" />},
+    {title: "色で絞り込む", inner: <ColorPaletteInput key="color" tmpState={tmpConditions} onColorInputPress={color => () => updateTmpConditions(dispatch, tmpConditions, {color})} onGlitterInputPress={glitter => () => updateTmpConditions(dispatch, tmpConditions, {glitter})} />},
     {title: "国で絞り込む", inner: <CountryInput key="country" />},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />},
     {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
