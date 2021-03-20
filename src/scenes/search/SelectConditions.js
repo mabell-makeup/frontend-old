@@ -5,7 +5,7 @@ import {Button, IconButton} from "react-native-paper"
 import {ScrollView, View} from "react-native"
 import {updateConditions, updateSearchResult, initialState, fetchTrendTags, fetchTrendProducts, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
-import {CountryInput} from "./CountryInput"
+import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
 import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
@@ -94,7 +94,7 @@ export const SelectConditions = ({navigation}) => {
   const conditions = [
     {title: "カテゴリで絞り込む", inner: <MakeUpCategoryInput key="makeUpCategory" />},
     {title: "色で絞り込む", inner: <ColorPaletteInput key="color" tmpState={tmpConditions} onColorInputPress={color => () => updateTmpConditions(dispatch, tmpConditions, {color})} onGlitterInputPress={glitter => () => updateTmpConditions(dispatch, tmpConditions, {glitter})} />},
-    {title: "国で絞り込む", inner: <CountryInput key="country" />},
+    {title: "国で絞り込む", inner: <CountryInput key="country" tmpState={tmpConditions} onPress={country => () => updateTmpConditions(dispatch, tmpConditions, {country})} />},
     {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />},
     {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
     {title: "肌タイプで絞り込む", inner: <SkinTypeInput key="skinType" />},

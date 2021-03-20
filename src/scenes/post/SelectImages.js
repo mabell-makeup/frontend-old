@@ -16,7 +16,7 @@ import {ChipList} from "../../components/ChipList"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {MakeUpCategoryInput} from "./MakeUpCategoryInput"
-import {CountryInput} from "./CountryInput"
+import {CountryInput} from "../../components/CountryInput"
 import {addError} from "../../stores/appStore"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
 import {rules, validate} from "../../helper/validateHelper"
@@ -213,7 +213,7 @@ export const SelectImages = ({navigation}) => {
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>国を選ぶ</Text>
-            <CountryInput />
+            <CountryInput tmpState={tmpPost} onPress={country => () => updateTmpPost(dispatch, tmpPost, {country})} />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>タグ付け</Text>
