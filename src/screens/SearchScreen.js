@@ -9,10 +9,10 @@ import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserHome} from "../scenes/search/UserHome"
 import {ItemDetail} from "../scenes/search/ItemDetail"
-import {SelectProducts} from "../scenes/search/SelectProducts"
 import {useSelector} from "react-redux"
 import {SelectTagsInner} from "../scenes/SelectTags"
-import {updateTmpTags} from "../stores/searchStore"
+import {updateTmpProducts, updateTmpTags} from "../stores/searchStore"
+import {SelectProductsInner} from "../scenes/SelectProducts"
 
 const Stack = createStackNavigator()
 
@@ -32,10 +32,15 @@ const navigatorProps = ({
 })
 
 const SelectTags = props => {
-  const {tags} = useSelector(({post: {tmpPost: {tags}}}) => ({tags}))
-
+  const tags = useSelector(({post: {tmpPost: {tags}}}) => tags)
   return <SelectTagsInner tags={tags} updateTmpTagsFunc={updateTmpTags} {...props} />
 }
+
+const SelectProducts = props => {
+  const products = useSelector(({search: {tmpConditions: {products}}}) => products)
+  return <SelectProductsInner products={products} updateTmpProductsFunc={updateTmpProducts} {...props} />
+}
+
 
 // eslint-disable-next-line max-lines-per-function
 export const SearchScreen = ({navigation}) => {
