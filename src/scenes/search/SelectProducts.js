@@ -4,7 +4,8 @@ import {List} from "../../components/List"
 import {Checkbox} from "react-native-paper"
 import {IconTextInput} from "../../components/IconTextInput"
 import {PRODUCT_SEARCH_PLACE_HOLDER} from "../../styles/constants"
-import {fetchTrendProducts, updateTmpProducts, fetchProducts} from "../../stores/searchStore"
+import {updateTmpProducts} from "../../stores/searchStore"
+import {fetchTrendProducts, fetchProducts} from "../../stores/appStore"
 import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
@@ -38,7 +39,7 @@ const createRows = (dispatch, suggestionProducts, selectedProducts, navigtaion) 
 
 export const SelectProducts = ({navigation}) => {
   const dispatch = useDispatch()
-  const {suggestionProducts, products} = useSelector(({search: {suggestionProducts, tmpConditions: {products}}}) => ({suggestionProducts, products}))
+  const {suggestionProducts, products} = useSelector(({app: {suggestionProducts}, search: {tmpConditions: {products}}}) => ({suggestionProducts, products}))
   const rows = createRows(dispatch, suggestionProducts, products, navigation)
 
   useEffect(() => {

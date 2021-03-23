@@ -1,11 +1,11 @@
 import React, {useEffect} from "react"
 import {ScrollView} from "react-native"
-import {List} from "../../components/List"
+import {List} from "../components/List"
 import {Button, Checkbox} from "react-native-paper"
-import {updateTmpProducts} from "../../stores/postStore"
-import {fetchProducts, fetchTrendProducts} from "../../stores/appStore"
-import {IconTextInput} from "../../components/IconTextInput"
-import {PRODUCT_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {updateTmpProducts} from "../stores/postStore"
+import {fetchProducts, fetchTrendProducts} from "../stores/appStore"
+import {IconTextInput} from "../components/IconTextInput"
+import {PRODUCT_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 
 const styles = {

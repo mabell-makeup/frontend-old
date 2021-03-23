@@ -4,7 +4,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
-import {createPost, fetchTrendProducts, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
+import {createPost, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
@@ -17,7 +17,7 @@ import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {CountryInput} from "../../components/CountryInput"
-import {addError, fetchTrendTags} from "../../stores/appStore"
+import {addError, fetchTrendTags, fetchTrendProducts} from "../../stores/appStore"
 import {TextWithImportantLabel} from "../../components/TextWithImportantLabel"
 import {rules, validate} from "../../helper/validateHelper"
 import {ErrorMessage} from "../../components/ErrorMessage"
@@ -143,7 +143,7 @@ const createTrendProducts = (dispatch, preProducts, products) => products.map(pr
 export const SelectImages = ({navigation}) => {
   const dispatch = useDispatch()
   const {tmpPost, suggestionTags, suggestionProducts, user} = useSelector(({
-    post: {tmpPost, suggestionProducts}, app: {suggestionTags}, auth: {user}
+    post: {tmpPost}, app: {suggestionTags, suggestionProducts}, auth: {user}
   }) => ({tmpPost, suggestionTags, suggestionProducts, user}))
   const initialTmpUser = {...Object.fromEntries(Object.entries(user).filter(([key]) => Object.keys(displayItemsMap).includes(key))), gender: user.gender}
   const [tmpUser, setTmpUser] = useState({...initialTmpUser, name: user.name, nickname: user.nickname})

@@ -1,10 +1,9 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
-import {countPosts, listPostTypes, listProductTypes} from "../graphql/queries"
+import {countPosts, listPostTypes} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
-  suggestionProducts: [],
   searchResult: [],
   tmpResult: [],
   post_count: 0,
@@ -29,7 +28,6 @@ const FETCH_POSTS = "FETCH_POSTS"
 const UPDATE_POSTS = "UPDATE_POSTS"
 const UPDATE_SEARCH_RESULT = "UPDATE_SEARCH_RESULT"
 const UPDATE_CONDITIONS = "UPDATE_CONDITIONS"
-const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
 const UPDATE_RESULT_COUNT = "UPDATE_RESULT_COUNT"
@@ -64,14 +62,6 @@ export const updateSearchResult = dispatch => {
   dispatch({type: UPDATE_SEARCH_RESULT})
 }
 export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
-export const fetchTrendProducts = async dispatch => {
-  try {
-    const response = await apiRequest(listProductTypes, {limit: 20})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
-  } catch (error) {
-    console.log("error fetch trend products: ", error)
-  }
-}
 export const updateTmpTags = async (dispatch, preTags, newTag) => {
   const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
   dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})
@@ -79,14 +69,6 @@ export const updateTmpTags = async (dispatch, preTags, newTag) => {
 export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
   const nextProducts = preProducts.map(p => p.product_id).includes(newProduct.product_id) ? preProducts.filter(p => p.product_id !== newProduct.product_id) : [...preProducts, newProduct]
   dispatch({type: UPDATE_TMP_PRODUCTS, payload: nextProducts})
-}
-export const fetchProducts = async (dispatch, text) => {
-  try {
-    const response = await apiRequest(listProductTypes, {limit: 20, filter: {product_name: {contains: text}}})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
-  } catch (error) {
-    console.log("error fetch products: ", error)
-  }
 }
 export const fetchPostCount = async (dispatch, filteredConditions) => {
   try {
@@ -104,7 +86,6 @@ export const searchReducer = createReducer(initialState, {
   [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
   [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
   [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
-  [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
   [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
   [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
   [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload}),

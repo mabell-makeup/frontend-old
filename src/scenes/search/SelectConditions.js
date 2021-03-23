@@ -3,7 +3,7 @@ import React, {useEffect} from "react"
 import {List} from "../../components/List"
 import {Button, IconButton} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {updateConditions, updateSearchResult, initialState, fetchTrendProducts, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
+import {updateConditions, updateSearchResult, initialState, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -15,7 +15,7 @@ import {PRODUCT_SEARCH_PLACE_HOLDER, TAG_SEARCH_PLACE_HOLDER} from "../../styles
 import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
 import {useDispatch, useSelector} from "react-redux"
-import {fetchTrendTags} from "../../stores/appStore"
+import {fetchTrendTags, fetchTrendProducts} from "../../stores/appStore"
 
 const styles = {
   button: {
@@ -81,7 +81,7 @@ const createTrendProducts = (dispatch, tmpConditions, products) => products.map(
 export const SelectConditions = ({navigation}) => {
   const dispatch = useDispatch()
   const {tmpConditions, suggestionTags, suggestionProducts, post_count} = useSelector(({
-    search: {tmpConditions, suggestionProducts, post_count}, app: {suggestionTags}
+    search: {tmpConditions, post_count}, app: {suggestionTags, suggestionProducts}
   }) => ({tmpConditions, suggestionTags, suggestionProducts, post_count}))
 
   useEffect(() => {

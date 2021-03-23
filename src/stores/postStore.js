@@ -1,7 +1,6 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {createPostType} from "../graphql/mutations"
-import {listProductTypes} from "../graphql/queries"
 
 export const initialState = {
   tmpPost: {
@@ -18,12 +17,10 @@ export const initialState = {
     description: "",
     img_src_list: [],
     thumbnail_img_src: ""
-  },
-  suggestionProducts: []
+  }
 }
 
 // Define Types
-const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 const UPDATE_TMP_POST = "UPDATE_TMP_POST"
 const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
@@ -48,22 +45,6 @@ export const updateTmpTags = async (dispatch, preTags, newTag) => {
   const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
   dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})
 }
-export const fetchProducts = async (dispatch, text) => {
-  try {
-    const response = await apiRequest(listProductTypes, {limit: 20, filter: {product_name: {contains: text}}})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
-  } catch (error) {
-    console.log("error fetch products: ", error)
-  }
-}
-export const fetchTrendProducts = async dispatch => {
-  try {
-    const response = await apiRequest(listProductTypes, {limit: 20})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
-  } catch (error) {
-    console.log("error fetch trend products: ", error)
-  }
-}
 export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
   const nextProducts = preProducts.map(p => p.product_id).includes(newProduct.product_id) ? preProducts.filter(p => p.product_id !== newProduct.product_id) : [...preProducts, newProduct]
   dispatch({type: UPDATE_TMP_PRODUCTS, payload: nextProducts})
@@ -72,7 +53,6 @@ export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
 
 // Define Reducer
 export const postReducer = createReducer(initialState, {
-  [UPDATE_SUGGESTION_PRODUCTS]: (state, {payload}) => ({...state, suggestionProducts: payload}),
   [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
   [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
   [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
