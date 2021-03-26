@@ -32,7 +32,7 @@ const navigatorProps = ({
 })
 
 const SelectTags = props => {
-  const tags = useSelector(({post: {tmpPost: {tags}}}) => tags)
+  const tags = useSelector(({search: {tmpConditions: {tags}}}) => tags)
   return <SelectTagsInner tags={tags} updateTmpTagsFunc={updateTmpTags} {...props} />
 }
 

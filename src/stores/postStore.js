@@ -22,8 +22,8 @@ export const initialState = {
 
 // Define Types
 const UPDATE_TMP_POST = "UPDATE_TMP_POST"
-const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
-const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
+const UPDATE_TMP_POST_TAGS = "UPDATE_TMP_POST_TAGS"
+const UPDATE_TMP_POST_PRODUCTS = "UPDATE_TMP_POST_PRODUCTS"
 
 // Define ActionCreator
 export const createPost = async tmpPost => {
@@ -43,17 +43,17 @@ export const updateTmpPost = (dispatch, preTmpPost, nextCondition, isToggle=true
 }
 export const updateTmpTags = async (dispatch, preTags, newTag) => {
   const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
-  dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})
+  dispatch({type: UPDATE_TMP_POST_TAGS, payload: nextTags})
 }
 export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
   const nextProducts = preProducts.map(p => p.product_id).includes(newProduct.product_id) ? preProducts.filter(p => p.product_id !== newProduct.product_id) : [...preProducts, newProduct]
-  dispatch({type: UPDATE_TMP_PRODUCTS, payload: nextProducts})
+  dispatch({type: UPDATE_TMP_POST_PRODUCTS, payload: nextProducts})
 }
 
 
 // Define Reducer
 export const postReducer = createReducer(initialState, {
   [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
-  [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
-  [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
+  [UPDATE_TMP_POST_TAGS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, tags: payload}}),
+  [UPDATE_TMP_POST_PRODUCTS]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, products: payload}})
 })
