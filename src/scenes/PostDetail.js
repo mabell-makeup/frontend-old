@@ -1,14 +1,14 @@
 import React, {useState} from "react"
 import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
-import {Carousel} from "../../components/Carousel"
-import {ChipList} from "../../components/ChipList"
-import {Loading} from "../../components/Loading"
-import {PopupMenu} from "../../components/PopupMenu"
-import {openReportInappropriateContentPage} from "../../helper/contactHelper"
-import {parseMasterData} from "../../helper/requestHelper"
-import {updateLikePost, fetchUserPosts} from "../../stores/postDetailStore"
-import {WINDOW_WIDTH, MORE_ICON} from "../../styles/constants"
+import {Carousel} from "../components/Carousel"
+import {ChipList} from "../components/ChipList"
+import {Loading} from "../components/Loading"
+import {PopupMenu} from "../components/PopupMenu"
+import {openReportInappropriateContentPage} from "../helper/contactHelper"
+import {parseMasterData} from "../helper/requestHelper"
+import {updateLikePost, fetchUserPosts} from "../stores/postDetailStore"
+import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 
 // eslint-disable-next-line max-lines-per-function
@@ -122,7 +122,7 @@ const PostHeader = ({postUser, navigation, setShowMenu}) => {
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
       <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id)}>
         {/* eslint-disable-next-line no-undef */}
-        <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
+        <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../assets/no_image.png")} />
         <Appbar.Content 
           title={postUser.nickname}
           titleStyle={styles.name}

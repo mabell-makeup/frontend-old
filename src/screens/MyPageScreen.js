@@ -4,7 +4,7 @@ import {MyPage} from "../scenes/user/MyPage"
 import {WINDOW_HEIGHT} from "../styles/constants"
 import {IconButton} from "react-native-paper"
 import {View} from "react-native"
-import {PostDetail} from "../scenes/user/PostDetail"
+import {PostDetail} from "../scenes/PostDetail"
 
 const Stack = createStackNavigator()
 
