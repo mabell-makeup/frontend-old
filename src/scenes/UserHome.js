@@ -1,9 +1,9 @@
 import React, {useEffect} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Button, Divider, IconButton} from "react-native-paper"
-import {ImageList} from "../../components/ImageList"
-import {fetchMyPosts, fetchPostCount} from "../../stores/authStore"
-import {fetchPostDetail} from "../../stores/postDetailStore"
+import {ImageList} from "../components/ImageList"
+import {fetchMyPosts, fetchPostCount} from "../stores/authStore"
+import {fetchPostDetail} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
@@ -60,26 +60,22 @@ const styles = StyleSheet.create({
   }
 })
 
-const FollowInfo = () => {
-  const post_count = useSelector(({auth: {user: {post_count}}}) => post_count)
-
-  return (
-    <View style={styles.followInfoContainer}>
-      <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>{post_count ? post_count : 0}</Text>
-        <Text>投稿</Text>
-      </View>
-      {/* <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>0</Text>
-        <Text>フォロワー</Text>
-      </View> */}
-      {/* <View style={styles.followInfoItem}>
-        <Text style={styles.bold}>0</Text>
-        <Text>フォロー中</Text>
-      </View> */}
+const FollowInfo = ({postCount}) => 
+  <View style={styles.followInfoContainer}>
+    <View style={styles.followInfoItem}>
+      <Text style={styles.bold}>{postCount ? postCount : 0}</Text>
+      <Text>投稿</Text>
     </View>
-  )
-}
+    {/* <View style={styles.followInfoItem}>
+      <Text style={styles.bold}>0</Text>
+      <Text>フォロワー</Text>
+    </View> */}
+    {/* <View style={styles.followInfoItem}>
+      <Text style={styles.bold}>0</Text>
+      <Text>フォロー中</Text>
+    </View> */}
+  </View>
+
 
 // eslint-disable-next-line complexity
 const SelfIntroduction = ({user, M}) => {
@@ -114,17 +110,22 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const MyPage = ({navigation}) => {
+export const UserHome = ({navigation, route: {params}}) => {
+  const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
-  const {user, nextToken, masterData} = useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
+  const {user, nextToken, masterData} = isMyPage
+    ? useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
+    : useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, nextToken: "", masterData}))
   const data = createData(user.posts, navigation, dispatch, user.user_id)
   
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      fetchMyPosts(dispatch, user.user_id)
-      fetchPostCount(dispatch, user.user_id)
-    })
-    return unsubscribe
+    if(isMyPage) {
+      const unsubscribe = navigation.addListener("focus", () => {
+        fetchMyPosts(dispatch, user.user_id)
+        fetchPostCount(dispatch, user.user_id)
+      })
+      return unsubscribe
+    }
   }, [navigation])
 
   return (
@@ -137,19 +138,19 @@ export const MyPage = ({navigation}) => {
       <View style={styles.userInfo}>
         <View style={styles.row}>
           {/* eslint-disable-next-line no-undef */}
-          <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../../assets/no_image.png")} />
-          <FollowInfo />
+          <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
+          <FollowInfo postCount={isMyPage ? user.post_count : user.posts.length} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
       </View>
-      <Button
+      {isMyPage && <Button
         mode="contained"
         icon="plus"
         onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})}
         style={styles.button}
       >
         投稿する
-      </Button>
+      </Button>}
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />
     </ScrollView>

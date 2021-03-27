@@ -1,4 +1,3 @@
-import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 import {apiRequest} from "../helper/requestHelper"
@@ -35,9 +34,6 @@ const initialState = {
   nextToken: ""
 }
 
-// Define Store
-const authStore = createContext(initialState)
-
 // Define Types
 const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 const LOGIN_FAILURE = "LOGIN_FAILURE"
@@ -48,7 +44,7 @@ const CANCEL_SIGNUP = "CANCEL_SIGNUP"
 const UPDATE_USER = "UPDATE_USER"
 const FETCH_MY_POSTS = "FETCH_MY_POSTS"
 const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
-const UPDATE_NEXT_TOKEN = "UPDATE_NEXT_TOKEN"
+const UPDATE_MY_POSTS_NEXT_TOKEN = "UPDATE_MY_POSTS_NEXT_TOKEN"
 
 
 // Define ActionCreator
@@ -146,7 +142,7 @@ export const fetchMyPosts = async (dispatch, user_id, nextToken) => {
   try {
     const res = await apiRequest(listPostTypes, nextToken ? {filter: {user_id: {eq: user_id}}, nextToken} : {filter: {user_id: {eq: user_id}}})
     dispatch({type: nextToken ? UPDATE_MY_POSTS : FETCH_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
-    dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken ? res.listPostTypes.nextToken : ""})
+    dispatch({type: UPDATE_MY_POSTS_NEXT_TOKEN, payload: res.listPostTypes.nextToken ? res.listPostTypes.nextToken : ""})
   } catch (error) {
     console.log("error fetch my posts: ", error)
   }
@@ -170,5 +166,5 @@ export const authReducer = createReducer(initialState, {
   [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
   [FETCH_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
   [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
-  [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
+  [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
 })

@@ -4,10 +4,15 @@ import {HomeScreen} from "./HomeScreen"
 import {SearchScreen} from "./SearchScreen"
 import {IconButton} from "react-native-paper"
 import {MyPageScreen} from "./MyPageScreen"
+import {fetchMyPosts, fetchPostCount} from "../stores/authStore"
+import {useDispatch, useSelector} from "react-redux"
 
 const Tab = createMaterialBottomTabNavigator()
 
 export const TabScreen = () => {
+  const dispatch = useDispatch()
+  const user_id = useSelector(({auth: {user: {user_id}}}) => user_id)
+
   return (
     <Tab.Navigator
       initialRouteName="SearchScreen"
@@ -18,7 +23,12 @@ export const TabScreen = () => {
     >
       {/* <Tab.Screen name="HomeScreen" component={HomeScreen} options={{tabBarIcon: ({color}) => <IconButton icon="home" size={30} color={color} style={{margin: 0}} />}} /> */}
       <Tab.Screen name="SearchScreen" component={SearchScreen} options={{tabBarIcon: ({color}) => <IconButton icon="magnify" size={30} color={color} style={{margin: 0}} />}} />
-      <Tab.Screen name="MyPageScreen" component={MyPageScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}} />
+      <Tab.Screen name="MyPageScreen" component={MyPageScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}}
+        listeners = {{tabPress: () => {
+          fetchMyPosts(dispatch, user_id)
+          fetchPostCount(dispatch, user_id)
+        }}}
+      />
     </Tab.Navigator>
   )
 }
