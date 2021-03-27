@@ -20,7 +20,7 @@ const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   }
 }
 
-export const Women = ({navigation}) => {
+export const SearchResult = ({navigation}) => {
   const dispatch = useDispatch()
   const {searchResult, tmpConditions, nextToken, user_id} = useSelector(({
     search: {searchResult, tmpConditions, nextToken}, auth: {user: {user_id}}

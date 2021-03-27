@@ -2,7 +2,7 @@ import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
 import {parseMasterData} from "../../helper/requestHelper"
 import {updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
-import {Women} from "./Women"
+import {SearchResult} from "./SearchResult"
 import {useDispatch, useSelector} from "react-redux"
 
 
@@ -10,7 +10,7 @@ const createItems = (screens, dispatch, tmpConditions) =>
   screens.map(({label, key}) => ({
     label,
     routeName: label,
-    component: Women,
+    component: SearchResult,
     key,
     listeners: {focus: () => changeTab(dispatch, tmpConditions, key)}
   }))

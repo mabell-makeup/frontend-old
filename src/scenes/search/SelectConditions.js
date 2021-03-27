@@ -59,7 +59,7 @@ const styles = {
 const handlePress = (dispatch, navigation) => () => {
   updateSearchResult(dispatch)
   updateConditions(dispatch)
-  navigation.navigate("NewsFeed", {screen: "Women"})
+  navigation.navigate("NewsFeed", {screen: "SearchResult"})
 }
 
 const createRows = conditions => conditions.map(({title, inner}) => 
