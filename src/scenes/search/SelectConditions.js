@@ -101,23 +101,23 @@ export const SelectConditions = ({navigation}) => {
     {title: "肌タイプで絞り込む", inner: <SkinTypeInput key="skinType" />},
     {
       title: "タグで絞り込む",
-      inner:
-        // eslint-disable-next-line react/jsx-indent
+      inner: (
         <View key="tags" style={styles.inputContainer}>
           <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="tag" style={styles.FakeInput} />
           {tmpConditions.tags.length > 0 && <List rows={tmpConditions.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(dispatch, tmpConditions.tags, tag)} />}))} />}
           <ChipList items={trendTags} />
         </View>
+      )
     },
     {
       title: "使用アイテムで絞り込む",
-      inner:
-        // eslint-disable-next-line react/jsx-indent
+      inner: (
         <View key="products" style={styles.inputContainer}>
           <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="product" style={styles.FakeInput} />
           {tmpConditions.products.length > 0 && <List rows={tmpConditions.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(dispatch, tmpConditions.products, product)} />}))} />}
           <ChipList items={trendProducts} />
         </View>
+      )
     }
   ]
   

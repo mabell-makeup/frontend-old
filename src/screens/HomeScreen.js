@@ -13,7 +13,7 @@ const fetchMaster = async setResponse => {
   setResponse(res)
 }
 
-export const HomeScreen = ({navigation}) => {
+export const HomeScreen = () => {
   const [response, setResponse] = useState("")
   return (
     <View style={styles.container}>

@@ -17,8 +17,7 @@ const styles = {
 
 const Item = ({title, style, ...props}) => <L.Item title={title} style={{...styles.row, ...style}} {...props} />
 
-// eslint-disable-next-line react/jsx-key
-const Accordion = ({title, rows, style, titleStyle,  ...props}) =>
+const Accordion = ({title, rows, style, titleStyle, ...props}) =>
   <L.Accordion title={title} style={{...styles.row, ...style}} titleStyle={{...styles.rowTitle, ...titleStyle}} {...props}>
     {rows.map(accordionItem => 
       typeof accordionItem === "object" && accordionItem.$$typeof

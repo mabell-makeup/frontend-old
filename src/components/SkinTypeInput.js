@@ -8,7 +8,6 @@ const createItems = (skinTypes, dispatch, tmpConditions) =>
   skinTypes.map(skinType => ({
     label: skinType.label,
     key: skinType.key,
-    // eslint-disable-next-line react/display-name
     selected: skinType.key === tmpConditions.skin_type,
     onPress: () => updateTmpConditions(dispatch, tmpConditions, {skin_type: skinType.key})
   }))

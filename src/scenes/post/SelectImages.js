@@ -164,7 +164,6 @@ export const SelectImages = ({navigation}) => {
         }
       }
     })()
-    // pickImage(onPickSuccess, () => navigation.goBack())
     updateTmpPost(dispatch, tmpPost, initialTmpUser)
     fetchTrendTags(dispatch)
     fetchTrendProducts(dispatch)

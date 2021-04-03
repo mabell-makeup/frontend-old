@@ -3,6 +3,7 @@ import {StyleSheet} from "react-native"
 import {ActivityIndicator} from "react-native-paper"
 import {WINDOW_HEIGHT} from "../styles/constants"
 import {Overlay} from "./Overlay"
+import {primary} from "../styles/colors"
 
 const styles = StyleSheet.create({
   spinner: {
@@ -16,5 +17,5 @@ const styles = StyleSheet.create({
 export const Loading = ({isLoading=false}) =>
   isLoading &&
     <Overlay>
-      <ActivityIndicator animating={isLoading} color="#9E649C" size="large" style={styles.spinner} />
+      <ActivityIndicator animating={isLoading} color={primary} size="large" style={styles.spinner} />
     </Overlay>

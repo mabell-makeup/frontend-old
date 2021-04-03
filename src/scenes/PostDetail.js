@@ -10,6 +10,7 @@ import {parseMasterData} from "../helper/requestHelper"
 import {updateLikePost, fetchUserPosts} from "../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
+import {primary} from "../styles/colors"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -72,7 +73,7 @@ const createStyles = favorite => ({
     borderColor: "#ccc"
   },
   favoriteButton: {
-    borderColor: favorite ? "#9E649C" : "#ccc"
+    borderColor: favorite ? primary : "#ccc"
   },
   buttonContainer: {
     flexDirection: "row"
@@ -179,7 +180,7 @@ const ReactionContainer = () => {
         <Text style={styles.marginLeft}>いいね <Text style={styles.strong}>{post.like_count ? post.like_count : 0}</Text>件</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? "#9E649C" : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
         {/* <IconButton icon="comment-outline" style={styles.button} color="#999" /> */}
       </View>
     </View>

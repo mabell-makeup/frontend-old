@@ -26,7 +26,6 @@ const createRows = (dispatch, suggestionProducts, selectedProducts, updateTmpPro
   suggestionProducts.map(product => ({
     title: `${product.brand_name}-${product.product_name}`,
     key: product.product_id,
-    // eslint-disable-next-line react/display-name
     right: () => <Checkbox status={selectedProducts.map(p => p.product_id).includes(product.product_id) ? "checked" : "unchecked"} color="#333" />,
     onPress: () => updateTmpProductsFunc(dispatch, selectedProducts, product),
     style: {height: 50, borderBottomWidth: 0.5, borderColor: "#ccc"}

@@ -10,7 +10,6 @@ const createItems = (faceTypes, dispatch, tmpConditions) =>
   faceTypes.map(faceType => ({
     label: faceType.label,
     key: faceType.key,
-    // eslint-disable-next-line react/display-name
     selected: faceType.key === tmpConditions.face_type,
     onPress: () => updateTmpConditions(dispatch, tmpConditions, {face_type: faceType.key}),
     avatar: <Image source={thumbnail[faceType.key]} />

@@ -6,6 +6,7 @@ import {LoginScreen} from "./src/screens/LoginScreen"
 import Amplify from "aws-amplify"
 import config from "./src/aws-exports"
 import {ErrorModal} from "./src/components/ErrorModal"
+import * as colors from "./src/styles/colors"
 import * as ScreenOrientation from "expo-screen-orientation"
 import {Provider as StoreProvider} from "react-redux"
 import store from "./src/stores/rootStore"
@@ -17,8 +18,7 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#9E649C",
-    accent: "yellow"
+    ...colors
   }
 }
 

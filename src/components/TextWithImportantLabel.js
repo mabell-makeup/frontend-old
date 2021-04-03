@@ -1,5 +1,6 @@
 import React from "react"
 import {View, Text, StyleSheet} from "react-native"
+import {primary} from "../styles/colors"
 
 const styles = StyleSheet.create({
   inline: {
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   label: {
-    color: "#9E649C",
+    color: primary,
     fontWeight: "bold",
     fontSize: 12,
     marginLeft: 10

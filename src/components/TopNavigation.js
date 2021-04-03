@@ -1,11 +1,12 @@
 import React from "react"
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs"
+import {secondary} from "../styles/colors"
 
 const Tab = createMaterialTopTabNavigator()
 
 export const TopNavigation = ({items=[{label: "", routeName: "", component: React.Component}]}) => {
   return (
-    <Tab.Navigator tabBarOptions={{scrollEnabled: false, indicatorStyle: {backgroundColor: "#68358A"}}}>
+    <Tab.Navigator tabBarOptions={{scrollEnabled: false, indicatorStyle: {backgroundColor: secondary}}}>
       {items.map(item => <Tab.Screen key={item.routeName} name={item.routeName} component={item.component} options={{tabBarLabel: item.label}} {...item} />)}
     </Tab.Navigator>
   )

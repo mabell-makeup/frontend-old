@@ -6,7 +6,6 @@ import {WINDOW_WIDTH} from "../styles/constants"
 
 const styles = StyleSheet.create({
   image: {
-    // TODO: もっといい書き方があるはず
     width: WINDOW_WIDTH,
     height: 400
   },

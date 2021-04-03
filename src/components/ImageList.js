@@ -4,8 +4,8 @@ import {WINDOW_WIDTH} from "../styles/constants"
 
 const styles = StyleSheet.create({
   imageStyle: {
-    width: (WINDOW_WIDTH-6) / 3,
-    height: (WINDOW_WIDTH-6) / 3,
+    width: (WINDOW_WIDTH - 6) / 3,
+    height: (WINDOW_WIDTH - 6) / 3,
     resizeMode: "cover"
   },
   imageBackground: {
