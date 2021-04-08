@@ -29,7 +29,8 @@ const initialState = {
     post_count: 0,
     face_type: "",
     base_color: "",
-    season: ""
+    season: "",
+    self_introduction: ""
   },
   nextToken: ""
 }
