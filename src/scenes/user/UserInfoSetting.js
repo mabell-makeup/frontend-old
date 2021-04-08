@@ -77,7 +77,7 @@ export const UserInfoSetting = ({navigation}) => {
   const user = useSelector(({auth: {user}}) => user)
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [dtPickerState, setDTPickerState] = useState({isShown: false, selected: new Date(user.birthdate)})
-  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img_src"].includes(key))))
+  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img_src", "self_introduction"].includes(key))))
 
   return (
     <>
@@ -91,7 +91,7 @@ export const UserInfoSetting = ({navigation}) => {
             </View>
             <View style={styles.userInfoContainer}>
               <Title>自己紹介</Title>
-              <TextInput placeholder="自己紹介" defaultValue={user.self_introduction} multiline={true} />
+              <TextInput placeholder="自己紹介" defaultValue={user.self_introduction} multiline={true} onChangeText={text => setTmpUser({...tmpUser, self_introduction: text})} />
             </View>
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>

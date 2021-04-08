@@ -103,6 +103,7 @@ export const updateUserType = /* GraphQL */ `
       face_type
       skin_type
       gender
+      self_introduction
     }
   }
 `;
@@ -117,6 +118,7 @@ export const deleteUserType = /* GraphQL */ `
       face_type
       skin_type
       gender
+      self_introduction
     }
   }
 `;
