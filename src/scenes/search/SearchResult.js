@@ -7,9 +7,9 @@ import {useDispatch, useSelector} from "react-redux"
 
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
-  onPress: () => {
-    fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
-    navigation.navigate("PostDetail", {id: post.id})
+  onPress: async () => {
+    await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
+    navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)})
   }
 }))
 

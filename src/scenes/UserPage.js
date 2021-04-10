@@ -98,7 +98,7 @@ const createData = (posts, navigation, dispatch, user_id) => posts.map(post => (
   id: post.id,
   onPress: async () => {
     await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
-    await navigation.navigate("PostDetail")
+    await navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)})
   }
 }))
 
