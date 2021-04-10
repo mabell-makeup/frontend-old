@@ -7,7 +7,7 @@ import {Text} from "react-native-paper"
 import {PostDetail} from "../scenes/PostDetail"
 import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
-import {UserHome} from "../scenes/UserHome"
+import {UserPage} from "../scenes/UserPage"
 import {ItemDetail} from "../scenes/search/ItemDetail"
 import {useSelector} from "react-redux"
 import {SelectTagsInner} from "../scenes/SelectTags"
@@ -65,7 +65,7 @@ export const SearchScreen = ({navigation}) => {
       }} />
       <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
       {/* TODO: UserScreenを設けて、UserHome, Follower, Followを入れる */}
-      <Stack.Screen name="UserHome" component={UserHome} options={{
+      <Stack.Screen name="UserHome" component={UserPage} options={{
         ...defaultScreenOptions,
         headerRight: false
       }} />
