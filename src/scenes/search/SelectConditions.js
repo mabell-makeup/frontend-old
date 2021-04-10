@@ -93,14 +93,14 @@ export const SelectConditions = ({navigation}) => {
   
   // TODO: 後でコンポーネントの外に出す
   const conditions = [
-    {title: "カテゴリで絞り込む", inner: <MakeUpCategoryInput key="makeUpCategory" tmpState={tmpConditions} onPress={category => () => updateTmpConditions(dispatch, tmpConditions, {makeup_categories: category})} />},
-    {title: "色で絞り込む", inner: <ColorPaletteInput key="color" tmpState={tmpConditions} onColorInputPress={color => () => updateTmpConditions(dispatch, tmpConditions, {color})} onGlitterInputPress={glitter => () => updateTmpConditions(dispatch, tmpConditions, {glitter})} />},
-    {title: "国で絞り込む", inner: <CountryInput key="country" tmpState={tmpConditions} onPress={country => () => updateTmpConditions(dispatch, tmpConditions, {country})} />},
-    {title: "パーソナルカラーで絞り込む", inner: <PersonalColorInput key="personalColor" />},
-    {title: "顔型で絞り込む", inner: <FaceTypeInput key="faceType" />},
-    {title: "肌タイプで絞り込む", inner: <SkinTypeInput key="skinType" />},
+    {title: "カテゴリ", inner: <MakeUpCategoryInput key="makeUpCategory" tmpState={tmpConditions} onPress={category => () => updateTmpConditions(dispatch, tmpConditions, {makeup_categories: category})} />},
+    {title: "色", inner: <ColorPaletteInput key="color" tmpState={tmpConditions} onColorInputPress={color => () => updateTmpConditions(dispatch, tmpConditions, {color})} onGlitterInputPress={glitter => () => updateTmpConditions(dispatch, tmpConditions, {glitter})} />},
+    {title: "国", inner: <CountryInput key="country" tmpState={tmpConditions} onPress={country => () => updateTmpConditions(dispatch, tmpConditions, {country})} />},
+    {title: "パーソナルカラー", inner: <PersonalColorInput key="personalColor" />},
+    {title: "顔型", inner: <FaceTypeInput key="faceType" />},
+    {title: "肌タイプ", inner: <SkinTypeInput key="skinType" />},
     {
-      title: "タグで絞り込む",
+      title: "タグ",
       inner: (
         <View key="tags" style={styles.inputContainer}>
           <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="tag" style={styles.FakeInput} />
@@ -110,7 +110,7 @@ export const SelectConditions = ({navigation}) => {
       )
     },
     {
-      title: "使用アイテムで絞り込む",
+      title: "使用アイテム",
       inner: (
         <View key="products" style={styles.inputContainer}>
           <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="product" style={styles.FakeInput} />
