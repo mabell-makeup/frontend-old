@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {Button, TextInput, Title} from "react-native-paper"
-import {View, StyleSheet} from "react-native"
+import {View, StyleSheet, Text} from "react-native"
 import {signup, updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
@@ -26,6 +26,14 @@ const styles = StyleSheet.create({
   },
   buttonContentStyle: {
     height: "100%"
+  },
+  precautionsContainer: {
+    width: 300,
+    justifyContent: "flex-start",
+    marginTop: 20
+  },
+  precautions: {
+    marginVertical: 2
   }
 })
 
@@ -62,6 +70,11 @@ export const RegisterUsername = ({navigation}) => {
       <Title>ユーザー名を作成</Title>
       <TextInput style={styles.input} mode="outlined" label="ユーザー名" error={error.length > 0} onChangeText={setText} />
       <ErrorMessage messages={error} />
+      <View style={styles.precautionsContainer}>
+        <Text style={styles.precautions}>ユーザー名は以下の要件を満たす必要があります</Text>
+        <Text style={styles.precautions}>・半角英数字、アンダースコア(_)のみ使用可能</Text>
+        <Text style={styles.precautions}>・4文字以上、15文字以下</Text>
+      </View>
       <Button
         style={styles.submit}
         contentStyle={styles.buttonContentStyle}
