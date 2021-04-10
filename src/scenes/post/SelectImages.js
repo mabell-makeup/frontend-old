@@ -203,15 +203,15 @@ export const SelectImages = ({navigation}) => {
           <TextInput style={styles.description} onChangeText={text => updateTmpPost(dispatch, tmpPost, {description: text}, false)} placeholder="キャプションを書く(必須)" multiline={true} />
           <ErrorMessage messages={descriptionError} />
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>カテゴリを選ぶ</Text>
+            <Text style={styles.label}>カテゴリ</Text>
             <MakeUpCategoryInput tmpState={tmpPost} onPress={category => () => updateTmpPost(dispatch, tmpPost, {makeup_categories: category})} />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>色を選ぶ</Text>
+            <Text style={styles.label}>色</Text>
             <ColorPaletteInput tmpState={tmpPost} onColorInputPress={color => () => updateTmpPost(dispatch, tmpPost, {color})} onGlitterInputPress={glitter => () => updateTmpPost(dispatch, tmpPost, {glitter})} />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>国を選ぶ</Text>
+            <Text style={styles.label}>国</Text>
             <CountryInput tmpState={tmpPost} onPress={country => () => updateTmpPost(dispatch, tmpPost, {country})} />
           </View>
           <View style={styles.inputContainer}>
