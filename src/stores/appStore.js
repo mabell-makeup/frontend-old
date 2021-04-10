@@ -31,7 +31,7 @@ export const addError = (dispatch, error={errorType: "", message: ""}) => {
 }
 export const fetchTrendTags = async dispatch => {
   try {
-    const response = await apiRequest(listTagTypes, {limit: 20})
+    const response = await apiRequest(listTagTypes, {limit: 5})
     await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
   } catch (error) {
     console.log("error fetch trend tags: ", error)
@@ -63,7 +63,7 @@ export const fetchProducts = async (dispatch, text) => {
 }
 export const fetchTrendProducts = async dispatch => {
   try {
-    const response = await apiRequest(listProductTypes, {limit: 20})
+    const response = await apiRequest(listProductTypes, {limit: 5})
     await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
   } catch (error) {
     console.log("error fetch trend products: ", error)
