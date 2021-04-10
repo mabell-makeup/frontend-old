@@ -177,7 +177,7 @@ const ReactionContainer = () => {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.centerAlignment}>
-        <Text>閲覧数 <Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text>件</Text>
+        <View style={styles.centerAlignment}><IconButton icon="eye" size={15} style={{margin: 0}} color="#666" /><Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text></View>
         <View style={styles.centerAlignment}><IconButton icon="heart" size={15} style={{margin: 0}} color="#666" /><Text style={styles.strong}>{post.like_count ? post.like_count : 0}</Text></View>
       </View>
       <View style={styles.buttonContainer}>
