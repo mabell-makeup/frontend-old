@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import {StyleSheet, View} from "react-native"
 import {FlatList, Image} from "react-native"
+import {primary} from "../styles/colors"
 import {WINDOW_WIDTH} from "../styles/constants"
 
 
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginHorizontal: 2
   },
-  paginationDotActive: {backgroundColor: "lightblue"},
-  paginationDotInactive: {backgroundColor: "gray"}
+  paginationDotActive: {backgroundColor: primary},
+  paginationDotInactive: {backgroundColor: "#aaa"}
 })
 
 const Pagination = ({index, imgCount}) => {
