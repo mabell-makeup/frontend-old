@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
-import {Avatar, Button, Divider, IconButton} from "react-native-paper"
+import {Avatar, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
 import {fetchMyPosts, fetchPostCount} from "../stores/authStore"
 import {fetchPostDetail} from "../stores/postDetailStore"
@@ -110,7 +110,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export const UserHome = ({navigation, route: {params}}) => {
+export const UserPage = ({navigation, route: {params}}) => {
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
   const {user, nextToken, masterData} = isMyPage
@@ -143,14 +143,6 @@ export const UserHome = ({navigation, route: {params}}) => {
         </View>
         <SelfIntroduction user={user} M={masterData} />
       </View>
-      {isMyPage && <Button
-        mode="contained"
-        icon="plus"
-        onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})}
-        style={styles.button}
-      >
-        投稿する
-      </Button>}
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />
     </ScrollView>

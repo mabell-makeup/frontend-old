@@ -4,7 +4,7 @@ import {WINDOW_HEIGHT} from "../styles/constants"
 import {IconButton} from "react-native-paper"
 import {View} from "react-native"
 import {PostDetail} from "../scenes/PostDetail"
-import {UserHome} from "../scenes/UserHome"
+import {UserPage} from "../scenes/UserPage"
 
 const Stack = createStackNavigator()
 
@@ -32,7 +32,7 @@ export const MyPageScreen = () => {
   return (
     <Stack.Navigator {...navigatorProps}>
       {/* eslint-disable-next-line react/display-name */}
-      <Stack.Screen name="MyPage" component={UserHome} initialParams={{isMyPage: true}} options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />})} />
+      <Stack.Screen name="MyPage" component={UserPage} initialParams={{isMyPage: true}} options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />})} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
     </Stack.Navigator>
   )
