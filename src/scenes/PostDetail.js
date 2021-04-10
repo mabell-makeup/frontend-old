@@ -41,11 +41,6 @@ const createStyles = favorite => ({
     marginTop: 10,
     lineHeight: 30
   },
-  createdAt: {
-    alignProducts: "center",
-    flexDirection: "row",
-    marginTop: 20
-  },
   strong: {
     fontWeight: "bold"
   },
