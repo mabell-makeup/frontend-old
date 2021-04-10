@@ -162,8 +162,7 @@ const PostInfo = ({navigation}) => {
           <Title style={styles.tagTitle}>タグ</Title>
           {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         </View>
-        <View style={styles.postTime}></View>
-        <View style={styles.centerAlignment}>
+        <View style={[styles.centerAlignment, styles.postTime]}>
           <IconButton size={15} icon="clock" style={{margin: 0}} />
           <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
         </View>
