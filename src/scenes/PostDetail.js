@@ -104,6 +104,9 @@ const createStyles = favorite => ({
   centerAlignment: {
     flexDirection: "row",
     alignItems: "center"
+  },
+  postTime: {
+    marginTop: 30
   }
 })
 
@@ -149,10 +152,6 @@ const PostInfo = ({navigation}) => {
     <>
       <View style={styles.infoContainer}>
         <Text style={styles.description}>{post.description}</Text>
-        <View style={styles.createdAt}>
-          <IconButton size={15} icon="clock" style={{margin: 0}} />
-          <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
-        </View>
         <View style={styles.tag}>
           <Title style={styles.tagTitle}>ユーザー情報</Title>
           {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
@@ -162,6 +161,11 @@ const PostInfo = ({navigation}) => {
           {products.length > 0 ? <ChipList items={products.map(product => ({label: product.brand_name}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
           <Title style={styles.tagTitle}>タグ</Title>
           {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
+        </View>
+        <View style={styles.postTime}></View>
+        <View style={styles.centerAlignment}>
+          <IconButton size={15} icon="clock" style={{margin: 0}} />
+          <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
         </View>
       </View>
       <Loading isLoading={isLoading} />
