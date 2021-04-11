@@ -1,10 +1,11 @@
 import React, {useEffect} from "react"
-import {View, Text, StyleSheet, ScrollView} from "react-native"
+import {View, Text, StyleSheet} from "react-native"
 import {Avatar, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
-import {fetchMyPosts, fetchPostCount} from "../stores/authStore"
-import {fetchPostDetail} from "../stores/postDetailStore"
+import {fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
+import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
+import {ScrollViewWithRefresh} from "../components/ScrollViewWithRefresh"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -93,7 +94,7 @@ const SelfIntroduction = ({user, M}) => {
   )
 }
 
-const createData = (posts, navigation, dispatch, user_id) => posts.map(post => ({
+const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
   ...post,
   id: post.id,
   onPress: async () => {
@@ -109,6 +110,19 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     contentSize.height - paddingToBottom
 }
 
+const refreshFunc = async (isMyPage, dispatch, user_id) => {
+  if(isMyPage) {
+    await Promise.all([
+      fetchMyPosts(dispatch, user_id),
+      fetchPostCount(dispatch, user_id),
+      fetchUser(dispatch, user_id)
+    ])
+  } else {
+    await fetchPostUser(dispatch, user_id)
+    await fetchUserPosts(dispatch, user_id)
+  }
+}
+
 // eslint-disable-next-line max-lines-per-function
 export const UserPage = ({navigation, route: {params}}) => {
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
@@ -117,34 +131,27 @@ export const UserPage = ({navigation, route: {params}}) => {
     ? useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
     : useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, nextToken: "", masterData}))
   const data = createData(user.posts, navigation, dispatch, user.user_id)
-  
-  useEffect(() => {
-    if(isMyPage) {
-      const unsubscribe = navigation.addListener("focus", () => {
-        fetchMyPosts(dispatch, user.user_id)
-        fetchPostCount(dispatch, user.user_id)
-      })
-      return unsubscribe
-    }
-  }, [navigation])
+
+  isMyPage && useEffect(() => navigation.addListener("focus", async () => await refreshFunc(isMyPage, dispatch, user.user_id)), [navigation])
 
   return (
-    <ScrollView
+    <ScrollViewWithRefresh
       onScroll={({nativeEvent}) => {
         isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)
       }}
       scrollEventThrottle={400}
+      refreshFunc={async () => await refreshFunc(isMyPage, dispatch, user.user_id)}
     >
       <View style={styles.userInfo}>
         <View style={styles.row}>
           {/* eslint-disable-next-line no-undef */}
           <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
-          <FollowInfo postCount={isMyPage ? user.post_count : user.posts.length} />
+          <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
       </View>
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />
-    </ScrollView>
+    </ScrollViewWithRefresh>
   )
 }
