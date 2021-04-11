@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {View, ScrollView, TouchableOpacity, Image, FlatList} from "react-native"
+import {View, TouchableOpacity, Image, FlatList, ScrollView} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../components/Carousel"
 import {ChipList} from "../components/ChipList"
@@ -11,6 +11,7 @@ import {updateLikePost, fetchUserPosts} from "../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 import {primary} from "../styles/colors"
+import {PullToRefresh} from "../components/PullToRefresh"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -231,14 +232,13 @@ const ProductInfo = ({navigation}) => {
   )
 }
 
-export const PostDetail = ({navigation}) => {
+export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
   const {post, postUser} = useSelector(({postDetail: {post, postUser}}) => ({post, postUser}))
   const [showMenu, setShowMenu] = useState(false)
-  const styles = createStyles()
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView refreshControl={<PullToRefresh refreshFunc={refreshFunc} />}>
         <PostHeader postUser={postUser} navigation={navigation} setShowMenu={setShowMenu} />
         <Carousel data={post.img_src_list} />
         <ReactionContainer />

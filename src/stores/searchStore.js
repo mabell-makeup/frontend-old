@@ -54,7 +54,6 @@ export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   const res = Object.keys(filteredConditions).length > 0
     ? await apiRequest(listPostTypes, nextToken ? {filter: filteredConditions, nextToken} : {filter: filteredConditions})
     : await apiRequest(listPostTypes, nextToken ? {nextToken} : undefined)
-  console.log("LOG: ", res)
   fetchPostCount(dispatch, filteredConditions)
   await dispatch({type: nextToken ? UPDATE_POSTS : FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
   await dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken && res.listPostTypes.nextToken !== "" ? res.listPostTypes.nextToken : ""})
@@ -74,7 +73,6 @@ export const updateTmpProducts = async (dispatch, preProducts, newProduct) => {
 export const fetchPostCount = async (dispatch, filteredConditions) => {
   try {
     const res = await apiRequest(countPosts, {filter: filteredConditions, limit: 1000000})
-    console.log("COUNT: ", res)
     dispatch({type: UPDATE_RESULT_COUNT, payload: res ? res.listPostTypes.items.length : 0})
   } catch (error) {
     console.log("error fetch post count: ", error)

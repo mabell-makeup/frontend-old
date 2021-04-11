@@ -4,19 +4,20 @@ import {fetchPosts, updateSearchResult} from "../../stores/searchStore"
 import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {useDispatch, useSelector} from "react-redux"
+import {PullToRefresh} from "../../components/PullToRefresh"
 
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
-  onPress: () => {
-    fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
-    navigation.navigate("PostDetail", {id: post.id})
+  onPress: async () => {
+    await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)
+    navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.DateTime, user_id)})
   }
 }))
 
 const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   if (nextToken !== "") {
     await fetchPosts(dispatch, tmpConditions, nextToken)
-    updateSearchResult(dispatch)
+    await updateSearchResult(dispatch)
   }
 }
 
@@ -31,6 +32,7 @@ export const SearchResult = ({navigation}) => {
       <ImageList
         data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
+        refreshControl={<PullToRefresh refreshFunc={loadMore(dispatch, tmpConditions, false)} />}
       />
       {/* <UserInfoToggleGroup /> */}
     </>

@@ -1,4 +1,3 @@
-import React, {createContext, useReducer} from "react"
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest} from "../helper/requestHelper"
 import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostTypes, listPostViewTypes} from "../graphql/queries"
@@ -24,9 +23,6 @@ export const initialState = {
   isLoading: false
 }
 
-// Define Store
-const postDetailStore = createContext(initialState)
-
 // Define Types
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 const FETCH_POST_USER = "FETCH_POST_USER"
@@ -42,9 +38,8 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     dispatch({type: UPDATE_LOADING, payload: true})
     const post = await apiRequest(getPostType, {post_id, DateTime})
     dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
-    const user = await apiRequest(getUserType, {user_id: post.getPostType.user_id})
-    dispatch({type: FETCH_POST_USER, payload: user.getUserType})
     await Promise.all([
+      fetchPostUser(dispatch, post.getPostType.user_id),
       fetchProductDetails(dispatch, post.getPostType.products_id),
       fetchViewCount(dispatch, post_id),
       fetchLikeCount(dispatch, post_id),
@@ -54,6 +49,14 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     dispatch({type: UPDATE_LOADING, payload: false})
   } catch (error) {
     console.log("fetch post detail error:", error)
+  }
+}
+export const fetchPostUser = async (dispatch, user_id) => {
+  try {
+    const user = await apiRequest(getUserType, {user_id})
+    dispatch({type: FETCH_POST_USER, payload: user.getUserType})
+  } catch (error) {
+    console.log("fetch post user error:", error)
   }
 }
 export const updateLikePost = async (dispatch, isLike, post_id) => {
