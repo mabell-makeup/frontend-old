@@ -35,7 +35,7 @@ const Item = ({item}) => {
   )
 }
 
-export const ImageList = ({data, style, onEndReached=()=>{}, scrollEnabled=true}) => {
+export const ImageList = ({data, style, onEndReached=()=>{}, scrollEnabled=true, ...props}) => {
   return (
     <FlatList
       data={data}
@@ -45,6 +45,7 @@ export const ImageList = ({data, style, onEndReached=()=>{}, scrollEnabled=true}
       style={style}
       onEndReached={onEndReached}
       scrollEnabled={scrollEnabled}
+      {...props}
     />
   )
 }
