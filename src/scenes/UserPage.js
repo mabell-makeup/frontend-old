@@ -1,11 +1,11 @@
 import React, {useEffect} from "react"
-import {View, Text, StyleSheet} from "react-native"
+import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Divider, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
 import {fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
-import {ScrollViewWithRefresh} from "../components/ScrollViewWithRefresh"
+import {PullToRefresh} from "../components/PullToRefresh"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -135,12 +135,10 @@ export const UserPage = ({navigation, route: {params}}) => {
   isMyPage && useEffect(() => navigation.addListener("focus", async () => await refreshFunc(isMyPage, dispatch, user.user_id)), [navigation])
 
   return (
-    <ScrollViewWithRefresh
-      onScroll={({nativeEvent}) => {
-        isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)
-      }}
+    <ScrollView
+      onScroll={({nativeEvent}) => isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)}
       scrollEventThrottle={400}
-      refreshFunc={async () => await refreshFunc(isMyPage, dispatch, user.user_id)}
+      refreshControl={<PullToRefresh refreshFunc={async () => await refreshFunc(isMyPage, dispatch, user.user_id)} />}
     >
       <View style={styles.userInfo}>
         <View style={styles.row}>
@@ -152,6 +150,6 @@ export const UserPage = ({navigation, route: {params}}) => {
       </View>
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />
-    </ScrollViewWithRefresh>
+    </ScrollView>
   )
 }
