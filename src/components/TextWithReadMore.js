@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const TextWithReadMore = ({text, style, maxLineCount}) => {
+export const TextWithReadMore = ({style, maxLineCount, children}) => {
   const onTextLayout = ({nativeEvent: {lines}}) => {
     if (typeof lineCount === "undefined"){
       setLineCount(lines.length)
@@ -23,7 +23,7 @@ export const TextWithReadMore = ({text, style, maxLineCount}) => {
 
   return (
     <>
-      <Text style={{...styles.text, ...style}} numberOfLines={isExpanded ? undefined : maxLineCount} onTextLayout={onTextLayout}>{text}</Text>
+      <Text style={{...styles.text, ...style}} numberOfLines={isExpanded ? undefined : maxLineCount} onTextLayout={onTextLayout}>{children}</Text>
       {lineCount > maxLineCount && !isExpanded && <Text style={styles.readMore} onPress={() => setIsExpanded(true)}>続きを見る</Text>}
     </>
   )

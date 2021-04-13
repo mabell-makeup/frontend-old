@@ -147,7 +147,7 @@ const PostInfo = ({navigation}) => {
   return (
     <>
       <View style={styles.infoContainer}>
-        <TextWithReadMore text={post.description} style={styles.description} maxLineCount={3} />
+        <TextWithReadMore style={styles.description} maxLineCount={3}>{post.description}</TextWithReadMore>
         <View style={styles.tag}>
           <Title style={styles.tagTitle}>ユーザー情報</Title>
           {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
