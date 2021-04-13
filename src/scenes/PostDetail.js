@@ -12,6 +12,7 @@ import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 import {primary} from "../styles/colors"
 import {PullToRefresh} from "../components/PullToRefresh"
+import {TextWithReadMore} from "../components/TextWithReadMore"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -39,8 +40,7 @@ const createStyles = favorite => ({
     padding: 10
   },
   description: {
-    marginTop: 10,
-    lineHeight: 30
+    marginTop: 10
   },
   strong: {
     fontWeight: "bold"
@@ -138,7 +138,7 @@ const PostHeader = ({postUser, navigation, setShowMenu}) => {
 
 const displayItemsList = ["base_color", "season", "face_type", "skin_type"]
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line
 const PostInfo = ({navigation}) => {
   const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
@@ -147,7 +147,7 @@ const PostInfo = ({navigation}) => {
   return (
     <>
       <View style={styles.infoContainer}>
-        <Text style={styles.description}>{post.description}</Text>
+        <TextWithReadMore style={styles.description} maxLineCount={3}>{post.description}</TextWithReadMore>
         <View style={styles.tag}>
           <Title style={styles.tagTitle}>ユーザー情報</Title>
           {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
