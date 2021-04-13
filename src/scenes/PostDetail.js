@@ -12,6 +12,7 @@ import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 import {primary} from "../styles/colors"
 import {PullToRefresh} from "../components/PullToRefresh"
+import {TextWithReadMore} from "../components/TextWithReadMore"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -39,8 +40,7 @@ const createStyles = favorite => ({
     padding: 10
   },
   description: {
-    marginTop: 10,
-    lineHeight: 30
+    marginTop: 10
   },
   strong: {
     fontWeight: "bold"
@@ -103,10 +103,6 @@ const createStyles = favorite => ({
   },
   postTime: {
     marginTop: 30
-  },
-  readMore: {
-    color: "#999",
-    lineHeight: 30
   }
 })
 
@@ -147,20 +143,11 @@ const PostInfo = ({navigation}) => {
   const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
-  const onTextLayout = ({nativeEvent: {lines}}) => {
-    if (typeof lineCount === "undefined"){
-      setLineCount(lines.length)
-      setIsExpanded(false)
-    }
-  }
-  const [lineCount, setLineCount] = useState()
-  const [isExpanded, setIsExpanded] = useState(true)
 
   return (
     <>
       <View style={styles.infoContainer}>
-        <Text style={styles.description} numberOfLines={isExpanded ? undefined : 2} onTextLayout={onTextLayout}>{post.description}</Text>
-        {lineCount > 2 && !isExpanded && <Text style={styles.readMore} onPress={() => setIsExpanded(true)}>続きを見る</Text>}
+        <TextWithReadMore text={post.description} style={styles.description} maxLineCount={3} />
         <View style={styles.tag}>
           <Title style={styles.tagTitle}>ユーザー情報</Title>
           {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
