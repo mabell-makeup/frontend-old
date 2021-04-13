@@ -103,6 +103,10 @@ const createStyles = favorite => ({
   },
   postTime: {
     marginTop: 30
+  },
+  readMore: {
+    color: "#999",
+    lineHeight: 30
   }
 })
 
@@ -138,16 +142,25 @@ const PostHeader = ({postUser, navigation, setShowMenu}) => {
 
 const displayItemsList = ["base_color", "season", "face_type", "skin_type"]
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line
 const PostInfo = ({navigation}) => {
   const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
+  const onTextLayout = ({nativeEvent: {lines}}) => {
+    if (typeof lineCount === "undefined"){
+      setLineCount(lines.length)
+      setIsExpanded(false)
+    }
+  }
+  const [lineCount, setLineCount] = useState()
+  const [isExpanded, setIsExpanded] = useState(true)
 
   return (
     <>
       <View style={styles.infoContainer}>
-        <Text style={styles.description}>{post.description}</Text>
+        <Text style={styles.description} numberOfLines={isExpanded ? undefined : 2} onTextLayout={onTextLayout}>{post.description}</Text>
+        {lineCount > 2 && !isExpanded && <Text style={styles.readMore} onPress={() => setIsExpanded(true)}>続きを見る</Text>}
         <View style={styles.tag}>
           <Title style={styles.tagTitle}>ユーザー情報</Title>
           {Object.entries(post).filter(([key, value]) => displayItemsList.includes(key) && value).length > 0 ? <ChipList items={Object.entries(post).filter(([key]) => displayItemsList.includes(key)).map(([key, value]) => ({label: labelMap[key][value], onPress: () => {}}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
