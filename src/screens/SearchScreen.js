@@ -64,7 +64,6 @@ export const SearchScreen = ({navigation}) => {
         headerRight: false
       }} />
       <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
-      {/* TODO: UserScreenを設けて、UserHome, Follower, Followを入れる */}
       <Stack.Screen name="UserHome" component={UserPage} options={{
         ...defaultScreenOptions,
         headerRight: false
