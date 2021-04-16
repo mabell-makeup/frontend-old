@@ -11,7 +11,6 @@ import {RegisterPassword} from "../scenes/login/RegisterPassword"
 import {RegisterBirthdate} from "../scenes/login/RegisterBirthdate"
 import {RegisterMail} from "../scenes/login/RegisterMail"
 import {SendConfirmationMail} from "../scenes/login/SendConfirmationMail"
-import {UserScreen} from "./UserScreen"
 import {useDispatch, useSelector} from "react-redux"
 
 const styles = {
@@ -54,7 +53,6 @@ export const LoginScreen = () => {
           ? <>
             <Stack.Screen name="TabScreen" component={TabScreen} />
             <Stack.Screen name="PostScreen" component={PostScreen} />
-            <Stack.Screen name="UserScreen" component={UserScreen} />
           </>
           : <>
             <Stack.Screen name="Login" component={Login} />

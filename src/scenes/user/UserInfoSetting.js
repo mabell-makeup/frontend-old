@@ -5,10 +5,9 @@ import {Avatar, Button, Title} from "react-native-paper"
 import {DatePicker} from "../../components/DatePicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {WheelPicker} from "../../components/WheelPicker"
-import {openContactPage} from "../../helper/contactHelper"
 import {pickImage, uploadImage} from "../../helper/imageHelper"
 import {addError} from "../../stores/appStore"
-import {logout, updateUser} from "../../stores/authStore"
+import {updateUser} from "../../stores/authStore"
 import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
@@ -96,12 +95,6 @@ export const UserInfoSetting = ({navigation}) => {
             <View style={styles.userInfoContainer}>
               <Title>基本情報</Title>
               <UserInfoList displayItemsMap={displayItemsMap} handleTmpUser={[tmpUser, setTmpUser]} handleWheelPicker={[pickerState, setPickerState]} handleDatePicker={[dtPickerState, setDTPickerState]} />
-            </View>
-            <View style={styles.toCenter}>
-              <Text onPress={() => openContactPage(user.name, user.email)} style={styles.logout}>お問い合わせ</Text>
-            </View>
-            <View style={styles.toCenter}>
-              <Text onPress={() => logout(dispatch)} style={styles.logout}>ログアウト</Text>
             </View>
           </View>
         </ScrollView>

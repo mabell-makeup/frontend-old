@@ -5,14 +5,16 @@ import {IconButton} from "react-native-paper"
 import {View} from "react-native"
 import {PostDetail} from "../scenes/PostDetail"
 import {UserPage} from "../scenes/UserPage"
+import {Settings} from "../scenes/myPage/Settings"
+import {UserInfoSetting} from "../scenes/user/UserInfoSetting"
 
 const Stack = createStackNavigator()
 
 const HeaderRightIcons = ({navigation}) => {
   return (
-    <View style={{flexDirection: "row", alignItems: "center", marginRight: 10}}>
-      <IconButton icon="plus" size={30} mode="outlined" onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})} />
-      <IconButton icon="settings" size={26} mode="outlined" onPress={() => navigation.navigate("UserScreen", {screen: "UserInfoSetting"})} />
+    <View style={{flexDirection: "row", alignItems: "center"}}>
+      <IconButton icon="plus" size={30} mode="outlined" style={{marginRight: 0}}onPress={() => navigation.navigate("PostScreen", {screen: "SelectImages"})} />
+      <IconButton icon="menu" size={30} mode="outlined" onPress={() => navigation.navigate("Settings")} />
     </View>
   )
 }
@@ -34,6 +36,8 @@ export const MyPageScreen = () => {
       {/* eslint-disable-next-line react/display-name */}
       <Stack.Screen name="MyPage" component={UserPage} initialParams={{isMyPage: true}} options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />})} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} />
+      <Stack.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
   )
 }
