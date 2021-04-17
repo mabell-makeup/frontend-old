@@ -156,6 +156,16 @@ export const fetchPostCount = async (dispatch, user_id) => {
     console.log("error fetch post count: ", error)
   }
 }
+export const checkLoggedIn = async dispatch => {
+  try {
+    const user = await Auth.currentAuthenticatedUser()
+    await fetchUser(dispatch, user.attributes.sub)
+    await fetchMasterData(dispatch)
+    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
+  } catch (error) {
+    console.log("not logged in: ", error)
+  }
+}
 
 // Define Reducer
 export const authReducer = createReducer(initialState, {
