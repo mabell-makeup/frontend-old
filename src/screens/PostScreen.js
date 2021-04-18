@@ -14,7 +14,8 @@ const navigatorProps = ({
   screenOptions: {
     headerStyle: {height: WINDOW_HEIGHT > 600 ? 100 : 70},
     headerTitleStyle: {width: "100%"},
-    headerTitleAlign: "left"
+    headerTitleAlign: "left",
+    headerBackTitleVisible: false
   }
 })
 
