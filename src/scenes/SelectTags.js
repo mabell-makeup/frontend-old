@@ -50,7 +50,6 @@ export const SelectTagsInner = ({navigation, tags, updateTmpTagsFunc}) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerBackTitle: "Back",
       // eslint-disable-next-line react/display-name
       headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} onChangeText={onChangeText(dispatch, setText)} />
     })
