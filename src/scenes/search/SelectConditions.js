@@ -16,6 +16,8 @@ import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTrendTags, fetchTrendProducts} from "../../stores/appStore"
+import {IconLabel} from "../../components/IconLabel"
+import {primary} from "../../styles/colors"
 
 const styles = {
   button: {
@@ -105,6 +107,7 @@ export const SelectConditions = ({navigation}) => {
         <View key="tags" style={styles.inputContainer}>
           <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectTags" key="tag" style={styles.FakeInput} />
           {tmpConditions.tags.length > 0 && <List rows={tmpConditions.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(dispatch, tmpConditions.tags, tag)} />}))} />}
+          <IconLabel icon="trending-up" color={primary} size={20} style={{marginTop: 10}}>急上昇</IconLabel>
           <ChipList items={trendTags} />
         </View>
       )
@@ -115,6 +118,7 @@ export const SelectConditions = ({navigation}) => {
         <View key="products" style={styles.inputContainer}>
           <FakeInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} navigation={navigation} linkTo="SelectProducts" key="product" style={styles.FakeInput} />
           {tmpConditions.products.length > 0 && <List rows={tmpConditions.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(dispatch, tmpConditions.products, product)} />}))} />}
+          <IconLabel icon="trending-up" color={primary} size={20} style={{marginTop: 10}}>急上昇</IconLabel>
           <ChipList items={trendProducts} />
         </View>
       )
