@@ -23,11 +23,13 @@ import {rules, validate} from "../../helper/validateHelper"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {Loading} from "../../components/Loading"
 import {useDispatch, useSelector} from "react-redux"
+import {IconLabel} from "../../components/IconLabel"
+import {primary} from "../../styles/colors"
 
 const styles = {
   container: {
     paddingTop: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingBottom: 120,
     height: "100%"
   },
@@ -219,6 +221,7 @@ export const SelectImages = ({navigation}) => {
             <FakeInput navigation={navigation} icon="pound" linkTo="SelectTags" placeholder="タグ付け" style={styles.FakeInput} />
             {/* eslint-disable-next-line react/display-name */}
             {tmpPost.tags !== "" && <List rows={tmpPost.tags.map(tag => ({title: tag, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpTags(dispatch, tmpPost.tags, tag)} />}))} />}
+            <IconLabel icon="trending-up" color={primary} size={20} style={{marginTop: 10}}>急上昇</IconLabel>
             <ChipList items={trendTags} />
           </View>
           <View style={styles.inputContainer}>
@@ -227,6 +230,7 @@ export const SelectImages = ({navigation}) => {
             {/* eslint-disable-next-line react/display-name */}
             {tmpPost.products !== "" && <List rows={tmpPost.products.map(product => ({title: product.product_name, style: styles.listItem, right: () => <IconButton icon="close" onPress={() => updateTmpProducts(dispatch, tmpPost.products, product)} />}))} />}
             <ErrorMessage messages={productError} />
+            <IconLabel icon="trending-up" color={primary} size={20} style={{marginTop: 10}}>急上昇</IconLabel>
             <ChipList items={trendProducts} />
           </View>
           <View style={styles.inputContainer}>
