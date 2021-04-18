@@ -1,12 +1,13 @@
 import React, {useEffect} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
-import {Avatar, Divider, IconButton} from "react-native-paper"
+import {Avatar, Divider} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
 import {fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../components/PullToRefresh"
 import {TextWithReadMore} from "../components/TextWithReadMore"
+import {IconLabel} from "../components/IconLabel"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -87,8 +88,8 @@ const SelfIntroduction = ({user, M}) => {
       <Text style={styles.grayText}>@{user.name}</Text>
       {user.self_introduction !== null && user.self_introduction !== "" && <TextWithReadMore style={styles.sentence} maxLineCount={3}>{user.self_introduction}</TextWithReadMore>}
       <View style={styles.userData}>
-        {user.face_type !== null && user.face_type !== "" && <View style={styles.userDataItem}><IconButton icon="face" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.face_type[user.face_type]}</Text></View>}
-        {user.base_color !== null && user.base_color !== "" && <View style={styles.userDataItem}><IconButton icon="palette" size={15} style={{margin: 0}} color="#666" /><Text style={styles.grayText}>{M.base_color[user.base_color]}{M.season[user.season]}</Text></View>}
+        {user.face_type !== null && user.face_type !== "" && <IconLabel icon="face" textStyle={styles.grayText}>{M.face_type[user.face_type]}</IconLabel>}
+        {user.base_color !== null && user.base_color !== "" && <IconLabel icon="palette" textStyle={styles.grayText}>{M.base_color[user.base_color]}{M.season[user.season]}</IconLabel>}
         {user.skin_type !== null && user.skin_type !== "" && <View style={styles.userDataItem}><Text style={styles.grayText}>{M.skin_type[user.skin_type]}</Text></View>}
       </View>
     </View>

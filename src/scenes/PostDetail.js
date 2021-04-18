@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux"
 import {primary} from "../styles/colors"
 import {PullToRefresh} from "../components/PullToRefresh"
 import {TextWithReadMore} from "../components/TextWithReadMore"
+import {IconLabel} from "../components/IconLabel"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -158,10 +159,7 @@ const PostInfo = ({navigation}) => {
           <Title style={styles.tagTitle}>タグ</Title>
           {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         </View>
-        <View style={[styles.centerAlignment, styles.postTime]}>
-          <IconButton size={15} icon="clock" style={{margin: 0}} />
-          <Text>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</Text>
-        </View>
+        <IconLabel icon="clock" color="#000" style={styles.postTime}>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</IconLabel>
       </View>
       <Loading isLoading={isLoading} />
     </>
@@ -176,8 +174,8 @@ const ReactionContainer = () => {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.centerAlignment}>
-        <View style={styles.centerAlignment}><IconButton icon="eye" size={15} style={{margin: 0}} color="#666" /><Text style={styles.strong}>{post.page_views ? post.page_views : 0}</Text></View>
-        <View style={styles.centerAlignment}><IconButton icon="heart" size={15} style={{margin: 0}} color="#666" /><Text style={styles.strong}>{post.like_count ? post.like_count : 0}</Text></View>
+        <IconLabel icon="eye" textStyle={styles.strong}>{post.page_views ? post.page_views : 0}</IconLabel>
+        <IconLabel icon="heart" textStyle={styles.strong}>{post.like_count ? post.like_count : 0}</IconLabel>
       </View>
       <View style={styles.buttonContainer}>
         <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
