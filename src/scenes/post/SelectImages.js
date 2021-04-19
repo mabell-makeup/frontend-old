@@ -4,7 +4,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Image, Platform, TextInput, Text, TouchableOpacity} from "react-native"
 import {Button, Checkbox, IconButton} from "react-native-paper"
-import {createPost, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
+import {createPost, resetTmpPost, updateTmpPost, updateTmpProducts, updateTmpTags} from "../../stores/postStore"
 import * as ImagePicker from "expo-image-picker"
 import {FakeInput} from "../../components/FakeInput"
 import {ScrollView} from "react-native-gesture-handler"
@@ -162,11 +162,11 @@ export const SelectImages = ({navigation}) => {
       if (Platform.OS !== "web") {
         const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!")
+          alert("写真へのアクセス許可がありません。\n設定から写真へのアクセスを許可してください。")
         }
       }
     })()
-    updateTmpPost(dispatch, tmpPost, initialTmpUser)
+    resetTmpPost(dispatch, initialTmpUser)
     fetchTrendTags(dispatch)
     fetchTrendProducts(dispatch)
   }, [])
