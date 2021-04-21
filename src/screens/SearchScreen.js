@@ -9,15 +9,15 @@ import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserPage} from "../scenes/UserPage"
 import {ItemDetail} from "../scenes/search/ItemDetail"
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import {SelectTagsInner} from "../scenes/SelectTags"
-import {updateTmpProducts, updateTmpTags} from "../stores/searchStore"
+import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/searchStore"
 import {SelectProductsInner} from "../scenes/SelectProducts"
 
 const Stack = createStackNavigator()
 
-const createDefaultScreenOptions = navigation => ({
-  headerRight: () => <Text onPress={() => navigation.reset({index: 0, routes: [{name: "NewsFeed"}]})}>キャンセル</Text>,
+const createDefaultScreenOptions = dispatch => ({
+  headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>,
   headerRightContainerStyle: {marginRight: 5, padding: 0}
 })
 
@@ -44,7 +44,8 @@ const SelectProducts = props => {
 
 // eslint-disable-next-line max-lines-per-function
 export const SearchScreen = ({navigation}) => {
-  const defaultScreenOptions = createDefaultScreenOptions(navigation)
+  const dispatch = useDispatch()
+  const defaultScreenOptions = createDefaultScreenOptions(dispatch)
   const tmpConditions = useSelector(({search: {tmpConditions}}) => tmpConditions)
 
   return (

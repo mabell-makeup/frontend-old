@@ -32,6 +32,7 @@ const UPDATE_TMP_TAGS = "UPDATE_TMP_TAGS"
 const UPDATE_TMP_PRODUCTS = "UPDATE_TMP_PRODUCTS"
 const UPDATE_RESULT_COUNT = "UPDATE_RESULT_COUNT"
 const UPDATE_NEXT_TOKEN = "UPDATE_NEXT_TOKEN"
+const RESET_TMP_CONDITIONS = "RESET_TMP_CONDITIONS"
 
 
 // Define ActionCreator
@@ -78,6 +79,11 @@ export const fetchPostCount = async (dispatch, filteredConditions) => {
     console.log("error fetch post count: ", error)
   }
 }
+export const resetTmpConditions = async (dispatch) => {
+  dispatch({type: RESET_TMP_CONDITIONS})
+  await fetchPosts(dispatch, {})
+  updateSearchResult(dispatch)
+}
 
 // Define Reducer
 export const searchReducer = createReducer(initialState, {
@@ -89,5 +95,6 @@ export const searchReducer = createReducer(initialState, {
   [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),
   [UPDATE_TMP_PRODUCTS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, products: payload}}),
   [UPDATE_RESULT_COUNT]: (state, {payload}) => ({...state, post_count: payload}),
-  [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
+  [UPDATE_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload}),
+  [RESET_TMP_CONDITIONS]: state => ({...state, tmpConditions: initialState.tmpConditions})
 })
