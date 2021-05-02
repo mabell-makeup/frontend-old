@@ -41,6 +41,7 @@ export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
     await Promise.all([
       fetchPostUser(dispatch, post.getPostType.user_id),
       fetchProductDetails(dispatch, post.getPostType.products_id),
+      // TODO: post_idを引数にリクエストするものは一つにまとめる
       fetchViewCount(dispatch, post_id),
       fetchLikeCount(dispatch, post_id),
       checkLikePost(dispatch, myId, post_id),

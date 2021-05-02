@@ -37,6 +37,11 @@ export const listPostTypes = /* GraphQL */ `
         img_src_list
         thumbnail_img_src
         DateTime
+        page_views
+        like_count
+        base_color
+        season
+        face_type
       }
       nextToken
     }
