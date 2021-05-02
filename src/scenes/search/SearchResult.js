@@ -33,6 +33,7 @@ export const SearchResult = ({navigation}) => {
         data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
         refreshControl={<PullToRefresh refreshFunc={loadMore(dispatch, tmpConditions, false)} />}
+        showUserInfo={true}
       />
       {/* <UserInfoToggleGroup /> */}
     </>
