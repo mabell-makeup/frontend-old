@@ -40,7 +40,7 @@ const Item = ({item, showUserInfo}) => {
           <Text style={styles.description}>
             {[M.base_color[item.base_color] + M.season[item.season],
               M.face_type[item.face_type],
-              // M.skin_type[item.skin_type]
+              M.skin_type[item.skin_type]
             ].filter(Boolean).join(" / ")}
           </Text>
         </View>}

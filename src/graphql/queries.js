@@ -22,6 +22,7 @@ export const getPostType = /* GraphQL */ `
       glitter
       DateTime
       gender
+      skin_type
     }
   }
 `;
@@ -42,6 +43,7 @@ export const listPostTypes = /* GraphQL */ `
         base_color
         season
         face_type
+        skin_type
       }
       nextToken
     }
