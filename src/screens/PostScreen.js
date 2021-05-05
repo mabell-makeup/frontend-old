@@ -26,7 +26,7 @@ const SelectTags = props => {
 
 const SelectProducts = props => {
   const products = useSelector(({post: {tmpPost: {products}}}) => products)
-  return <SelectProductsInner products={products} updateTmpProductsFunc={updateTmpProducts} {...props} />
+  return <SelectProductsInner products={products} updateTmpProductsFunc={updateTmpProducts} isPostPage={true} {...props} />
 }
 
 

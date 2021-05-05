@@ -52,7 +52,7 @@ const createRows = (dispatch, suggestionProducts, selectedProducts, updateTmpPro
   }))
 
 
-export const SelectProductsInner = ({navigation, products, updateTmpProductsFunc}) => {
+export const SelectProductsInner = ({navigation, products, updateTmpProductsFunc, isPostPage=false}) => {
   const dispatch = useDispatch()
   const suggestionProducts = useSelector(({app: {suggestionProducts}}) => suggestionProducts)
   const rows = createRows(dispatch, suggestionProducts, products, updateTmpProductsFunc)
@@ -69,7 +69,7 @@ export const SelectProductsInner = ({navigation, products, updateTmpProductsFunc
     <>
       <ScrollView style={styles.container}>
         <List rows={rows} />
-        <Text style={styles.contactLink}>アイテムが見つからない場合は <Text style={styles.link} onPress={() => onReportProductNotFound(dispatch, products, updateTmpProductsFunc, navigation)}>こちら</Text></Text>
+        {isPostPage && <Text style={styles.contactLink}>アイテムが見つからない場合は <Text style={styles.link} onPress={() => onReportProductNotFound(dispatch, products, updateTmpProductsFunc, navigation)}>こちら</Text></Text>}
       </ScrollView>
       <Button mode="contained" style={styles.button} contentStyle={styles.buttonContentStyle} onPress={() => navigation.goBack()}>使用アイテムを追加</Button>
     </>
