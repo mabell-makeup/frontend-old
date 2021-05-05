@@ -5,6 +5,23 @@ import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../../components/PullToRefresh"
+import {StyleSheet, View} from "react-native"
+import {IconLabel} from "../../components/IconLabel"
+
+const styles = StyleSheet.create({
+  header: {
+    width: "100%",
+    height: 40,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#ddd"
+  },
+  headerItem: {
+    // flexBasis: "auto"
+  }
+})
 
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
@@ -21,6 +38,14 @@ const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   }
 }
 
+const SearchHeader = () => (
+  <View style={styles.header}>
+    <IconLabel icon="account" size={20} style={styles.headerItem}>男性</IconLabel>
+    <IconLabel icon="sort" size={20} style={styles.headerItem}>人気順</IconLabel>
+    <IconLabel icon="tune" size={20} style={styles.headerItem}>絞り込む</IconLabel>
+  </View>
+)
+
 export const SearchResult = ({navigation}) => {
   const dispatch = useDispatch()
   const {searchResult, tmpConditions, nextToken, user_id} = useSelector(({
@@ -29,6 +54,7 @@ export const SearchResult = ({navigation}) => {
 
   return (
     <>
+      <SearchHeader />
       <ImageList
         data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
