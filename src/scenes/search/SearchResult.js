@@ -6,7 +6,7 @@ import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../../components/PullToRefresh"
 import {StyleSheet, View} from "react-native"
-import {IconLabel} from "../../components/IconLabel"
+import {DropDownMenu} from "../../components/DropDownMenu"
 
 const styles = StyleSheet.create({
   header: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd"
   },
   headerItem: {
-    // flexBasis: "auto"
+    marginTop: 35
   }
 })
 
@@ -38,13 +38,15 @@ const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   }
 }
 
-const SearchHeader = () => (
-  <View style={styles.header}>
-    <IconLabel icon="account" size={20} style={styles.headerItem}>男性</IconLabel>
-    <IconLabel icon="sort" size={20} style={styles.headerItem}>人気順</IconLabel>
-    <IconLabel icon="tune" size={20} style={styles.headerItem}>絞り込む</IconLabel>
-  </View>
-)
+const SearchHeader = () => {
+  return (
+    <View style={styles.header}>
+      <DropDownMenu icon="account" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>MEN</DropDownMenu>
+      <DropDownMenu icon="sort" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>人気順</DropDownMenu>
+      <DropDownMenu icon="tune" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>絞り込む</DropDownMenu>
+    </View>
+  )
+}
 
 export const SearchResult = ({navigation}) => {
   const dispatch = useDispatch()
