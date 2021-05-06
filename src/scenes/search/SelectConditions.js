@@ -3,7 +3,7 @@ import React, {useEffect} from "react"
 import {List} from "../../components/List"
 import {Button, IconButton} from "react-native-paper"
 import {ScrollView, View} from "react-native"
-import {updateConditions, updateSearchResult, initialState, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
+import {updateSearchResult, initialState, updateTmpTags, updateTmpProducts, updateTmpConditions} from "../../stores/searchStore"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {CountryInput} from "../../components/CountryInput"
 import {PersonalColorInput} from "../../components/PersonalColorInput"
@@ -60,7 +60,6 @@ const styles = {
 
 const handlePress = (dispatch, navigation) => () => {
   updateSearchResult(dispatch)
-  updateConditions(dispatch)
   navigation.navigate("SearchResult")
 }
 

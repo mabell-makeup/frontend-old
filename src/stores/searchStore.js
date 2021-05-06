@@ -60,9 +60,10 @@ export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   await dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken && res.listPostTypes.nextToken !== "" ? res.listPostTypes.nextToken : ""})
 }
 export const updateSearchResult = async dispatch => {
+  updateConditions(dispatch)
   dispatch({type: UPDATE_SEARCH_RESULT})
 }
-export const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
+const updateConditions = dispatch => dispatch({type: UPDATE_CONDITIONS})
 export const updateTmpTags = async (dispatch, preTags, newTag) => {
   const nextTags = preTags.includes(newTag) ? preTags.filter(tag => tag !== newTag) : [...preTags, newTag]
   dispatch({type: UPDATE_TMP_TAGS, payload: nextTags})

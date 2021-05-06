@@ -1,12 +1,14 @@
 import React from "react"
 import {ImageList} from "../../components/ImageList"
-import {fetchPosts, updateSearchResult} from "../../stores/searchStore"
+import {fetchPosts, updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
 import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../../components/PullToRefresh"
 import {StyleSheet, View} from "react-native"
 import {DropDownMenu} from "../../components/DropDownMenu"
+import {parseMasterData} from "../../helper/requestHelper"
+import {IconLabel} from "../../components/IconLabel"
 
 const styles = StyleSheet.create({
   header: {
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd"
   },
   headerItem: {
-    marginTop: 35
+    marginTop: 32
   }
 })
 
@@ -38,12 +40,28 @@ const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   }
 }
 
-const SearchHeader = () => {
+const createItems = (data, tmpConditions, dispatch) => 
+  data.map(({label, key}) => ({
+    label,
+    key,
+    onPress: async () => {
+      await updateTmpConditions(dispatch, tmpConditions, {gender: key}, false)
+      await updateSearchResult(dispatch)
+    },
+    selected: tmpConditions.gender === key
+  }))
+
+const SearchHeader = ({navigation}) => {
+  const {M, tmpConditions, conditions} = useSelector(({app: {masterData}, search: {tmpConditions, conditions}}) => ({M: masterData, tmpConditions, conditions}))
+  const dispatch = useDispatch()
+  const gender = parseMasterData(M, "gender")
+  const genderItems = createItems(gender, tmpConditions, dispatch)
+
   return (
     <View style={styles.header}>
-      <DropDownMenu icon="account" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>MEN</DropDownMenu>
+      <DropDownMenu icon="account" style={styles.headerItem} items={genderItems}>{M.gender[conditions.gender]}</DropDownMenu>
       <DropDownMenu icon="sort" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>人気順</DropDownMenu>
-      <DropDownMenu icon="tune" style={styles.headerItem} items={[{label: "MEN", onPress:() => {}}, {label: "WOMEN", onPress:() => {}}]}>絞り込む</DropDownMenu>
+      <IconLabel icon="tune" size={20} onPress={() => navigation.navigate("Search")}>絞り込む</IconLabel>
     </View>
   )
 }
@@ -56,7 +74,7 @@ export const SearchResult = ({navigation}) => {
 
   return (
     <>
-      <SearchHeader />
+      <SearchHeader navigation={navigation} />
       <ImageList
         data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
