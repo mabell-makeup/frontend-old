@@ -60,7 +60,7 @@ export const Carousel = ({data}) => {
         style={{flex: 1}}
         renderItem={({item}) => {
           return <Image
-            source={{uri: item}}
+            source={item !== "" ? {uri: item} : require("../../assets/no_image.png")}
             style={styles.image}
           />
         }}
