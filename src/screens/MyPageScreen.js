@@ -35,6 +35,7 @@ export const MyPageScreen = () => {
     <Stack.Navigator {...navigatorProps}>
       {/* eslint-disable-next-line react/display-name */}
       <Stack.Screen name="MyPage" component={UserPage} initialParams={{isMyPage: true}} options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />})} />
+      <Stack.Screen name="UserHome" component={UserPage} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
       <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} />
       <Stack.Screen name="Settings" component={Settings} />
