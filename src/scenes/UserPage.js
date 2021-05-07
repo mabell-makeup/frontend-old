@@ -102,6 +102,16 @@ const SelfIntroduction = ({user, M}) => {
   )
 }
 
+const FollowButton = () => {
+  const isFollowing = true
+
+  return (
+    isFollowing
+      ? <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォロー中</Button>
+      : <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォローする</Button>
+  )
+}
+
 const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
   ...post,
   id: post.id,
@@ -155,7 +165,7 @@ export const UserPage = ({navigation, route: {params}}) => {
           <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
-        {!isMyPage && <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォローする</Button>}
+        {!isMyPage && <FollowButton />}
       </View>
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />
