@@ -155,7 +155,7 @@ export const UserPage = ({navigation, route: {params}}) => {
           <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
-        <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォローする</Button>
+        {!isMyPage && <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォローする</Button>}
       </View>
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />

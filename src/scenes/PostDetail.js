@@ -111,18 +111,20 @@ const menus = post_id => ([
   {title: "報告する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)}
 ])
 
-const userFetchAction = (navigation, dispatch, user_id) => async () => {
-  await fetchUserPosts(dispatch, user_id)
-  navigation.navigate("UserHome")
+const userFetchAction = (navigation, dispatch, postUserId, userId) => async () => {
+  const isMyPage = postUserId === userId
+  isMyPage && await fetchUserPosts(dispatch, postUserId)
+  navigation.navigate("UserHome", {isMyPage})
 }
 
 const PostHeader = ({postUser, navigation, setShowMenu}) => {
+  const user_id = useSelector(({auth: {user: {user_id}}}) => user_id)
   const dispatch = useDispatch()
   const styles = createStyles()
 
   return (
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
-      <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id)}>
+      <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id, user_id)}>
         {/* eslint-disable-next-line no-undef */}
         <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../assets/no_image.png")} />
         <Appbar.Content 
