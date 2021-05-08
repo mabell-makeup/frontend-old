@@ -7,6 +7,7 @@ import {PostDetail} from "../scenes/PostDetail"
 import {UserPage} from "../scenes/UserPage"
 import {Settings} from "../scenes/myPage/Settings"
 import {UserInfoSetting} from "../scenes/user/UserInfoSetting"
+import {TermsOfService} from "../scenes/myPage/TermsOfService"
 
 const Stack = createStackNavigator()
 
@@ -38,6 +39,7 @@ export const MyPageScreen = () => {
       <Stack.Screen name="PostDetail" component={PostDetail} />
       <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} />
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="TermsOfService" component={TermsOfService} />
     </Stack.Navigator>
   )
 }
