@@ -8,8 +8,11 @@
 */
 
 export const createReducer = (initialState={}, handlers={}) =>
-  (state = initialState, action) =>
-    handlers[action.type] && handlers[action.type]({...state}, action) || {...state}
+  (state = initialState, action) => {
+    console.log(`###${action.type}###`)
+    console.log("payload: ", action.payload ? action.payload : "no payload")
+    return handlers[action.type] && handlers[action.type]({...state}, action) || {...state}
+  }
 
 
 /* オブジェクトの比較を行うヘルパー */
@@ -21,3 +24,6 @@ const isEqualOneDimentionalArray = (obj1, obj2) => JSON.stringify(objToSortedArr
 /* 再帰処理を行い、ネストされたオブジェクトまで比較する */
 export const isEqual = (obj1, obj2) => isEqualOneDimentionalArray(obj1, obj2)
   && objToSortedArray(obj1).map(([key, val]) => typeof val === "object" ? isEqual(val, obj2[key]) : true)
+
+/* masterDataのキーとバリューを入れ替える */
+export const formatMasterData = masterData => Object.fromEntries(Object.entries(masterData).map(([key, data]) => [key, Object.fromEntries(Object.entries(data).map(([label, value]) => [value, label]))]))

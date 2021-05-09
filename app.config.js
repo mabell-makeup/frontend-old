@@ -1,14 +1,9 @@
 export default {
-  name: "Joker",
-  version: "1.0.0",
-  slug: "joker",
+  name: "mabell",
+  version: "1.2.4",
+  slug: "mabell",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  splash: {
-    image: "./assets/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#ffffff"
-  },
   updates: {
     fallbackToCacheTimeout: 0
   },
@@ -16,7 +11,9 @@ export default {
     "**/*"
   ],
   ios: {
-    supportsTablet: true
+    supportsTablet: true,
+    bundleIdentifier: "com.makeup.mabell",
+    buildNumber: "1.2.4"
   },
   web: {
     favicon: "./assets/favicon.png"
@@ -25,5 +22,6 @@ export default {
   extra: {
     // eslint-disable-next-line no-undef
     env: process.env.NODE_ENV !== "production" ? "development" : "production"
+    
   }
 }

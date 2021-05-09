@@ -1,7 +1,7 @@
-import React, {useContext} from "react"
+import React from "react"
 import {View} from "react-native"
 import {Checkbox} from "react-native-paper"
-import {searchStore} from "../stores/searchStore"
+import {useDispatch, useSelector} from "react-redux"
 
 
 const createStyles = ({color}) => ({
@@ -19,7 +19,8 @@ const createStyles = ({color}) => ({
 
 // eslint-disable-next-line no-unused-vars
 export const ColorInput = ({color, onPress=(dispatch, state, color)=>{}}) => {
-  const {dispatch, state} = useContext(searchStore)
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
   const styles = createStyles({color})
 
   return (

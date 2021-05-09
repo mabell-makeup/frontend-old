@@ -1,8 +1,10 @@
-import React, {useContext} from "react"
+import React from "react"
 import {StyleSheet, View} from "react-native"
 import {Text} from "react-native-paper"
-import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
+import {parseMasterData} from "../helper/requestHelper"
+import {updateTmpConditions} from "../stores/searchStore"
 import {ChipList} from "./ChipList"
+import {useDispatch, useSelector} from "react-redux"
 
 const styles = StyleSheet.create({
   container: {
@@ -22,42 +24,32 @@ const styles = StyleSheet.create({
   }
 })
 
-const baseColor = [
-  {title: "イエローべース", key: "yellow"},
-  {title: "ブルーベース",  key: "blue"}
-]
+const filterSeason = (baseColor, seasons) => baseColor === 0
+  ? seasons.filter(season => season.key % 2 === 0)
+  : seasons.filter(season => season.key % 2 === 1)
 
-const getSeason = baseColor => baseColor && baseColor === "yellow" ? [
-  {title: "春", key: "spring"},
-  {title: "秋",  key: "autumn"}
-] : [
-  {title: "夏",  key: "summer"},
-  {title: "冬", key: "winter"}
-]
-
-const handlePress = (raw, element, dispatch, tmpConditions) => () => {
-  // TODO: 雑なのであとで直す
-  const next = tmpConditions.personalColor[element] === raw.key ? "" : raw.key
-  const isClearSeason = element === "baseColor"
-  updateTmpConditions(dispatch, tmpConditions, {personalColor: isClearSeason ? {[element]: next} : {...tmpConditions.personalColor, [element]: next}})
-  fetchPosts(dispatch, tmpConditions)
+const handlePress = (key, element, dispatch, tmpConditions) => () => {
+  updateTmpConditions(dispatch, tmpConditions, {[element]: key})
+  element === "base_color" && updateTmpConditions(dispatch, tmpConditions, {season: ""})
 }
 
-const createItems = (raws, element="baseColor", dispatch, tmpConditions) =>
+const createItems = (raws, element="base_color", dispatch, tmpConditions) =>
   raws.map(raw => ({
-    label: raw.title,
+    label: raw.label,
     key: raw.key,
-    // eslint-disable-next-line react/display-name
-    selected: tmpConditions.personalColor[element] === raw.key,
-    onPress: handlePress(raw, element, dispatch, tmpConditions)
+    selected: tmpConditions[element] === raw.key,
+    onPress: handlePress(raw.key, element, dispatch, tmpConditions)
   }))
 
 export const PersonalColorInput = () => {
-  const {dispatch, state: {tmpConditions}} = useContext(searchStore)
-  const season = getSeason(tmpConditions.personalColor.baseColor)
-  const itemBaseColor = createItems(baseColor, "baseColor", dispatch, tmpConditions)
-  const itemSeason = createItems(season, "season", dispatch, tmpConditions)
-  const isShownSeason = tmpConditions.personalColor.baseColor !== ""
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
+  const seasons = parseMasterData(masterData, "season")
+  const filteredSeasons = filterSeason(tmpConditions.base_color, seasons)
+  const baseColor = parseMasterData(masterData, "base_color")
+  const itemBaseColor = createItems(baseColor, "base_color", dispatch, tmpConditions)
+  const itemSeason = createItems(filteredSeasons, "season", dispatch, tmpConditions)
+  const isShownSeason = tmpConditions.base_color !== ""
 
   return (
     <View style={styles.container}>

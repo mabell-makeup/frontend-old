@@ -5,26 +5,31 @@ import {TextInput, View} from "react-native"
 
 const styles = {
   container: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    height: "100%",
     backgroundColor: "#eee",
-    borderRadius: 50,
-    maxHeight: 35
+    borderRadius: 18
   },
   input: {
-    width: "100%",
+    flex: 9,
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0)"
+    paddingRight: 10,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    justifyContent: "center"
+  },
+  icon: {
+    flex: 1,
+    marginVertical: 0
   }
 }
 
 
-export const SearchInput = ({onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
+export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
   return (
     <View style={styles.container}>
-      <IconButton icon="magnify" />
+      <IconButton icon={icon} style={styles.icon} />
       <TextInput
         placeholder="Search"
         onChangeText={onChangeText}

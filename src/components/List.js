@@ -2,20 +2,22 @@ import * as React from "react"
 import {List as L} from "react-native-paper"
 
 const styles = {
+  container: {
+    marginVertical: 0
+  },
   row: {
     height: 30,
     padding: 0,
     justifyContent: "center"
   },
   rowTitle: {
-    fontSize: 12
+    fontSize: 14
   }
 }
 
 const Item = ({title, style, ...props}) => <L.Item title={title} style={{...styles.row, ...style}} {...props} />
 
-// eslint-disable-next-line react/jsx-key
-const Accordion = ({title, rows, style, titleStyle,  ...props}) =>
+const Accordion = ({title, rows, style, titleStyle, ...props}) =>
   <L.Accordion title={title} style={{...styles.row, ...style}} titleStyle={{...styles.rowTitle, ...titleStyle}} {...props}>
     {rows.map(accordionItem => 
       typeof accordionItem === "object" && accordionItem.$$typeof
@@ -41,9 +43,9 @@ const Accordion = ({title, rows, style, titleStyle,  ...props}) =>
 */
 export const List = ({rows=[{title: ""}]}) => {
   return (
-    <L.Section>
+    <L.Section style={styles.container}>
       {/* eslint-disable-next-line no-prototype-builtins */}
-      {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item key={row.title} {...row} />)}
+      {rows.map(row => row.hasOwnProperty("rows") ? <Accordion key={row.title} {...row} /> : <Item {...row} />)}
     </L.Section>
   )
 }

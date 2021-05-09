@@ -1,31 +1,22 @@
-import React, {useContext} from "react"
-import {searchStore, updateTmpConditions, fetchPosts} from "../stores/searchStore"
+import React from "react"
+import {parseMasterData} from "../helper/requestHelper"
 import {ChipList} from "./ChipList"
+import {useSelector} from "react-redux"
 
-const countries = [
-  {title: "日本", key: "japan"},
-  {title: "韓国", key: "korea"},
-  {title: "中国",  key: "china"},
-  {title: "欧米",  key: "america"},
-  {title: "その他", key: "other"}
-]
 
-const createItems = (countries, dispatch, tmpConditions) =>
-  countries.map(country => ({
-    label: country.title,
-    key: country.key,
-    // eslint-disable-next-line react/display-name
-    selected: country.key === tmpConditions.country,
-    onPress: () => {
-      updateTmpConditions(dispatch, tmpConditions, {country: country.key})
-      fetchPosts(dispatch, tmpConditions)
-    }
+const createItems = (countries, tmpState, onPress) =>
+  countries.map(({label, key}) => ({
+    label: label,
+    key: key,
+    selected: key === tmpState.country,
+    onPress: onPress(key)
   }))
 
 
-export const CountryInput = () => {
-  const {dispatch, state} = useContext(searchStore)
-  const items = createItems(countries, dispatch, state.tmpConditions)
+export const CountryInput = ({tmpState={}, onPress=country=>country}) => {
+  const {masterData} = useSelector(({post: {tmpState}, app: {masterData}}) => ({tmpState, masterData}))
+  const countries = parseMasterData(masterData, "country")
+  const items = createItems(countries, tmpState, onPress)
 
   return <ChipList items={items} />
 }

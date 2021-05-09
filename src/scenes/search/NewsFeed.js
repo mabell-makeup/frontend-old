@@ -1,23 +1,30 @@
-import React, {useContext, useEffect} from "react"
+import React from "react"
 import {TopNavigation} from "../../components/TopNavigation"
-import {fetchPosts, searchStore, updateSearchResult} from "../../stores/searchStore"
-import {Men} from "./Men"
-import {Women} from "./Women"
+import {parseMasterData} from "../../helper/requestHelper"
+import {updateSearchResult, updateTmpConditions} from "../../stores/searchStore"
+import {SearchResult} from "./SearchResult"
+import {useDispatch, useSelector} from "react-redux"
 
-const items = [
-  {label: "Women", routeName: "Women", component: Women},
-  {label: "Men", routeName: "Men", component: Men}
-]
 
-const fetchTrendPosts = dispatch => {
-  fetchPosts(dispatch, {order: "DESC"})
-  updateSearchResult(dispatch)
+const createItems = (screens, dispatch, tmpConditions) => 
+  screens.map(({label, key}) => ({
+    label,
+    routeName: label,
+    component: SearchResult,
+    key,
+    listeners: {focus: () => changeTab(dispatch, tmpConditions, key)}
+  }))
+
+const changeTab = async (dispatch, tmpConditions, key) => {
+  await updateTmpConditions(dispatch, tmpConditions, {gender: key}, false)
+  await updateSearchResult(dispatch)
 }
 
 export const NewsFeed = () => {
-  const {dispatch, state: {searchResult}} = useContext(searchStore)
-  
-  useEffect(() => {if (searchResult.length === 0) fetchTrendPosts(dispatch)}, [])
+  const dispatch = useDispatch()
+  const {tmpConditions, masterData, user} = useSelector(({search: {tmpConditions}, app: {masterData}, auth: {user}}) => ({tmpConditions, masterData, user}))
+  const genders = parseMasterData(masterData, "gender")
+  const items = createItems(genders, dispatch, tmpConditions)
 
-  return <TopNavigation items={items} />
+  return <TopNavigation items={items.reverse()} initialRouteName={masterData.gender[user.gender]} />
 }

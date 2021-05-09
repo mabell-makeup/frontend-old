@@ -1,2 +1,1 @@
-export const useSomeContexts = (useContext, stores=[]) => stores.map(store => useContext(store))
 export const useSomeStates = (useState, initialValues=[]) => initialValues.map(value => useState(value))

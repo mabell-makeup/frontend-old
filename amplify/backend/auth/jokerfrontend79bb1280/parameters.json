@@ -1,0 +1,6 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "jokerfrontend79bb1280",
+  "serviceType": "imported",
+  "region": "ap-northeast-1"
+}

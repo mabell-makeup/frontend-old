@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "jokerfrontend79bb1280": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

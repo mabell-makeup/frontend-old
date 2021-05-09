@@ -1,12 +1,12 @@
 import React, {useState} from "react"
 import {StyleSheet, View} from "react-native"
 import {FlatList, Image} from "react-native"
+import {primary} from "../styles/colors"
 import {WINDOW_WIDTH} from "../styles/constants"
 
 
 const styles = StyleSheet.create({
   image: {
-    // TODO: もっといい書き方があるはず
     width: WINDOW_WIDTH,
     height: 400
   },
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginHorizontal: 2
   },
-  paginationDotActive: {backgroundColor: "lightblue"},
-  paginationDotInactive: {backgroundColor: "gray"}
+  paginationDotActive: {backgroundColor: primary},
+  paginationDotInactive: {backgroundColor: "#aaa"}
 })
 
 const Pagination = ({index, imgCount}) => {
@@ -60,7 +60,7 @@ export const Carousel = ({data}) => {
         style={{flex: 1}}
         renderItem={({item}) => {
           return <Image
-            source={{uri: item}}
+            source={item !== "" ? {uri: item} : require("../../assets/no_image.png")}
             style={styles.image}
           />
         }}
