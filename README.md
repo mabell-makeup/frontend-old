@@ -1,5 +1,6 @@
 # Joker-frontend
 WEARのメイクVer.
+https://testflight.apple.com/join/T4yC2gRD
 
 ## Start Development
 
