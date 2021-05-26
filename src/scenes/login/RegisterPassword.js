@@ -54,17 +54,20 @@ const onSubmit = (dispatch, navigation, setError, password, confirm) => () => {
   }
 }
 
+// eslint-disable-next-line complexity
 export const RegisterPassword = ({navigation}) => {
   const dispatch = useDispatch()
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
   const [error, setError] = useState([])
-
+  const [viewPassword, setViewPassword] = useState(true)
+  const [viewConfirm, setViewConfirm] = useState(true)
   return (
     <View style={styles.container}>
       <Title>パスワードを作成</Title>
-      <TextInput style={styles.input} mode="outlined" label="パスワード" onChangeText={setPassword} error={error.length > 0} secureTextEntry={true} />
-      <TextInput style={styles.input} mode="outlined" label="パスワード再確認" onChangeText={setConfirm} error={error.length > 0} secureTextEntry={true} />
+      {/* TODO: パスワードのコンポーネントを切り出す */}
+      <TextInput style={styles.input} mode="outlined" label="パスワード" right={<TextInput.Icon name={viewPassword ? "eye-off" : "eye"} color={viewPassword ? "#999" : "#555"} onPress={() => setViewPassword(!viewPassword)} />} onChangeText={setPassword} error={error.length > 0} secureTextEntry={viewPassword} />
+      <TextInput style={styles.input} mode="outlined" label="パスワード再確認" right={<TextInput.Icon name={viewConfirm ? "eye-off" : "eye"} color={viewConfirm ? "#999" : "#555"} onPress={() => setViewConfirm(!viewConfirm)} />} onChangeText={setConfirm} error={error.length > 0} secureTextEntry={viewConfirm} />
       <ErrorMessage messages={error}/>
       <View style={styles.precautionsContainer}>
         <Text style={styles.precautions}>パスワードは以下の要件を満たす必要があります</Text>
@@ -78,8 +81,7 @@ export const RegisterPassword = ({navigation}) => {
         contentStyle={styles.buttonContentStyle}
         mode="contained"
         disabled={password.length === 0 || confirm.length === 0}
-        onPress={onSubmit(dispatch, navigation, setError, password, confirm)}
-      >次へ</Button>
+        onPress={onSubmit(dispatch, navigation, setError, password, confirm)}>次へ</Button>
     </View>
   )
 }
