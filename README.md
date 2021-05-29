@@ -1,7 +1,8 @@
 # Joker-frontend
 WEARのメイクVer.
-https://testflight.apple.com/join/T4yC2gRD
+https://mabell.in
 
+// TODO: 古いので更新かける
 ## Start Development
 
 1. Expoのインストール
