@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Divider, Button} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
@@ -103,13 +103,9 @@ const SelfIntroduction = ({user, M}) => {
 }
 
 const FollowButton = () => {
-  const isFollowing = true
+  const [isFollowing, setIsFollowing] = useState(false)
 
-  return (
-    isFollowing
-      ? <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォロー中</Button>
-      : <Button mode="outlined" style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => {}}>フォローする</Button>
-  )
+  return <Button mode={isFollowing ? "contained" : "outlined"} style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => setIsFollowing(!isFollowing)}>{isFollowing ? "フォロー中" : "フォローする"}</Button>
 }
 
 const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
