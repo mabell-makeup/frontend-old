@@ -8,7 +8,7 @@ import {PostDetail} from "../scenes/PostDetail"
 import {FakeInput} from "../components/FakeInput"
 import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
 import {UserPage} from "../scenes/UserPage"
-import {ItemDetail} from "../scenes/search/ItemDetail"
+import {ProductDetail} from "../scenes/search/ProductDetail"
 import {useDispatch, useSelector} from "react-redux"
 import {SelectTagsInner} from "../scenes/SelectTags"
 import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/searchStore"
@@ -17,10 +17,9 @@ import {SearchResult} from "../scenes/search/SearchResult"
 
 const Stack = createStackNavigator()
 
-const createDefaultScreenOptions = dispatch => ({
-  headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>,
+const defaultScreenOptions = {
   headerRightContainerStyle: {marginRight: 5, padding: 0}
-})
+}
 
 const navigatorProps = ({
   initialRouteName: "NewsFeed",
@@ -46,12 +45,14 @@ const SelectProducts = props => {
 // eslint-disable-next-line max-lines-per-function
 export const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch()
-  const defaultScreenOptions = createDefaultScreenOptions(dispatch)
   const tmpConditions = useSelector(({search: {tmpConditions}}) => tmpConditions)
 
   return (
     <Stack.Navigator {...navigatorProps}>
-      <Stack.Screen name="Search" component={Search} options={defaultScreenOptions}/>
+      <Stack.Screen name="Search" component={Search} options={{
+        ...defaultScreenOptions,
+        headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>
+      }}/>
       <Stack.Screen name="SelectTags" component={SelectTags} />
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
       <Stack.Screen name="NewsFeed" component={NewsFeed} options={{
@@ -65,7 +66,7 @@ export const SearchScreen = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false
       }} />
-      <Stack.Screen name="ItemDetail" component={ItemDetail} options={defaultScreenOptions} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} options={defaultScreenOptions} />
       <Stack.Screen name="UserHome" component={UserPage} options={{
         ...defaultScreenOptions,
         headerRight: false

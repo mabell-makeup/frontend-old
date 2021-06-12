@@ -59,9 +59,9 @@ const changeTab = async (dispatch, tmpConditions, key) => {
 
 export const NewsFeed = () => {
   const dispatch = useDispatch()
-  const {tmpConditions, masterData} = useSelector(({search: {tmpConditions}, app: {masterData}}) => ({tmpConditions, masterData}))
+  const {tmpConditions, masterData, user} = useSelector(({search: {tmpConditions}, app: {masterData}, auth: {user}}) => ({tmpConditions, masterData, user}))
   const genders = parseMasterData(masterData, "gender")
   const items = createItems(genders, dispatch, tmpConditions)
 
-  return <TopNavigation items={items} />
+  return <TopNavigation items={items.reverse()} initialRouteName={masterData.gender[user.gender]} />
 }
