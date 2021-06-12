@@ -3,11 +3,11 @@ import {Text, StyleSheet} from "react-native"
 
 const styles = StyleSheet.create({
   text: {
-    lineHeight: 30
+    lineHeight: 20
   },
   readMore: {
     color: "#999",
-    lineHeight: 30
+    lineHeight: 20
   }
 })
 
