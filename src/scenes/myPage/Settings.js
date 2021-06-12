@@ -22,7 +22,10 @@ const styles = StyleSheet.create({
 
 
 const settings = [
-  {label: "プロフィール設定", linkTo: "UserInfoSetting"}
+  {label: "プロフィール設定", linkTo: "UserInfoSetting"},
+  {label: "通知設定", linkTo: "NoticeSetting"},
+  {label: "利用規約", linkTo: "TermsOfService"},
+  {label: "プライバシーポリシー", linkTo: "PrivacyPolicy"}
 ]
 
 const createRows = (navigation, settings) =>
