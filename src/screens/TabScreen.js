@@ -1,12 +1,12 @@
 /* eslint-disable react/display-name */
 import React from "react"
 import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs"
-import {HomeScreen} from "./HomeScreen"
 import {SearchScreen} from "./SearchScreen"
 import {IconButton} from "react-native-paper"
 import {MyPageScreen} from "./MyPageScreen"
 import {fetchMyPosts, fetchPostCount} from "../stores/authStore"
 import {useDispatch, useSelector} from "react-redux"
+import {NoticeScreen} from "./NoticeScreen"
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -24,6 +24,7 @@ export const TabScreen = () => {
     >
       {/* <Tab.Screen name="HomeScreen" component={HomeScreen} options={{tabBarIcon: ({color}) => <IconButton icon="home" size={30} color={color} style={{margin: 0}} />}} /> */}
       <Tab.Screen name="SearchScreen" component={SearchScreen} options={{tabBarIcon: ({color}) => <IconButton icon="magnify" size={30} color={color} style={{margin: 0}} />}} />
+      <Tab.Screen name="NoticeScreen" component={NoticeScreen} options={{tabBarIcon: ({color}) => <IconButton icon="bell" size={28} color={color} style={{margin: 0}} />}} />
       <Tab.Screen name="MyPageScreen" component={MyPageScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}}
         listeners = {{tabPress: () => {
           fetchMyPosts(dispatch, user_id)
