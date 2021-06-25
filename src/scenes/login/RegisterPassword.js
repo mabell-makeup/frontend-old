@@ -5,6 +5,7 @@ import {updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
 import {useDispatch} from "react-redux"
+import { PasswordInput } from "../../components/PasswordInput"
 
 const styles = StyleSheet.create({
   container: {
@@ -60,14 +61,12 @@ export const RegisterPassword = ({navigation}) => {
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
   const [error, setError] = useState([])
-  const [viewPassword, setViewPassword] = useState(true)
-  const [viewConfirm, setViewConfirm] = useState(true)
+
   return (
     <View style={styles.container}>
       <Title>パスワードを作成</Title>
-      {/* TODO: パスワードのコンポーネントを切り出す */}
-      <TextInput style={styles.input} mode="outlined" label="パスワード" right={<TextInput.Icon name={viewPassword ? "eye-off" : "eye"} color={viewPassword ? "#999" : "#555"} onPress={() => setViewPassword(!viewPassword)} />} onChangeText={setPassword} error={error.length > 0} secureTextEntry={viewPassword} />
-      <TextInput style={styles.input} mode="outlined" label="パスワード再確認" right={<TextInput.Icon name={viewConfirm ? "eye-off" : "eye"} color={viewConfirm ? "#999" : "#555"} onPress={() => setViewConfirm(!viewConfirm)} />} onChangeText={setConfirm} error={error.length > 0} secureTextEntry={viewConfirm} />
+      <PasswordInput onChangeText={setPassword} error={error} />
+      <PasswordInput onChangeText={setConfirm} error={error} label="パスワード再確認" />
       <ErrorMessage messages={error}/>
       <View style={styles.precautionsContainer}>
         <Text style={styles.precautions}>パスワードは以下の要件を満たす必要があります</Text>
