@@ -1,6 +1,6 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
-import {Avatar, Divider} from "react-native-paper"
+import {Avatar, Divider, Button} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
 import {fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
@@ -38,14 +38,15 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   grayText: {
-    color: "#666"
+    color: "#666",
+    fontSize: 12
   },
   sentence: {
     marginTop: 15,
-    fontSize: 16
+    fontSize: 14
   },
   userData: {
-    marginTop: 15,
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -58,8 +59,13 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   button: {
-    alignSelf: "center",
-    width: 200
+    height: 30,
+    width: "30%",
+    margin: 5,
+    justifyContent: "center"
+  },
+  buttonLabel: {
+    fontSize: 10
   }
 })
 
@@ -69,14 +75,14 @@ const FollowInfo = ({postCount}) =>
       <Text style={styles.bold}>{postCount ? postCount : 0}</Text>
       <Text>投稿</Text>
     </View>
-    {/* <View style={styles.followInfoItem}>
+    <View style={styles.followInfoItem}>
       <Text style={styles.bold}>0</Text>
       <Text>フォロワー</Text>
-    </View> */}
-    {/* <View style={styles.followInfoItem}>
+    </View>
+    <View style={styles.followInfoItem}>
       <Text style={styles.bold}>0</Text>
       <Text>フォロー中</Text>
-    </View> */}
+    </View>
   </View>
 
 
@@ -94,6 +100,12 @@ const SelfIntroduction = ({user, M}) => {
       </View>
     </View>
   )
+}
+
+const FollowButton = () => {
+  const [isFollowing, setIsFollowing] = useState(false)
+
+  return <Button mode={isFollowing ? "contained" : "outlined"} style={styles.button} labelStyle={styles.buttonLabel} contentStyle={styles.buttonContentStyle} onPress={() => setIsFollowing(!isFollowing)}>{isFollowing ? "フォロー中" : "フォローする"}</Button>
 }
 
 const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
@@ -149,6 +161,7 @@ export const UserPage = ({navigation, route: {params}}) => {
           <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
         </View>
         <SelfIntroduction user={user} M={masterData} />
+        {!isMyPage && <FollowButton />}
       </View>
       <Divider style={styles.divider} />
       <ImageList data={data} scrollEnabled={false} />

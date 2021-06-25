@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux"
 import {SelectTagsInner} from "../scenes/SelectTags"
 import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/searchStore"
 import {SelectProductsInner} from "../scenes/SelectProducts"
+import {SearchResult} from "../scenes/search/SearchResult"
 
 const Stack = createStackNavigator()
 
@@ -69,6 +70,15 @@ export const SearchScreen = ({navigation}) => {
       <Stack.Screen name="UserHome" component={UserPage} options={{
         ...defaultScreenOptions,
         headerRight: false
+      }} />
+      <Stack.Screen name="SearchResult" component={SearchResult} options={{
+        ...defaultScreenOptions,
+        headerStyle: {
+          shadowRadius: 0,
+          shadowOffset: {
+            height: 0
+          }
+        }
       }} />
     </Stack.Navigator>
   )

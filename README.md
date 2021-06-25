@@ -1,6 +1,8 @@
 # Joker-frontend
 WEARのメイクVer.
+https://mabell.in
 
+// TODO: 古いので更新かける
 ## Start Development
 
 1. Expoのインストール
