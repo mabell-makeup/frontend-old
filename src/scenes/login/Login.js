@@ -4,17 +4,18 @@ import {View, StyleSheet, Image} from "react-native"
 import {defaultStyle} from "../../styles/defaultStyle"
 import {checkLoggedIn, login} from "../../stores/authStore"
 import {useDispatch, useSelector} from "react-redux"
+import {PasswordInput} from "../../components/PasswordInput"
 
 const styles = StyleSheet.create({
   ...defaultStyle,
   input: {
     maxHeight: 50,
-    width: 280,
+    width: 300,
     margin: 10
   },
   submit: {
     height: 50,
-    width: 280,
+    width: 300,
     margin: 20,
     justifyContent: "center"
   },
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     height: 100
   },
   errorContainer: {
-    width: 280
+    width: 300
   },
   errMsg: {
     marginTop: 10,
@@ -58,7 +59,7 @@ export const Login = ({navigation}) => {
       {isChecked &&
         <>
           <TextInput style={styles.input} mode="outlined" label="ユーザー名またはメールアドレス" value={mail} onChangeText={text => setMail(text)} />
-          <TextInput style={styles.input} mode="outlined" label="パスワード" value={password} onChangeText={text => setPassword(text)} secureTextEntry={true} />
+          <PasswordInput onChangeText={setPassword} error={err_msg} />
           <View style={styles.errorContainer}>{err_msg !== "" && <Text style={styles.errMsg}>{err_msg}</Text>}</View>
           <Button style={styles.submit} contentStyle={styles.buttonContentStyle} mode="contained" onPress={() => login(navigation, dispatch, mail, password, dispatch)}>ログイン</Button>
           <Text>アカウントをお持ちでない場合 <Text style={styles.signupLink} onPress={() => navigation.navigate("RegisterMail")}>登録はこちら</Text></Text>

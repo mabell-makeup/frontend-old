@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 })
 
 export const PasswordInput = ({
-  onChangeText, error, label="パスワード"
+  onChangeText, isError, label="パスワード"
 }) => {
   const [viewPassword, setViewPassword] = useState(true)
 
@@ -24,7 +24,7 @@ export const PasswordInput = ({
       onPress={() => setViewPassword(!viewPassword)}
     />}
     onChangeText={onChangeText}
-    error={error.length > 0}
+    error={isError}
     secureTextEntry={viewPassword}
   />
 }

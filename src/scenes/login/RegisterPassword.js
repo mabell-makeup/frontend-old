@@ -1,21 +1,16 @@
 import React, {useState} from "react"
-import {Button, TextInput, Title} from "react-native-paper"
+import {Button, Title} from "react-native-paper"
 import {View, StyleSheet, Text} from "react-native"
 import {updateNewUser} from "../../stores/authStore"
 import {ErrorMessage} from "../../components/ErrorMessage"
 import {validate, rules as R} from "../../helper/validateHelper"
 import {useDispatch} from "react-redux"
-import { PasswordInput } from "../../components/PasswordInput"
+import {PasswordInput} from "../../components/PasswordInput"
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     alignItems: "center"
-  },
-  input: {
-    maxHeight: 50,
-    width: 300,
-    margin: 10
   },
   submit: {
     height: 50,
@@ -65,8 +60,8 @@ export const RegisterPassword = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Title>パスワードを作成</Title>
-      <PasswordInput onChangeText={setPassword} error={error} />
-      <PasswordInput onChangeText={setConfirm} error={error} label="パスワード再確認" />
+      <PasswordInput onChangeText={setPassword} error={error.length > 0} />
+      <PasswordInput onChangeText={setConfirm} error={error.length > 0} label="パスワード再確認" />
       <ErrorMessage messages={error}/>
       <View style={styles.precautionsContainer}>
         <Text style={styles.precautions}>パスワードは以下の要件を満たす必要があります</Text>
