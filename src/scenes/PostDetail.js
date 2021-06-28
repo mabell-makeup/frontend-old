@@ -7,7 +7,7 @@ import {Loading} from "../components/Loading"
 import {PopupMenu} from "../components/PopupMenu"
 import {openReportInappropriateContentPage} from "../helper/contactHelper"
 import {parseMasterData} from "../helper/requestHelper"
-import {updateLikePost, fetchUserPosts} from "../stores/postDetailStore"
+import {updateLikePost, fetchUserPosts, updateSavedPost} from "../stores/postDetailStore"
 import {WINDOW_WIDTH, MORE_ICON} from "../styles/constants"
 import {useDispatch, useSelector} from "react-redux"
 import {primary} from "../styles/colors"
@@ -63,14 +63,14 @@ const createStyles = favorite => ({
   followLinkButton: {
     marginLeft: "auto"
   },
-  button: {
-    borderWidth: 1,
-    paddingTop: 2,
-    marginLeft: 0,
-    borderColor: "#ccc"
+  savedButton: {
+    marginLeft: "auto"
   },
   favoriteButton: {
-    borderColor: favorite ? primary : "#ccc"
+    borderColor: favorite ? primary : "#ccc",
+    borderWidth: 1,
+    paddingTop: 2,
+    marginLeft: 0
   },
   buttonContainer: {
     flexDirection: "row"
@@ -168,19 +168,21 @@ const PostInfo = ({navigation}) => {
   )
 }
 
+// eslint-disable-next-line complexity
 const ReactionContainer = () => {
   const styles = createStyles()
   const dispatch = useDispatch()
   const post = useSelector(({postDetail: {post}}) => post)
-
+  
   return (
     <View style={styles.infoContainer}>
       <View style={styles.centerAlignment}>
         <IconLabel icon="eye" textStyle={styles.strong}>{post.page_views ? post.page_views : 0}</IconLabel>
         <IconLabel icon="heart" textStyle={styles.strong}>{post.like_count ? post.like_count : 0}</IconLabel>
       </View>
-      <View style={styles.buttonContainer}>
-        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={[styles.button, styles.favoriteButton]} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+      <View style={[styles.buttonContainer, styles.centerAlignment]}>
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.favoriteButton} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, post.isSaved, post.post_id)} size={33} />
         {/* <IconButton icon="comment-outline" style={styles.button} color="#999" /> */}
       </View>
     </View>

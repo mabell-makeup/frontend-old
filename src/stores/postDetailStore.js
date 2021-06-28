@@ -14,6 +14,7 @@ export const initialState = {
     description: "",
     page_views: Number,
     isLike: false,
+    isSaved: false,
     like_count: Number
   },
   products: [],
@@ -26,7 +27,6 @@ export const initialState = {
 // Define Types
 const FETCH_POST_DETAIL = "FETCH_POST_DETAIL"
 const FETCH_POST_USER = "FETCH_POST_USER"
-const UPDATE_FAVORITE_POST = "UPDATE_FAVORITE_POST"
 const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL"
 const FETCH_USER_POSTS = "FETCH_USER_POSTS"
 const UPDATE_POST_DETAIL = "UPDATE_POST_DETAIL"
@@ -77,6 +77,14 @@ export const checkLikePost = async (dispatch, user_id, post_id) => {
     console.log("error fetch my posts: ", error)
   }
 }
+export const updateSavedPost = async (dispatch, isSaved, post_id) => {
+  try {
+    //await apiRequest(isSaved ? deletePostLikeType : createPostLikeType, {input: {post_id}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {isSaved: !isSaved}})
+  } catch (error) {
+    console.log("error update save: ", error)
+  }
+}
 export const fetchProductDetails = async (dispatch, products_id) => {
   try {
     const products = await Promise.all(products_id.map(async product_id => apiRequest(getProductType, {product_id})))
@@ -122,7 +130,6 @@ export const postDetailReducer = createReducer(initialState, {
   [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
   [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
   [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
-  [UPDATE_FAVORITE_POST]: (state, {payload}) => ({...state, post: {...state.post, favorite: payload}}),
   [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload}),
   [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}}),
   [UPDATE_LOADING]: (state, {payload}) => ({...state, isLoading: payload})
