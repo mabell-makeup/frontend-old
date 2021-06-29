@@ -14,6 +14,7 @@ import {primary} from "../styles/colors"
 import {PullToRefresh} from "../components/PullToRefresh"
 import {TextWithReadMore} from "../components/TextWithReadMore"
 import {IconLabel} from "../components/IconLabel"
+import {deletePost} from "../stores/authStore"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -107,8 +108,9 @@ const createStyles = favorite => ({
   }
 })
 
-const menus = post_id => ([
-  {title: "報告する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)}
+const menus = (post_id, dispatch, posts) => ([
+  {title: "通報する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)},
+  {title: "削除する", icon: "trash-can", onPress: () => deletePost(dispatch, post_id, posts)}
 ])
 
 const userFetchAction = (navigation, dispatch, postUserId, userId) => async () => {
@@ -236,6 +238,7 @@ const ProductInfo = ({navigation}) => {
 
 export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
   const {post, postUser} = useSelector(({postDetail: {post, postUser}}) => ({post, postUser}))
+  const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
 
   return (
@@ -248,7 +251,7 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
         <PostInfo navigation={navigation} />
         {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
       </ScrollView>
-      <PopupMenu menus={menus(post.post_id)} handleShown={[showMenu, setShowMenu]} />
+      <PopupMenu menus={menus(post.post_id, dispatch, )} handleShown={[showMenu, setShowMenu]} />
     </>
   )
 }

@@ -54,7 +54,6 @@ export const resetTmpPost = (dispatch, initialTmpUser) => {
   dispatch({type: RESET_TMP_POST, payload: initialTmpUser})
 }
 
-
 // Define Reducer
 export const postReducer = createReducer(initialState, {
   [UPDATE_TMP_POST]: (state, {payload}) => ({...state, tmpPost: {...state.tmpPost, ...payload}}),
