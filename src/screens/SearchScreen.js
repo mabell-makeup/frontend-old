@@ -14,6 +14,7 @@ import {SelectTagsInner} from "../scenes/SelectTags"
 import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/searchStore"
 import {SelectProductsInner} from "../scenes/SelectProducts"
 import {SearchResult} from "../scenes/search/SearchResult"
+import {Comments} from "../scenes/Comments"
 
 const Stack = createStackNavigator()
 
@@ -80,6 +81,7 @@ export const SearchScreen = ({navigation}) => {
           }
         }
       }} />
+      <Stack.Screen name="Comments" component={Comments} options={defaultScreenOptions} />
     </Stack.Navigator>
   )
 }

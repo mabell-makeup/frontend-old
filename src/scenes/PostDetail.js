@@ -66,7 +66,7 @@ const createStyles = favorite => ({
   savedButton: {
     marginLeft: "auto"
   },
-  favoriteButton: {
+  leftButtons: {
     borderColor: favorite ? primary : "#ccc",
     borderWidth: 1,
     paddingTop: 2,
@@ -169,7 +169,7 @@ const PostInfo = ({navigation}) => {
 }
 
 // eslint-disable-next-line complexity
-const ReactionContainer = () => {
+const ReactionContainer = ({navigation}) => {
   const styles = createStyles()
   const dispatch = useDispatch()
   const post = useSelector(({postDetail: {post}}) => post)
@@ -181,9 +181,9 @@ const ReactionContainer = () => {
         <IconLabel icon="heart" textStyle={styles.strong}>{post.like_count ? post.like_count : 0}</IconLabel>
       </View>
       <View style={[styles.buttonContainer, styles.centerAlignment]}>
-        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.favoriteButton} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.leftButtons} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon="comment-outline" style={styles.leftButtons} color="#999" onPress={() => navigation.navigate("Comments")} />
         <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, post.isSaved, post.post_id)} size={33} />
-        {/* <IconButton icon="comment-outline" style={styles.button} color="#999" /> */}
       </View>
     </View>
   )
@@ -243,7 +243,7 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
       <ScrollView refreshControl={<PullToRefresh refreshFunc={refreshFunc} />}>
         <PostHeader postUser={postUser} navigation={navigation} setShowMenu={setShowMenu} />
         <Carousel data={post.img_src_list} />
-        <ReactionContainer />
+        <ReactionContainer navigation={navigation} />
         {/* <ProductInfo navigation={navigation} /> */}
         <PostInfo navigation={navigation} />
         {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
