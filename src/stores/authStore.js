@@ -30,7 +30,8 @@ const initialState = {
     face_type: "",
     base_color: "",
     season: "",
-    self_introduction: ""
+    self_introduction: "",
+    user_id: ""
   },
   nextToken: ""
 }
@@ -46,6 +47,7 @@ const UPDATE_USER = "UPDATE_USER"
 const FETCH_MY_POSTS = "FETCH_MY_POSTS"
 const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
 const UPDATE_MY_POSTS_NEXT_TOKEN = "UPDATE_MY_POSTS_NEXT_TOKEN"
+const DELETE_MY_POST = "DELETE_MY_POST"
 
 
 // Define ActionCreator
@@ -166,6 +168,14 @@ export const checkLoggedIn = async dispatch => {
     console.log("not logged in: ", error)
   }
 }
+export const deletePost = async (dispatch, post_id, posts) => {
+  try {
+    const deleted = posts.filter(post => post.post_id !== post_id)
+    dispatch({type: DELETE_MY_POST, payload: deleted})
+  } catch (error){
+    console.log("error delete post:", error)
+  }
+}
 
 // Define Reducer
 export const authReducer = createReducer(initialState, {
@@ -177,5 +187,6 @@ export const authReducer = createReducer(initialState, {
   [UPDATE_USER]: (state, {payload}) => ({...state, user: {...state.user, ...payload}}),
   [FETCH_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
   [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
-  [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload})
+  [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload}),
+  [DELETE_MY_POST]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}})
 })

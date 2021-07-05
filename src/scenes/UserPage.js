@@ -138,6 +138,7 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
 }
 
 // eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line complexity
 export const UserPage = ({navigation, route: {params}}) => {
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
