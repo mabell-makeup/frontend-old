@@ -30,7 +30,8 @@ const initialState = {
     face_type: "",
     base_color: "",
     season: "",
-    self_introduction: ""
+    self_introduction: "",
+    user_id: ""
   },
   nextToken: ""
 }

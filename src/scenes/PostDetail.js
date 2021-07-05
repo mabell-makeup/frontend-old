@@ -108,9 +108,10 @@ const createStyles = favorite => ({
   }
 })
 
-const menus = (post_id, dispatch, posts) => ([
-  {title: "通報する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)},
-  {title: "削除する", icon: "trash-can", onPress: () => deletePost(dispatch, post_id, posts)}
+const menus = (post_id, dispatch, posts, myId) => ([
+  (myId !== post_id)
+    ? {title: "通報する", icon: "flag", onPress: () => openReportInappropriateContentPage(post_id)}
+    : {title: "削除する", icon: "trash-can", onPress: () => deletePost(dispatch, post_id, posts)}
 ])
 
 const userFetchAction = (navigation, dispatch, postUserId, userId) => async () => {
@@ -238,6 +239,7 @@ const ProductInfo = ({navigation}) => {
 
 export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
   const {post, postUser} = useSelector(({postDetail: {post, postUser}}) => ({post, postUser}))
+  const {user_id: myId, posts} = useSelector(({auth: {user: {user_id, posts}}}) => ({user_id, posts}))
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -251,7 +253,7 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
         <PostInfo navigation={navigation} />
         {/* <FollowLink postUser={postUser} navigation={navigation} /> */}
       </ScrollView>
-      <PopupMenu menus={menus(post.post_id, dispatch, )} handleShown={[showMenu, setShowMenu]} />
+      <PopupMenu menus={menus(post.user_id, dispatch, posts, myId)} handleShown={[showMenu, setShowMenu]} />
     </>
   )
 }
