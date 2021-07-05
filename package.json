@@ -56,8 +56,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
-    "eslint": "^7.21.0",
-    "eslint-plugin-react": "^7.21.5",
+    "eslint": "^7.30.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-native": "^3.11.0",
     "json-server": "^0.16.3",
     "metro-react-native-babel-preset": "^0.63.0"
   },
