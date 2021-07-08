@@ -26,9 +26,9 @@ const styles = {
 }
 
 
-export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
+export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, containerStyle, ...props}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <IconButton icon={icon} style={styles.icon} />
       <TextInput
         placeholder="Search"
