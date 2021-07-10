@@ -3,7 +3,7 @@ import {IconButton} from "react-native-paper"
 import {TextInput, View} from "react-native"
 
 
-const styles = {
+const createStyles = (hasIcon=false) => ({
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -16,6 +16,7 @@ const styles = {
     flex: 9,
     height: "100%",
     paddingRight: 10,
+    marginLeft: hasIcon ? 0 : 15,
     backgroundColor: "rgba(0, 0, 0, 0)",
     justifyContent: "center"
   },
@@ -23,13 +24,15 @@ const styles = {
     flex: 1,
     marginVertical: 0
   }
-}
+})
 
 
-export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, ...props}) => {
+export const IconTextInput = ({icon="magnify", onChangeText, onSubmitEditing, isFocused=false, containerStyle, ...props}) => {
+  const hasIcon = icon !== ""
+  const styles = createStyles(hasIcon)
   return (
-    <View style={styles.container}>
-      <IconButton icon={icon} style={styles.icon} />
+    <View style={[styles.container, containerStyle]}>
+      {hasIcon && <IconButton icon={icon} style={styles.icon} />}
       <TextInput
         placeholder="Search"
         onChangeText={onChangeText}

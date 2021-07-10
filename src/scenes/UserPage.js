@@ -140,6 +140,7 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
 // eslint-disable-next-line max-lines-per-function
 // eslint-disable-next-line complexity
 export const UserPage = ({navigation, route: {params}}) => {
+  // TODO: user_idだけ受け取るようにする。自身のページ化の判断もuser_idの比較で行う。
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
   const {user, nextToken, masterData} = isMyPage

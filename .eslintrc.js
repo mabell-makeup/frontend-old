@@ -2,7 +2,8 @@
 module.exports = {
   "env": {
     "browser": true,
-    "es2020": true
+    "es2020": true,
+    "react-native/react-native": true
   },
   "extends": [
     "eslint:recommended",
@@ -16,7 +17,8 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "react-native"
   ],
   "rules": {
     "linebreak-style": ["error","unix"],
@@ -37,6 +39,8 @@ module.exports = {
     "no-var": "error",
     "block-spacing": ["error", "never"],
     "object-curly-spacing": ["error", "never"],
-    "comma-dangle": ["error", "never"]
+    "comma-dangle": ["error", "never"],
+    "react-native/no-unused-styles": 2,
+    "react-native/no-inline-styles": 2
   }
 }
