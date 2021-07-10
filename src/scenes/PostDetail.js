@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {View, TouchableOpacity, Image, FlatList, ScrollView} from "react-native"
 import {Appbar, Avatar, Text, Button, IconButton, Title} from "react-native-paper"
 import {Carousel} from "../components/Carousel"
@@ -15,6 +15,7 @@ import {PullToRefresh} from "../components/PullToRefresh"
 import {TextWithReadMore} from "../components/TextWithReadMore"
 import {IconLabel} from "../components/IconLabel"
 import {deletePost} from "../stores/authStore"
+import {ShareButton} from "../components/ShareButton"
 
 // eslint-disable-next-line max-lines-per-function
 const createStyles = favorite => ({
@@ -242,6 +243,16 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
   const {user_id: myId, posts} = useSelector(({auth: {user: {user_id, posts}}}) => ({user_id, posts}))
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
+
+  useEffect(() => {
+    // eslint-disable-next-line react/display-name
+    navigation.setOptions({headerRight: () => <ShareButton
+      title={`${postUser.nickname}さんの投稿`}
+      message={`${postUser.nickname} | ${post.description}`}
+      url={post.thumbnail_img_src}
+    />})
+  }, [dispatch, postUser.nickname, post.description, post.thumbnail_img_src])
+
 
   return (
     <>
