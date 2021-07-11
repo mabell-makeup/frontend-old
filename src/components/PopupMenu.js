@@ -37,11 +37,15 @@ const styles = StyleSheet.create({
 
 export const PopupMenu = ({handleShown=[false, ()=>{}], menus=[{title: "", onPress: ()=>{}}]}) => {
   const [isShown, setIsShown] = handleShown
+  const onPressMenu = (onPressAction) => () => {
+    onPressAction()
+    setIsShown(false)
+  }
 
   return isShown &&
     <Overlay>
       <View style={styles.container}>
-        {menus.map((menu, idx) => <Menu.Item style={styles.item} key={idx} title={menu.title} icon={menu.icon} onPress={menu.onPress} />)}
+        {menus.map((menu, idx) => <Menu.Item style={styles.item} key={idx} title={menu.title} icon={menu.icon} onPress={onPressMenu(menu.onPress)} />)}
       </View>
       <Menu.Item style={styles.close} titleStyle={styles.closeLabel} title="閉じる" onPress={() => setIsShown(false)} />
     </Overlay>
