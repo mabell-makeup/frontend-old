@@ -31,7 +31,8 @@ const initialState = {
     base_color: "",
     season: "",
     self_introduction: "",
-    user_id: ""
+    user_id: "",
+    block_user: [],
   },
   nextToken: ""
 }
@@ -48,6 +49,7 @@ const FETCH_MY_POSTS = "FETCH_MY_POSTS"
 const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
 const UPDATE_MY_POSTS_NEXT_TOKEN = "UPDATE_MY_POSTS_NEXT_TOKEN"
 const DELETE_MY_POST = "DELETE_MY_POST"
+const BLOCK_USER = "BLOCK_USER"
 
 
 // Define ActionCreator
@@ -176,6 +178,14 @@ export const deletePost = async (dispatch, post_id, posts) => {
     console.log("error delete post:", error)
   }
 }
+export const blockUser = async (dispatch, user_id) => {
+  try {
+    // const res = await apiRequest(blockUser, {input: {user_id}})
+    dispatch({type: BLOCK_USER, payload: user_id})
+  } catch (error){
+    console.log("error block user:", error)
+  }
+}
 
 // Define Reducer
 export const authReducer = createReducer(initialState, {
@@ -188,5 +198,6 @@ export const authReducer = createReducer(initialState, {
   [FETCH_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
   [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
   [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload}),
-  [DELETE_MY_POST]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}})
+  [DELETE_MY_POST]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
+  [BLOCK_USER]: (state, {payload}) => ({...state, user: {...state.user, block_user: [...state.user.block_user, payload]}})
 })

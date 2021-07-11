@@ -1,13 +1,16 @@
+/* eslint-disable max-lines-per-function */
 import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
-import {Avatar, Divider, Button} from "react-native-paper"
+import {Avatar, Divider, Button, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
-import {fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
+import {blockUser, fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../components/PullToRefresh"
 import {TextWithReadMore} from "../components/TextWithReadMore"
 import {IconLabel} from "../components/IconLabel"
+import {MORE_ICON} from "../styles/constants"
+import {PopupMenu} from "../components/PopupMenu"
 
 const styles = StyleSheet.create({
   userInfo: {
@@ -28,9 +31,6 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold"
-  },
-  justifyCenter: {
-    alignItems: "center"
   },
   displayname: {
     fontWeight: "bold",
@@ -137,12 +137,17 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
   }
 }
 
+const menus = (isMyPage, dispatch, user_id) => [
+  !isMyPage && {title: "ブロックする", icon: "cancel", onPress: () => blockUser(dispatch, user_id)}
+]
+
 // eslint-disable-next-line max-lines-per-function
 // eslint-disable-next-line complexity
 export const UserPage = ({navigation, route: {params}}) => {
   // TODO: user_idだけ受け取るようにする。自身のページ化の判断もuser_idの比較で行う。
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
+  const [showMenu, setShowMenu] = useState(false)
   const {user, nextToken, masterData} = isMyPage
     ? useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
     : useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, nextToken: "", masterData}))
@@ -150,23 +155,33 @@ export const UserPage = ({navigation, route: {params}}) => {
 
   isMyPage && useEffect(() => navigation.addListener("focus", async () => await refreshFunc(isMyPage, dispatch, user.user_id)), [navigation])
 
+  useEffect(() => {
+    if (!isMyPage) {
+      // eslint-disable-next-line react/display-name
+      navigation.setOptions({headerRight: () => <IconButton style={styles.moreIcon} icon={MORE_ICON} onPress={() => setShowMenu(true)} />})
+    }
+  }, [isMyPage])
+
   return (
-    <ScrollView
-      onScroll={({nativeEvent}) => isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)}
-      scrollEventThrottle={400}
-      refreshControl={<PullToRefresh refreshFunc={async () => await refreshFunc(isMyPage, dispatch, user.user_id)} />}
-    >
-      <View style={styles.userInfo}>
-        <View style={styles.row}>
-          {/* eslint-disable-next-line no-undef */}
-          <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
-          <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
+    <>
+      <ScrollView
+        onScroll={({nativeEvent}) => isCloseToBottom(nativeEvent) && nextToken && fetchMyPosts(dispatch, user.user_id, nextToken)}
+        scrollEventThrottle={400}
+        refreshControl={<PullToRefresh refreshFunc={async () => await refreshFunc(isMyPage, dispatch, user.user_id)} />}
+      >
+        <View style={styles.userInfo}>
+          <View style={styles.row}>
+            {/* eslint-disable-next-line no-undef */}
+            <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
+            <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
+          </View>
+          <SelfIntroduction user={user} M={masterData} />
+          {!isMyPage && <FollowButton />}
         </View>
-        <SelfIntroduction user={user} M={masterData} />
-        {!isMyPage && <FollowButton />}
-      </View>
-      <Divider style={styles.divider} />
-      <ImageList data={data} scrollEnabled={false} />
-    </ScrollView>
+        <Divider style={styles.divider} />
+        <ImageList data={data} scrollEnabled={false} />
+      </ScrollView>
+      {!isMyPage && <PopupMenu menus={menus(isMyPage, dispatch, user.user_id)} handleShown={[showMenu, setShowMenu]} />}
+    </>
   )
 }
