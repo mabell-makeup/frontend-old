@@ -11,6 +11,7 @@ import {TermsOfService} from "../scenes/myPage/TermsOfService"
 import {PrivacyPolicy} from "../scenes/myPage/PrivacyPolicy"
 import {NoticeSetting} from "../scenes/myPage/NoticeSetting"
 import {ChangePassword} from "../scenes/myPage/ChangePassword"
+import {ChangeMail} from "../scenes/myPage/ChangeMail"
 
 
 const styles = StyleSheet.create({
@@ -58,6 +59,7 @@ export const MyPageScreen = () => {
       <Stack.Screen name="TermsOfService" component={TermsOfService} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="ChangeMail" component={ChangeMail} />
     </Stack.Navigator>
   )
 }

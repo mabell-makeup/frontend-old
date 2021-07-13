@@ -25,12 +25,6 @@ const styles = StyleSheet.create({
   },
   buttonContentStyle: {
     height: "100%"
-  },
-  errMsg: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: "auto",
-    color: "red"
   }
 })
 
