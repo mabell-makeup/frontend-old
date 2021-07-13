@@ -38,11 +38,6 @@ const styles = StyleSheet.create({
   },
   buttonContentStyle: {
     height: "100%"
-  },
-  logout: {
-    fontWeight: "bold",
-    color: "#0099ff",
-    marginTop: 30
   }
 })
 

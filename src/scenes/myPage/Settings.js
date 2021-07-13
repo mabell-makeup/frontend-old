@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 
 const settings = [
   {label: "プロフィール設定", linkTo: "UserInfoSetting"},
+  {label: "パスワード変更", linkTo: "ChangePassword"},
   {label: "通知設定", linkTo: "NoticeSetting"},
   {label: "利用規約", linkTo: "TermsOfService"},
   {label: "プライバシーポリシー", linkTo: "PrivacyPolicy"}
