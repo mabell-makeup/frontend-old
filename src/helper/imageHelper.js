@@ -11,9 +11,10 @@ export const pickImage = async (onPickSuccess=result=>result, onCancel=()=>{}) =
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
     aspect: [1, 1],
-    quality: 1
+    quality: 1,
+    base64: true
   })
-  !result.cancelled ? onPickSuccess(result) : onCancel()
+  return !result.cancelled ? onPickSuccess(result) : onCancel()
 }
 
 const createS3Client = async () => {
