@@ -67,16 +67,14 @@ export const login = async (navigation, dispatch, name, password) => {
     }
   }
 }
-export const signup = async (dispatch, {name, password, email, birthdate}) => {
+export const signup = async (dispatch, {name, password, email}) => {
   try {
     const {user} = await Auth.signUp({
       username: name,
       preferred_username: name,
       password,
       attributes: {
-        email,
-        nickname: name,
-        birthdate
+        email
       }
     })
     console.log("SIGNUP_USER:", user)
