@@ -27,8 +27,12 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
   const idToken = user.signInUserSession.idToken.jwtToken
   const headers = {"Authorization": idToken}
   const {method, data} = options
+  console.log("Requested: ", method, url, data)
   return fetch(base_url + url, {method, data, headers})
     .then(res => res.json())
-    .then(data => JSON.parse(data.body))
+    .then(data => {
+      console.log(`Response [${method}]${url}: `, data)
+      return JSON.parse(data.body)
+    })
     .catch(err => err)
 }
