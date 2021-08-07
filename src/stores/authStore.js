@@ -55,10 +55,10 @@ const BLOCK_USER = "BLOCK_USER"
 // Define ActionCreator
 export const login = async (navigation, dispatch, name, password) => {
   try {
-    await Auth.signIn(name, password)
+    const user = await Auth.signIn(name, password)
     // await fetchUser(dispatch, user.attributes.sub)
-    // await fetchMasterData(dispatch)
-    // await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
+    console.log(user)
+    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
   } catch (e) {
     console.log("error signing in", e)
     dispatch({type: LOGIN_FAILURE, payload: e.message})

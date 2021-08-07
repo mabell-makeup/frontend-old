@@ -1,17 +1,16 @@
 import {mockRequest} from "../../mock"
 import Constants from "expo-constants"
-import {API, graphqlOperation} from "aws-amplify"
 import axios from "axios"
 
 
 export const apiRequest = async (queryLiterals="", params={}, needParse=false, parseTarget="") => {
   if(Constants.manifest.extra.env !== "production") return mockRequest(queryLiterals)
-  console.log("Requested: ", graphqlOperation(queryLiterals, params))
-  const response = await API.graphql(graphqlOperation(queryLiterals, params))
-  const data = needParse
-    ? Object.fromEntries(Object.entries(response.data[parseTarget]).map(([key, value]) => [key, JSON.parse(value)]))
-    : response.data
-  return data
+  // console.log("Requested: ", graphqlOperation(queryLiterals, params))
+  // const response = await API.graphql(graphqlOperation(queryLiterals, params))
+  // const data = needParse
+  //   ? Object.fromEntries(Object.entries(response.data[parseTarget]).map(([key, value]) => [key, JSON.parse(value)]))
+  //   : response.data
+  return {}
 }
 
 export const parseMasterData = (masterData, target, type="list" || "object") => {

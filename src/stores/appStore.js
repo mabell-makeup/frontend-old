@@ -24,7 +24,7 @@ const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 export const fetchMasterData = async dispatch => {
   const masterData = await apiRequest2("/masterdata")
   console.log(masterData)
-  dispatch({type: FETCH_MASTER_DATA, payload: formatMasterData(masterData)})
+  dispatch({type: FETCH_MASTER_DATA, payload: masterData})
 }
 export const clearError = async dispatch => dispatch({type: CLEAR_ERROR})
 export const addError = (dispatch, error={errorType: "", message: ""}) => {
