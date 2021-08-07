@@ -1,6 +1,6 @@
 import {mockRequest} from "../../mock"
 import Constants from "expo-constants"
-import axios from "axios"
+import {Auth} from "aws-amplify"
 
 
 export const apiRequest = async (queryLiterals="", params={}, needParse=false, parseTarget="") => {
@@ -23,14 +23,12 @@ export const camelToSnake = text => text.replace(/([A-Z])/g, s => "_" + s.charAt
 const base_url = "https://mt19em002g.execute-api.ap-northeast-1.amazonaws.com/dev"
 
 export const apiRequest2 = async(url="/", options={method: "GET", data: undefined}) => {
+  const user = await Auth.currentAuthenticatedUser()
+  const idToken = user.signInUserSession.idToken.jwtToken
+  const headers = {"Authorization": idToken}
   const {method, data} = options
-  return axios({
-    method,
-    url: base_url + url,
-    data
-  }).then(res => {
-    return res.data
-  }).catch(err => {
-    return err
-  })
+  return fetch(base_url + url, {method, data, headers})
+    .then(res => res.json())
+    .then(data => JSON.parse(data.body))
+    .catch(err => err)
 }

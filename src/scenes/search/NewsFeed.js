@@ -7,7 +7,6 @@ import {ImageList} from "../../components/ImageList"
 import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {PullToRefresh} from "../../components/PullToRefresh"
-import {View} from "react-native"
 
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
@@ -61,9 +60,8 @@ const changeTab = async (dispatch, tmpConditions, key) => {
 export const NewsFeed = () => {
   const dispatch = useDispatch()
   const {tmpConditions, masterData, user} = useSelector(({search: {tmpConditions}, app: {masterData}, auth: {user}}) => ({tmpConditions, masterData, user}))
-  console.log(masterData)
-  // const genders = parseMasterData(masterData, "gender")
-  // const items = createItems(genders, dispatch, tmpConditions)
+  const genders = parseMasterData(masterData, "gender")
+  const items = createItems(genders, dispatch, tmpConditions)
 
-  return <View></View>
+  return <TopNavigation items={items.reverse()} initialRouteName={masterData.gender[user.gender]} />
 }

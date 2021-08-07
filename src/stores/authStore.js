@@ -57,7 +57,7 @@ export const login = async (navigation, dispatch, name, password) => {
   try {
     const user = await Auth.signIn(name, password)
     // await fetchUser(dispatch, user.attributes.sub)
-    console.log(user)
+    await fetchMasterData(dispatch)
     await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
   } catch (e) {
     console.log("error signing in", e)

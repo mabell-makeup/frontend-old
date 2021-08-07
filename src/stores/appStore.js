@@ -1,6 +1,6 @@
-import {createReducer, formatMasterData} from "../helper/storeHelper"
+import {createReducer} from "../helper/storeHelper"
 import {apiRequest, apiRequest2} from "../helper/requestHelper"
-import {getMasterType, listProductTypes, listTagTypes} from "../graphql/queries"
+import {listProductTypes, listTagTypes} from "../graphql/queries"
 import {createTagType} from "../graphql/mutations"
 
 export const initialState = {
@@ -23,7 +23,6 @@ const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 // Define ActionCreator
 export const fetchMasterData = async dispatch => {
   const masterData = await apiRequest2("/masterdata")
-  console.log(masterData)
   dispatch({type: FETCH_MASTER_DATA, payload: masterData})
 }
 export const clearError = async dispatch => dispatch({type: CLEAR_ERROR})
