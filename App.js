@@ -7,7 +7,6 @@ import Amplify from "aws-amplify"
 import config from "./src/aws-exports"
 import {ErrorModal} from "./src/components/ErrorModal"
 import * as colors from "./src/styles/colors"
-import * as ScreenOrientation from "expo-screen-orientation"
 import {Provider as StoreProvider} from "react-redux"
 import store from "./src/stores/rootStore"
 
@@ -28,10 +27,6 @@ const DissmissKeyboard = ({children}) =>
   </TouchableWithoutFeedback>
 
 export default function App() {
-  useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT).catch(error => console.log("error orientation lock:", error))
-  }, [])
-
   return (
     <SafeAreaProvider>
       <DissmissKeyboard>
