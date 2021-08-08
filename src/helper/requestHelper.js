@@ -1,16 +1,16 @@
 import {mockRequest} from "../../mock"
 import Constants from "expo-constants"
-import {API, graphqlOperation} from "aws-amplify"
+import {Auth} from "aws-amplify"
 
 
 export const apiRequest = async (queryLiterals="", params={}, needParse=false, parseTarget="") => {
   if(Constants.manifest.extra.env !== "production") return mockRequest(queryLiterals)
-  console.log("Requested: ", graphqlOperation(queryLiterals, params))
-  const response = await API.graphql(graphqlOperation(queryLiterals, params))
-  const data = needParse
-    ? Object.fromEntries(Object.entries(response.data[parseTarget]).map(([key, value]) => [key, JSON.parse(value)]))
-    : response.data
-  return data
+  // console.log("Requested: ", graphqlOperation(queryLiterals, params))
+  // const response = await API.graphql(graphqlOperation(queryLiterals, params))
+  // const data = needParse
+  //   ? Object.fromEntries(Object.entries(response.data[parseTarget]).map(([key, value]) => [key, JSON.parse(value)]))
+  //   : response.data
+  return {}
 }
 
 export const parseMasterData = (masterData, target, type="list" || "object") => {
@@ -19,3 +19,19 @@ export const parseMasterData = (masterData, target, type="list" || "object") => 
   return type === "list" ? list : obj
 }
 export const camelToSnake = text => text.replace(/([A-Z])/g, s => "_" + s.charAt(0).toLowerCase())
+
+const base_url = "https://mt19em002g.execute-api.ap-northeast-1.amazonaws.com/dev"
+
+export const apiRequest2 = async(url="/", options={method: "GET", data: undefined}) => {
+  const user = await Auth.currentAuthenticatedUser()
+  const idToken = user.signInUserSession.idToken.jwtToken
+  const headers = {"Authorization": idToken}
+  const {method, data} = options
+  console.log("Requested: ", method, url, data)
+  return fetch(base_url + url, {method, data, headers})
+    .then(res => res.json())
+    .then(data => {
+      console.log(`Response [${method}]${url}: `, data)
+      return JSON.parse(data.body)
+    })
+}

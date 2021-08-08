@@ -1,5 +1,5 @@
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest} from "../helper/requestHelper"
+import {apiRequest, apiRequest2} from "../helper/requestHelper"
 import {countPosts, listPostTypes} from "../graphql/queries"
 
 export const initialState = {
@@ -46,18 +46,13 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
   dispatch({type: UPDATE_TMP_CONDITIONS, payload})
   await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
-// eslint-disable-next-line complexity
-export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
-  const filteredConditions = Object.fromEntries(Object.entries({...tmpConditions, products_id: tmpConditions.products.map(p => p.product_id)})
-    .filter(([, val]) => Array.isArray(val) ? val.length > 0 : typeof val !== "undefined" && val !== "")
-    .map(([key, val]) => (Array.isArray(val) ? ["and", val.map(item => ({[key]: {contains: item}}))] : [key, {eq: val}]))
-  )
-  const res = Object.keys(filteredConditions).length > 0
-    ? await apiRequest(listPostTypes, nextToken ? {filter: filteredConditions, nextToken} : {filter: filteredConditions})
-    : await apiRequest(listPostTypes, nextToken ? {nextToken} : undefined)
-  fetchPostCount(dispatch, filteredConditions)
-  await dispatch({type: nextToken ? UPDATE_POSTS : FETCH_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
-  await dispatch({type: UPDATE_NEXT_TOKEN, payload: res.listPostTypes.nextToken && res.listPostTypes.nextToken !== "" ? res.listPostTypes.nextToken : ""})
+export const fetchPosts = async (dispatch) => {
+  try {
+    const res = await apiRequest2("/posts")
+    await dispatch({type: FETCH_POSTS, payload: res ? res.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
+  } catch (e) {
+    console.log("error fetch posts: ", e)
+  }
 }
 export const updateSearchResult = async dispatch => {
   updateConditions(dispatch)

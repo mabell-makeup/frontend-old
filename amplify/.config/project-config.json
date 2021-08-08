@@ -1,6 +1,6 @@
 {
-  "projectName": "Jokerfrontend",
-  "version": "3.0",
+  "projectName": "joker",
+  "version": "3.1",
   "frontend": "javascript",
   "javascript": {
     "framework": "react-native",
