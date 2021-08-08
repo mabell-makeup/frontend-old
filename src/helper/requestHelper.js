@@ -34,5 +34,4 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
       console.log(`Response [${method}]${url}: `, data)
       return JSON.parse(data.body)
     })
-    .catch(err => err)
 }

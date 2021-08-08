@@ -47,8 +47,12 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
   await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
 export const fetchPosts = async (dispatch) => {
-  const res = await apiRequest2("/posts")
-  await dispatch({type: FETCH_POSTS, payload: res ? res.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
+  try {
+    const res = await apiRequest2("/posts")
+    await dispatch({type: FETCH_POSTS, payload: res ? res.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
+  } catch (e) {
+    console.log("error fetch posts: ", e)
+  }
 }
 export const updateSearchResult = async dispatch => {
   updateConditions(dispatch)
