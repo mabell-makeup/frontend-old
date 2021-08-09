@@ -26,7 +26,7 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
   const user = await Auth.currentAuthenticatedUser()
   const idToken = user.signInUserSession.idToken.jwtToken
   const headers = {"Authorization": idToken}
-  const {method, data} = options
+  const {method="GET", data} = options
   console.log("Requested: ", method, url, data)
   return fetch(base_url + url, {method, data, headers})
     .then(res => res.json())
@@ -34,4 +34,9 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
       console.log(`Response [${method}]${url}: `, data)
       return JSON.parse(data.body)
     })
+}
+
+export const encodeQuery = (data={}) => {
+  const queryList = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+  return queryList.join("&")
 }

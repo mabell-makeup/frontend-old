@@ -1,6 +1,6 @@
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest, apiRequest2} from "../helper/requestHelper"
-import {listProductTypes, listTagTypes} from "../graphql/queries"
+import {apiRequest, apiRequest2, encodeQuery} from "../helper/requestHelper"
+import {listTagTypes} from "../graphql/queries"
 import {createTagType} from "../graphql/mutations"
 
 export const initialState = {
@@ -55,16 +55,18 @@ export const createTag = async (dispatch, preTags, text, updateTmpTagsFunc) => {
 }
 export const fetchProducts = async (dispatch, text) => {
   try {
-    const response = await apiRequest(listProductTypes, {limit: 20, filter: {product_name: {contains: text}}})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
+    const queryString = encodeQuery({product_name: text})
+    const response = await apiRequest2(`/products?${queryString}`)
+    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response})
   } catch (error) {
     console.log("error fetch products: ", error)
   }
 }
 export const fetchTrendProducts = async dispatch => {
   try {
-    const response = await apiRequest(listProductTypes, {limit: 5})
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response.listProductTypes.items})
+    const queryString = encodeQuery({product_name: "コ"})
+    const response = await apiRequest2(`/products?${queryString}`)
+    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response})
   } catch (error) {
     console.log("error fetch trend products: ", error)
   }
