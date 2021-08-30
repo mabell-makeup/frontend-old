@@ -1,6 +1,5 @@
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest} from "../helper/requestHelper"
-import {createPostType} from "../graphql/mutations"
+import {apiRequest2} from "../helper/requestHelper"
 
 export const initialState = {
   tmpPost: {
@@ -30,7 +29,7 @@ const RESET_TMP_POST = "RESET_TMP_POST"
 export const createPost = async tmpPost => {
   try {
     const postData = Object.fromEntries(Object.entries(tmpPost).filter(([, value]) => typeof value !== "undefined" && value !== null && value !== ""))
-    await apiRequest(createPostType, {input: postData})
+    await apiRequest2("/posts", {method: "POST", data: postData})
   } catch (error) {
     console.log("error create post: ", error)
   }
