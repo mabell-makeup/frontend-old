@@ -13,7 +13,7 @@ import {WheelPicker} from "../../components/WheelPicker"
 import {UserInfoList} from "../../components/UserInfoList"
 import {updateUser} from "../../stores/authStore"
 import {ChipList} from "../../components/ChipList"
-import {pickImage, uploadImage} from "../../helper/imageHelper"
+import {pickImage, compressImage} from "../../helper/imageHelper"
 import {ColorPaletteInput} from "../../components/ColorPaletteInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {CountryInput} from "../../components/CountryInput"
@@ -103,13 +103,12 @@ const displayItemsMap = {
 }
 
 const registerPost = async (tmpPost, dispatch) => {
-  // TODO: こっちで書き換える
-  // https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3
   try {
-    const thumbnailUri = await uploadImage(tmpPost.thumbnail_img_src, 1, {width: 300, height: 300})
-    const uriList = await Promise.all(tmpPost.img_src_list.map(async src => await uploadImage(src, 0.6, {width: 1080, height: 1080})))
-    const {products, ...post} = await tmpPost
-    createPost({...post, thumbnail_img_src: thumbnailUri, img_src_list: uriList, products_id: products.map(p => p.product_id)})
+    const thumbnailImg = await compressImage(tmpPost.thumbnail_img_src, 1, {width: 300, height: 300})
+    const imgList = await Promise.all(tmpPost.img_src_list.map(async src => await compressImage(src, 0.6, {width: 1080, height: 1080})))
+    // TODO: 後で書き方を直す
+    const {products, thumbnail_img_src, img_src_list, ...post} = await tmpPost
+    createPost({...post, thumbnail_img: thumbnailImg, img_list: imgList, products_id: products.map(p => p.product_id)})
   } catch (error) {
     addError(dispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
   }

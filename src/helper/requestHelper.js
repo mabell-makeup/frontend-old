@@ -25,13 +25,21 @@ const base_url = "https://mt19em002g.execute-api.ap-northeast-1.amazonaws.com/de
 export const apiRequest2 = async(url="/", options={method: "GET", data: undefined}) => {
   const user = await Auth.currentAuthenticatedUser()
   const idToken = user.signInUserSession.idToken.jwtToken
-  const headers = {"Authorization": idToken}
-  const {method, data} = options
+  const headers = {
+    "Authorization": idToken,
+    "Content-Type": "application/json"
+  }
+  const {method="GET", data} = options
   console.log("Requested: ", method, url, data)
-  return fetch(base_url + url, {method, data, headers})
+  return fetch(base_url + url, {method, body: JSON.stringify(data), headers})
     .then(res => res.json())
     .then(data => {
       console.log(`Response [${method}]${url}: `, data)
       return JSON.parse(data.body)
     })
+}
+
+export const encodeQuery = (data={}) => {
+  const queryList = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+  return queryList.join("&")
 }
