@@ -3,7 +3,7 @@ export default {
   version: "1.3.0",
   slug: "mabell",
   orientation: "portrait",
-  icon: "./assets/icon.png",
+  icon: "./assets/icon.jpg",
   updates: {
     fallbackToCacheTimeout: 0
   },
@@ -16,7 +16,7 @@ export default {
     buildNumber: "1.3.0"
   },
   web: {
-    favicon: "./assets/favicon.png"
+    favicon: "./assets/favicon.jpg"
   },
   // expoで使用する環境変数を設定する
   extra: {

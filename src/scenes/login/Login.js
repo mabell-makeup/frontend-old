@@ -55,7 +55,7 @@ export const Login = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* eslint-disable-next-line no-undef */}
-      <Image source={require("../../../assets/icon.png")} style={styles.logo} />
+      <Image source={require("../../../assets/icon.jpg")} style={styles.logo} />
       {isChecked &&
         <>
           <TextInput style={styles.input} mode="outlined" label="ユーザー名またはメールアドレス" value={mail} onChangeText={text => setMail(text)} />
