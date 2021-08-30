@@ -6,7 +6,7 @@ import {NewsFeed} from "../scenes/search/NewsFeed"
 import {Text} from "react-native-paper"
 import {PostDetail} from "../scenes/PostDetail"
 import {FakeInput} from "../components/FakeInput"
-import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER} from "../styles/constants"
+import {WINDOW_HEIGHT, TAG_SEARCH_PLACE_HOLDER, WINDOW_WIDTH} from "../styles/constants"
 import {UserPage} from "../scenes/UserPage"
 import {ProductDetail} from "../scenes/search/ProductDetail"
 import {useDispatch, useSelector} from "react-redux"
@@ -60,7 +60,7 @@ export const SearchScreen = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
-        headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags.join(" ")} style={{maxHeight: 35}} />,
+        headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags.join(" ")} style={{maxHeight: 35, width: WINDOW_WIDTH * 0.9}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={{

@@ -1,14 +1,15 @@
 import React from "react"
 import {IconButton} from "react-native-paper"
 import {TextInput, View} from "react-native"
+import {WINDOW_WIDTH} from "../styles/constants"
 
 
 const createStyles = (hasIcon=false) => ({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
+    width: WINDOW_WIDTH * 0.8,
+    height: 35,
     backgroundColor: "#eee",
     borderRadius: 18
   },

@@ -11,7 +11,7 @@ import {FaceTypeInput} from "../../components/FaceTypeInput"
 import {MakeUpCategoryInput} from "../../components/MakeUpCategoryInput"
 import {FakeInput} from "../../components/FakeInput"
 import {isEqual} from "../../helper/storeHelper"
-import {PRODUCT_SEARCH_PLACE_HOLDER, TAG_SEARCH_PLACE_HOLDER} from "../../styles/constants"
+import {PRODUCT_SEARCH_PLACE_HOLDER, TAG_SEARCH_PLACE_HOLDER, WINDOW_WIDTH} from "../../styles/constants"
 import {SkinTypeInput} from "../../components/SkinTypeInput"
 import {ChipList} from "../../components/ChipList"
 import {useDispatch, useSelector} from "react-redux"
@@ -47,7 +47,8 @@ const styles = {
   },
   FakeInput: {
     marginTop: 10,
-    maxHeight: 35
+    maxHeight: 35,
+    width: WINDOW_WIDTH * 0.9
   },
   listItem: {
     height: 40,

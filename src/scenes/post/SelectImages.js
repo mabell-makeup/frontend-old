@@ -25,6 +25,7 @@ import {Loading} from "../../components/Loading"
 import {useDispatch, useSelector} from "react-redux"
 import {IconLabel} from "../../components/IconLabel"
 import {primary} from "../../styles/colors"
+import {WINDOW_WIDTH} from "../../styles/constants"
 
 const styles = {
   container: {
@@ -58,7 +59,8 @@ const styles = {
     borderColor: "#999"
   },
   FakeInput: {
-    height: 35
+    height: 35,
+    width: WINDOW_WIDTH * 0.9
   },
   listItem: {
     height: 40,
