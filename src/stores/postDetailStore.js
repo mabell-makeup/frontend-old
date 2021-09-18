@@ -1,6 +1,6 @@
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest} from "../helper/requestHelper"
-import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostTypes, listPostViewTypes} from "../graphql/queries"
+import {apiRequest, apiRequest2} from "../helper/requestHelper"
+import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostViewTypes} from "../graphql/queries"
 import {createPostLikeType, createPostViewType, deletePostLikeType} from "../graphql/mutations"
 
 export const initialState = {
@@ -93,12 +93,12 @@ export const fetchProductDetails = async (dispatch, products_id) => {
     console.log("fetch product details error:", error)
   }
 }
-export const fetchUserPosts = async (dispatch, user_id) => {
+export const fetchUserPosts = async (dispatch, user_id, nextToken) => {
   try {
-    const res = await apiRequest(listPostTypes, {filter: {user_id: {eq: user_id}}})
-    dispatch({type: FETCH_USER_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src})) : []})
+    const res = await apiRequest2(`/users/${user_id}/posts`, nextToken ? {data: {nextToken}} : undefined)
+    dispatch({type: FETCH_USER_POSTS, payload: res ? res.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img})) : []})
   } catch (error) {
-    console.log("error fetch my posts: ", error)
+    console.log("error fetch user posts: ", error)
   }
 }
 export const addViewCount = async post_id => {
