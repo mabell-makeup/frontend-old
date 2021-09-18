@@ -1,7 +1,7 @@
 import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
-import {apiRequest} from "../helper/requestHelper"
-import {getUserType, listPostTypes, countPosts} from "../graphql/queries"
+import {apiRequest, apiRequest2} from "../helper/requestHelper"
+import {getUserType, countPosts} from "../graphql/queries"
 import {createUserType, updateUserType} from "../graphql/mutations"
 import {addError, fetchMasterData} from "./appStore"
 
@@ -58,7 +58,7 @@ export const login = async (navigation, dispatch, name, password) => {
     const user = await Auth.signIn(name, password)
     // await fetchUser(dispatch, user.attributes.sub)
     await fetchMasterData(dispatch)
-    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
+    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username, user_id: user.attributes.sub}})
   } catch (e) {
     console.log("error signing in", e)
     dispatch({type: LOGIN_FAILURE, payload: e.message})
@@ -143,9 +143,9 @@ export const updateUser = async (dispatch, tmpUser) => {
 // eslint-disable-next-line complexity
 export const fetchMyPosts = async (dispatch, user_id, nextToken) => {
   try {
-    const res = await apiRequest(listPostTypes, nextToken ? {filter: {user_id: {eq: user_id}}, nextToken} : {filter: {user_id: {eq: user_id}}})
-    dispatch({type: nextToken ? UPDATE_MY_POSTS : FETCH_MY_POSTS, payload: res ? res.listPostTypes.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime})) : []})
-    dispatch({type: UPDATE_MY_POSTS_NEXT_TOKEN, payload: res.listPostTypes.nextToken ? res.listPostTypes.nextToken : ""})
+    const res = await apiRequest2(`/users/${user_id}/posts`, nextToken ? {data: {nextToken}} : undefined)
+    dispatch({type: nextToken ? UPDATE_MY_POSTS : FETCH_MY_POSTS, payload: res ? res.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img, DateTime: post.DateTime})) : []})
+    dispatch({type: UPDATE_MY_POSTS_NEXT_TOKEN, payload: res.nextToken ? res.nextToken : ""})
   } catch (error) {
     console.log("error fetch my posts: ", error)
   }
@@ -163,7 +163,7 @@ export const checkLoggedIn = async dispatch => {
     const user = await Auth.currentAuthenticatedUser()
     await fetchUser(dispatch, user.attributes.sub)
     await fetchMasterData(dispatch)
-    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username}})
+    await dispatch({type: LOGIN_SUCCESS, payload: {...user.attributes, name: user.username, user_id: user.attributes.sub}})
   } catch (error) {
     console.log("not logged in: ", error)
   }
