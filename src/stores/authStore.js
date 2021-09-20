@@ -130,11 +130,12 @@ export const fetchUser = async (dispatch, sub) => {
   console.log("FETCH_USER", user)
   dispatch({type: UPDATE_USER, payload: user.getUserType})
 }
-export const updateUser = async (dispatch, tmpUser) => {
+export const updateUser = async (dispatch, tmpUser, user_id) => {
   try {
     const user = await Auth.currentAuthenticatedUser()
-    await Auth.updateUserAttributes(user, {preferred_username: tmpUser.name})
-    await apiRequest(updateUserType, {input: tmpUser})
+    const filteredTmpUser = Object.fromEntries(Object.entries(tmpUser).filter(([, value]) => typeof value !== "undefined" && value !== ""))
+    await Auth.updateUserAttributes(user, {preferred_username: filteredTmpUser.name})
+    await apiRequest2(`/users/${user_id}`, {method: "PATCH", data: filteredTmpUser})
     dispatch({type: UPDATE_USER, payload: tmpUser})
   } catch (error) {
     console.log("error update user: ", error)
