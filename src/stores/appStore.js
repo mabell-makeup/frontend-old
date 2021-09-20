@@ -22,8 +22,8 @@ const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 
 // Define ActionCreator
 export const fetchMasterData = async dispatch => {
-  const response = await apiRequest2("/master")
-  dispatch({type: FETCH_MASTER_DATA, payload: response.master})
+  const res = await apiRequest2("/master")
+  dispatch({type: FETCH_MASTER_DATA, payload: res.master})
 }
 export const clearError = async dispatch => dispatch({type: CLEAR_ERROR})
 export const addError = (dispatch, error={errorType: "", message: ""}) => {
@@ -31,16 +31,18 @@ export const addError = (dispatch, error={errorType: "", message: ""}) => {
 }
 export const fetchTrendTags = async dispatch => {
   try {
-    const response = await apiRequest(listTagTypes, {limit: 5})
-    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+    const queryString = encodeQuery({order_by: "CREATED_AT_DESC"})
+    const res = await apiRequest2(`/tags?${queryString}`)
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: res.items})
   } catch (error) {
     console.log("error fetch trend tags: ", error)
   }
 }
 export const fetchTags = async (dispatch, text) => {
   try {
-    const response = await apiRequest(listTagTypes, {limit: 20, filter: {tag_name: {contains: text}}})
-    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: response.listTagTypes.items})
+    const queryString = encodeQuery({q: text})
+    const res = await apiRequest2(`/tags?${queryString}`)
+    await dispatch({type: UPDATE_SUGGESTION_TAGS, payload: res.items})
   } catch (error) {
     console.log("error fetch tags: ", error)
   }
@@ -55,18 +57,20 @@ export const createTag = async (dispatch, preTags, text, updateTmpTagsFunc) => {
 }
 export const fetchProducts = async (dispatch, text) => {
   try {
-    const queryString = encodeQuery({product_name: text})
-    const response = await apiRequest2(`/products?${queryString}`)
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response})
+    const queryString = encodeQuery({q: text})
+    const res = await apiRequest2(`/products?${queryString}`)
+    console.log(res.items)
+    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: res.items})
   } catch (error) {
     console.log("error fetch products: ", error)
   }
 }
 export const fetchTrendProducts = async dispatch => {
   try {
-    const queryString = encodeQuery({product_name: "コ"})
-    const response = await apiRequest2(`/products?${queryString}`)
-    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: response})
+    const queryString = encodeQuery({order_by: "CREATED_AT_DESC"})
+    const res = await apiRequest2(`/products?${queryString}`)
+    console.log(res.items)
+    await dispatch({type: UPDATE_SUGGESTION_PRODUCTS, payload: res.items})
   } catch (error) {
     console.log("error fetch trend products: ", error)
   }
