@@ -258,7 +258,7 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
     <>
       <ScrollView refreshControl={<PullToRefresh refreshFunc={refreshFunc} />}>
         <PostHeader postUser={postUser} navigation={navigation} setShowMenu={setShowMenu} />
-        <Carousel data={post.img_src_list} />
+        <Carousel data={post.img_list} />
         <ReactionContainer navigation={navigation} />
         {/* <ProductInfo navigation={navigation} /> */}
         <PostInfo navigation={navigation} />

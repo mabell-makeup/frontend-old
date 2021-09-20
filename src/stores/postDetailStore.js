@@ -33,14 +33,14 @@ const UPDATE_POST_DETAIL = "UPDATE_POST_DETAIL"
 const UPDATE_LOADING = "UPDATE_LOADING"
 
 // Define ActionCreator
-export const fetchPostDetail = async (dispatch, post_id, DateTime, myId) => {
+export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
   try {
     dispatch({type: UPDATE_LOADING, payload: true})
-    const post = await apiRequest(getPostType, {post_id, DateTime})
-    dispatch({type: FETCH_POST_DETAIL, payload: post.getPostType})
+    const {post} = await apiRequest2(`/users/${postUserId}/posts/${post_id}`)
+    dispatch({type: FETCH_POST_DETAIL, payload: post})
     await Promise.all([
-      fetchPostUser(dispatch, post.getPostType.user_id),
-      fetchProductDetails(dispatch, post.getPostType.products_id),
+      fetchPostUser(dispatch, post.user_id),
+      fetchProductDetails(dispatch, post.products_id),
       // TODO: post_idを引数にリクエストするものは一つにまとめる
       fetchViewCount(dispatch, post_id),
       fetchLikeCount(dispatch, post_id),
