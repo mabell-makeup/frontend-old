@@ -1,5 +1,5 @@
 import {createReducer} from "../helper/storeHelper"
-import {apiRequest, apiRequest2} from "../helper/requestHelper"
+import {apiRequest, apiRequest2, encodeQuery} from "../helper/requestHelper"
 import {countPosts, listPostTypes} from "../graphql/queries"
 
 export const initialState = {
@@ -46,10 +46,11 @@ export const updateTmpConditions = async (dispatch, preTmpConditions, nextCondit
   dispatch({type: UPDATE_TMP_CONDITIONS, payload})
   await fetchPosts(dispatch, {...preTmpConditions, ...payload})
 }
-export const fetchPosts = async (dispatch) => {
+export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   try {
-    const res = await apiRequest2("/posts")
-    await dispatch({type: FETCH_POSTS, payload: res ? res.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
+    const queryParams = encodeQuery(tmpConditions)
+    const res = await apiRequest2(`/search?${queryParams}`)
+    await dispatch({type: FETCH_POSTS, payload: res ? res.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
   } catch (e) {
     console.log("error fetch posts: ", e)
   }
