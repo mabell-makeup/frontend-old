@@ -48,7 +48,7 @@ export const fetchTags = async (dispatch, text) => {
 }
 export const createTag = async (dispatch, preTags, text, updateTmpTagsFunc) => {
   try {
-    await apiRequest(createTagType, {input: {tag_name: text, count: 0}})
+    await apiRequest2("/tags", {method: "POST", data: {tag_name: text}})
     updateTmpTagsFunc(dispatch, preTags, text)
   } catch (error) {
     console.log("error create tag: ", error)
