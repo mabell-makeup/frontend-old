@@ -26,10 +26,10 @@ const UPDATE_TMP_POST_PRODUCTS = "UPDATE_TMP_POST_PRODUCTS"
 const RESET_TMP_POST = "RESET_TMP_POST"
 
 // Define ActionCreator
-export const createPost = async tmpPost => {
+export const createPost = async (tmpPost, user_id) => {
   try {
     const postData = Object.fromEntries(Object.entries(tmpPost).filter(([, value]) => typeof value !== "undefined" && value !== null && value !== ""))
-    await apiRequest2("/posts", {method: "POST", data: postData})
+    await apiRequest2(`/users/${user_id}/posts`, {method: "POST", data: postData})
   } catch (error) {
     console.log("error create post: ", error)
   }
