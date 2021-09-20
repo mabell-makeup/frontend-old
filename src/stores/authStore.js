@@ -2,7 +2,6 @@ import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
 import {apiRequest, apiRequest2} from "../helper/requestHelper"
 import {getUserType, countPosts} from "../graphql/queries"
-import {createUserType, updateUserType} from "../graphql/mutations"
 import {addError, fetchMasterData} from "./appStore"
 
 const initialState = {
@@ -86,7 +85,7 @@ export const signup = async (dispatch, {name, password, email}) => {
 }
 export const createUser = async (dispatch, newUser) => {
   try {
-    await apiRequest(createUserType, {input: newUser})
+    await apiRequest2("/users", {method: "POST", data: newUser})
     dispatch({type: UPDATE_USER, payload: newUser})
   } catch (error) {
     console.log("error createUser:", error)
