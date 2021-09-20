@@ -114,7 +114,7 @@ const registerPost = async (tmpPost, dispatch) => {
   }
 }
 
-const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading) => async () => {
+const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading, user_id) => async () => {
   const descriptionError = validate(tmpPost.description, [{testFunc: rules.require.testFunc, message: "キャプションを入力してください"}])
   const productError = validate(tmpPost.products, [{testFunc: rules.require.testFunc, message: "使用アイテムを選択してください"}])
   setDescriptionError(descriptionError)
@@ -122,7 +122,7 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescrip
   if (descriptionError.length === 0 && productError.length === 0) {
     setIsLoading(true)
     await registerPost(tmpPost, dispatch)
-    willUpdate && await updateUser(dispatch, tmpUser)
+    willUpdate && await updateUser(dispatch, tmpUser, user_id)
     setTimeout(() => {
       setIsLoading(false)
       navigation.goBack()
@@ -253,7 +253,7 @@ export const SelectImages = ({navigation}) => {
         mode="contained"
         style={styles.button}
         contentStyle={styles.buttonContentStyle}
-        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading)}
+        onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading, user.user_id)}
         disabled={tmpPost.description === "" || tmpPost.products.length === 0 || tmpPost.thumbnail_img_src === ""}
       >投稿する</Button>
       <Loading isLoading={isLoading} />

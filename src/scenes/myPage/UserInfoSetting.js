@@ -57,7 +57,7 @@ const selectImage = (tmpUser, setTmpUser) => () => pickImage(result => setTmpUse
 const onSubmit = (dispatch, user, tmpUser, navigation) => async () => {
   try {
     const uri = user.thumbnail_img_src !== tmpUser.thumbnail_img_src ? await compressImage(tmpUser.thumbnail_img_src) : tmpUser.thumbnail_img_src
-    await updateUser(dispatch, {...tmpUser, thumbnail_img_src: uri})
+    await updateUser(dispatch, {...tmpUser, thumbnail_img_src: uri}, user.user_id)
   } catch (error) {
     console.log("error update user:", error)
     addError(dispatch, {errorType: "REQUEST_ERROR", message: "ユーザー情報の更新に失敗しました"})
