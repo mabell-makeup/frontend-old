@@ -1,6 +1,5 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, apiRequest2, encodeQuery} from "../helper/requestHelper"
-import {listTagTypes} from "../graphql/queries"
 import {createTagType} from "../graphql/mutations"
 
 export const initialState = {

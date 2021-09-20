@@ -102,13 +102,13 @@ const displayItemsMap = {
   skin_type: {label: "肌タイプ", type: "picker"}
 }
 
-const registerPost = async (tmpPost, dispatch) => {
+const registerPost = async (tmpPost, user_id, dispatch) => {
   try {
     const thumbnailImg = await compressImage(tmpPost.thumbnail_img_src, 1, {width: 300, height: 300})
     const imgList = await Promise.all(tmpPost.img_src_list.map(async src => await compressImage(src, 0.6, {width: 1080, height: 1080})))
     // TODO: 後で書き方を直す
     const {products, thumbnail_img_src, img_src_list, ...post} = await tmpPost
-    createPost({...post, thumbnail_img: thumbnailImg, img_list: imgList, products_id: products.map(p => p.product_id)})
+    createPost({...post, thumbnail_img: thumbnailImg, img_list: imgList, products_id: products.map(p => p.product_id)}, user_id)
   } catch (error) {
     addError(dispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
   }
@@ -121,7 +121,7 @@ const onSubmit = (tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescrip
   setProductError(productError)
   if (descriptionError.length === 0 && productError.length === 0) {
     setIsLoading(true)
-    await registerPost(tmpPost, dispatch)
+    await registerPost(tmpPost, user_id, dispatch)
     willUpdate && await updateUser(dispatch, tmpUser, user_id)
     setTimeout(() => {
       setIsLoading(false)
