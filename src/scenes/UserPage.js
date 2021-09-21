@@ -137,8 +137,8 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
   }
 }
 
-const menus = (isMyPage, dispatch, user_id) => [
-  !isMyPage && {title: "ブロックする", icon: "cancel", onPress: () => blockUser(dispatch, user_id)}
+const menus = (isMyPage, dispatch, blockUserId, myId) => [
+  !isMyPage && {title: "ブロックする", icon: "cancel", onPress: () => blockUser(dispatch, blockUserId, myId)}
 ]
 
 // eslint-disable-next-line max-lines-per-function
@@ -148,6 +148,7 @@ export const UserPage = ({navigation, route: {params}}) => {
   const isMyPage = typeof params !== "undefined" ? params.isMyPage : false
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
+  const myId = useSelector(({auth: {user: {user_id: myId}}}) => myId)
   const {user, nextToken, masterData} = isMyPage
     ? useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
     : useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, nextToken: "", masterData}))
@@ -182,7 +183,7 @@ export const UserPage = ({navigation, route: {params}}) => {
         <Divider style={styles.divider} />
         <ImageList data={data} scrollEnabled={false} />
       </ScrollView>
-      {!isMyPage && <PopupMenu menus={menus(isMyPage, dispatch, user.user_id)} handleShown={[showMenu, setShowMenu]} />}
+      {!isMyPage && <PopupMenu menus={menus(isMyPage, dispatch, user.user_id, myId)} handleShown={[showMenu, setShowMenu]} />}
     </>
   )
 }
