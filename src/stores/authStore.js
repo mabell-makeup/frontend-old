@@ -176,10 +176,10 @@ export const deletePost = async (dispatch, post_id, posts) => {
     console.log("error delete post:", error)
   }
 }
-export const blockUser = async (dispatch, user_id) => {
+export const blockUser = async (dispatch, blockUserId, myId) => {
   try {
-    // const res = await apiRequest(blockUser, {input: {user_id}})
-    dispatch({type: BLOCK_USER, payload: user_id})
+    await apiRequest2(`/users/${myId}/block`, {method: "PATCH", data: {user_id: blockUserId}})
+    dispatch({type: BLOCK_USER, payload: blockUserId})
   } catch (error){
     console.log("error block user:", error)
   }

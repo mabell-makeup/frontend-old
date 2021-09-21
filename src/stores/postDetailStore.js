@@ -1,7 +1,7 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, apiRequest2} from "../helper/requestHelper"
-import {getPostType, getProductType, getUserType, listPostLikeTypes, listPostViewTypes} from "../graphql/queries"
-import {createPostLikeType, createPostViewType, deletePostLikeType} from "../graphql/mutations"
+import {getProductType, listPostLikeTypes, listPostViewTypes} from "../graphql/queries"
+import {createPostViewType} from "../graphql/mutations"
 
 export const initialState = {
   post: {
@@ -39,7 +39,7 @@ export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
     const {post} = await apiRequest2(`/users/${postUserId}/posts/${post_id}`)
     dispatch({type: FETCH_POST_DETAIL, payload: post})
     await Promise.all([
-      fetchPostUser(dispatch, post.user_id),
+      fetchPostUser(dispatch, postUserId),
       fetchProductDetails(dispatch, post.products_id),
       // TODO: post_idを引数にリクエストするものは一つにまとめる
       fetchViewCount(dispatch, post_id),
@@ -54,8 +54,8 @@ export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
 }
 export const fetchPostUser = async (dispatch, user_id) => {
   try {
-    const user = await apiRequest(getUserType, {user_id})
-    dispatch({type: FETCH_POST_USER, payload: user.getUserType})
+    const {user} = await apiRequest2(`/users/${user_id}`)
+    dispatch({type: FETCH_POST_USER, payload: user})
   } catch (error) {
     console.log("fetch post user error:", error)
   }
