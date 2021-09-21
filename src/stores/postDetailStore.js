@@ -60,14 +60,14 @@ export const fetchPostUser = async (dispatch, user_id) => {
     console.log("fetch post user error:", error)
   }
 }
-export const updateLikePost = async (dispatch, isLike, post_id) => {
+export const updateLikePost = async (dispatch, user_id, post_id) => {
   try {
-    await apiRequest(isLike ? deletePostLikeType : createPostLikeType, {input: {post_id}})
-    dispatch({type: UPDATE_POST_DETAIL, payload: {isLike: !isLike}})
+    const res = await apiRequest2(`/users/${user_id}/like`, {method: "PATCH", data: {post_id}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {isLike: res.isLike}})
   } catch (error) {
     console.log("error update like: ", error)
   }
-  await fetchLikeCount(dispatch, post_id)
+  // await fetchLikeCount(dispatch, post_id)
 }
 export const checkLikePost = async (dispatch, user_id, post_id) => {
   try {
