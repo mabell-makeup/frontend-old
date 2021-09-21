@@ -176,7 +176,7 @@ const PostInfo = ({navigation}) => {
 const ReactionContainer = ({navigation}) => {
   const styles = createStyles()
   const dispatch = useDispatch()
-  const post = useSelector(({postDetail: {post}}) => post)
+  const {post, user_id} = useSelector(({postDetail: {post}, auth: {user: {user_id}}}) => ({post, user_id}))
   
   return (
     <View style={styles.infoContainer}>
@@ -185,7 +185,7 @@ const ReactionContainer = ({navigation}) => {
         <IconLabel icon="heart" textStyle={styles.strong}>{post.like_count ? post.like_count : 0}</IconLabel>
       </View>
       <View style={[styles.buttonContainer, styles.centerAlignment]}>
-        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.leftButtons} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, post.isLike, post.post_id)} />
+        <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.leftButtons} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, user_id, post.post_id)} />
         <IconButton icon="comment-outline" style={styles.leftButtons} color="#999" onPress={() => navigation.navigate("Comments")} />
         <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, post.isSaved, post.post_id)} size={33} />
       </View>
