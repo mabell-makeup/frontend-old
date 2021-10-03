@@ -184,6 +184,14 @@ export const blockUser = async (dispatch, blockUserId, myId) => {
     console.log("error block user:", error)
   }
 }
+export const fetchSavedPosts = async (dispatch, user_id, nextToken) => {
+  try {
+    // await apiRequest2(`/users/${myId}/block`, {method: "PATCH", data: {user_id: blockUserId}})
+    // dispatch({type: BLOCK_USER, payload: blockUserId})
+  } catch (error){
+    // console.log("error block user:", error)
+  }
+}
 
 // Define Reducer
 export const authReducer = createReducer(initialState, {
