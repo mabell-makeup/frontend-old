@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 
 
 const settings = [
+  {label: "保存済み", linkTo: "SavedPosts"},
   {label: "プロフィール設定", linkTo: "UserInfoSetting"},
   {label: "パスワード変更", linkTo: "ChangePassword"},
   {label: "メールアドレス変更", linkTo: "ChangeMail"},
