@@ -27,6 +27,7 @@ const settings = [
   {label: "パスワード変更", linkTo: "ChangePassword"},
   {label: "メールアドレス変更", linkTo: "ChangeMail"},
   {label: "通知設定", linkTo: "NoticeSetting"},
+  {label: "ブロックしたユーザー一覧", linkTo: "BlockedUsers"},
   {label: "利用規約", linkTo: "TermsOfService"},
   {label: "プライバシーポリシー", linkTo: "PrivacyPolicy"}
 ]

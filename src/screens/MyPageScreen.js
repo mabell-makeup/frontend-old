@@ -13,6 +13,7 @@ import {NoticeSetting} from "../scenes/myPage/NoticeSetting"
 import {ChangePassword} from "../scenes/myPage/ChangePassword"
 import {ChangeMail} from "../scenes/myPage/ChangeMail"
 import {SavedPosts} from "../scenes/myPage/SavedPosts"
+import {BlockedUsers} from "../scenes/myPage/BlockedUsers"
 
 
 const styles = StyleSheet.create({
@@ -62,6 +63,7 @@ export const MyPageScreen = () => {
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
       <Stack.Screen name="ChangeMail" component={ChangeMail} />
       <Stack.Screen name="SavedPosts" component={SavedPosts} />
+      <Stack.Screen name="BlockedUsers" component={BlockedUsers} />
     </Stack.Navigator>
   )
 }
