@@ -31,7 +31,8 @@ const initialState = {
     season: "",
     self_introduction: "",
     user_id: "",
-    blocked_users: []
+    blocked_users: [],
+    saved_posts: {list: [], next_token: ""}
   },
   nextToken: ""
 }
@@ -50,6 +51,7 @@ const UPDATE_MY_POSTS_NEXT_TOKEN = "UPDATE_MY_POSTS_NEXT_TOKEN"
 const DELETE_MY_POST = "DELETE_MY_POST"
 const BLOCK_USER = "BLOCK_USER"
 const FETCH_BLOCK_USERS = "FETCH_BLOCK_USERS"
+const FETCH_SAVED_POSTS = "FETCH_SAVED_POSTS"
 
 
 // Define ActionCreator
@@ -185,12 +187,12 @@ export const blockUser = async (dispatch, blockUserId, myId) => {
     console.log("error block user:", error)
   }
 }
-export const fetchSavedPosts = async (dispatch, user_id, nextToken) => {
+export const fetchSavedPosts = async (dispatch, myId, next_token = "") => {
   try {
-    // await apiRequest2(`/users/${myId}/block`, {method: "PATCH", data: {user_id: blockUserId}})
-    // dispatch({type: BLOCK_USER, payload: blockUserId})
+    const res = await apiRequest2(`/users/${myId}/save?next_token=${next_token}`)
+    dispatch({type: FETCH_SAVED_POSTS, payload: res.items})
   } catch (error){
-    // console.log("error block user:", error)
+    console.log("error fetch saved posts:", error)
   }
 }
 export const fetchBlockedUsers = async (dispatch, myId) => {
@@ -215,5 +217,6 @@ export const authReducer = createReducer(initialState, {
   [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload}),
   [DELETE_MY_POST]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
   [BLOCK_USER]: (state, {payload}) => ({...state, user: {...state.user, blocked_users: [...state.user.blocked_users, payload]}}),
-  [FETCH_BLOCK_USERS]: (state, {payload}) => ({...state, user: {...state.user, blocked_users: payload}})
+  [FETCH_BLOCK_USERS]: (state, {payload}) => ({...state, user: {...state.user, blocked_users: payload}}),
+  [FETCH_SAVED_POSTS]: (state, {payload}) => ({...state, user: {...state.user, saved_posts: {list: payload, next_token: ""}}})
 })

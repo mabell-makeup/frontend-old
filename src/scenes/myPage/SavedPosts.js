@@ -1,5 +1,5 @@
 import {useNavigation} from "@react-navigation/core"
-import React, {useEffect, useState} from "react"
+import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {ImageList} from "../../components/ImageList"
 import {PullToRefresh} from "../../components/PullToRefresh"
@@ -31,19 +31,14 @@ const useLoadMore = nextToken => async () => {
 
 // eslint-disable-next-line max-lines-per-function
 export const SavedPosts = () => {
-  const [savedPosts, setSavedPosts] = useState({list: [{
-    "DateTime": undefined,
-    "id": "dd3504b4-6e8d-47e2-aab1-573a0c9d6149",
-    "imgSrc": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA"
-  }], nextToken: ""})
-  const data = useCreateDataWithNavigation(savedPosts)
-  const loadMore = useLoadMore(savedPosts.nextToken)
+  const dispatch = useDispatch()
+  const {user_id, saved_posts} = useSelector(({auth: {user: {user_id, saved_posts}}}) => ({user_id, saved_posts}))
+  const data = useCreateDataWithNavigation(saved_posts)
+  const loadMore = useLoadMore(saved_posts.next_token)
 
   useEffect(async () => {
-    // const posts = await fetchSavedPosts()
-    setSavedPosts(savedPosts)
+    await fetchSavedPosts(dispatch, user_id)
   }, [])
-  
 
   return (
     <ImageList
