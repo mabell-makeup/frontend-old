@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react"
 import {ScrollView, StyleSheet} from "react-native"
 import {Avatar, Button} from "react-native-paper"
+import {useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import {List} from "../../components/List"
 import {fetchBlockedUsers} from "../../stores/authStore"
 
@@ -35,18 +37,13 @@ const useCreateRows = blockedUsers =>
   }))
 
 export const BlockedUsers = () => {
-  const [blockedUsers, setBlockedUsers] = useState([{
-    user_id: "1234",
-    thumbnail_img: "",
-    name: "テストユーザー"
-  }])
-  const rows = useCreateRows(blockedUsers)
+  const dispatch = useDispatch()
+  const {user_id, blocked_users} = useSelector(({auth: {user: {user_id, blocked_users}}}) => ({user_id, blocked_users}))
+  const rows = useCreateRows(blocked_users)
 
   useEffect(async () => {
-    // const posts = await fetchBlockedUsers()
-    setBlockedUsers(blockedUsers)
+    await fetchBlockedUsers(dispatch, user_id)
   }, [])
-  
 
   return (
     <ScrollView style={styles.container}>

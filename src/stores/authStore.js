@@ -31,7 +31,7 @@ const initialState = {
     season: "",
     self_introduction: "",
     user_id: "",
-    block_user: []
+    blocked_users: []
   },
   nextToken: ""
 }
@@ -49,6 +49,7 @@ const UPDATE_MY_POSTS = "UPDATE_MY_POSTS"
 const UPDATE_MY_POSTS_NEXT_TOKEN = "UPDATE_MY_POSTS_NEXT_TOKEN"
 const DELETE_MY_POST = "DELETE_MY_POST"
 const BLOCK_USER = "BLOCK_USER"
+const FETCH_BLOCK_USERS = "FETCH_BLOCK_USERS"
 
 
 // Define ActionCreator
@@ -192,12 +193,12 @@ export const fetchSavedPosts = async (dispatch, user_id, nextToken) => {
     // console.log("error block user:", error)
   }
 }
-export const fetchBlockedUsers = async (dispatch, user_id) => {
+export const fetchBlockedUsers = async (dispatch, myId) => {
   try {
-    // await apiRequest2(`/users/${myId}/block`, {method: "PATCH", data: {user_id: blockUserId}})
-    // dispatch({type: BLOCK_USER, payload: blockUserId})
+    const res = await apiRequest2(`/users/${myId}/block`)
+    dispatch({type: FETCH_BLOCK_USERS, payload: res.items})
   } catch (error){
-    // console.log("error block user:", error)
+    console.log("error fetch block users:", error)
   }
 }
 
@@ -213,5 +214,6 @@ export const authReducer = createReducer(initialState, {
   [UPDATE_MY_POSTS]: (state, {payload}) => ({...state, user: {...state.user, posts: [...state.user.posts, ...payload]}}),
   [UPDATE_MY_POSTS_NEXT_TOKEN]: (state, {payload}) => ({...state, nextToken: payload}),
   [DELETE_MY_POST]: (state, {payload}) => ({...state, user: {...state.user, posts: payload}}),
-  [BLOCK_USER]: (state, {payload}) => ({...state, user: {...state.user, block_user: [...state.user.block_user, payload]}})
+  [BLOCK_USER]: (state, {payload}) => ({...state, user: {...state.user, blocked_users: [...state.user.blocked_users, payload]}}),
+  [FETCH_BLOCK_USERS]: (state, {payload}) => ({...state, user: {...state.user, blocked_users: payload}})
 })
