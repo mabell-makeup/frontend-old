@@ -153,7 +153,6 @@ export const UserPage = ({navigation, route: {params}}) => {
     ? useSelector(({auth: {user, nextToken}, app: {masterData}}) => ({user, nextToken, masterData}))
     : useSelector(({postDetail: {postUser: user}, app: {masterData}}) => ({user, nextToken: "", masterData}))
   const data = createData(user.posts, navigation, dispatch, user.user_id)
-  console.log("USER: ", user)
 
   isMyPage && useEffect(() => navigation.addListener("focus", async () => await refreshFunc(isMyPage, dispatch, user.user_id)), [navigation])
 
