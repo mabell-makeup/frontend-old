@@ -22,7 +22,7 @@ const UPDATE_SUGGESTION_PRODUCTS = "UPDATE_SUGGESTION_PRODUCTS"
 // Define ActionCreator
 export const fetchMasterData = async dispatch => {
   const res = await apiRequest2("/master")
-  dispatch({type: FETCH_MASTER_DATA, payload: res.master})
+  dispatch({type: FETCH_MASTER_DATA, payload: res})
 }
 export const clearError = async dispatch => dispatch({type: CLEAR_ERROR})
 export const addError = (dispatch, error={errorType: "", message: ""}) => {
