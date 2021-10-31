@@ -38,6 +38,6 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
 }
 
 export const encodeQuery = (data={}) => {
-  const queryList = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+  const queryList = Object.entries(data).filter(([, value]) => value.length > 0).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
   return queryList.join("&")
 }
