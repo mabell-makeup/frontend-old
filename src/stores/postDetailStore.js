@@ -7,7 +7,7 @@ export const initialState = {
   post: {
     user_id: Number,
     user_name: "",
-    user_nickname: "",
+    nickname: "",
     img_src_list: [],
     item_id_list: [],
     tags: [],
