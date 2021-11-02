@@ -15,7 +15,7 @@ export const pickImage = async (onPickSuccess=result=>result, onCancel=()=>{}) =
 export const compressImage = async (imgSrc, compressRate=1, resize) => {
   try {
     const compressed = await ImageManipulator.manipulateAsync(imgSrc, resize ? [{resize}] : [], {compress: compressRate, base64: true})
-    return compressed.base64
+    return `data:image/jpeg;base64,${compressed.base64}`
   } catch (error) {
     console.log("upload image error:", error)
     throw error
