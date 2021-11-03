@@ -128,7 +128,7 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
   if(isMyPage) {
     await Promise.all([
       fetchMyPosts(dispatch, user_id),
-      fetchPostCount(dispatch, user_id),
+      // fetchPostCount(dispatch, user_id),
       fetchUser(dispatch, user_id)
     ])
   } else {
@@ -173,7 +173,7 @@ export const UserPage = ({navigation, route: {params}}) => {
         <View style={styles.userInfo}>
           <View style={styles.row}>
             {/* eslint-disable-next-line no-undef */}
-            <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
+            <Avatar.Image size={80} source={user.thumbnail_img ? {uri: user.thumbnail_img} : require("../../assets/no_image.png")} />
             <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
           </View>
           <SelfIntroduction user={user} M={masterData} />

@@ -565,7 +565,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "args": [],
                             "type": {
@@ -1487,7 +1487,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "args": [],
                             "type": {
@@ -2973,7 +2973,7 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "type": {
                                 "kind": "NON_NULL",
@@ -3196,7 +3196,7 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "type": {
                                 "kind": "NON_NULL",
@@ -3498,7 +3498,7 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "type": {
                                 "kind": "SCALAR",
@@ -3617,7 +3617,7 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "thumbnail_img_src",
+                            "name": "thumbnail_img",
                             "description": null,
                             "type": {
                                 "kind": "SCALAR",
@@ -4070,7 +4070,7 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "thumbnail_img_src",
+                                    "name": "thumbnail_img",
                                     "description": null,
                                     "type": {
                                         "kind": "SCALAR",
@@ -4137,7 +4137,7 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "thumbnail_img_src",
+                                    "name": "thumbnail_img",
                                     "description": null,
                                     "type": {
                                         "kind": "SCALAR",
@@ -4204,7 +4204,7 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "thumbnail_img_src",
+                                    "name": "thumbnail_img",
                                     "description": null,
                                     "type": {
                                         "kind": "SCALAR",

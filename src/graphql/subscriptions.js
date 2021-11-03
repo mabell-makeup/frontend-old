@@ -7,19 +7,19 @@ export const onCreatePostType = /* GraphQL */ `
     $user_id: String
     $user_name: String
     $img_src_list: [String]
-    $thumbnail_img_src: String
+    $thumbnail_img: String
   ) {
     onCreatePostType(
       post_id: $post_id
       user_id: $user_id
       user_name: $user_name
       img_src_list: $img_src_list
-      thumbnail_img_src: $thumbnail_img_src
+      thumbnail_img: $thumbnail_img
     ) {
       post_id
       user_id
       img_src_list
-      thumbnail_img_src
+      thumbnail_img
       items
       tags
       description
@@ -45,19 +45,19 @@ export const onUpdatePostType = /* GraphQL */ `
     $user_id: String
     $user_name: String
     $img_src_list: [String]
-    $thumbnail_img_src: String
+    $thumbnail_img: String
   ) {
     onUpdatePostType(
       post_id: $post_id
       user_id: $user_id
       user_name: $user_name
       img_src_list: $img_src_list
-      thumbnail_img_src: $thumbnail_img_src
+      thumbnail_img: $thumbnail_img
     ) {
       post_id
       user_id
       img_src_list
-      thumbnail_img_src
+      thumbnail_img
       items
       tags
       description
@@ -83,19 +83,19 @@ export const onDeletePostType = /* GraphQL */ `
     $user_id: String
     $user_name: String
     $img_src_list: [String]
-    $thumbnail_img_src: String
+    $thumbnail_img: String
   ) {
     onDeletePostType(
       post_id: $post_id
       user_id: $user_id
       user_name: $user_name
       img_src_list: $img_src_list
-      thumbnail_img_src: $thumbnail_img_src
+      thumbnail_img: $thumbnail_img
     ) {
       post_id
       user_id
       img_src_list
-      thumbnail_img_src
+      thumbnail_img
       items
       tags
       description

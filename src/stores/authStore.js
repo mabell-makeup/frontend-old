@@ -1,7 +1,6 @@
 import {createReducer} from "../helper/storeHelper"
 import {Auth} from "aws-amplify"
-import {apiRequest, apiRequest2} from "../helper/requestHelper"
-import {getUserType, countPosts} from "../graphql/queries"
+import {apiRequest2} from "../helper/requestHelper"
 import {addError, fetchMasterData} from "./appStore"
 
 const initialState = {
@@ -22,7 +21,7 @@ const initialState = {
     name: "",
     nickname: "",
     birthdate: "",
-    thumbnail_img_src: "",
+    thumbnail_img: "",
     posts: [],
     skin_type: "",
     post_count: 0,
@@ -128,17 +127,17 @@ export const logout = async dispatch => {
 export const updateNewUser = (dispatch, data) => dispatch({type: UPDATE_NEW_USER, payload: data})
 export const cancelSignup = dispatch => dispatch({type: CANCEL_SIGNUP})
 export const fetchUser = async (dispatch, sub) => {
-  const user = await apiRequest(getUserType, {user_id: sub})
+  const user = await apiRequest2(`/users/${sub}`)
   console.log("FETCH_USER", user)
-  dispatch({type: UPDATE_USER, payload: user.getUserType})
+  dispatch({type: UPDATE_USER, payload: user})
 }
 export const updateUser = async (dispatch, tmpUser, user_id) => {
   try {
     const user = await Auth.currentAuthenticatedUser()
     const filteredTmpUser = Object.fromEntries(Object.entries(tmpUser).filter(([, value]) => typeof value !== "undefined" && value !== ""))
     await Auth.updateUserAttributes(user, {preferred_username: filteredTmpUser.name})
-    await apiRequest2(`/users/${user_id}`, {method: "PATCH", data: filteredTmpUser})
-    dispatch({type: UPDATE_USER, payload: tmpUser})
+    const res = await apiRequest2(`/users/${user_id}`, {method: "PATCH", data: filteredTmpUser})
+    dispatch({type: UPDATE_USER, payload: res})
   } catch (error) {
     console.log("error update user: ", error)
   }
@@ -151,14 +150,6 @@ export const fetchMyPosts = async (dispatch, user_id, nextToken) => {
     dispatch({type: UPDATE_MY_POSTS_NEXT_TOKEN, payload: res.nextToken ? res.nextToken : ""})
   } catch (error) {
     console.log("error fetch my posts: ", error)
-  }
-}
-export const fetchPostCount = async (dispatch, user_id) => {
-  try {
-    const res = await apiRequest(countPosts, {filter: {user_id: {eq: user_id}}, limit: 1000000})
-    dispatch({type: UPDATE_USER, payload: {post_count: res ? res.listPostTypes.items.length : 0}})
-  } catch (error) {
-    console.log("error fetch post count: ", error)
   }
 }
 export const checkLoggedIn = async dispatch => {

@@ -15,7 +15,7 @@ export const initialState = {
     country: "",
     description: "",
     img_src_list: [],
-    thumbnail_img_src: ""
+    thumbnail_img: ""
   }
 }
 

@@ -130,7 +130,7 @@ const PostHeader = ({postUser, navigation, setShowMenu}) => {
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
       <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id, user_id)}>
         {/* eslint-disable-next-line no-undef */}
-        <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../assets/no_image.png")} />
+        <Avatar.Image size={38} source={postUser.thumbnail_img !== "" ? {uri: postUser.thumbnail_img} : require("../../assets/no_image.png")} />
         <Appbar.Content 
           title={postUser.nickname}
           titleStyle={styles.name}
@@ -249,9 +249,9 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
     navigation.setOptions({headerRight: () => <ShareButton
       title={`${postUser.nickname}さんの投稿`}
       message={`${postUser.nickname} | ${post.description}`}
-      url={post.thumbnail_img_src}
+      url={post.thumbnail_img}
     />})
-  }, [dispatch, postUser.nickname, post.description, post.thumbnail_img_src])
+  }, [dispatch, postUser.nickname, post.description, post.thumbnail_img])
 
 
   return (

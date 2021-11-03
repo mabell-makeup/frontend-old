@@ -7,7 +7,7 @@ export const getPostType = /* GraphQL */ `
       post_id
       user_id
       img_src_list
-      thumbnail_img_src
+      thumbnail_img
       tags
       description
       page_views
@@ -36,7 +36,7 @@ export const listPostTypes = /* GraphQL */ `
       items {
         post_id
         img_src_list
-        thumbnail_img_src
+        thumbnail_img
         DateTime
         page_views
         like_count
@@ -70,7 +70,7 @@ export const queryPostTypesByViewRank = /* GraphQL */ `
         post_id
         user_id
         img_src_list
-        thumbnail_img_src
+        thumbnail_img
         tags
         description
         page_views
@@ -101,7 +101,7 @@ export const getUserType = /* GraphQL */ `
       base_color
       season
       face_type
-      thumbnail_img_src
+      thumbnail_img
       skin_type
       self_introduction
       gender
