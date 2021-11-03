@@ -146,7 +146,7 @@ export const updateUser = async (dispatch, tmpUser, user_id) => {
 export const fetchMyPosts = async (dispatch, user_id, nextToken) => {
   try {
     const res = await apiRequest2(`/users/${user_id}/posts`, nextToken ? {data: {nextToken}} : undefined)
-    dispatch({type: nextToken ? UPDATE_MY_POSTS : FETCH_MY_POSTS, payload: res ? res.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img, DateTime: post.DateTime})) : []})
+    dispatch({type: nextToken ? UPDATE_MY_POSTS : FETCH_MY_POSTS, payload: res ? res.items : []})
     dispatch({type: UPDATE_MY_POSTS_NEXT_TOKEN, payload: res.nextToken ? res.nextToken : ""})
   } catch (error) {
     console.log("error fetch my posts: ", error)
