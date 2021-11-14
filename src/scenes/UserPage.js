@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Divider, Button, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
-import {blockUser, fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
+import {blockUser, fetchMyPosts, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../components/PullToRefresh"
@@ -110,10 +110,10 @@ const FollowButton = () => {
 
 const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
   ...post,
-  id: post.id,
+  id: post.post_id,
   onPress: async () => {
-    await fetchPostDetail(dispatch, post.id, post.user_id, user_id)
-    await navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.user_id, user_id)})
+    await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
+    await navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)})
   }
 }))
 

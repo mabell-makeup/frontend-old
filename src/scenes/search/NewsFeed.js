@@ -11,8 +11,8 @@ import {PullToRefresh} from "../../components/PullToRefresh"
 const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
   ...post,
   onPress: async () => {
-    await fetchPostDetail(dispatch, post.id, post.user_id, user_id)
-    navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.user_id, user_id)})
+    await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
+    navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)})
   }
 }))
 

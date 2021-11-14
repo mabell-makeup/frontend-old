@@ -187,7 +187,7 @@ const ReactionContainer = ({navigation}) => {
       <View style={[styles.buttonContainer, styles.centerAlignment]}>
         <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.leftButtons} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, user_id, post.post_id)} />
         <IconButton icon="comment-outline" style={styles.leftButtons} color="#999" onPress={() => navigation.navigate("Comments")} />
-        <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, post.isSaved, post.post_id)} size={33} />
+        <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, user_id, post.post_id)} size={33} />
       </View>
     </View>
   )
