@@ -130,7 +130,7 @@ const PostHeader = ({postUser, navigation, setShowMenu}) => {
     <Appbar.Header style={styles.header} theme={{colors: {primary:"#fff"}}}>
       <TouchableOpacity style={styles.headerLeft} onPress={userFetchAction(navigation, dispatch, postUser.user_id, user_id)}>
         {/* eslint-disable-next-line no-undef */}
-        <Avatar.Image size={38} source={postUser.thumbnail_img_src !== "" ? {uri: postUser.thumbnail_img_src} : require("../../assets/no_image.png")} />
+        <Avatar.Image size={38} source={postUser.thumbnail_img !== "" ? {uri: postUser.thumbnail_img} : require("../../assets/no_image.png")} />
         <Appbar.Content 
           title={postUser.nickname}
           titleStyle={styles.name}
@@ -187,7 +187,7 @@ const ReactionContainer = ({navigation}) => {
       <View style={[styles.buttonContainer, styles.centerAlignment]}>
         <IconButton icon={post.isLike ? "heart" : "heart-outline"} style={styles.leftButtons} color={post.isLike ? primary : "#999"} onPress={() => updateLikePost(dispatch, user_id, post.post_id)} />
         <IconButton icon="comment-outline" style={styles.leftButtons} color="#999" onPress={() => navigation.navigate("Comments")} />
-        <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, post.isSaved, post.post_id)} size={33} />
+        <IconButton icon={post.isSaved ? "bookmark" : "bookmark-outline"} style={styles.savedButton} color={post.isSaved ? "#333" : "#999"} onPress={() => updateSavedPost(dispatch, user_id, post.post_id)} size={33} />
       </View>
     </View>
   )
@@ -249,9 +249,9 @@ export const PostDetail = ({navigation, route: {params: {refreshFunc}}}) => {
     navigation.setOptions({headerRight: () => <ShareButton
       title={`${postUser.nickname}さんの投稿`}
       message={`${postUser.nickname} | ${post.description}`}
-      url={post.thumbnail_img_src}
+      url={post.thumbnail_img}
     />})
-  }, [dispatch, postUser.nickname, post.description, post.thumbnail_img_src])
+  }, [dispatch, postUser.nickname, post.description, post.thumbnail_img])
 
 
   return (

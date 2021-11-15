@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
 })
 
 
-const CommentItem = ({thumbnail_img_src, nickname, comment}) => {
+const CommentItem = ({thumbnail_img, nickname, comment}) => {
   return (
     <>
       <View style={styles.itemContainer}>
         <View style={styles.row}>
           {/* eslint-disable-next-line no-undef */}
-          <Avatar.Image size={30} source={thumbnail_img_src !== "" ? {uri: thumbnail_img_src} : require("../../assets/no_image.png")} onPress={() => {}} />
+          <Avatar.Image size={30} source={thumbnail_img !== "" ? {uri: thumbnail_img} : require("../../assets/no_image.png")} onPress={() => {}} />
           <Text style={styles.nickname}>{nickname}</Text>
         </View>
         <Text style={styles.comment}>{comment}</Text>
@@ -55,20 +55,20 @@ const CommentItem = ({thumbnail_img_src, nickname, comment}) => {
 /* APIができるまでのモックデータ ここから*/
 const mabell_thumbnail = "https://mabell-app-img-storage.s3-ap-northeast-1.amazonaws.com/ap-northeast-1:b90cae25-45c8-4361-91b7-47a5fa2474ab/a0a6e6e1-e195-4ae4-a817-1e01a2019857.png"
 
-const testCommentsData = ({user_id, thumbnail_img_src, nickname}) => ([
-  {user_id, thumbnail_img_src, nickname, comment: "コメント1", updated_at: "", to: ""},
-  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img_src: mabell_thumbnail, nickname: "mabell_official", comment: "これはとっても長いコメントのサンプルです。ほら長いでしょ？", updated_at: "", to: ""},
-  {user_id, thumbnail_img_src, nickname, comment: "フォローさせていただきました♪コスメかわいい💖欲しいです☺️💓よかったら仲良くしてください🥰", updated_at: "", to: ""},
-  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img_src: mabell_thumbnail, nickname: "mabell_official", comment: "@test_sunagawa さま🌸コメント、フォローありがとうございます🙇🏻‍♀️嬉しいです！！ぜひよろしくお願いします🐒💖", updated_at: "", to: ""},
-  {user_id, thumbnail_img_src, nickname, comment: "コメント5", updated_at: "", to: ""},
-  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img_src: mabell_thumbnail, nickname: "mabell_official", comment: "コメント6", updated_at: "", to: ""}
+const testCommentsData = ({user_id, thumbnail_img, nickname}) => ([
+  {user_id, thumbnail_img, nickname, comment: "コメント1", updated_at: "", to: ""},
+  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img: mabell_thumbnail, nickname: "mabell_official", comment: "これはとっても長いコメントのサンプルです。ほら長いでしょ？", updated_at: "", to: ""},
+  {user_id, thumbnail_img, nickname, comment: "フォローさせていただきました♪コスメかわいい💖欲しいです☺️💓よかったら仲良くしてください🥰", updated_at: "", to: ""},
+  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img: mabell_thumbnail, nickname: "mabell_official", comment: "@test_sunagawa さま🌸コメント、フォローありがとうございます🙇🏻‍♀️嬉しいです！！ぜひよろしくお願いします🐒💖", updated_at: "", to: ""},
+  {user_id, thumbnail_img, nickname, comment: "コメント5", updated_at: "", to: ""},
+  {user_id: "671419a5-983e-4b0f-a888-cd69fb02fe4f", thumbnail_img: mabell_thumbnail, nickname: "mabell_official", comment: "コメント6", updated_at: "", to: ""}
 ])
 /* APIができるまでのモックデータ ここまで*/
 
 export const Comments = () => {
-  const {user_id, thumbnail_img_src, nickname} = useSelector(({auth: {user}}) => user)
+  const {user_id, thumbnail_img, nickname} = useSelector(({auth: {user}}) => user)
   // const {post} = useSelector(({postDetail: {post}}) => ({post}))
-  const [comments, setComments] = useState(testCommentsData({user_id, thumbnail_img_src, nickname}))
+  const [comments, setComments] = useState(testCommentsData({user_id, thumbnail_img, nickname}))
   const [input, setInput] = useState("")
   const [isFocused, setIsFocused] = useState(false)
 
@@ -86,7 +86,7 @@ export const Comments = () => {
           <IconTextInput onChangeText={text => setInput(text)} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} icon="" />
           <IconButton icon="send" color="#333" onPress={() => setComments([...comments, {
             user_id,
-            thumbnail_img_src,
+            thumbnail_img,
             nickname,
             comment: input
           }])} />

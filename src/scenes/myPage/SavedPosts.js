@@ -14,8 +14,8 @@ const useCreateDataWithNavigation = savedPosts => {
   return savedPosts.list.map(post => ({
     ...post,
     onPress: async () => {
-      await fetchPostDetail(dispatch, post.id, post.user_id, user_id)
-      navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.user_id, user_id)})
+      await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
+      navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)})
     }
   }))
 }

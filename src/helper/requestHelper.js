@@ -17,8 +17,8 @@ export const parseMasterData = (masterData, target, type="list" || "object") => 
 }
 export const camelToSnake = text => text.replace(/([A-Z])/g, s => "_" + s.charAt(0).toLowerCase())
 
-// const base_url = "https://mt19em002g.execute-api.ap-northeast-1.amazonaws.com/dev"
-const base_url = "http://192.168.3.4:3000"
+const base_url = "https://2re8ozjb1e.execute-api.ap-northeast-1.amazonaws.com/dev"
+// const base_url = "http://192.168.3.4:3000"
 
 export const apiRequest2 = async(url="/", options={method: "GET", data: undefined}) => {
   const user = await Auth.currentAuthenticatedUser()
@@ -38,6 +38,6 @@ export const apiRequest2 = async(url="/", options={method: "GET", data: undefine
 }
 
 export const encodeQuery = (data={}) => {
-  const queryList = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+  const queryList = Object.entries(data).filter(([, value]) => value.length > 0).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
   return queryList.join("&")
 }

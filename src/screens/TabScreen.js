@@ -28,7 +28,7 @@ export const TabScreen = () => {
       <Tab.Screen name="MyPageScreen" component={MyPageScreen} options={{tabBarIcon: ({color}) => <IconButton icon="account-circle-outline" size={30} color={color} style={{margin: 0}} />}}
         listeners = {{tabPress: () => {
           fetchMyPosts(dispatch, user_id)
-          fetchPostCount(dispatch, user_id)
+          // fetchPostCount(dispatch, user_id)
         }}}
       />
     </Tab.Navigator>

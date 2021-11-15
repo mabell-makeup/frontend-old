@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react"
 import {View, Text, StyleSheet, ScrollView} from "react-native"
 import {Avatar, Divider, Button, IconButton} from "react-native-paper"
 import {ImageList} from "../components/ImageList"
-import {blockUser, fetchMyPosts, fetchPostCount, fetchUser} from "../stores/authStore"
+import {blockUser, fetchMyPosts, fetchUser} from "../stores/authStore"
 import {fetchPostDetail, fetchPostUser, fetchUserPosts} from "../stores/postDetailStore"
 import {useDispatch, useSelector} from "react-redux"
 import {PullToRefresh} from "../components/PullToRefresh"
@@ -110,10 +110,10 @@ const FollowButton = () => {
 
 const createData = (posts, navigation, dispatch, user_id) => posts && posts.map(post => ({
   ...post,
-  id: post.id,
+  id: post.post_id,
   onPress: async () => {
-    await fetchPostDetail(dispatch, post.id, post.user_id, user_id)
-    await navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.id, post.user_id, user_id)})
+    await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
+    await navigation.navigate("PostDetail", {refreshFunc: async () => await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)})
   }
 }))
 
@@ -128,7 +128,7 @@ const refreshFunc = async (isMyPage, dispatch, user_id) => {
   if(isMyPage) {
     await Promise.all([
       fetchMyPosts(dispatch, user_id),
-      fetchPostCount(dispatch, user_id),
+      // fetchPostCount(dispatch, user_id),
       fetchUser(dispatch, user_id)
     ])
   } else {
@@ -173,7 +173,7 @@ export const UserPage = ({navigation, route: {params}}) => {
         <View style={styles.userInfo}>
           <View style={styles.row}>
             {/* eslint-disable-next-line no-undef */}
-            <Avatar.Image size={80} source={user.thumbnail_img_src ? {uri: user.thumbnail_img_src} : require("../../assets/no_image.png")} />
+            <Avatar.Image size={80} source={user.thumbnail_img ? {uri: user.thumbnail_img} : require("../../assets/no_image.png")} />
             <FollowInfo postCount={isMyPage ? user.post_count : user.posts ? user.posts.length : 0} />
           </View>
           <SelfIntroduction user={user} M={masterData} />

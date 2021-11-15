@@ -52,12 +52,12 @@ const displayItemsMap = {
   gender: {label: "性別", type: "picker"}
 }
 
-const selectImage = (tmpUser, setTmpUser) => () => pickImage(result => setTmpUser({...tmpUser, thumbnail_img_src: result.uri}))
+const selectImage = (tmpUser, setTmpUser) => () => pickImage(result => setTmpUser({...tmpUser, thumbnail_img: result.uri}))
 
 const onSubmit = (dispatch, user, tmpUser, navigation) => async () => {
   try {
-    const uri = user.thumbnail_img_src !== tmpUser.thumbnail_img_src ? await compressImage(tmpUser.thumbnail_img_src) : tmpUser.thumbnail_img_src
-    await updateUser(dispatch, {...tmpUser, thumbnail_img_src: uri}, user.user_id)
+    const uri = user.thumbnail_img !== tmpUser.thumbnail_img ? await compressImage(tmpUser.thumbnail_img) : tmpUser.thumbnail_img
+    await updateUser(dispatch, {...tmpUser, thumbnail_img: uri}, user.user_id)
   } catch (error) {
     console.log("error update user:", error)
     addError(dispatch, {errorType: "REQUEST_ERROR", message: "ユーザー情報の更新に失敗しました"})
@@ -71,7 +71,7 @@ export const UserInfoSetting = ({navigation}) => {
   const user = useSelector(({auth: {user}}) => user)
   const [pickerState, setPickerState] = useState({isShown: false, choices: [], selected: ""})
   const [dtPickerState, setDTPickerState] = useState({isShown: false, selected: new Date(user.birthdate)})
-  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img_src", "self_introduction"].includes(key))))
+  const [tmpUser, setTmpUser] = useState(Object.fromEntries(Object.entries(user).filter(([key]) => [...Object.keys(displayItemsMap), "thumbnail_img", "self_introduction"].includes(key))))
 
   return (
     <>
@@ -80,7 +80,7 @@ export const UserInfoSetting = ({navigation}) => {
           <View style={styles.container}>
             <View style={styles.toCenter}>
               {/* eslint-disable-next-line no-undef */}
-              <Avatar.Image size={90} source={tmpUser.thumbnail_img_src && tmpUser.thumbnail_img_src !== "" ? {uri: tmpUser.thumbnail_img_src} : require("../../../assets/no_image.png")} />
+              <Avatar.Image size={90} source={tmpUser.thumbnail_img && tmpUser.thumbnail_img !== "" ? {uri: tmpUser.thumbnail_img} : require("../../../assets/no_image.png")} />
               <Text style={styles.selectImage} onPress={selectImage(tmpUser, setTmpUser)}>プロフィール写真を変更</Text>
             </View>
             <View style={styles.userInfoContainer}>

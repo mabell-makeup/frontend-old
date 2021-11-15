@@ -34,7 +34,7 @@ const Item = ({item, showUserInfo}) => {
 
   return (
     <Card onPress={item.onPress} style={styles.card}>
-      <Card.Cover source={item.imgSrc !== "" ? {uri: item.imgSrc} : require("../../assets/no_image.png")} />
+      <Card.Cover source={item.thumbnail_img !== "" ? {uri: item.thumbnail_img} : require("../../assets/no_image.png")} />
       {showUserInfo &&
         <View style={styles.userInfo}>
           <Text style={styles.description}>

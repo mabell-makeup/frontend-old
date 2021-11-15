@@ -1,13 +1,13 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, apiRequest2} from "../helper/requestHelper"
-import {getProductType, listPostLikeTypes, listPostViewTypes} from "../graphql/queries"
+import {listPostLikeTypes, listPostViewTypes} from "../graphql/queries"
 import {createPostViewType} from "../graphql/mutations"
 
 export const initialState = {
   post: {
     user_id: Number,
     user_name: "",
-    user_nickname: "",
+    nickname: "",
     img_src_list: [],
     item_id_list: [],
     tags: [],
@@ -19,7 +19,8 @@ export const initialState = {
   },
   products: [],
   postUser: {
-    posts: []
+    posts: [],
+    nickname: ""
   },
   isLoading: false
 }
@@ -36,7 +37,7 @@ const UPDATE_LOADING = "UPDATE_LOADING"
 export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
   try {
     dispatch({type: UPDATE_LOADING, payload: true})
-    const {post} = await apiRequest2(`/users/${postUserId}/posts/${post_id}`)
+    const post = await apiRequest2(`/users/${postUserId}/posts/${post_id}`)
     dispatch({type: FETCH_POST_DETAIL, payload: post})
     await Promise.all([
       fetchPostUser(dispatch, postUserId),
@@ -54,7 +55,7 @@ export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
 }
 export const fetchPostUser = async (dispatch, user_id) => {
   try {
-    const {user} = await apiRequest2(`/users/${user_id}`)
+    const user = await apiRequest2(`/users/${user_id}`)
     dispatch({type: FETCH_POST_USER, payload: user})
   } catch (error) {
     console.log("fetch post user error:", error)
@@ -77,18 +78,18 @@ export const checkLikePost = async (dispatch, user_id, post_id) => {
     console.log("error fetch my posts: ", error)
   }
 }
-export const updateSavedPost = async (dispatch, isSaved, post_id) => {
+export const updateSavedPost = async (dispatch, user_id, post_id) => {
   try {
-    //await apiRequest(isSaved ? deletePostLikeType : createPostLikeType, {input: {post_id}})
-    dispatch({type: UPDATE_POST_DETAIL, payload: {isSaved: !isSaved}})
+    const res = await apiRequest2(`/users/${user_id}/save`, {method: "PATCH", data: {post_id}})
+    dispatch({type: UPDATE_POST_DETAIL, payload: {isSaved: res.isSaved}})
   } catch (error) {
     console.log("error update save: ", error)
   }
 }
 export const fetchProductDetails = async (dispatch, products_id) => {
   try {
-    const products = await Promise.all(products_id.map(async product_id => apiRequest(getProductType, {product_id})))
-    dispatch({type: FETCH_PRODUCT_DETAIL, payload: products.map(p => p.getProductType)})
+    const products = await Promise.all(products_id.map(async product_id => apiRequest2(`/products/${product_id}`)))
+    dispatch({type: FETCH_PRODUCT_DETAIL, payload: products})
   } catch (error) {
     console.log("fetch product details error:", error)
   }

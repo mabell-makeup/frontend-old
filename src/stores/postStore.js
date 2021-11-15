@@ -3,6 +3,7 @@ import {apiRequest2} from "../helper/requestHelper"
 
 export const initialState = {
   tmpPost: {
+    nickname: "",
     base_color: "",
     color: "",
     face_type: "",
@@ -15,7 +16,7 @@ export const initialState = {
     country: "",
     description: "",
     img_src_list: [],
-    thumbnail_img_src: ""
+    thumbnail_img: ""
   }
 }
 
@@ -28,6 +29,8 @@ const RESET_TMP_POST = "RESET_TMP_POST"
 // Define ActionCreator
 export const createPost = async (tmpPost, user_id) => {
   try {
+    const {thumbnail_img, ...rest} = tmpPost
+    console.log("LOG: ", rest)
     const postData = Object.fromEntries(Object.entries(tmpPost).filter(([, value]) => typeof value !== "undefined" && value !== null && value !== ""))
     await apiRequest2(`/users/${user_id}/posts`, {method: "POST", data: postData})
   } catch (error) {

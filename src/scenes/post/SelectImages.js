@@ -104,10 +104,10 @@ const displayItemsMap = {
 
 const registerPost = async (tmpPost, user_id, dispatch) => {
   try {
-    const thumbnailImg = await compressImage(tmpPost.thumbnail_img_src, 1, {width: 300, height: 300})
+    const thumbnailImg = await compressImage(tmpPost.thumbnail_img, 1, {width: 300, height: 300})
     const imgList = await Promise.all(tmpPost.img_src_list.map(async src => await compressImage(src, 0.6, {width: 1080, height: 1080})))
     // TODO: 後で書き方を直す
-    const {products, thumbnail_img_src, img_src_list, ...post} = await tmpPost
+    const {products, thumbnail_img, img_src_list, ...post} = await tmpPost
     createPost({...post, thumbnail_img: thumbnailImg, img_list: imgList, products_id: products.map(p => p.product_id)}, user_id)
   } catch (error) {
     addError(dispatch, {errorType: "CREATE_POST_ERROR", message: "投稿に失敗しました。"})
@@ -174,13 +174,13 @@ export const SelectImages = ({navigation}) => {
     // 既に1枚でも写真が選択されている場合
     ? {img_src_list: Object.assign([], [...tmpPost.img_src_list, result.uri])}
     // 写真の選択が初めてだった場合
-    : {thumbnail_img_src: result.uri, img_src_list: [result.uri]}
+    : {thumbnail_img: result.uri, img_src_list: [result.uri]}
   )
 
   const deleteImage = target => () => {
     const newList = tmpPost.img_src_list.filter(uri => uri !== target)
-    updateTmpPost(dispatch, tmpPost, tmpPost.thumbnail_img_src === target
-      ? {thumbnail_img_src: newList[0] || "", img_src_list: newList}
+    updateTmpPost(dispatch, tmpPost, tmpPost.thumbnail_img === target
+      ? {thumbnail_img: newList[0] || "", img_src_list: newList}
       : {img_src_list: newList}
     )
   }
@@ -254,7 +254,7 @@ export const SelectImages = ({navigation}) => {
         style={styles.button}
         contentStyle={styles.buttonContentStyle}
         onPress={onSubmit(tmpPost, willUpdate, dispatch, tmpUser, navigation, setDescriptionError, setProductError, setIsLoading, user.user_id)}
-        disabled={tmpPost.description === "" || tmpPost.products.length === 0 || tmpPost.thumbnail_img_src === ""}
+        disabled={tmpPost.description === "" || tmpPost.products.length === 0 || tmpPost.thumbnail_img === ""}
       >投稿する</Button>
       <Loading isLoading={isLoading} />
     </>

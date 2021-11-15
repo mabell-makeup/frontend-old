@@ -50,7 +50,7 @@ export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   try {
     const queryParams = encodeQuery(tmpConditions)
     const res = await apiRequest2(`/search?${queryParams}`)
-    await dispatch({type: FETCH_POSTS, payload: res ? res.items.map(post => ({id: post.post_id, imgSrc: post.thumbnail_img_src, DateTime: post.DateTime, ...post})) : []})
+    await dispatch({type: FETCH_POSTS, payload: res ? res.items : []})
   } catch (e) {
     console.log("error fetch posts: ", e)
   }
