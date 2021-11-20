@@ -41,7 +41,7 @@ export const fetchPostDetail = async (dispatch, post_id, postUserId, myId) => {
     dispatch({type: FETCH_POST_DETAIL, payload: post})
     await Promise.all([
       fetchPostUser(dispatch, postUserId),
-      fetchProductDetails(dispatch, post.products_id),
+      fetchProductDetails(dispatch, post.product_id),
       // TODO: post_idを引数にリクエストするものは一つにまとめる
       fetchViewCount(dispatch, post_id),
       fetchLikeCount(dispatch, post_id),
@@ -86,9 +86,9 @@ export const updateSavedPost = async (dispatch, user_id, post_id) => {
     console.log("error update save: ", error)
   }
 }
-export const fetchProductDetails = async (dispatch, products_id) => {
+export const fetchProductDetails = async (dispatch, product_id) => {
   try {
-    const products = await Promise.all(products_id.map(async product_id => apiRequest2(`/products/${product_id}`)))
+    const products = await Promise.all(product_id.map(async product_id => apiRequest2(`/products/${product_id}`)))
     dispatch({type: FETCH_PRODUCT_DETAIL, payload: products})
   } catch (error) {
     console.log("fetch product details error:", error)

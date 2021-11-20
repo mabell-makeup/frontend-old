@@ -8,7 +8,7 @@ import {apiRequest2} from "../../helper/requestHelper"
 export const Notice = () => {
   const [res, setRes] = useState(false)
   const onPress = async() => {
-    const response = await apiRequest2("/users?gender=1")
+    const response = await apiRequest2("/search?product_id[]=1")
     setRes(response)
   }
   return (
