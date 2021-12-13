@@ -1,23 +1,23 @@
 {
-  "dev": {
+  "develop": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-joker-dev-172258-authRole",
-      "UnauthRoleArn": "arn:aws:iam::047064969807:role/amplify-joker-dev-172258-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::047064969807:role/amplify-joker-dev-172258-authRole",
+      "AuthRoleName": "amplify-joker-develop-214815-authRole",
+      "UnauthRoleArn": "arn:aws:iam::869390154761:role/amplify-joker-develop-214815-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::869390154761:role/amplify-joker-develop-214815-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-joker-dev-172258-deployment",
-      "UnauthRoleName": "amplify-joker-dev-172258-unauthRole",
-      "StackName": "amplify-joker-dev-172258",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:047064969807:stack/amplify-joker-dev-172258/b0c44000-f2a1-11eb-b17b-0ee318a6eb65",
-      "AmplifyAppId": "d3gnul0hvfnczz"
+      "DeploymentBucketName": "amplify-joker-develop-214815-deployment",
+      "UnauthRoleName": "amplify-joker-develop-214815-unauthRole",
+      "StackName": "amplify-joker-develop-214815",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:869390154761:stack/amplify-joker-develop-214815/f2f2ae00-5c12-11ec-8086-0a965a79b63d",
+      "AmplifyAppId": "delkl92pieosz"
     },
     "categories": {
       "auth": {
         "joker9c07b48f": {
-          "userPoolId": "ap-northeast-1_23sN6eW1n",
-          "userPoolName": "mabell-api-dev-user-pool",
-          "webClientId": "7g8b8mt8vo785vprgcd1n8krfc",
-          "nativeClientId": "7g8b8mt8vo785vprgcd1n8krfc"
+          "userPoolId": "ap-northeast-1_zlepr4fV1",
+          "userPoolName": "mabell-api",
+          "webClientId": "664dlmcoqntsudgs84ge2jqpg2",
+          "nativeClientId": "664dlmcoqntsudgs84ge2jqpg2"
         }
       }
     }
