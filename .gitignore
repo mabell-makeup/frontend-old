@@ -17,6 +17,7 @@ yarn-error.log
 # ENV
 .env.development
 .env.production
+.env
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
