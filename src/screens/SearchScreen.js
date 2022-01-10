@@ -15,6 +15,7 @@ import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/se
 import {SelectProductsInner} from "../scenes/SelectProducts"
 import {SearchResult} from "../scenes/search/SearchResult"
 import {Comments} from "../scenes/Comments"
+import { autoShowTooltip } from "@aws-amplify/ui"
 
 const Stack = createStackNavigator()
 
@@ -60,6 +61,9 @@ export const SearchScreen = ({navigation}) => {
         ...defaultScreenOptions,
         headerRight: false,
         headerLeft: false,
+        headerTitleContainerStyle: { 
+          width: "100%",
+        },
         headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags.join(" ")} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
