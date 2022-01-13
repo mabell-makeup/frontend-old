@@ -15,7 +15,6 @@ import {resetTmpConditions, updateTmpProducts, updateTmpTags} from "../stores/se
 import {SelectProductsInner} from "../scenes/SelectProducts"
 import {SearchResult} from "../scenes/search/SearchResult"
 import {Comments} from "../scenes/Comments"
-import { autoShowTooltip } from "@aws-amplify/ui"
 
 const Stack = createStackNavigator()
 
