@@ -60,6 +60,9 @@ export const SelectProductsInner = ({navigation, products, updateTmpProductsFunc
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
+      headerTitleContainerStyle: { 
+        width: "100%",
+      },
       headerTitle: () => <IconTextInput placeholder={PRODUCT_SEARCH_PLACE_HOLDER} onChangeText={text => fetchProducts(dispatch, text)} />
     })
     fetchTrendProducts(dispatch)

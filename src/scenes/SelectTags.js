@@ -51,6 +51,9 @@ export const SelectTagsInner = ({navigation, tags, updateTmpTagsFunc}) => {
   useEffect(() => {
     navigation.setOptions({
       // eslint-disable-next-line react/display-name
+      headerTitleContainerStyle: { 
+        width: "100%",
+      },
       headerTitle: () => <IconTextInput placeholder={TAG_SEARCH_PLACE_HOLDER} onChangeText={onChangeText(dispatch, setText)} />
     })
     fetchTrendTags(dispatch)

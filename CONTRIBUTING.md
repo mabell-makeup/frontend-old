@@ -36,8 +36,8 @@
 
 ## 作業手順
 
-1. DevelopブランチからFeatureブランチを作る  
-`git checkout -b feature/MB-XX/add-hoge-component origin/develop`
+1. MasterブランチからFeatureブランチを作る (リリース前のため)
+`git checkout -b feature/MB-XX/add-hoge-component origin/master`
 1. 新規ブランチをPushする (リモートブランチを作成するとJiraの課題が**進行中**へ移動します)  
 `git push -u origin feature/MB-XX/add-hoge-component`  
 1. コードを変更する
