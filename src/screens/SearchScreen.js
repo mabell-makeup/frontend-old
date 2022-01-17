@@ -26,7 +26,7 @@ const navigatorProps = ({
   initialRouteName: "NewsFeed",
   screenOptions: {
     headerStyle: {height: WINDOW_HEIGHT > 600 ? 100 : 70},
-    headerTitleStyle: {width: "70%"},
+    headerTitleStyle: {width: "100%"},
     headerTitleAlign: "left",
     headerBackTitleVisible: false
   }
@@ -52,7 +52,8 @@ export const SearchScreen = ({navigation}) => {
     <Stack.Navigator {...navigatorProps}>
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions,
-        headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>
+        headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>,
+        title: '検索',
       }}/>
       <Stack.Screen name="SelectTags" component={SelectTags} />
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
@@ -82,7 +83,8 @@ export const SearchScreen = ({navigation}) => {
           shadowOffset: {
             height: 0
           }
-        }
+        },
+        title:'検索結果'
       }} />
       <Stack.Screen name="Comments" component={Comments} options={defaultScreenOptions} />
     </Stack.Navigator>
