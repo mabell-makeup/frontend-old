@@ -8,7 +8,7 @@ import {fetchPostDetail} from "../../stores/postDetailStore"
 import {UserInfoToggleGroup} from "../../components/UserInfoToggleGroup"
 import {PullToRefresh} from "../../components/PullToRefresh"
 
-const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
+const createDataWithNavigation = (items, navigation, dispatch, user_id) => items.map(post => ({
   ...post,
   onPress: async () => {
     await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
@@ -32,7 +32,7 @@ const NewsFeedInner = ({navigation}) => {
   return (
     <>
       <ImageList
-        data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
+        data={createDataWithNavigation(searchResult[tmpConditions.gender], navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
         refreshControl={<PullToRefresh refreshFunc={loadMore(dispatch, tmpConditions, false)} />}
         showUserInfo={true}
@@ -49,7 +49,7 @@ const createItems = (screens, dispatch, tmpConditions) =>
     routeName: label,
     component: NewsFeedInner,
     key,
-    listeners: {focus: () => changeTab(dispatch, tmpConditions, key)}
+    listeners: {tabPress: () => changeTab(dispatch, tmpConditions, key)}
   }))
 
 const changeTab = async (dispatch, tmpConditions, key) => {
