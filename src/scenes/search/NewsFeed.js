@@ -23,7 +23,7 @@ const loadMore = (dispatch, tmpConditions, nextToken) => async () => {
   }
 }
 
-const NewsFeedInner = ({navigation}) => {
+const NewsFeedInner = ({navigation, gender}) => {
   const dispatch = useDispatch()
   const {searchResult, tmpConditions, nextToken, user_id} = useSelector(({
     search: {searchResult, tmpConditions, nextToken}, auth: {user: {user_id}}
@@ -32,7 +32,7 @@ const NewsFeedInner = ({navigation}) => {
   return (
     <>
       <ImageList
-        data={createDataWithNavigation(searchResult[tmpConditions.gender], navigation, dispatch, user_id)}
+        data={createDataWithNavigation(searchResult[gender], navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
         refreshControl={<PullToRefresh refreshFunc={loadMore(dispatch, tmpConditions, false)} />}
         showUserInfo={true}
@@ -47,7 +47,7 @@ const createItems = (screens, dispatch, tmpConditions) =>
   screens.map(({label, key}) => ({
     label,
     routeName: label,
-    component: NewsFeedInner,
+    component: ({navigation}) => <NewsFeedInner navigation={navigation} gender={key} />,
     key,
     listeners: {tabPress: () => changeTab(dispatch, tmpConditions, key)}
   }))
