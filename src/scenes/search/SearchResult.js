@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const createDataWithNavigation = (searchResult, navigation, dispatch, user_id) => searchResult.map(post => ({
+const createDataWithNavigation = (items, navigation, dispatch, user_id) => items.map(post => ({
   ...post,
   onPress: async () => {
     await fetchPostDetail(dispatch, post.post_id, post.user_id, user_id)
@@ -76,7 +76,7 @@ export const SearchResult = ({navigation}) => {
     <>
       <SearchHeader navigation={navigation} />
       <ImageList
-        data={createDataWithNavigation(searchResult, navigation, dispatch, user_id)}
+        data={createDataWithNavigation(searchResult[tmpConditions.gender], navigation, dispatch, user_id)}
         onEndReached={loadMore(dispatch, tmpConditions, nextToken)}
         refreshControl={<PullToRefresh refreshFunc={loadMore(dispatch, tmpConditions, false)} />}
         showUserInfo={true}

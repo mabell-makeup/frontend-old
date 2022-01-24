@@ -1,11 +1,11 @@
 import {createReducer} from "../helper/storeHelper"
 import {apiRequest, apiRequest2, encodeQuery} from "../helper/requestHelper"
-import {countPosts, listPostTypes} from "../graphql/queries"
+import {countPosts} from "../graphql/queries"
 
 export const initialState = {
   conditions: {},
-  searchResult: [],
-  tmpResult: [],
+  searchResult: {0: [], 1: []},
+  tmpResult: {0: [], 1: []},
   post_count: 0,
   tmpConditions: {
     base_color: "",
@@ -17,7 +17,8 @@ export const initialState = {
     country: "",
     makeup_categories: "",
     products: [],
-    tags: []
+    tags: [],
+    gender: 0
   },
   nextToken: ""
 }
@@ -50,7 +51,7 @@ export const fetchPosts = async (dispatch, tmpConditions, nextToken) => {
   try {
     const queryParams = encodeQuery(tmpConditions)
     const res = await apiRequest2(`/search?${queryParams}`)
-    await dispatch({type: FETCH_POSTS, payload: res ? res.items : []})
+    await dispatch({type: FETCH_POSTS, payload: {gender: tmpConditions.gender, items: res ? res.items : []}})
   } catch (e) {
     console.log("error fetch posts: ", e)
   }
@@ -85,8 +86,8 @@ export const resetTmpConditions = async (dispatch) => {
 // Define Reducer
 export const searchReducer = createReducer(initialState, {
   [UPDATE_TMP_CONDITIONS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, ...payload}}),
-  [FETCH_POSTS]: (state, {payload}) => ({...state, tmpResult: payload}),
-  [UPDATE_POSTS]: (state, {payload}) => ({...state, tmpResult: [...state.tmpResult, ...payload]}),
+  [FETCH_POSTS]: (state, {payload: {gender, items}}) => ({...state, tmpResult: {...state.tmpResult, [gender]: items}}),
+  [UPDATE_POSTS]: (state, {payload: {gender, items}}) => ({...state, tmpResult: {...state.tmpResult, [gender]: items}}),
   [UPDATE_SEARCH_RESULT]: state => ({...state, searchResult: state.tmpResult}),
   [UPDATE_CONDITIONS]: state => ({...state, conditions: state.tmpConditions}),
   [UPDATE_TMP_TAGS]: (state, {payload}) => ({...state, tmpConditions: {...state.tmpConditions, tags: payload}}),

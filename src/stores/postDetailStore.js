@@ -130,7 +130,7 @@ export const fetchLikeCount = async (dispatch, post_id) => {
 export const postDetailReducer = createReducer(initialState, {
   [FETCH_POST_DETAIL]: (state, {payload}) => ({...state, post: payload}),
   [FETCH_POST_USER]: (state, {payload}) => ({...state, postUser: payload}),
-  [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload}}),
+  [FETCH_USER_POSTS]: (state, {payload}) => ({...state, postUser: {...state.postUser, posts: payload.items, postCount: payload.count}}),
   [FETCH_PRODUCT_DETAIL]: (state, {payload}) => ({...state, products: payload}),
   [UPDATE_POST_DETAIL]: (state, {payload}) => ({...state, post: {...state.post, ...payload}}),
   [UPDATE_LOADING]: (state, {payload}) => ({...state, isLoading: payload})
