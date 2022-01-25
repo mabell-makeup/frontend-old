@@ -69,7 +69,8 @@ export const SearchScreen = ({navigation}) => {
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={{
         ...defaultScreenOptions,
-        headerRight: false
+        headerRight: false,
+        title:'投稿'
       }} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} options={defaultScreenOptions} />
       <Stack.Screen name="UserHome" component={UserPage} options={{
