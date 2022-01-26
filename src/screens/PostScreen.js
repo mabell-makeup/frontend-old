@@ -33,7 +33,7 @@ const SelectProducts = props => {
 export const PostScreen = () => {
   return (
     <Stack.Navigator {...navigatorProps}>
-      <Stack.Screen name="SelectImages" component={SelectImages} />
+      <Stack.Screen name="SelectImages" component={SelectImages} options={{title:'新規投稿'}}/>
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
       <Stack.Screen name="SelectTags" component={SelectTags} />
     </Stack.Navigator>

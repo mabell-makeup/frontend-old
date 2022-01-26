@@ -18,7 +18,7 @@ const navigatorProps = ({
 export const NoticeScreen = () => {
   return (
     <Stack.Navigator {...navigatorProps}>
-      <Stack.Screen name="Notice" component={Notice} />
+      <Stack.Screen name="Notice" component={Notice} options={{title: 'お知らせ'}}/>
     </Stack.Navigator>
   )
 }

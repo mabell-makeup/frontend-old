@@ -41,7 +41,7 @@ const navigatorProps = ({
   initialRouteName: "MyPage",
   screenOptions: {
     headerStyle: {height: WINDOW_HEIGHT > 600 ? 100 : 70},
-    headerTitleStyle: {width: "70%"},
+    headerTitleStyle: {width: "100%"},
     headerTitleAlign: "left",
     headerBackTitleVisible: false
   }
@@ -59,19 +59,19 @@ export const MyPageScreen = () => {
         options={({navigation}) => ({
           headerRight: () => <HeaderRightIcons navigation={navigation} />,
           title: "マイページ"
-        })}
+        })} 
       />
       <Stack.Screen name="UserHome" component={UserPage} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
-      <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} />
-      <Stack.Screen name="NoticeSetting" component={NoticeSetting} />
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="TermsOfService" component={TermsOfService} />
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
-      <Stack.Screen name="ChangePassword" component={ChangePassword} />
-      <Stack.Screen name="ChangeMail" component={ChangeMail} />
-      <Stack.Screen name="SavedPosts" component={SavedPosts} />
-      <Stack.Screen name="BlockedUsers" component={BlockedUsers} />
+      <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} options={{title:"プロフィール設定"}}/>
+      <Stack.Screen name="NoticeSetting" component={NoticeSetting} options={{title:"通知設定"}}/>
+      <Stack.Screen name="Settings" component={Settings} options={{title:"設定"}}/>
+      <Stack.Screen name="TermsOfService" component={TermsOfService} options={{title:"利用規約"}}/>
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{title:"プライベートポリシー"}}/>
+      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{title:"パスワード変更"}}/>
+      <Stack.Screen name="ChangeMail" component={ChangeMail} options={{title:"メールアドレス変更"}}/>
+      <Stack.Screen name="SavedPosts" component={SavedPosts} options={{title:"保存済み"}}/>
+      <Stack.Screen name="BlockedUsers" component={BlockedUsers} options={{title:"ブロックしたユーザー一覧"}}/>
     </Stack.Navigator>
   )
 }

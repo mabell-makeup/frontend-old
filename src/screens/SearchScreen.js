@@ -26,7 +26,7 @@ const navigatorProps = ({
   initialRouteName: "NewsFeed",
   screenOptions: {
     headerStyle: {height: WINDOW_HEIGHT > 600 ? 100 : 70},
-    headerTitleStyle: {width: "70%"},
+    headerTitleStyle: {width: "100%"},
     headerTitleAlign: "left",
     headerBackTitleVisible: false
   }
@@ -52,7 +52,8 @@ export const SearchScreen = ({navigation}) => {
     <Stack.Navigator {...navigatorProps}>
       <Stack.Screen name="Search" component={Search} options={{
         ...defaultScreenOptions,
-        headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>
+        headerRight: () => <Text onPress={() => resetTmpConditions(dispatch)}>条件クリア</Text>,
+        title: "検索"
       }}/>
       <Stack.Screen name="SelectTags" component={SelectTags} />
       <Stack.Screen name="SelectProducts" component={SelectProducts} />
@@ -61,14 +62,15 @@ export const SearchScreen = ({navigation}) => {
         headerRight: false,
         headerLeft: false,
         headerTitleContainerStyle: { 
-          width: "100%",
+          width: "100%"
         },
         headerTitle: () => <FakeInput placeholder={TAG_SEARCH_PLACE_HOLDER} navigation={navigation} value={tmpConditions.tags.join(" ")} style={{maxHeight: 35}} />,
         gestureDirection: "horizontal-inverted"
       }}/>
       <Stack.Screen name="PostDetail" component={PostDetail} options={{
         ...defaultScreenOptions,
-        headerRight: false
+        headerRight: false,
+        title:"投稿"
       }} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} options={defaultScreenOptions} />
       <Stack.Screen name="UserHome" component={UserPage} options={{
@@ -82,7 +84,8 @@ export const SearchScreen = ({navigation}) => {
           shadowOffset: {
             height: 0
           }
-        }
+        },
+        title:"検索結果"
       }} />
       <Stack.Screen name="Comments" component={Comments} options={defaultScreenOptions} />
     </Stack.Navigator>

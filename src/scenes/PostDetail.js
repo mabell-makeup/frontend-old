@@ -177,7 +177,7 @@ const ReactionContainer = ({navigation}) => {
   const styles = createStyles()
   const dispatch = useDispatch()
   const {post, user_id} = useSelector(({postDetail: {post}, auth: {user: {user_id}}}) => ({post, user_id}))
-  
+
   return (
     <View style={styles.infoContainer}>
       <View style={styles.centerAlignment}>
