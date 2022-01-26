@@ -56,21 +56,22 @@ export const MyPageScreen = () => {
         name="MyPage" 
         component={UserPage} 
         initialParams={{isMyPage: true}} 
-        options={({navigation}) => ({headerRight: () => <HeaderRightIcons navigation={navigation} />,
-        title: 'マイページ'
+        options={({navigation}) => ({
+          headerRight: () => <HeaderRightIcons navigation={navigation} />,
+          title: "マイページ"
         })} 
       />
       <Stack.Screen name="UserHome" component={UserPage} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
-      <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} options={{title:'プロフィール設定'}}/>
-      <Stack.Screen name="NoticeSetting" component={NoticeSetting} options={{title:'通知設定'}}/>
-      <Stack.Screen name="Settings" component={Settings} options={{title:'設定'}}/>
-      <Stack.Screen name="TermsOfService" component={TermsOfService} options={{title:'利用規約'}}/>
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{title:'プライベートポリシー'}}/>
-      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{title:'パスワード変更'}}/>
-      <Stack.Screen name="ChangeMail" component={ChangeMail} options={{title:'メールアドレス変更'}}/>
-      <Stack.Screen name="SavedPosts" component={SavedPosts} options={{title:'保存済み'}}/>
-      <Stack.Screen name="BlockedUsers" component={BlockedUsers} options={{title:'ブロックしたユーザー一覧'}}/>
+      <Stack.Screen name="UserInfoSetting" component={UserInfoSetting} options={{title:"プロフィール設定"}}/>
+      <Stack.Screen name="NoticeSetting" component={NoticeSetting} options={{title:"通知設定"}}/>
+      <Stack.Screen name="Settings" component={Settings} options={{title:"設定"}}/>
+      <Stack.Screen name="TermsOfService" component={TermsOfService} options={{title:"利用規約"}}/>
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} options={{title:"プライベートポリシー"}}/>
+      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{title:"パスワード変更"}}/>
+      <Stack.Screen name="ChangeMail" component={ChangeMail} options={{title:"メールアドレス変更"}}/>
+      <Stack.Screen name="SavedPosts" component={SavedPosts} options={{title:"保存済み"}}/>
+      <Stack.Screen name="BlockedUsers" component={BlockedUsers} options={{title:"ブロックしたユーザー一覧"}}/>
     </Stack.Navigator>
   )
 }
