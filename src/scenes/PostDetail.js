@@ -150,8 +150,6 @@ const PostInfo = ({navigation}) => {
   const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
-
-  //console.log("日付のログ"+post.DateTime)
   
   return (
     <>
@@ -167,7 +165,7 @@ const PostInfo = ({navigation}) => {
           <Title style={styles.tagTitle}>タグ</Title>
           {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         </View>
-        <IconLabel icon="clock" color="#000" style={styles.postTime}>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : "" }</IconLabel>
+        <IconLabel icon="clock" color="#000" style={styles.postTime}>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</IconLabel>
       </View>
       <Loading isLoading={isLoading} />
     </>
