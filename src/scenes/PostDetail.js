@@ -150,7 +150,7 @@ const PostInfo = ({navigation}) => {
   const {post, products, isLoading, masterData} = useSelector(({postDetail: {post, products, isLoading}, app: {masterData}}) => ({post, products, isLoading, masterData}))
   const labelMap = Object.fromEntries(displayItemsList.map(key => [key, parseMasterData(masterData, key, "object")]))
   const styles = createStyles(post.isLike)
-  
+
   return (
     <>
       <View style={styles.infoContainer}>
@@ -177,7 +177,7 @@ const ReactionContainer = ({navigation}) => {
   const styles = createStyles()
   const dispatch = useDispatch()
   const {post, user_id} = useSelector(({postDetail: {post}, auth: {user: {user_id}}}) => ({post, user_id}))
-  
+
   return (
     <View style={styles.infoContainer}>
       <View style={styles.centerAlignment}>
