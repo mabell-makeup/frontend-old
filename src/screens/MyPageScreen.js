@@ -52,9 +52,9 @@ export const MyPageScreen = () => {
   return (
     <Stack.Navigator {...navigatorProps}>
       {/* eslint-disable-next-line react/display-name */}
-      <Stack.Screen 
-        name="MyPage" 
-        component={UserPage} 
+      <Stack.Screen
+        name="MyPage"
+        component={UserPage}
         initialParams={{isMyPage: true}} 
         options={({navigation}) => ({
           headerRight: () => <HeaderRightIcons navigation={navigation} />,
