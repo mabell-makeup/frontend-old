@@ -165,7 +165,7 @@ const PostInfo = ({navigation}) => {
           <Title style={styles.tagTitle}>タグ</Title>
           {post.tags.length > 0 ? <ChipList items={post.tags.map(tag => ({label: "#" + tag}))} /> : <Text style={styles.marginLeft}>情報なし</Text>}
         </View>
-        <IconLabel icon="clock" color="#000" style={styles.postTime}>{post.DateTime ? post.DateTime.replace("T", " ").slice(0, -8) : ""}</IconLabel>
+        <IconLabel icon="clock" color="#000" style={styles.postTime}>{post.datetime ? post.datetime.replace("T", " ").slice(0, -8) : ""}</IconLabel>
       </View>
       <Loading isLoading={isLoading} />
     </>
