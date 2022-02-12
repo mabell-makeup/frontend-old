@@ -1,3 +1,5 @@
+このリポジトリはプロジェクトの再スタートに伴いアーカイブを行います。
+
 # Joker-frontend
 WEARのメイクVer.
 https://mabell.in
